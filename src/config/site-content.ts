@@ -91,40 +91,40 @@ export const siteContent = {
   splitScreen: {
     sections: [
       {
-        id: "inventory",
-        image: "https://img.recraft.ai/BELRfj0T5OciOnoJRRCmtCZOmuMM95iA5suhgwoOnLU/rs:fit:1024:1024:0/raw:1/plain/abs://external/images/49b5be83-455c-4ed5-b10e-2693a63c384d",
-        title: "Smart Scheduling",
+        id: "ingredientCosting",
+        image: "https://img.recraft.ai/TpqijYVA9rhIvRW2G8UupQz_ZHi-bUgiqWtGv4n6Hqs/rs:fit:1024:1024:0/raw:1/plain/abs://external/images/56697a06-7022-420f-8fcb-82739b947a6c",
+        title: "Ingredient Costing",
         features: [
-          "Smart assignments",
-          "Availability tracking",
-          "Conflict resolution"
+          "Breaks down cost per dish in real-time",
+          "Enables informed pricing decisions",
+          "Improves menu profitability"
         ],
-        imageAlt: "Smart Scheduling illustration",
-        description: "Automatically assigns shifts based on availability and skills. Automatically assigns shifts based on staff availability and skills for optimal coverage.\n\n"
+        imageAlt: "Recraft generated image for Ingredient Costing",
+        description: "Get real-time insights into your ingredient costs to make informed pricing decisions."
       },
       {
-        id: "supplier",
-        image: "https://images.unsplash.com/photo-1715635845581-b1683792ed25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3ODUwNTB8MHwxfHNlYXJjaHwxfHxjb21wbGlhbmNlfGVufDB8MHx8fDE3NTM4ODQ5MDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-        title: "Compliance Alerts",
+        id: "profitMargins",
+        image: "https://img.recraft.ai/LzzLDXRCQFc4kQ52f4aPAworfEYjqVoRzUIaDLyRQ6U/rs:fit:1024:1024:0/raw:1/plain/abs://external/images/f06a41f4-eae2-4054-8738-82c20891c881",
+        title: "Profit Margins",
         features: [
-          "Process automation",
-          "Workflow optimization",
-          "Smart triggers"
+          "Instant profitability overview",
+          "Quickly assess menu item success",
+          "Optimize pricing strategies"
         ],
-        imageAlt: "Compliance Alerts illustration",
-        description: "Tracks labor laws and alerts managers of violations. Streamline your workflow with intelligent automation and real-time insights.\n\n"
+        imageAlt: "Recraft generated image for Profit Margins",
+        description: "Stay informed about the profitability of each menu item to maximize your profits."
       },
       {
-        id: "analytics",
-        image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3ODUwNTB8MHwxfHNlYXJjaHwxfHxtb2JpbGUlMjBhcHB8ZW58MHwwfHx8MTc1Mzg4NDkxM3ww&ixlib=rb-4.1.0&q=80&w=1080",
-        title: "Mobile Access",
+        id: "supplierComparison",
+        image: "https://img.recraft.ai/_yPZwe7o1NT1p7KkIHC5yMe8xdMXbE9Sw0ey8W19PvM/rs:fit:1024:1024:0/raw:1/plain/abs://external/images/deaddc3e-ab8c-499a-9fba-bb5a6fba5e98",
+        title: "Supplier Comparison",
         features: [
-          "Smart assignments",
-          "Availability tracking",
-          "Conflict resolution"
+          "Compare vendor prices",
+          "Reduce ingredient costs",
+          "Streamline ordering process"
         ],
-        imageAlt: "Mobile Access illustration",
-        description: "Staff can view and swap shifts from their phones. Streamline your workflow with intelligent automation and real-time insights.\n\n"
+        imageAlt: "Recraft generated image for Supplier Comparison",
+        description: "Easily compare supplier costs to ensure you're getting the best prices for your ingredients."
       }
     ]
   },
