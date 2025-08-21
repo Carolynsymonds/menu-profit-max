@@ -1,0 +1,35 @@
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { Check } from "lucide-react";
+import { siteContent } from "@/config/site-content";
+import { useUtmTracking } from "@/hooks/useUtmTracking";
+
+const HeroBanner = () => {
+  const { navigateWithUtm } = useUtmTracking();
+  return (
+    <div className="bg-white py-20 my-2">
+      <div className="container mx-auto px-4 text-center">
+        <h1 className="text-[42px] md:text-5xl font-bold text-gray-900 mb-6 leading-tight max-w-[600px] mx-auto pb-3">
+          {siteContent.heroBanner.title}
+        </h1>
+        <p className="text-lg font-light text-black/70 mb-8 max-w-[500px] mx-auto leading-relaxed p-2">
+          {siteContent.heroBanner.description}
+        </p>
+        <div className="flex justify-center">
+          <Button 
+            onClick={() => navigateWithUtm('/signup')}
+            className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+          >
+            {siteContent.heroBanner.buttonText}<span className="font-light">{siteContent.heroBanner.buttonTextLight}</span>
+          </Button>
+        </div>
+        <p className="text-sm text-muted-foreground flex items-center justify-center gap-1 mt-3">
+          <Check size={16} className="text-primary" />
+          No credit card required
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default HeroBanner;
