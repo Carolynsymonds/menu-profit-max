@@ -13,7 +13,7 @@ All colors MUST be HSL.
     --foreground: 210 20% 15%;
     
     /* Orange Primary - Configurable via site-content.ts */
-    --primary: 25 95% 53%; /* Orange for PrepShiftPro */
+    --primary: 12 99% 65%; /* Orange for MenuProfitMax */
     --primary-foreground: 0 0% 100%;
     
     /* Deep Navy */
@@ -60,7 +60,7 @@ All colors MUST be HSL.
 
     --border: 142 20% 90%;
     --input: 142 20% 90%;
-    --ring: 25 95% 53%;
+    --ring: 12 99% 65%;
 
     --radius: 0.75rem;
     

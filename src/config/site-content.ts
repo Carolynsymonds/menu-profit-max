@@ -6,33 +6,33 @@ export const siteContent = {
 
   // Theme Configuration
   theme: {
-    primaryColor: "#ec333d", // Orange HSL values for PrepShiftPro
+    primaryColor: "#fe6743", // Orange HSL values for MenuProfitMax
   },
 
   // Brand and Logo
   brand: {
-    name: "PrepShiftPro",
-    logoUrl: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/1753804595995-2cx5uxm2g17.png",
-    primaryColor: "33 95% 56%",
-    footerLogoUrl: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/1753804600136-sp37wizeb0b.png"
+    name: "MenuProfitMax",
+    logoUrl: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/1755782130350-r6386jnrv6.png",
+    primaryColor: "12 99% 65%",
+    footerLogoUrl: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/1755781998922-axe2nh3wpw6.png"
   },
 
   // Headline Section
   headline: {
-    title: "Transform Your Kitchen Scheduling — ",
+    title: "Maximize Your Restaurant Profits with Smarter Menu Costing — ",
     titleHighlight: "For Free",
-    get subtitle() { return `Experience hassle-free staff management and compliance tracking with ${siteContent.brand.name} Premium (normally $1,620).`; },
-    buttonText: "Try for free",
-    buttonTextLight: "",
+    get subtitle() { return `Plan & Optimize Your Menu for FREE for a whole year with ${siteContent.brand.name} (normally $5,760).`; },
+    buttonText: "Get started - ",
+    buttonTextLight: "It's free",
     disclaimer: "No credit card required"
   },
 
   // Home Page Section
   homePage: {
-    title: "Effortless Scheduling Built for Busy Kitchens",
-    subtitle: "Assign shifts based on real availability and skills, reduce admin work, and empower staff with mobile-first tools.",
-    buttonText: "Try for free",
-    buttonTextLight: ""
+    title: "Smarter Menu Costing. Bigger Profits.",
+    subtitle: "Track ingredient costs, compare suppliers, and maximize profit margins with real-time insights.",
+    buttonText: "Get started - ",
+    buttonTextLight: "It's free"
   },
 
   // Features Section
@@ -278,43 +278,46 @@ export const siteContent = {
 
   // Pricing Page
   pricing: {
-    title: "Our pricing",
-    subtitle: "Choose the perfect plan to streamline staff scheduling, stay compliant, and keep your kitchen running smoothly with our smart workforce management system.",
+    title: "Choose Your Plan",
+    subtitle: "Flexible pricing tailored for every restaurant size.",
     plans: [
       {
-        cta: "Start Free Trial",
-        name: "Free trial",
+        cta: "Start Free",
+        name: "Free",
         price: 0,
+        period: "/month",
         popular: false,
         features: [
-          "Staff Scheduling",
-          "Team Communication & Engagement",
-          "Task Management"
+          "Ingredient Costing: Breaks down cost per dish in real-time.",
+          "Profit Margins: Instantly shows profitability of each menu item.",
+          "Supplier Comparison: Compare costs across vendors.",
+          "Basic inventory management & usage tracking."
         ],
-        description: "Perfect for getting started"
+        description: "Get started with MenuProfitMax for free for one year, providing essential menu costing tools."
       },
       {
         cta: "Get Started",
-        name: "Growth",
-        price: 29.99,
+        name: "Standard",
+        price: "99",
+        period: "/month",
         popular: true,
         features: [
-          "Everything in free trial, and:",
-          "Manager Log Book",
-          "Labor Compliance & Analytics",
-          "Time Clocking",
-          "Payroll Integration"
+          "All Free plan features",
+          "Real-time food & labor cost tracking.",
+          "Daily controllable P&L reports.",
+          "Order management & vendor ordering.",
+          "Priority support included."
         ],
-        description: "Everything you need to scale"
+        description: "Unlock advanced features to optimize your menu and maximize profits."
       }
     ]
   },
 
   // Hero Banner
   heroBanner: {
-    title: "Revolutionize Your Kitchen Scheduling",
-    get description() { return `Join the ranks of innovative kitchens using ${siteContent.brand.name} to simplify scheduling and enhance team collaboration.`; },
-    buttonText: "Try for free",
-    buttonTextLight: ""
+    title: "Step into the future of kitchen operations",
+    get description() { return `Join hundreds of restaurants and teams using ${siteContent.brand.name} to streamline menu management, cut costs, and enhance profits—faster.`; },
+    buttonText: "Get started - ",
+    buttonTextLight: "It's free"
   }
 };
