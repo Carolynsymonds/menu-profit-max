@@ -1,4 +1,4 @@
-import { Sparkles, CheckCircle, Clock, Gift, Settings, Users, BookOpen, Briefcase, FileCheck, ArrowRight } from "lucide-react";
+import { Sparkles, CheckCircle, Clock, Gift, Settings, Users, BookOpen, Briefcase, FileCheck, ArrowRight, FileText, Receipt, Utensils, Package, Calculator, ShoppingCart, DollarSign, Wifi } from "lucide-react";
 import HeroBanner from "./HeroBanner";
 import { siteContent } from "@/config/site-content";
 
@@ -37,7 +37,15 @@ const AllFeaturesSection = () => {
                 'check-circle': CheckCircle,
                 'book-open': BookOpen,
                 'briefcase': Briefcase,
-                'file-check': FileCheck
+                'file-check': FileCheck,
+                'file-text': FileText,
+                'receipt': Receipt,
+                'utensils': Utensils,
+                'package': Package,
+                'calculator': Calculator,
+                'shopping-cart': ShoppingCart,
+                'dollar-sign': DollarSign,
+                'wifi': Wifi
               };
               const IconComponent = iconMap[feature.icon] || Settings;
               
@@ -70,7 +78,8 @@ const AllFeaturesSection = () => {
                 'check-circle': CheckCircle,
                 'clock': Clock,
                 'gift': Gift,
-                'settings': Settings
+                'settings': Settings,
+                'wifi': Wifi
               };
               const IconComponent = iconMap[feature.icon] || CheckCircle;
               

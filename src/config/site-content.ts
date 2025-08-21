@@ -37,23 +37,23 @@ export const siteContent = {
 
   // Features Section
   features: {
-    title: "Smarter Staff Management, Made Simple",
-    subtitle: "Streamline your staff management with comprehensive tools designed for high-demand environments.",
+    title: "Menu Costing Made Simple",
+    subtitle: "Revolutionize your kitchen operations with these powerful capabilities.",
     items: [
       {
-        icon: "https://img.recraft.ai/ffQIm2-GN0_MzqKgyzdOdK_PQqJ7D2VLMJzEiRee3WM/rs:fit:512:512:0/raw:1/plain/abs://external/images/a917421a-e73a-4a45-b7e0-0f0b2547594f",
-        title: "Smart Scheduling",
-        description: "Automatically assigns shifts based on staff availability and skills."
+        icon: "https://img.recraft.ai/BqenAADKfF8S9q9tCCdrBw4mRK8OgylWx7yKVwjYKMc/rs:fit:512:512:0/raw:1/plain/abs://external/images/eed240a1-4908-4f04-b433-728dd0c6a900",
+        title: "Ingredient Costing",
+        description: "Breaks down cost per dish in real-time."
       },
       {
-        icon: "https://img.recraft.ai/ZKGB5UhTU8pID6YdiP0TYJ1JYpVbZJ2iUKvor7xTw4A/rs:fit:512:512:0/raw:1/plain/abs://external/images/cf532bd3-572d-49e4-b697-b526af91a93b",
-        title: "Compliance Alerts",
-        description: "Tracks labor laws and notifies managers of potential violations."
+        icon: "https://img.recraft.ai/X2NOxZX98Lr7s_7sgzwMV8HFwVMC5bwVefSuDVMUwu4/rs:fit:512:512:0/raw:1/plain/abs://external/images/daab277b-eb55-4e9b-ae9b-e00cf1384996",
+        title: "Profit Margins",
+        description: "Instantly shows profitability of each menu item."
       },
       {
-        icon: "https://img.recraft.ai/nohfc8uu3R_CC0Rc-c88sFslFHcZzOU4jSdjT61ZhVM/rs:fit:512:512:0/raw:1/plain/abs://external/images/70fab475-9cac-4b0d-b109-2f5948a3816c",
-        title: "Mobile Access",
-        description: "Allow staff to view and swap shifts conveniently from their phones."
+        icon: "https://img.recraft.ai/8cdXz_8Q_9uGUBlV5qg9rmps1wCuriQSYSjkuJnNMwg/rs:fit:512:512:0/raw:1/plain/abs://external/images/cb502d4e-5bf9-4f68-a174-0e5f16312f35",
+        title: "Supplier Comparison",
+        description: "Compare costs across vendors."
       }
     ]
   },
@@ -134,76 +134,76 @@ export const siteContent = {
 
   // All Features Section
   allFeatures: {
-    title: "All features",
-    ctaText: "Elevate your restaurant with the power of AI",
-    get subtitle() { return `Discover everything you can do with ${siteContent.brand.name}.`; },
+    title: "From Invoices to Inventory — All in One Place",
+    ctaText: "Explore our features",
+    subtitle: "Everything you need to succeed.",
     financialTools: {
-      title: "Financial & Analytics",
+      title: "Financial Tools",
       features: [
-        {
-          icon: "check-circle",
-          isNew: false,
-          title: "Payroll Integration",
-          description: "Streamline your payroll processes with seamless integration that ensures accurate and timely payments. Reduce errors and save time, allowing you to focus on what truly matters."
-        },
-        {
-          icon: "clock",
-          isNew: false,
-          title: "Time Clocking",
-          description: "Track employee hours with precision using our intuitive time clocking solution. Gain visibility into labor costs and optimize scheduling based on real-time data."
-        },
-        {
-          icon: "gift",
-          isNew: false,
-          title: "Tip Management",
-          description: "Effortlessly manage tips and gratuities with our dedicated tools that ensure fair distribution and transparency. Simplify the process and enhance employee satisfaction."
-        },
         {
           icon: "settings",
           isNew: false,
-          title: "POS & Third-Party Integrations",
-          description: "Enhance your operational capabilities with seamless integrations to POS systems and other third-party tools. Create a cohesive ecosystem that drives efficiency and data accuracy."
+          title: "POS & Accounting Integrations",
+          description: "Integrate with existing POS and accounting systems."
+        },
+        {
+          icon: "wifi",
+          isNew: false,
+          title: "Mobile App for Invoice Upload",
+          description: "Use our mobile app to upload invoices on the go."
         }
       ]
     },
     operationalManagement: {
-      title: "Operations & Management",
+      title: "Complete Cost & Operations Control",
       features: [
+        {
+          icon: "file-text",
+          isNew: false,
+          title: "Automated Invoice Processing",
+          description: "Simplify invoice management with automated processing."
+        },
+        {
+          icon: "receipt",
+          isNew: false,
+          title: "Bill Payment & AP Automation",
+          description: "Automate accounts payable and streamline bill payments."
+        },
+        {
+          icon: "utensils",
+          isNew: false,
+          title: "Real-time Food & Labor Cost Tracking",
+          description: "Track food and labor costs in real-time to manage expenses."
+        },
         {
           icon: "settings",
           isNew: false,
-          title: "Staff Scheduling",
-          description: "Effortlessly organize your workforce with intuitive scheduling tools that ensure optimal coverage and productivity. Say goodbye to manual scheduling headaches and hello to streamlined operations."
+          title: "Daily Controllable P&L Reports",
+          description: "Receive daily reports for better financial control."
         },
         {
-          icon: "users",
+          icon: "package",
           isNew: false,
-          title: "Team Communication & Engagement",
-          description: "Foster a collaborative work environment with built-in communication tools designed to enhance team engagement and streamline dialogue. Keep everyone connected and informed, no matter where they are."
+          title: "Inventory Management & Usage Tracking",
+          description: "Manage inventory and track usage efficiently."
         },
         {
-          icon: "check-circle",
+          icon: "calculator",
           isNew: false,
-          title: "Task Management",
-          description: "Stay on top of your team's priorities with powerful task management features that allow for tracking, assigning, and completion of tasks. Empower your staff to hit their goals efficiently."
+          title: "Recipe/Menu Cost Analysis",
+          description: "Analyze recipes and menus to optimize costs."
         },
         {
-          icon: "book-open",
+          icon: "shopping-cart",
           isNew: false,
-          title: "Manager Log Book",
-          description: "Maintain a detailed record of operational activities with our digital manager log book. Easily track incidents, notes, and important events to ensure accountability and transparency."
+          title: "Order Management & Vendor Ordering",
+          description: "Manage orders and vendor relationships seamlessly."
         },
         {
-          icon: "briefcase",
+          icon: "dollar-sign",
           isNew: false,
-          title: "Labor Compliance & Analytics",
-          description: "Navigate the complexities of labor regulations with our compliance tools that provide insights and analytics. Ensure your operations meet all legal requirements while optimizing performance."
-        },
-        {
-          icon: "file-check",
-          isNew: false,
-          title: "Document & Certification Tracking",
-          description: "Simplify the management of essential documents and certifications with our tracking system. Ensure your team is compliant and up-to-date with necessary qualifications effortlessly."
+          title: "Price Alerts for Cost Changes",
+          description: "Get alerts for ingredient price changes to adjust pricing."
         }
       ]
     }
