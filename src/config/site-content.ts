@@ -131,76 +131,76 @@ export const siteContent = {
 
   // All Features Section
   allFeatures: {
-    title: "All features",
-    ctaText: "Elevate your restaurant with the power of AI",
-    get subtitle() { return `Discover everything you can do with ${siteContent.brand.name}.`; },
+    title: "From Invoices to Inventory — All in One Place",
+    ctaText: "Explore our features",
+    subtitle: "Everything you need to succeed.",
     financialTools: {
-      title: "Financial & Analytics",
+      title: "Financial Tools",
       features: [
         {
-          icon: "check-circle",
+          icon: "Settings",
           isNew: false,
-          title: "Payroll Integration",
-          description: "Streamline your payroll processes with seamless integration that ensures accurate and timely payments. Reduce errors and save time, allowing you to focus on what truly matters."
+          title: "POS & Accounting Integrations",
+          description: "Integrate with existing POS and accounting systems."
         },
         {
-          icon: "clock",
+          icon: "Wifi",
           isNew: false,
-          title: "Time Clocking",
-          description: "Track employee hours with precision using our intuitive time clocking solution. Gain visibility into labor costs and optimize scheduling based on real-time data."
-        },
-        {
-          icon: "gift",
-          isNew: false,
-          title: "Tip Management",
-          description: "Effortlessly manage tips and gratuities with our dedicated tools that ensure fair distribution and transparency. Simplify the process and enhance employee satisfaction."
-        },
-        {
-          icon: "settings",
-          isNew: false,
-          title: "POS & Third-Party Integrations",
-          description: "Enhance your operational capabilities with seamless integrations to POS systems and other third-party tools. Create a cohesive ecosystem that drives efficiency and data accuracy."
+          title: "Mobile App for Invoice Upload",
+          description: "Use our mobile app to upload invoices on the go."
         }
       ]
     },
     operationalManagement: {
-      title: "Operations & Management",
+      title: "Complete Cost & Operations Control",
       features: [
         {
-          icon: "settings",
+          icon: "FileText",
           isNew: false,
-          title: "Staff Scheduling",
-          description: "Effortlessly organize your workforce with intuitive scheduling tools that ensure optimal coverage and productivity. Say goodbye to manual scheduling headaches and hello to streamlined operations."
+          title: "Automated Invoice Processing",
+          description: "Simplify invoice management with automated processing."
         },
         {
-          icon: "users",
+          icon: "FileText",
           isNew: false,
-          title: "Team Communication & Engagement",
-          description: "Foster a collaborative work environment with built-in communication tools designed to enhance team engagement and streamline dialogue. Keep everyone connected and informed, no matter where they are."
+          title: "Bill Payment & AP Automation",
+          description: "Automate accounts payable and streamline bill payments."
         },
         {
-          icon: "check-circle",
+          icon: "Utensils",
           isNew: false,
-          title: "Task Management",
-          description: "Stay on top of your team's priorities with powerful task management features that allow for tracking, assigning, and completion of tasks. Empower your staff to hit their goals efficiently."
+          title: "Real-time Food & Labor Cost Tracking",
+          description: "Track food and labor costs in real-time to manage expenses."
         },
         {
-          icon: "book-open",
+          icon: "Settings",
           isNew: false,
-          title: "Manager Log Book",
-          description: "Maintain a detailed record of operational activities with our digital manager log book. Easily track incidents, notes, and important events to ensure accountability and transparency."
+          title: "Daily Controllable P&L Reports",
+          description: "Receive daily reports for better financial control."
         },
         {
-          icon: "briefcase",
+          icon: "Package",
           isNew: false,
-          title: "Labor Compliance & Analytics",
-          description: "Navigate the complexities of labor regulations with our compliance tools that provide insights and analytics. Ensure your operations meet all legal requirements while optimizing performance."
+          title: "Inventory Management & Usage Tracking",
+          description: "Manage inventory and track usage efficiently."
         },
         {
-          icon: "file-check",
+          icon: "Settings",
           isNew: false,
-          title: "Document & Certification Tracking",
-          description: "Simplify the management of essential documents and certifications with our tracking system. Ensure your team is compliant and up-to-date with necessary qualifications effortlessly."
+          title: "Recipe/Menu Cost Analysis",
+          description: "Analyze recipes and menus to optimize costs."
+        },
+        {
+          icon: "ShoppingCart",
+          isNew: false,
+          title: "Order Management & Vendor Ordering",
+          description: "Manage orders and vendor relationships seamlessly."
+        },
+        {
+          icon: "DollarSign",
+          isNew: false,
+          title: "Price Alerts for Cost Changes",
+          description: "Get alerts for ingredient price changes to adjust pricing."
         }
       ]
     }
