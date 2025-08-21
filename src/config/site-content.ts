@@ -1,7 +1,7 @@
 export const siteContent = {
   // Analytics Configuration
   analytics: {
-    googleAnalyticsId: "G-ZN73C9Y6JX"
+    googleAnalyticsId: "G-WS625DG4GT"
   },
 
   // Theme Configuration
@@ -15,10 +15,6 @@ export const siteContent = {
     logoUrl: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/1755782130350-r6386jnrv6.png",
     primaryColor: "12 99% 65%",
     footerLogoUrl: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/1755781998922-axe2nh3wpw6.png"
-  },
-
-  analytics: {
-    googleAnalyticsId: "G-WS625DG4GT"
   },
 
   // Headline Section
