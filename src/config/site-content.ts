@@ -37,23 +37,23 @@ export const siteContent = {
 
   // Features Section
   features: {
-    title: "Smarter Staff Management, Made Simple",
-    subtitle: "Streamline your staff management with comprehensive tools designed for high-demand environments.",
+    title: "Menu Costing Made Simple",
+    subtitle: "Revolutionize your kitchen operations with these powerful capabilities.",
     items: [
       {
-        icon: "https://img.recraft.ai/ffQIm2-GN0_MzqKgyzdOdK_PQqJ7D2VLMJzEiRee3WM/rs:fit:512:512:0/raw:1/plain/abs://external/images/a917421a-e73a-4a45-b7e0-0f0b2547594f",
-        title: "Smart Scheduling",
-        description: "Automatically assigns shifts based on staff availability and skills."
+        icon: "https://img.recraft.ai/BqenAADKfF8S9q9tCCdrBw4mRK8OgylWx7yKVwjYKMc/rs:fit:512:512:0/raw:1/plain/abs://external/images/eed240a1-4908-4f04-b433-728dd0c6a900",
+        title: "Ingredient Costing",
+        description: "Breaks down cost per dish in real-time."
       },
       {
-        icon: "https://img.recraft.ai/ZKGB5UhTU8pID6YdiP0TYJ1JYpVbZJ2iUKvor7xTw4A/rs:fit:512:512:0/raw:1/plain/abs://external/images/cf532bd3-572d-49e4-b697-b526af91a93b",
-        title: "Compliance Alerts",
-        description: "Tracks labor laws and notifies managers of potential violations."
+        icon: "https://img.recraft.ai/X2NOxZX98Lr7s_7sgzwMV8HFwVMC5bwVefSuDVMUwu4/rs:fit:512:512:0/raw:1/plain/abs://external/images/daab277b-eb55-4e9b-ae9b-e00cf1384996",
+        title: "Profit Margins",
+        description: "Instantly shows profitability of each menu item."
       },
       {
-        icon: "https://img.recraft.ai/nohfc8uu3R_CC0Rc-c88sFslFHcZzOU4jSdjT61ZhVM/rs:fit:512:512:0/raw:1/plain/abs://external/images/70fab475-9cac-4b0d-b109-2f5948a3816c",
-        title: "Mobile Access",
-        description: "Allow staff to view and swap shifts conveniently from their phones."
+        icon: "https://img.recraft.ai/8cdXz_8Q_9uGUBlV5qg9rmps1wCuriQSYSjkuJnNMwg/rs:fit:512:512:0/raw:1/plain/abs://external/images/cb502d4e-5bf9-4f68-a174-0e5f16312f35",
+        title: "Supplier Comparison",
+        description: "Compare costs across vendors."
       }
     ]
   },
