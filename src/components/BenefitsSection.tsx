@@ -1,11 +1,12 @@
-import { TrendingUp, BarChart3, DollarSign, Zap } from "lucide-react";
+import { TrendingUp, BarChart3, DollarSign, Zap, Shield } from "lucide-react";
 import { siteContent } from "@/config/site-content";
 
 const iconMap = {
   TrendingUp,
   BarChart3,
   DollarSign,
-  Zap
+  Zap,
+  Shield
 };
 
 const BenefitsSection = () => {
@@ -15,7 +16,7 @@ const BenefitsSection = () => {
     <div className="mt-0 mb-4">
       <div className="max-w-4xl mx-auto">
         <div className="rounded-lg">
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {benefits.map((benefit, index) => {
               const IconComponent = iconMap[benefit.icon as keyof typeof iconMap];
               return (

@@ -83,8 +83,8 @@ export const siteContent = {
 
   // Feature Intro Section
   featureIntro: {
-    title: "AI-powered tools for a more efficient kitchen",
-    description: "From smart scheduling to compliance tracking and team engagement, PrepShiftPro integrates everything you need to streamline kitchen operations into one intuitive platform — no spreadsheets, no guesswork."
+    title: "Unlock the Full Potential of Your Menu",
+    description: "MenuProfitMax equips foodservice businesses with powerful tools to manage costs, track profits, and ensure optimal pricing."
   },
 
   // Split Screen Section
@@ -208,69 +208,93 @@ export const siteContent = {
 
   // Features Page
   featuresPage: {
-    title: "Everything PrepShiftPro Offers",
+    title: "Everything MenuProfitMax Offers",
     benefits: [
       {
-        icon: "TrendingUp",
-        title: "Increased Efficiency"
+        icon: "DollarSign",
+        title: "Boost Profitability"
       },
       {
-        icon: "DollarSign",
-        title: "Cost Savings"
+        icon: "Zap",
+        title: "Streamlined Operations"
       },
       {
         icon: "BarChart3",
-        title: "Better Insights"
+        title: "Data-Driven Decisions"
+      },
+      {
+        icon: "Shield",
+        title: "Risk Management"
       }
     ],
     features: [
       {
         items: [
           {
-            icon: "https://img.recraft.ai/ffQIm2-GN0_MzqKgyzdOdK_PQqJ7D2VLMJzEiRee3WM/rs:fit:512:512:0/raw:1/plain/abs://external/images/a917421a-e73a-4a45-b7e0-0f0b2547594f",
-            name: "Smart Scheduling",
-            description: "Automatically assigns shifts based on staff availability and skills."
+            icon: "https://img.recraft.ai/BqenAADKfF8S9q9tCCdrBw4mRK8OgylWx7yKVwjYKMc/rs:fit:512:512:0/raw:1/plain/abs://external/images/eed240a1-4908-4f04-b433-728dd0c6a900",
+            name: "Ingredient Costing",
+            description: "Breaks down cost per dish in real-time."
           },
           {
-            icon: "https://img.recraft.ai/ZKGB5UhTU8pID6YdiP0TYJ1JYpVbZJ2iUKvor7xTw4A/rs:fit:512:512:0/raw:1/plain/abs://external/images/cf532bd3-572d-49e4-b697-b526af91a93b",
-            name: "Compliance Alerts",
-            description: "Tracks labor laws and notifies managers of potential violations."
+            icon: "https://img.recraft.ai/X2NOxZX98Lr7s_7sgzwMV8HFwVMC5bwVefSuDVMUwu4/rs:fit:512:512:0/raw:1/plain/abs://external/images/daab277b-eb55-4e9b-ae9b-e00cf1384996",
+            name: "Profit Margins",
+            description: "Instantly shows profitability of each menu item."
           },
           {
-            icon: "https://img.recraft.ai/nohfc8uu3R_CC0Rc-c88sFslFHcZzOU4jSdjT61ZhVM/rs:fit:512:512:0/raw:1/plain/abs://external/images/70fab475-9cac-4b0d-b109-2f5948a3816c",
-            name: "Mobile Access",
-            description: "Allow staff to view and swap shifts conveniently from their phones."
+            icon: "https://img.recraft.ai/8cdXz_8Q_9uGUBlV5qg9rmps1wCuriQSYSjkuJnNMwg/rs:fit:512:512:0/raw:1/plain/abs://external/images/cb502d4e-5bf9-4f68-a174-0e5f16312f35",
+            name: "Supplier Comparison",
+            description: "Compare costs across vendors."
           }
         ],
-        title: "Everything You Need for Stress-Free Staff Management"
+        title: "Cost Management Insights"
       },
       {
         items: [
           {
-            icon: "BarChart3",
-            name: "PrepShiftPro Analytics",
-            description: "Comprehensive reporting and insights tailored to your business needs"
+            icon: "TrendingUp",
+            name: "Dynamic Pricing Strategies",
+            description: "Utilize real-time market data to adjust your menu prices dynamically, ensuring maximum profitability based on demand and ingredient costs."
           },
           {
-            icon: "Bot",
-            name: "Smart Automation",
-            description: "Intelligent automation features that save time and reduce manual work"
+            icon: "Star",
+            name: "AI-Powered Menu Recommendations",
+            description: "Leverage AI to analyze customer preferences and suggest menu adjustments that enhance sales and customer satisfaction."
           },
           {
-            icon: "Link",
-            name: "Integration Hub",
-            description: "Connect with your existing tools and workflows seamlessly"
+            icon: "Bell",
+            name: "Automated Inventory Alerts",
+            description: "Receive automated alerts for low inventory levels and upcoming expiration dates, ensuring you never run out of key ingredients."
           },
           {
-            icon: "Settings",
-            name: "Custom Solutions",
-            description: "Tailored features that adapt to your specific business requirements"
+            icon: "Users",
+            name: "Integrated Supplier Management",
+            description: "Centralize supplier information and performance analytics, allowing for optimized ordering and relationship management."
+          },
+          {
+            icon: "Monitor",
+            name: "Comprehensive Analytics Dashboard",
+            description: "Access a powerful analytics dashboard that provides insights into sales trends, cost breakdowns, and profit margins for better strategic planning."
+          },
+          {
+            icon: "Map",
+            name: "Multi-Location Management",
+            description: "Easily manage multiple restaurant locations with a single account, allowing for consistent menu pricing and cost analysis across all venues."
+          },
+          {
+            icon: "FileText",
+            name: "Customizable Reporting Tools",
+            description: "Create tailored reports that focus on the metrics that matter most to your business, enhancing visibility into your financial health."
+          },
+          {
+            icon: "Plug",
+            name: "Seamless Third-Party Integrations",
+            description: "Integrate with a variety of third-party apps and tools for a comprehensive restaurant management ecosystem that fits your unique needs."
           }
         ],
-        title: "Advanced Capabilities"
+        title: "Smart Operations Suite"
       }
     ],
-    subtitle: "Comprehensive tools and features designed specifically for prepshiftpro users"
+    subtitle: "Comprehensive tools and features designed specifically for menuprofitmax users"
   },
 
   // Pricing Page
