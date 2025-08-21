@@ -37,170 +37,173 @@ export const siteContent = {
 
   // Features Section
   features: {
-    title: "Menu Costing Made Simple",
-    subtitle: "Revolutionize your kitchen operations with these powerful capabilities.",
+    title: "Smarter Staff Management, Made Simple",
+    subtitle: "Streamline your staff management with comprehensive tools designed for high-demand environments.",
     items: [
       {
-        icon: "https://img.recraft.ai/BqenAADKfF8S9q9tCCdrBw4mRK8OgylWx7yKVwjYKMc/rs:fit:512:512:0/raw:1/plain/abs://external/images/eed240a1-4908-4f04-b433-728dd0c6a900",
-        title: "Ingredient Costing",
-        description: "Breaks down cost per dish in real-time."
+        icon: "https://img.recraft.ai/ffQIm2-GN0_MzqKgyzdOdK_PQqJ7D2VLMJzEiRee3WM/rs:fit:512:512:0/raw:1/plain/abs://external/images/a917421a-e73a-4a45-b7e0-0f0b2547594f",
+        title: "Smart Scheduling",
+        description: "Automatically assigns shifts based on staff availability and skills."
       },
       {
-        icon: "https://img.recraft.ai/X2NOxZX98Lr7s_7sgzwMV8HFwVMC5bwVefSuDVMUwu4/rs:fit:512:512:0/raw:1/plain/abs://external/images/daab277b-eb55-4e9b-ae9b-e00cf1384996",
-        title: "Profit Margins",
-        description: "Instantly shows profitability of each menu item."
+        icon: "https://img.recraft.ai/ZKGB5UhTU8pID6YdiP0TYJ1JYpVbZJ2iUKvor7xTw4A/rs:fit:512:512:0/raw:1/plain/abs://external/images/cf532bd3-572d-49e4-b697-b526af91a93b",
+        title: "Compliance Alerts",
+        description: "Tracks labor laws and notifies managers of potential violations."
       },
       {
-        icon: "https://img.recraft.ai/8cdXz_8Q_9uGUBlV5qg9rmps1wCuriQSYSjkuJnNMwg/rs:fit:512:512:0/raw:1/plain/abs://external/images/cb502d4e-5bf9-4f68-a174-0e5f16312f35",
-        title: "Supplier Comparison",
-        description: "Compare costs across vendors."
+        icon: "https://img.recraft.ai/nohfc8uu3R_CC0Rc-c88sFslFHcZzOU4jSdjT61ZhVM/rs:fit:512:512:0/raw:1/plain/abs://external/images/70fab475-9cac-4b0d-b109-2f5948a3816c",
+        title: "Mobile Access",
+        description: "Allow staff to view and swap shifts conveniently from their phones."
       }
     ]
   },
 
   // Team Roles Section
   teamRoles: {
-    title: "Tools for Every Role in Your Restaurant",
-    subtitle: "Empower your team with specialized tools and insights.",
+    title: "Empowering Teams for Seamless Operations",
+    get subtitle() { return `${siteContent.brand.name} equips every role in your kitchen with the tools needed for efficient scheduling and compliance management.`; },
     roles: [
       {
-        icon: "https://img.recraft.ai/qDbu5ost6-mUdXDFJhM3EMk-1Ye1O2nQKWGZlsp-5Xk/rs:fit:512:512:0/raw:1/plain/abs://external/images/09bcca6b-e0fd-4c89-b673-8f55c46bd660",
-        title: "Kitchen Manager",
-        description: "Oversee kitchen operations, manage inventory, and ensure food quality."
+        icon: "ChefHat",
+        iconType: "lucide",
+        title: "Kitchen Managers",
+        description: "Efficiently oversee staff schedules, optimize shift assignments, and ensure compliance with labor laws."
       },
       {
-        icon: "https://img.recraft.ai/xhkHvsLn-ckmfDJB3mANnlwYcTBDrYvtIz6pV1Qedgg/rs:fit:512:512:0/raw:1/plain/abs://external/images/95f00e86-d7e7-4c39-8820-c71bda112b1b",
-        title: "Financial Supervisor",
-        description: "Monitor financial performance, manage budgets, and analyze profit margins."
+        icon: "UserCheck",
+        iconType: "lucide",
+        title: "Shift Supervisors",
+        description: "Monitor daily operations, manage shift swaps, and maintain team communication for smooth service."
       },
       {
-        icon: "https://img.recraft.ai/Vs6-Cm09hzJTPE4DkTKFU2_q7aGRf3FoAoNflReV28g/rs:fit:512:512:0/raw:1/plain/abs://external/images/c9b068d0-1db2-449e-be79-6b72508ae715",
-        title: "Staff Member",
-        description: "Utilize tools for daily tasks, manage orders, and submit invoices."
+        icon: "Users",
+        iconType: "lucide",
+        title: "Team Members",
+        description: "Easily check schedules, swap shifts, and stay engaged through a user-friendly mobile platform."
       }
     ]
   },
 
   // Feature Intro Section
   featureIntro: {
-    title: "Unlock the Full Potential of Your Menu",
-    description: "MenuProfitMax equips foodservice businesses with powerful tools to manage costs, track profits, and ensure optimal pricing."
+    title: "AI-powered tools for a more efficient kitchen",
+    description: "From smart scheduling to compliance tracking and team engagement, PrepShiftPro integrates everything you need to streamline kitchen operations into one intuitive platform — no spreadsheets, no guesswork."
   },
 
   // Split Screen Section
   splitScreen: {
     sections: [
       {
-        id: "ingredientCosting",
-        image: "https://img.recraft.ai/TpqijYVA9rhIvRW2G8UupQz_ZHi-bUgiqWtGv4n6Hqs/rs:fit:1024:1024:0/raw:1/plain/abs://external/images/56697a06-7022-420f-8fcb-82739b947a6c",
-        title: "Ingredient Costing",
+        id: "inventory",
+        image: "https://img.recraft.ai/BELRfj0T5OciOnoJRRCmtCZOmuMM95iA5suhgwoOnLU/rs:fit:1024:1024:0/raw:1/plain/abs://external/images/49b5be83-455c-4ed5-b10e-2693a63c384d",
+        title: "Smart Scheduling",
         features: [
-          "Breaks down cost per dish in real-time",
-          "Enables informed pricing decisions",
-          "Improves menu profitability"
+          "Smart assignments",
+          "Availability tracking",
+          "Conflict resolution"
         ],
-        imageAlt: "Recraft generated image for Ingredient Costing",
-        description: "Get real-time insights into your ingredient costs to make informed pricing decisions."
+        imageAlt: "Smart Scheduling illustration",
+        description: "Automatically assigns shifts based on availability and skills. Automatically assigns shifts based on staff availability and skills for optimal coverage.\n\n"
       },
       {
-        id: "profitMargins",
-        image: "https://img.recraft.ai/LzzLDXRCQFc4kQ52f4aPAworfEYjqVoRzUIaDLyRQ6U/rs:fit:1024:1024:0/raw:1/plain/abs://external/images/f06a41f4-eae2-4054-8738-82c20891c881",
-        title: "Profit Margins",
+        id: "supplier",
+        image: "https://images.unsplash.com/photo-1715635845581-b1683792ed25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3ODUwNTB8MHwxfHNlYXJjaHwxfHxjb21wbGlhbmNlfGVufDB8MHx8fDE3NTM4ODQ5MDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        title: "Compliance Alerts",
         features: [
-          "Instant profitability overview",
-          "Quickly assess menu item success",
-          "Optimize pricing strategies"
+          "Process automation",
+          "Workflow optimization",
+          "Smart triggers"
         ],
-        imageAlt: "Recraft generated image for Profit Margins",
-        description: "Stay informed about the profitability of each menu item to maximize your profits."
+        imageAlt: "Compliance Alerts illustration",
+        description: "Tracks labor laws and alerts managers of violations. Streamline your workflow with intelligent automation and real-time insights.\n\n"
       },
       {
-        id: "supplierComparison",
-        image: "https://img.recraft.ai/_yPZwe7o1NT1p7KkIHC5yMe8xdMXbE9Sw0ey8W19PvM/rs:fit:1024:1024:0/raw:1/plain/abs://external/images/deaddc3e-ab8c-499a-9fba-bb5a6fba5e98",
-        title: "Supplier Comparison",
+        id: "analytics",
+        image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3ODUwNTB8MHwxfHNlYXJjaHwxfHxtb2JpbGUlMjBhcHB8ZW58MHwwfHx8MTc1Mzg4NDkxM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+        title: "Mobile Access",
         features: [
-          "Compare vendor prices",
-          "Reduce ingredient costs",
-          "Streamline ordering process"
+          "Smart assignments",
+          "Availability tracking",
+          "Conflict resolution"
         ],
-        imageAlt: "Recraft generated image for Supplier Comparison",
-        description: "Easily compare supplier costs to ensure you're getting the best prices for your ingredients."
+        imageAlt: "Mobile Access illustration",
+        description: "Staff can view and swap shifts from their phones. Streamline your workflow with intelligent automation and real-time insights.\n\n"
       }
     ]
   },
 
   // All Features Section
   allFeatures: {
-    title: "From Invoices to Inventory — All in One Place",
-    ctaText: "Explore our features",
-    subtitle: "Everything you need to succeed.",
+    title: "All features",
+    ctaText: "Elevate your restaurant with the power of AI",
+    get subtitle() { return `Discover everything you can do with ${siteContent.brand.name}.`; },
     financialTools: {
-      title: "Financial Tools",
+      title: "Financial & Analytics",
       features: [
+        {
+          icon: "check-circle",
+          isNew: false,
+          title: "Payroll Integration",
+          description: "Streamline your payroll processes with seamless integration that ensures accurate and timely payments. Reduce errors and save time, allowing you to focus on what truly matters."
+        },
+        {
+          icon: "clock",
+          isNew: false,
+          title: "Time Clocking",
+          description: "Track employee hours with precision using our intuitive time clocking solution. Gain visibility into labor costs and optimize scheduling based on real-time data."
+        },
+        {
+          icon: "gift",
+          isNew: false,
+          title: "Tip Management",
+          description: "Effortlessly manage tips and gratuities with our dedicated tools that ensure fair distribution and transparency. Simplify the process and enhance employee satisfaction."
+        },
         {
           icon: "settings",
           isNew: false,
-          title: "POS & Accounting Integrations",
-          description: "Integrate with existing POS and accounting systems."
-        },
-        {
-          icon: "wifi",
-          isNew: false,
-          title: "Mobile App for Invoice Upload",
-          description: "Use our mobile app to upload invoices on the go."
+          title: "POS & Third-Party Integrations",
+          description: "Enhance your operational capabilities with seamless integrations to POS systems and other third-party tools. Create a cohesive ecosystem that drives efficiency and data accuracy."
         }
       ]
     },
     operationalManagement: {
-      title: "Complete Cost & Operations Control",
+      title: "Operations & Management",
       features: [
-        {
-          icon: "file-text",
-          isNew: false,
-          title: "Automated Invoice Processing",
-          description: "Simplify invoice management with automated processing."
-        },
-        {
-          icon: "receipt",
-          isNew: false,
-          title: "Bill Payment & AP Automation",
-          description: "Automate accounts payable and streamline bill payments."
-        },
-        {
-          icon: "utensils",
-          isNew: false,
-          title: "Real-time Food & Labor Cost Tracking",
-          description: "Track food and labor costs in real-time to manage expenses."
-        },
         {
           icon: "settings",
           isNew: false,
-          title: "Daily Controllable P&L Reports",
-          description: "Receive daily reports for better financial control."
+          title: "Staff Scheduling",
+          description: "Effortlessly organize your workforce with intuitive scheduling tools that ensure optimal coverage and productivity. Say goodbye to manual scheduling headaches and hello to streamlined operations."
         },
         {
-          icon: "package",
+          icon: "users",
           isNew: false,
-          title: "Inventory Management & Usage Tracking",
-          description: "Manage inventory and track usage efficiently."
+          title: "Team Communication & Engagement",
+          description: "Foster a collaborative work environment with built-in communication tools designed to enhance team engagement and streamline dialogue. Keep everyone connected and informed, no matter where they are."
         },
         {
-          icon: "calculator",
+          icon: "check-circle",
           isNew: false,
-          title: "Recipe/Menu Cost Analysis",
-          description: "Analyze recipes and menus to optimize costs."
+          title: "Task Management",
+          description: "Stay on top of your team's priorities with powerful task management features that allow for tracking, assigning, and completion of tasks. Empower your staff to hit their goals efficiently."
         },
         {
-          icon: "shopping-cart",
+          icon: "book-open",
           isNew: false,
-          title: "Order Management & Vendor Ordering",
-          description: "Manage orders and vendor relationships seamlessly."
+          title: "Manager Log Book",
+          description: "Maintain a detailed record of operational activities with our digital manager log book. Easily track incidents, notes, and important events to ensure accountability and transparency."
         },
         {
-          icon: "dollar-sign",
+          icon: "briefcase",
           isNew: false,
-          title: "Price Alerts for Cost Changes",
-          description: "Get alerts for ingredient price changes to adjust pricing."
+          title: "Labor Compliance & Analytics",
+          description: "Navigate the complexities of labor regulations with our compliance tools that provide insights and analytics. Ensure your operations meet all legal requirements while optimizing performance."
+        },
+        {
+          icon: "file-check",
+          isNew: false,
+          title: "Document & Certification Tracking",
+          description: "Simplify the management of essential documents and certifications with our tracking system. Ensure your team is compliant and up-to-date with necessary qualifications effortlessly."
         }
       ]
     }
@@ -208,93 +211,69 @@ export const siteContent = {
 
   // Features Page
   featuresPage: {
-    title: "Everything MenuProfitMax Offers",
+    title: "Everything PrepShiftPro Offers",
     benefits: [
       {
-        icon: "DollarSign",
-        title: "Boost Profitability"
+        icon: "TrendingUp",
+        title: "Increased Efficiency"
       },
       {
-        icon: "Zap",
-        title: "Streamlined Operations"
+        icon: "DollarSign",
+        title: "Cost Savings"
       },
       {
         icon: "BarChart3",
-        title: "Data-Driven Decisions"
-      },
-      {
-        icon: "Shield",
-        title: "Risk Management"
+        title: "Better Insights"
       }
     ],
     features: [
       {
         items: [
           {
-            icon: "https://img.recraft.ai/BqenAADKfF8S9q9tCCdrBw4mRK8OgylWx7yKVwjYKMc/rs:fit:512:512:0/raw:1/plain/abs://external/images/eed240a1-4908-4f04-b433-728dd0c6a900",
-            name: "Ingredient Costing",
-            description: "Breaks down cost per dish in real-time."
+            icon: "https://img.recraft.ai/ffQIm2-GN0_MzqKgyzdOdK_PQqJ7D2VLMJzEiRee3WM/rs:fit:512:512:0/raw:1/plain/abs://external/images/a917421a-e73a-4a45-b7e0-0f0b2547594f",
+            name: "Smart Scheduling",
+            description: "Automatically assigns shifts based on staff availability and skills."
           },
           {
-            icon: "https://img.recraft.ai/X2NOxZX98Lr7s_7sgzwMV8HFwVMC5bwVefSuDVMUwu4/rs:fit:512:512:0/raw:1/plain/abs://external/images/daab277b-eb55-4e9b-ae9b-e00cf1384996",
-            name: "Profit Margins",
-            description: "Instantly shows profitability of each menu item."
+            icon: "https://img.recraft.ai/ZKGB5UhTU8pID6YdiP0TYJ1JYpVbZJ2iUKvor7xTw4A/rs:fit:512:512:0/raw:1/plain/abs://external/images/cf532bd3-572d-49e4-b697-b526af91a93b",
+            name: "Compliance Alerts",
+            description: "Tracks labor laws and notifies managers of potential violations."
           },
           {
-            icon: "https://img.recraft.ai/8cdXz_8Q_9uGUBlV5qg9rmps1wCuriQSYSjkuJnNMwg/rs:fit:512:512:0/raw:1/plain/abs://external/images/cb502d4e-5bf9-4f68-a174-0e5f16312f35",
-            name: "Supplier Comparison",
-            description: "Compare costs across vendors."
+            icon: "https://img.recraft.ai/nohfc8uu3R_CC0Rc-c88sFslFHcZzOU4jSdjT61ZhVM/rs:fit:512:512:0/raw:1/plain/abs://external/images/70fab475-9cac-4b0d-b109-2f5948a3816c",
+            name: "Mobile Access",
+            description: "Allow staff to view and swap shifts conveniently from their phones."
           }
         ],
-        title: "Cost Management Insights"
+        title: "Everything You Need for Stress-Free Staff Management"
       },
       {
         items: [
           {
-            icon: "TrendingUp",
-            name: "Dynamic Pricing Strategies",
-            description: "Utilize real-time market data to adjust your menu prices dynamically, ensuring maximum profitability based on demand and ingredient costs."
+            icon: "BarChart3",
+            name: "PrepShiftPro Analytics",
+            description: "Comprehensive reporting and insights tailored to your business needs"
           },
           {
-            icon: "Star",
-            name: "AI-Powered Menu Recommendations",
-            description: "Leverage AI to analyze customer preferences and suggest menu adjustments that enhance sales and customer satisfaction."
+            icon: "Bot",
+            name: "Smart Automation",
+            description: "Intelligent automation features that save time and reduce manual work"
           },
           {
-            icon: "Bell",
-            name: "Automated Inventory Alerts",
-            description: "Receive automated alerts for low inventory levels and upcoming expiration dates, ensuring you never run out of key ingredients."
+            icon: "Link",
+            name: "Integration Hub",
+            description: "Connect with your existing tools and workflows seamlessly"
           },
           {
-            icon: "Users",
-            name: "Integrated Supplier Management",
-            description: "Centralize supplier information and performance analytics, allowing for optimized ordering and relationship management."
-          },
-          {
-            icon: "Monitor",
-            name: "Comprehensive Analytics Dashboard",
-            description: "Access a powerful analytics dashboard that provides insights into sales trends, cost breakdowns, and profit margins for better strategic planning."
-          },
-          {
-            icon: "Map",
-            name: "Multi-Location Management",
-            description: "Easily manage multiple restaurant locations with a single account, allowing for consistent menu pricing and cost analysis across all venues."
-          },
-          {
-            icon: "FileText",
-            name: "Customizable Reporting Tools",
-            description: "Create tailored reports that focus on the metrics that matter most to your business, enhancing visibility into your financial health."
-          },
-          {
-            icon: "Plug",
-            name: "Seamless Third-Party Integrations",
-            description: "Integrate with a variety of third-party apps and tools for a comprehensive restaurant management ecosystem that fits your unique needs."
+            icon: "Settings",
+            name: "Custom Solutions",
+            description: "Tailored features that adapt to your specific business requirements"
           }
         ],
-        title: "Smart Operations Suite"
+        title: "Advanced Capabilities"
       }
     ],
-    subtitle: "Comprehensive tools and features designed specifically for menuprofitmax users"
+    subtitle: "Comprehensive tools and features designed specifically for prepshiftpro users"
   },
 
   // Pricing Page
@@ -314,7 +293,7 @@ export const siteContent = {
           "Supplier Comparison: Compare costs across vendors.",
           "Basic inventory management & usage tracking."
         ],
-        description: "Get started with MenuProfitMax for free for one year, providing essential menu costing tools."
+        description: "Get started with Menu Profit Max for free for one year, providing essential menu costing tools."
       },
       {
         cta: "Get Started",
