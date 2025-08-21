@@ -16,12 +16,12 @@ import { siteContent } from "@/config/site-content";
 
 const Application = () => {
   
-  const [staffData] = useState([
-    { id: 1, name: "Kitchen Manager", shifts: 5, status: "scheduled", lastUpdated: "2 mins ago" },
-    { id: 2, name: "Line Cook", shifts: 3, status: "understaffed", lastUpdated: "5 mins ago" },
-    { id: 3, name: "Prep Cook", shifts: 2, status: "critical", lastUpdated: "1 hour ago" },
-    { id: 4, name: "Dishwasher", shifts: 4, status: "scheduled", lastUpdated: "10 mins ago" },
-    { id: 5, name: "Server", shifts: 6, status: "scheduled", lastUpdated: "15 mins ago" }
+  const [menuData] = useState([
+    { id: 1, name: "Margherita Pizza", cost: "$8.50", profit: "$6.50", margin: "43%", status: "profitable" },
+    { id: 2, name: "Caesar Salad", cost: "$4.20", profit: "$7.80", margin: "65%", status: "excellent" },
+    { id: 3, name: "Beef Burger", cost: "$12.30", profit: "$2.70", margin: "18%", status: "low-margin" },
+    { id: 4, name: "Pasta Carbonara", cost: "$6.80", profit: "$8.20", margin: "55%", status: "profitable" },
+    { id: 5, name: "Fish & Chips", cost: "$14.50", profit: "$0.50", margin: "3%", status: "critical" }
   ]);
 
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -57,8 +57,9 @@ const Application = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "scheduled": return "bg-green-100 text-green-800";
-      case "understaffed": return "bg-yellow-100 text-yellow-800";
+      case "profitable": return "bg-green-100 text-green-800";
+      case "excellent": return "bg-blue-100 text-blue-800";
+      case "low-margin": return "bg-yellow-100 text-yellow-800";
       case "critical": return "bg-red-100 text-red-800";
       default: return "bg-gray-100 text-gray-800";
     }
@@ -73,31 +74,31 @@ const Application = () => {
           <div className="p-6">
             {/* Today's Snapshot */}
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-foreground">Today's Schedule Overview</h2>
-              <p className="text-sm text-muted-foreground">Current staffing status and shift performance</p>
+              <h2 className="text-2xl font-bold text-foreground">Menu Performance Overview</h2>
+              <p className="text-sm text-muted-foreground">Real-time cost analysis and profit margins</p>
             </div>
             
             {/* KPI Cards */}
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
               <MetricCard 
-                title="Total Staff Scheduled" 
-                value="24" 
-                change="+4.2%" 
+                title="Total Menu Items" 
+                value="47" 
+                change="+2.3%" 
               />
               <MetricCard 
-                title="On-Duty Now" 
-                value="12" 
-                change="+2.1%" 
+                title="Average Food Cost" 
+                value="$9.26" 
+                change="-1.8%" 
               />
               <MetricCard 
-                title="Upcoming Shifts" 
+                title="Average Profit Margin" 
+                value="38%" 
+                change="+3.2%" 
+              />
+              <MetricCard 
+                title="Low Margin Items" 
                 value="8" 
-                change="+1.5%" 
-              />
-              <MetricCard 
-                title="Open Shifts" 
-                value="3" 
-                change="-1.2%" 
+                change="-2.1%" 
               />
             </div>
             
@@ -129,7 +130,7 @@ const Application = () => {
             <div className="space-y-2">
               <h3 className="text-xl font-bold">You're All Set!</h3>
               <p className="text-sm text-muted-foreground">Your {siteContent.brand.name} dashboard is on its way.</p>
-              <p className="text-sm text-muted-foreground">You'll soon gain early access to our Beta program — and get a chance to shape the future of kitchen management alongside us.</p>
+              <p className="text-sm text-muted-foreground">You'll soon gain early access to our Beta program — and get a chance to shape the future of menu costing alongside us.</p>
               <p className="text-sm text-muted-foreground">Stay tuned — exciting updates are coming your way.</p>
             </div>
             <Button onClick={handleRedirectToPreview} className="w-full">

@@ -9,7 +9,11 @@ import {
   UtensilsCrossed, 
   AlertTriangle,
   Eye,
-  Settings
+  Settings,
+  Calculator,
+  TrendingUp,
+  Users,
+  DollarSign
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
@@ -28,11 +32,11 @@ import { siteContent } from "@/config/site-content";
 
 const navigationItems = [
   { title: "Dashboard", url: "/app", icon: Home },
-  { title: "Schedules", url: "/app/schedules", icon: UtensilsCrossed },
-  { title: "Staff", url: "/app/staff", icon: Package2 },
-  { title: "Time Tracking", url: "/app/time-tracking", icon: BarChart3 },
-  { title: "Compliance", url: "/app/compliance", icon: ShoppingCart },
-  { title: "Reports", url: "/app/reports", icon: Truck },
+  { title: "Inventory", url: "/app/inventory", icon: Package2 },
+  { title: "Menu Analysis", url: "/app/menu-analysis", icon: Calculator },
+  { title: "Suppliers", url: "/app/suppliers", icon: Truck },
+  { title: "Cost Tracking", url: "/app/cost-tracking", icon: DollarSign },
+  { title: "Reports", url: "/app/reports", icon: BarChart3 },
 ];
 
 export function AppSidebar() {
