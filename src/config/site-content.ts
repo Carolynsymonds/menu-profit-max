@@ -60,26 +60,23 @@ export const siteContent = {
 
   // Team Roles Section
   teamRoles: {
-    title: "Empowering Teams for Seamless Operations",
-    get subtitle() { return `${siteContent.brand.name} equips every role in your kitchen with the tools needed for efficient scheduling and compliance management.`; },
+    title: "Tools for Every Role in Your Restaurant",
+    subtitle: "Empower your team with specialized tools and insights.",
     roles: [
       {
-        icon: "ChefHat",
-        iconType: "lucide",
-        title: "Kitchen Managers",
-        description: "Efficiently oversee staff schedules, optimize shift assignments, and ensure compliance with labor laws."
+        icon: "https://img.recraft.ai/qDbu5ost6-mUdXDFJhM3EMk-1Ye1O2nQKWGZlsp-5Xk/rs:fit:512:512:0/raw:1/plain/abs://external/images/09bcca6b-e0fd-4c89-b673-8f55c46bd660",
+        title: "Kitchen Manager",
+        description: "Oversee kitchen operations, manage inventory, and ensure food quality."
       },
       {
-        icon: "UserCheck",
-        iconType: "lucide",
-        title: "Shift Supervisors",
-        description: "Monitor daily operations, manage shift swaps, and maintain team communication for smooth service."
+        icon: "https://img.recraft.ai/xhkHvsLn-ckmfDJB3mANnlwYcTBDrYvtIz6pV1Qedgg/rs:fit:512:512:0/raw:1/plain/abs://external/images/95f00e86-d7e7-4c39-8820-c71bda112b1b",
+        title: "Financial Supervisor",
+        description: "Monitor financial performance, manage budgets, and analyze profit margins."
       },
       {
-        icon: "Users",
-        iconType: "lucide",
-        title: "Team Members",
-        description: "Easily check schedules, swap shifts, and stay engaged through a user-friendly mobile platform."
+        icon: "https://img.recraft.ai/Vs6-Cm09hzJTPE4DkTKFU2_q7aGRf3FoAoNflReV28g/rs:fit:512:512:0/raw:1/plain/abs://external/images/c9b068d0-1db2-449e-be79-6b72508ae715",
+        title: "Staff Member",
+        description: "Utilize tools for daily tasks, manage orders, and submit invoices."
       }
     ]
   },
