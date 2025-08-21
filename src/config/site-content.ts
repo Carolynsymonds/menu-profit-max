@@ -17,6 +17,10 @@ export const siteContent = {
     footerLogoUrl: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/1755781998922-axe2nh3wpw6.png"
   },
 
+  analytics: {
+    "googleAnalyticsId": "G-WS625DG4GT"
+  },
+
   // Headline Section
   headline: {
     title: "Maximize Your Restaurant Profits with Smarter Menu Costing — ",
