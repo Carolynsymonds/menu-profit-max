@@ -18,7 +18,7 @@ export const siteContent = {
   },
 
   analytics: {
-    "googleAnalyticsId": "G-WS625DG4GT"
+    googleAnalyticsId: "G-WS625DG4GT"
   },
 
   // Headline Section
