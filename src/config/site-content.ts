@@ -22,8 +22,8 @@ export const siteContent = {
     title: "Maximize Your Restaurant Profits with Smarter Menu Costing — ",
     titleHighlight: "For Free",
     get subtitle() { return `Plan & Optimize Your Menu for FREE for a whole year with ${siteContent.brand.name} (normally $5,760).`; },
-    buttonText: "Get started - ",
-    buttonTextLight: "It's free",
+    buttonText: "Try for free",
+    buttonTextLight: "",
     disclaimer: "No credit card required"
   },
 
@@ -31,8 +31,8 @@ export const siteContent = {
   homePage: {
     title: "Smarter Menu Costing. Bigger Profits.",
     subtitle: "Track ingredient costs, compare suppliers, and maximize profit margins with real-time insights.",
-    buttonText: "Get started - ",
-    buttonTextLight: "It's free"
+    buttonText: "Try for free",
+    buttonTextLight: ""
   },
 
   // Features Section
@@ -338,7 +338,7 @@ export const siteContent = {
   heroBanner: {
     title: "Step into the future of kitchen operations",
     get description() { return `Join hundreds of restaurants and teams using ${siteContent.brand.name} to streamline menu management, cut costs, and enhance profits—faster.`; },
-    buttonText: "Get started - ",
-    buttonTextLight: "It's free"
+    buttonText: "Try for free",
+    buttonTextLight: ""
   }
 };
