@@ -99,11 +99,11 @@ const Home = () => {
 
           <div className="pt-8 space-y-4">
             <div className="flex sm:flex-row gap-4 justify-center">
-              <Button 
-                onClick={() => navigateWithUtm('/free-plan')}
+               <Button 
+                onClick={() => navigateWithUtm('/signup')}
                 className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
               >
-                {siteContent.homePage.buttonText}<span className="font-light">{siteContent.homePage.buttonTextLight}</span>
+                Try for free<span className="font-light"> - for 12 months</span>
               </Button>
               <Button 
                 onClick={() => navigateWithUtm('/pricing')}
