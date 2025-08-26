@@ -12,9 +12,9 @@ export const siteContent = {
   // Brand and Logo
   brand: {
     name: "MenuProfitMax",
-    logoUrl: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/1755782130350-r6386jnrv6.png",
+    logoUrl: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/1756215588100-mwy3h116xhk.png",
     primaryColor: "12 99% 65%",
-    footerLogoUrl: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/1755781998922-axe2nh3wpw6.png"
+    footerLogoUrl: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/1756215590798-pbgytrkqoqm.png"
   },
 
   // Headline Section
