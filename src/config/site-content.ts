@@ -64,17 +64,17 @@ export const siteContent = {
     subtitle: "Empower your team with specialized tools and insights.",
     roles: [
       {
-        icon: "https://img.recraft.ai/qDbu5ost6-mUdXDFJhM3EMk-1Ye1O2nQKWGZlsp-5Xk/rs:fit:512:512:0/raw:1/plain/abs://external/images/09bcca6b-e0fd-4c89-b673-8f55c46bd660",
+        icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/team-role-icons/7f131ee6-3b09-40a2-b133-4b201a430239/kitchen-manager-1756215053691.svg+xml",
         title: "Kitchen Manager",
         description: "Oversee kitchen operations, manage inventory, and ensure food quality."
       },
       {
-        icon: "https://img.recraft.ai/xhkHvsLn-ckmfDJB3mANnlwYcTBDrYvtIz6pV1Qedgg/rs:fit:512:512:0/raw:1/plain/abs://external/images/95f00e86-d7e7-4c39-8820-c71bda112b1b",
+        icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/team-role-icons/7f131ee6-3b09-40a2-b133-4b201a430239/financial-supervisor-1756215054712.svg+xml",
         title: "Financial Supervisor",
         description: "Monitor financial performance, manage budgets, and analyze profit margins."
       },
       {
-        icon: "https://img.recraft.ai/Vs6-Cm09hzJTPE4DkTKFU2_q7aGRf3FoAoNflReV28g/rs:fit:512:512:0/raw:1/plain/abs://external/images/c9b068d0-1db2-449e-be79-6b72508ae715",
+        icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/team-role-icons/7f131ee6-3b09-40a2-b133-4b201a430239/staff-member-1756215064570.svg+xml",
         title: "Staff Member",
         description: "Utilize tools for daily tasks, manage orders, and submit invoices."
       }
