@@ -199,12 +199,12 @@ export const siteContent = {
     title: "Everything MenuProfitMax Offers",
     benefits: [
       {
-        icon: "DollarSign",
+        icon: "TrendingUp",
         title: "Boost Profitability"
       },
       {
-        icon: "Zap",
-        title: "Streamlined Operations"
+        icon: "DollarSign",
+        title: "Reduce Costs"
       },
       {
         icon: "BarChart3",
@@ -212,24 +212,24 @@ export const siteContent = {
       },
       {
         icon: "Shield",
-        title: "Risk Management"
+        title: "Streamlined Operations"
       }
     ],
     features: [
       {
         items: [
           {
-            icon: "https://img.recraft.ai/BqenAADKfF8S9q9tCCdrBw4mRK8OgylWx7yKVwjYKMc/rs:fit:512:512:0/raw:1/plain/abs://external/images/eed240a1-4908-4f04-b433-728dd0c6a900",
+            icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-0-1756215065573.svg+xml",
             name: "Ingredient Costing",
             description: "Breaks down cost per dish in real-time."
           },
           {
-            icon: "https://img.recraft.ai/X2NOxZX98Lr7s_7sgzwMV8HFwVMC5bwVefSuDVMUwu4/rs:fit:512:512:0/raw:1/plain/abs://external/images/daab277b-eb55-4e9b-ae9b-e00cf1384996",
+            icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-1-1756215082435.svg+xml",
             name: "Profit Margins",
             description: "Instantly shows profitability of each menu item."
           },
           {
-            icon: "https://img.recraft.ai/8cdXz_8Q_9uGUBlV5qg9rmps1wCuriQSYSjkuJnNMwg/rs:fit:512:512:0/raw:1/plain/abs://external/images/cb502d4e-5bf9-4f68-a174-0e5f16312f35",
+            icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-2-1756215066377.svg+xml",
             name: "Supplier Comparison",
             description: "Compare costs across vendors."
           }
@@ -239,47 +239,47 @@ export const siteContent = {
       {
         items: [
           {
-            icon: "TrendingUp",
-            name: "Dynamic Pricing Strategies",
-            description: "Utilize real-time market data to adjust your menu prices dynamically, ensuring maximum profitability based on demand and ingredient costs."
+            icon: "Zap",
+            name: "Dynamic Pricing Optimization",
+            description: "Automatically adjust your menu prices based on ingredient cost changes and market trends to maximize profitability."
           },
           {
-            icon: "Star",
-            name: "AI-Powered Menu Recommendations",
-            description: "Leverage AI to analyze customer preferences and suggest menu adjustments that enhance sales and customer satisfaction."
+            icon: "BarChart3",
+            name: "Comprehensive Analytics Dashboard",
+            description: "Access a real-time analytics dashboard that provides insights into menu performance, customer preferences, and financial metrics."
           },
           {
-            icon: "Bell",
-            name: "Automated Inventory Alerts",
-            description: "Receive automated alerts for low inventory levels and upcoming expiration dates, ensuring you never run out of key ingredients."
+            icon: "Box",
+            name: "Automated Inventory Replenishment",
+            description: "Set thresholds for inventory levels and automate reorder processes, ensuring you never run out of key ingredients."
           },
           {
             icon: "Users",
-            name: "Integrated Supplier Management",
-            description: "Centralize supplier information and performance analytics, allowing for optimized ordering and relationship management."
+            name: "Supplier Performance Tracking",
+            description: "Evaluate supplier reliability and pricing trends to make informed decisions on vendor selection and negotiation."
           },
           {
-            icon: "Monitor",
-            name: "Comprehensive Analytics Dashboard",
-            description: "Access a powerful analytics dashboard that provides insights into sales trends, cost breakdowns, and profit margins for better strategic planning."
+            icon: "Utensils",
+            name: "Custom Recipe Scaling",
+            description: "Easily scale recipes for any volume while maintaining cost efficiency, ensuring consistency across all dishes."
           },
           {
-            icon: "Map",
-            name: "Multi-Location Management",
-            description: "Easily manage multiple restaurant locations with a single account, allowing for consistent menu pricing and cost analysis across all venues."
+            icon: "Wifi",
+            name: "Mobile Cost Tracking",
+            description: "Track costs and expenses on-the-go via our mobile app, enabling real-time updates and decision-making."
           },
           {
-            icon: "FileText",
-            name: "Customizable Reporting Tools",
-            description: "Create tailored reports that focus on the metrics that matter most to your business, enhancing visibility into your financial health."
+            icon: "Settings",
+            name: "Enhanced POS Integration",
+            description: "Seamlessly integrate with your existing POS systems for real-time data synchronization, improving accuracy and efficiency."
           },
           {
-            icon: "Plug",
-            name: "Seamless Third-Party Integrations",
-            description: "Integrate with a variety of third-party apps and tools for a comprehensive restaurant management ecosystem that fits your unique needs."
+            icon: "Shield",
+            name: "Accountability & Audit Trail",
+            description: "Keep a detailed audit trail of all financial transactions and adjustments for compliance and accountability."
           }
         ],
-        title: "Smart Operations Suite"
+        title: "Smart Operations Management"
       }
     ],
     subtitle: "Comprehensive tools and features designed specifically for menuprofitmax users"
