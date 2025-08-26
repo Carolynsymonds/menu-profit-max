@@ -92,7 +92,7 @@ export const siteContent = {
     sections: [
       {
         id: "ingredientCosting",
-        image: "https://img.recraft.ai/TpqijYVA9rhIvRW2G8UupQz_ZHi-bUgiqWtGv4n6Hqs/rs:fit:1024:1024:0/raw:1/plain/abs://external/images/56697a06-7022-420f-8fcb-82739b947a6c",
+        image: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/split-screen-0-1756215077055.webp",
         title: "Ingredient Costing",
         features: [
           "Breaks down cost per dish in real-time",
@@ -104,7 +104,7 @@ export const siteContent = {
       },
       {
         id: "profitMargins",
-        image: "https://img.recraft.ai/LzzLDXRCQFc4kQ52f4aPAworfEYjqVoRzUIaDLyRQ6U/rs:fit:1024:1024:0/raw:1/plain/abs://external/images/f06a41f4-eae2-4054-8738-82c20891c881",
+        image: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/split-screen-1-1756215079380.webp",
         title: "Profit Margins",
         features: [
           "Instant profitability overview",
@@ -116,7 +116,7 @@ export const siteContent = {
       },
       {
         id: "supplierComparison",
-        image: "https://img.recraft.ai/_yPZwe7o1NT1p7KkIHC5yMe8xdMXbE9Sw0ey8W19PvM/rs:fit:1024:1024:0/raw:1/plain/abs://external/images/deaddc3e-ab8c-499a-9fba-bb5a6fba5e98",
+        image: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/split-screen-2-1756215080825.webp",
         title: "Supplier Comparison",
         features: [
           "Compare vendor prices",
