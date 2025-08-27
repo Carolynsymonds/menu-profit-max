@@ -291,7 +291,7 @@ export const siteContent = {
     subtitle: "Flexible pricing tailored for every restaurant size.",
     plans: [
       {
-        cta: "Start Free",
+        cta: "Try for free - for 12 months",
         name: "Free",
         price: 0,
         period: "/month",
