@@ -128,7 +128,7 @@ const TeamRolesSection = () => {
             onClick={() => navigateWithUtm('/signup')}
             className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
           >
-            {siteContent.headline.buttonText}<span className="font-light">{siteContent.headline.buttonTextLight}</span>
+           Try for free<span className="font-light"> - for 12 months</span>
           </Button>
           <p className="text-xs text-muted-foreground flex items-center justify-center gap-1">
             <Check size={14} className="text-primary" />
