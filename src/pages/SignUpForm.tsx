@@ -356,12 +356,12 @@ const SignUpForm = ({ isLogin = false }: SignUpFormProps) => {
       <div className="w-full max-w-md space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
-          <div className="flex justify-center mb-5">
+          <div className="flex justify-center">
             <Link to="/" className="flex items-center">
               <img 
-                src={siteContent.brand.footerLogoUrl} 
+                src={siteContent.brand.logoUrl} 
                 alt={`${siteContent.brand.name} Logo`} 
-                className="h-[4.5rem] w-auto"
+                className="h-[10rem] w-auto"
               />
             </Link>
           </div>
