@@ -23,7 +23,7 @@ export const siteContent = {
     titleHighlight: "For Free",
     get subtitle() { return `Plan & Optimize Your Menu for FREE for a whole year with ${siteContent.brand.name} (normally $5,760).`; },
     buttonText: "Try for free",
-    buttonTextLight: "",
+    buttonTextLight: " for 12 months",
     disclaimer: "No credit card required"
   },
 
@@ -327,6 +327,6 @@ export const siteContent = {
     title: "Step into the future of kitchen operations",
     get description() { return `Join hundreds of restaurants and teams using ${siteContent.brand.name} to streamline menu management, cut costs, and enhance profits—faster.`; },
     buttonText: "Try for free",
-    buttonTextLight: ""
+    buttonTextLight: " for 12 months"
   }
 };
