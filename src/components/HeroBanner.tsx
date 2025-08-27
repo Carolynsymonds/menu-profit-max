@@ -20,7 +20,7 @@ const HeroBanner = () => {
             onClick={() => navigateWithUtm('/signup')}
             className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
           >
-            {siteContent.heroBanner.buttonText}<span className="font-light">{siteContent.heroBanner.buttonTextLight}</span>
+           Try for free<span className="font-light"> - for 12 months</span>
           </Button>
         </div>
         <p className="text-sm text-muted-foreground flex items-center justify-center gap-1 mt-3">
