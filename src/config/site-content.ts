@@ -52,7 +52,7 @@ export const siteContent = {
         description: "Breaks down cost per dish in real-time."
       },
       {
-        icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-1-1756215082435.svg+xml",
+        icon: "/lovable-uploads/0abb7956-aef2-4ac6-a711-5faf5d1350a9.png",
         title: "Profit Margins",
         description: "Instantly shows profitability of each menu item."
       },
