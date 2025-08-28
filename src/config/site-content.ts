@@ -11,7 +11,7 @@ export const siteContent = {
 
    // Top Banner
   topBanner: {
-    text: "Early Access Open — First 100 Restaurants Get GastroInvestors Free for 12 Months (normally $5,760)",
+    text: "Early Access Open — First 100 Restaurants Get MenuProfitMax Free for 12 Months (normally $5,760)",
     buttonText: "Join Free"
   },
 
