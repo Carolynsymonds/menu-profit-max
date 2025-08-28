@@ -9,10 +9,10 @@ export const siteContent = {
     primaryColor: "#fe6743", // Orange HSL values for MenuProfitMax
   },
 
-  // Top Banner
+   // Top Banner
   topBanner: {
-    text: "🎉 Get MenuProfitMax FREE for 12 months - Save $5,760!",
-    buttonText: "Claim Now"
+    text: "Early Access Open — First 100 Restaurants Get GastroInvestors Free for 12 Months (normally $5,760)",
+    buttonText: "Join Free"
   },
 
   // Brand and Logo
