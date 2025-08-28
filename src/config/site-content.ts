@@ -27,7 +27,7 @@ export const siteContent = {
   headline: {
     title: "Maximize Your Restaurant Profits with Smarter Menu Costing — ",
     titleHighlight: "For Free",
-    get subtitle() { return `Plan & Optimize Your Menu for FREE for a whole year with ${siteContent.brand.name} (normally $5,760).`; },
+    get subtitle() { return `Be among the first to maximize restaurant profits with smarter menu costing. Early adopters get MenuProfitMax free for 12 months ($5,760 value).`; },
     buttonText: "Try for free",
     buttonTextLight: " for 12 months",
     disclaimer: "No credit card required"
