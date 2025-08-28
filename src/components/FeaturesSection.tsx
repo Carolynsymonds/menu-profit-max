@@ -60,22 +60,26 @@ const FeaturesSection = () => {
         {/* Feature Blocks */}
         <div className="grid md:grid-cols-3 gap-8 pt-8 max-w-[900px] self-center m-auto">
           {siteContent.features.items.map((feature, index) => {
-            // Check if icon is a URL (SVG) or lucide icon name
-            const isUrl = feature.icon.startsWith('http');
+            // Check if icon is a URL (SVG/PNG) or lucide icon name
+            const isUrl = feature.icon.startsWith('http') || feature.icon.startsWith('/');
             
             return (
               <div key={index} className="space-y-4 text-center">
                 {isUrl ? (
                   <div className="flex justify-center mb-4">
                     <div className="w-20 h-20 flex items-center justify-center">
-                      <DynamicSvgIcon url={feature.icon} className="w-16 h-16" />
+                      {feature.icon.endsWith('.png') ? (
+                        <img src={feature.icon} alt={feature.title} className="w-16 h-16 object-contain" />
+                      ) : (
+                        <DynamicSvgIcon url={feature.icon} className="w-16 h-16" />
+                      )}
                     </div>
                   </div>
                 ) : (
-                  <div className="w-16 h-16 mx-auto flex items-center justify-center bg-primary rounded-2xl">
+                  <div className="w-16 h-16 mx-auto flex items-center justify-center">
                     {(() => {
                       const IconComponent = iconMap[feature.icon as keyof typeof iconMap];
-                      return IconComponent ? <IconComponent className="w-8 h-8 text-white" /> : null;
+                      return IconComponent ? <IconComponent className="w-8 h-8 text-primary" /> : null;
                     })()}
                   </div>
                 )}
