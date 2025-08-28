@@ -57,7 +57,7 @@ export const siteContent = {
         description: "Instantly shows profitability of each menu item."
       },
       {
-        icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-2-1756215066377.svg+xml",
+        icon: "/lovable-uploads/2c3acdb8-e7ea-4e9f-bbe3-f76f3126f9f4.png",
         title: "Supplier Comparison",
         description: "Compare costs across vendors."
       }
