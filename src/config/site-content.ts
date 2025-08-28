@@ -43,23 +43,23 @@ export const siteContent = {
 
   // Features Section
   features: {
-    title: "Smarter Digital Menu Management",
-    subtitle: "Explore how MenuBoardPro can elevate your restaurant's ordering experience.",
+    title: "Menu Costing Made Simple",
+    subtitle: "Revolutionize your kitchen operations with these powerful capabilities.",
     items: [
       {
-        icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-0-1756216588997.svg+xml",
-        title: "Dynamic Content Management",
-        description: "Update and schedule menus, promotions, and visuals in real time across all locations."
+        icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-0-1756215065573.svg+xml",
+        title: "Ingredient Costing",
+        description: "Breaks down cost per dish in real-time."
       },
       {
-        icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-1-1756216590095.svg+xml",
-        title: "High-Impact Visual Display",
-        description: "Use HD images, videos, and animations to attract attention and boost sales."
+        icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-1-1756215082435.svg+xml",
+        title: "Profit Margins",
+        description: "Instantly shows profitability of each menu item."
       },
       {
-        icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-2-1756216590799.svg+xml",
-        title: "POS & Allergen Sync",
-        description: "Automatically pull accurate menu data including pricing, calories, and allergens from POS."
+        icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-2-1756215066377.svg+xml",
+        title: "Supplier Comparison",
+        description: "Compare costs across vendors."
       }
     ]
   },
@@ -137,64 +137,76 @@ export const siteContent = {
 
   // All Features Section
   allFeatures: {
-    title: "Seamless Menu Control for Every Location",
-    ctaText: "Explore All Features",
-    subtitle: "Everything you need to succeed in the foodservice industry.",
+    title: "From Invoices to Inventory — All in One Place",
+    ctaText: "Explore our features",
+    subtitle: "Everything you need to succeed.",
     financialTools: {
       title: "Financial Tools",
       features: [
         {
-          icon: "Sync",
-          isNew: false,
-          title: "POS system integration",
-          description: "Ensure consistent data across your systems."
-        },
-        {
           icon: "Settings",
           isNew: false,
-          title: "Support for promotions and upsells",
-          description: "Encourage higher spending with strategic upsell prompts."
+          title: "POS & Accounting Integrations",
+          description: "Integrate with existing POS and accounting systems."
         },
         {
-          icon: "Info",
+          icon: "Wifi",
           isNew: false,
-          title: "Nutrition & allergen information display",
-          description: "Help customers make informed dietary choices."
+          title: "Mobile App for Invoice Upload",
+          description: "Use our mobile app to upload invoices on the go."
         }
       ]
     },
     operationalManagement: {
-      title: "Flexible, Reliable Menu Management",
+      title: "Complete Cost & Operations Control",
       features: [
         {
-          icon: "Cloud",
+          icon: "FileText",
           isNew: false,
-          title: "Cloud-based content management system",
-          description: "Manage your menus from anywhere with internet access."
+          title: "Automated Invoice Processing",
+          description: "Simplify invoice management with automated processing."
         },
         {
-          icon: "RefreshCw",
+          icon: "Receipt",
           isNew: false,
-          title: "Real-time menu and price updates",
-          description: "Instantly reflect changes to pricing and menu items."
+          title: "Bill Payment & AP Automation",
+          description: "Automate accounts payable and streamline bill payments."
         },
         {
-          icon: "Globe",
+          icon: "Utensils",
           isNew: false,
-          title: "Multi-location control from one dashboard",
-          description: "Oversee multiple locations seamlessly."
-        },
-        {
-          icon: "Settings",
-          isNew: false,
-          title: "Schedule-based content changes",
-          description: "Plan your menu displays around peak hours."
+          title: "Real-time Food & Labor Cost Tracking",
+          description: "Track food and labor costs in real-time to manage expenses."
         },
         {
           icon: "Settings",
           isNew: false,
-          title: "Offline playback capability",
-          description: "Keep your menu displayed even without internet access."
+          title: "Daily Controllable P&L Reports",
+          description: "Receive daily reports for better financial control."
+        },
+        {
+          icon: "Box",
+          isNew: false,
+          title: "Inventory Management & Usage Tracking",
+          description: "Manage inventory and track usage efficiently."
+        },
+        {
+          icon: "Calculator",
+          isNew: false,
+          title: "Recipe/Menu Cost Analysis",
+          description: "Analyze recipes and menus to optimize costs."
+        },
+        {
+          icon: "ShoppingCart",
+          isNew: false,
+          title: "Order Management & Vendor Ordering",
+          description: "Manage orders and vendor relationships seamlessly."
+        },
+        {
+          icon: "DollarSign",
+          isNew: false,
+          title: "Price Alerts for Cost Changes",
+          description: "Get alerts for ingredient price changes to adjust pricing."
         }
       ]
     }
