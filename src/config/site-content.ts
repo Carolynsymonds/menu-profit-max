@@ -9,6 +9,12 @@ export const siteContent = {
     primaryColor: "#fe6743", // Orange HSL values for MenuProfitMax
   },
 
+  // Top Banner
+  topBanner: {
+    text: "🎉 Get MenuProfitMax FREE for 12 months - Save $5,760!",
+    buttonText: "Claim Now"
+  },
+
   // Brand and Logo
   brand: {
     name: "MenuProfitMax",
