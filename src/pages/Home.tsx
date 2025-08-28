@@ -262,7 +262,7 @@ const Home = () => {
         </div>
       </section>
 
-       <FeatureIntroSection />
+       <FeaturesSection />
 
       
       <SplitScreenSection />
