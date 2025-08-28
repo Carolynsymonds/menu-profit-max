@@ -47,7 +47,7 @@ export const siteContent = {
     subtitle: "Revolutionize your kitchen operations with these powerful capabilities.",
     items: [
       {
-        icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-0-1756215065573.svg+xml",
+        icon: "/lovable-uploads/cd909169-fdc5-4959-8640-b478cc3c5198.png",
         title: "Ingredient Costing",
         description: "Breaks down cost per dish in real-time."
       },
