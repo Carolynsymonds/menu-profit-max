@@ -186,6 +186,12 @@ const SignupSplit = () => {
             <h1 className="text-2xl font-bold text-gray-900">
               Welcome to {siteContent.brand.name}
             </h1>
+            <p className="text-lg text-gray-700 mt-2">
+              Boost Restaurant Profits with Smarter Menu Costing
+            </p>
+            <p className="text-sm text-gray-500 mt-1">
+              Protected by enterprise grade security
+            </p>
           </div>
 
           {step === 1 && (
