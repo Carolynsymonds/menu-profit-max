@@ -178,11 +178,13 @@ const SignupSplit = () => {
         <div className="w-full max-w-md space-y-6">
           {/* Logo */}
           <div className="text-center">
-            <img 
-              src={siteContent.brand.logoUrl} 
-              alt={siteContent.brand.name} 
-              className="h-20 mx-auto mb-6"
-            />
+            <Link to="/" className="inline-block">
+              <img 
+                src={siteContent.brand.logoUrl} 
+                alt={siteContent.brand.name} 
+                className="h-20 mx-auto mb-6 cursor-pointer hover:opacity-80 transition-opacity"
+              />
+            </Link>
             <h1 className="text-2xl font-bold text-gray-900">
               Welcome to {siteContent.brand.name}
             </h1>
@@ -302,20 +304,20 @@ const SignupSplit = () => {
           {/* Testimonial */}
           <div className="space-y-4">
             <Quote className="w-8 h-8 text-coral-400" />
-            <blockquote className="text-lg text-gray-800 leading-relaxed">
+            <blockquote className="text-lg text-gray-800 leading-relaxed italic">
               "MenuProfitMax transformed how I understand my restaurant's profitability. 
               The real-time ingredient costing and profit margin analysis helped me increase 
               our bottom line by 23% in just three months."
             </blockquote>
             <div>
               <div className="font-semibold text-gray-900">Elinor B.</div>
-              <div className="text-sage-600 text-sm">Restaurant Owner</div>
+              <div className="text-primary text-sm">Restaurant Owner</div>
             </div>
           </div>
 
           {/* Social Proof */}
           <div className="space-y-4">
-            <p className="text-sage-600 text-sm text-center">
+            <p className="text-primary text-sm text-center">
               Trusted by Restaurateurs at
             </p>
             <div className="grid grid-cols-2 gap-6">
