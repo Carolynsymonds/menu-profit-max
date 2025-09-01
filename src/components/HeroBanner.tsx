@@ -7,9 +7,11 @@ import { useUtmTracking } from "@/hooks/useUtmTracking";
 const HeroBanner = () => {
   const { navigateWithUtm } = useUtmTracking();
   const handleSignupClick = () => {
+
+    console.log("sending gtag")
     try {
       // GA4 recommended event
-      (window as any).gtag?.('event', 'sign_up', {
+       window.gtag?.('event', 'sign_up', {
         method: 'cta_button',
         button_id: 'signup-btn',
         button_text: 'Start Free Trial',
