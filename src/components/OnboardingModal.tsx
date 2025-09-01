@@ -585,7 +585,7 @@ const OnboardingModal = ({ open, onComplete, onboardingData }: OnboardingModalPr
       {/* Action Button - Bottom Section */}
       <Button
         onClick={() => setCurrentStep(2)}
-        className="w-full max-w-sm h-14 rounded-2xl bg-green-cta hover:bg-green-cta/90 text-green-cta-foreground font-semibold text-base tracking-wide uppercase shadow-lg hover:shadow-xl transition-all duration-200"
+        className="flex items-center gap-2"
       >
         Personalize your experience
       </Button>
