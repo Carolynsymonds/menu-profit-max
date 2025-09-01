@@ -196,17 +196,38 @@ All colors MUST be HSL.
     }
   }
 
+  /* Celebration animation classes */
+  .celebration-garland-left {
+    animation: garlandSlide 600ms ease-out 200ms both, garlandSway 4s ease-in-out 800ms infinite;
+    transform-origin: 20px 40px;
+  }
+
+  .celebration-garland-right {
+    animation: garlandSlide 600ms ease-out 400ms both, garlandSway 4s ease-in-out 1200ms infinite;
+    transform-origin: 280px 40px;
+  }
+
+  .celebration-decoration {
+    animation: garlandSway 4s ease-in-out infinite;
+  }
+
+  .celebration-confetti {
+    animation: confettiBurst 1500ms ease-out both;
+  }
+
+  .celebration-sparkle {
+    animation: sparkle 2500ms ease-in-out infinite;
+  }
+
   /* Accessibility: Respect prefers-reduced-motion */
   @media (prefers-reduced-motion: reduce) {
-    .motion-safe\\:animate-\\[garlandSlide_600ms_ease-out_200ms_both\\,garlandSway_4s_ease-in-out_800ms_infinite\\],
-    .motion-safe\\:animate-\\[garlandSlide_600ms_ease-out_400ms_both\\,garlandSway_4s_ease-in-out_1200ms_infinite\\],
-    .motion-safe\\:animate-\\[garlandSway_4s_ease-in-out_800ms_infinite\\],
-    .motion-safe\\:animate-\\[garlandSway_4s_ease-in-out_1000ms_infinite\\],
-    .motion-safe\\:animate-\\[garlandSway_4s_ease-in-out_1200ms_infinite\\],
-    .motion-safe\\:animate-\\[garlandSway_4s_ease-in-out_1400ms_infinite\\],
-    .motion-safe\\:animate-\\[confettiBurst_1500ms_ease-out_600ms_both\\],
-    .motion-safe\\:animate-\\[sparkle_2500ms_ease-in-out_infinite\\] {
+    .celebration-garland-left,
+    .celebration-garland-right,
+    .celebration-decoration,
+    .celebration-confetti,
+    .celebration-sparkle {
       animation: none !important;
+      opacity: 1;
     }
   }
 }

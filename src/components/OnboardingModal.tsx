@@ -762,10 +762,7 @@ const OnboardingModal = ({
                   strokeWidth="8"
                   strokeLinecap="round"
                   fill="none"
-                  className="motion-safe:animate-[garlandSlide_600ms_ease-out_200ms_both,garlandSway_4s_ease-in-out_800ms_infinite] motion-reduce:opacity-100"
-                  style={{
-                    transformOrigin: '20px 40px'
-                  }}
+                  className="celebration-garland-left"
                 />
                 {/* Right Garland */}
                 <path
@@ -774,16 +771,13 @@ const OnboardingModal = ({
                   strokeWidth="8"
                   strokeLinecap="round"
                   fill="none"
-                  className="motion-safe:animate-[garlandSlide_600ms_ease-out_400ms_both,garlandSway_4s_ease-in-out_1200ms_infinite] motion-reduce:opacity-100"
-                  style={{
-                    transformOrigin: '280px 40px'
-                  }}
+                  className="celebration-garland-right"
                 />
                 {/* Garland Decorations */}
-                <circle cx="50" cy="52" r="4" fill="hsl(var(--accent))" className="motion-safe:animate-[garlandSway_4s_ease-in-out_800ms_infinite] motion-reduce:opacity-100" />
-                <circle cx="100" cy="62" r="4" fill="hsl(var(--primary))" className="motion-safe:animate-[garlandSway_4s_ease-in-out_1000ms_infinite] motion-reduce:opacity-100" />
-                <circle cx="200" cy="62" r="4" fill="hsl(var(--accent))" className="motion-safe:animate-[garlandSway_4s_ease-in-out_1200ms_infinite] motion-reduce:opacity-100" />
-                <circle cx="250" cy="52" r="4" fill="hsl(var(--primary))" className="motion-safe:animate-[garlandSway_4s_ease-in-out_1400ms_infinite] motion-reduce:opacity-100" />
+                <circle cx="50" cy="52" r="4" fill="hsl(var(--accent))" className="celebration-decoration" style={{animationDelay: '800ms'}} />
+                <circle cx="100" cy="62" r="4" fill="hsl(var(--primary))" className="celebration-decoration" style={{animationDelay: '1000ms'}} />
+                <circle cx="200" cy="62" r="4" fill="hsl(var(--accent))" className="celebration-decoration" style={{animationDelay: '1200ms'}} />
+                <circle cx="250" cy="52" r="4" fill="hsl(var(--primary))" className="celebration-decoration" style={{animationDelay: '1400ms'}} />
               </svg>
 
               {/* Confetti Burst */}
@@ -791,7 +785,7 @@ const OnboardingModal = ({
                 {Array.from({length: 12}).map((_, i) => (
                   <div
                     key={i}
-                    className="absolute w-2 h-2 rounded-full motion-safe:animate-[confettiBurst_1500ms_ease-out_600ms_both] motion-reduce:hidden"
+                    className="absolute w-2 h-2 rounded-full celebration-confetti"
                     style={{
                       backgroundColor: i % 3 === 0 ? 'hsl(var(--primary))' : i % 3 === 1 ? 'hsl(var(--accent))' : 'hsl(var(--secondary))',
                       left: '50%',
@@ -808,7 +802,7 @@ const OnboardingModal = ({
                 {Array.from({length: 8}).map((_, i) => (
                   <div
                     key={i}
-                    className="absolute w-1 h-1 motion-safe:animate-[sparkle_2500ms_ease-in-out_infinite] motion-reduce:opacity-60"
+                    className="absolute w-1 h-1 celebration-sparkle"
                     style={{
                       background: 'hsl(var(--primary))',
                       borderRadius: '50%',
