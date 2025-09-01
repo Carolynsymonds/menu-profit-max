@@ -319,12 +319,12 @@ const SignupSplit = () => {
             <p className="text-primary text-sm text-center">
               Trusted by Restaurateurs at
             </p>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="flex justify-center items-center gap-6 flex-wrap">
               <div className="flex items-center justify-center">
                 <img 
                   src="/lovable-uploads/9efe8d5f-1e81-42b0-8803-d420694c0d6d.png" 
                   alt="Papa John's" 
-                  className="h-10 max-w-full object-contain"
+                  className="h-6 max-w-full object-contain"
                 />
               </div>
               <div className="flex items-center justify-center">
