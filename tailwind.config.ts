@@ -87,6 +87,14 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				coral: {
+					'400': 'hsl(var(--coral-400))'
+				},
+				sage: {
+					'50': 'hsl(var(--sage-50))',
+					'100': 'hsl(var(--sage-100))',
+					'600': 'hsl(var(--sage-600))'
 				}
 			},
 			backgroundImage: {

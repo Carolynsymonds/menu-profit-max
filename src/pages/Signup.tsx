@@ -1,7 +1,7 @@
-import SignUpForm from "./SignUpForm";
+import SignupSplit from "./SignupSplit";
 
 const Signup = () => {
-  return <SignUpForm isLogin={false} />;
+  return <SignupSplit />;
 };
 
 export default Signup;

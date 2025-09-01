@@ -85,6 +85,12 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Testimonial colors */
+    --coral-400: 16 75% 65%;
+    --sage-50: 120 13% 96%;
+    --sage-100: 120 15% 92%;
+    --sage-600: 120 25% 45%;
   }
 
   .dark {
