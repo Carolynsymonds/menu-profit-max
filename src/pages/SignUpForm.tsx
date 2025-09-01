@@ -24,7 +24,7 @@ const SignUpForm = ({ isLogin = false }: SignUpFormProps) => {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
   const { toast } = useToast();
-  const { getStoredUtmParams, createUrlWithUtm } = useUtmTracking();
+  const { getStoredUtmParams, navigateWithUtm } = useUtmTracking();
 
 
   // Email validation
@@ -47,6 +47,19 @@ const SignUpForm = ({ isLogin = false }: SignUpFormProps) => {
   // Handle signup process with UTM parameters
   const handleSignupProcess = async (email: string) => {
     try {
+      try {
+        // GA4 recommended event
+         window.gtag?.('event', 'sign_up', {
+          event: 'login_click',            
+          method: 'header_button',
+          button_id: 'signin-btn',
+          button_text: 'Sign in',
+          page_location: window.location.href,
+        });
+      } catch (e) {
+        // no-op if gtag not available
+      }
+      
       // Get stored UTM parameters
       const utmParams = getStoredUtmParams();
       console.log('SignUpForm - Retrieved UTM params during signup:', utmParams);
