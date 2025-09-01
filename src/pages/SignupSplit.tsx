@@ -191,7 +191,7 @@ const SignupSplit = () => {
             <p className="text-lg text-gray-700 mb-6">
               Boost Restaurant Profits with Smarter Menu Costing
             </p>
-            <p className="text-sm text-gray-500 flex items-center justify-center gap-2">
+            <p className="text-sm text-gray-500 flex items-center justify-center gap-2 mb-8">
               <ShieldCheck size={16} className="text-gray-500" />
               Protected by enterprise grade security
             </p>
@@ -207,14 +207,14 @@ const SignupSplit = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="rounded-lg border-gray-300"
+                  className="rounded-lg border-gray-300 h-12"
                 />
               </div>
 
               <Button
                 onClick={handleEmailContinue}
                 disabled={!email || isCreatingAccount}
-                className="w-full rounded-lg shadow-sm"
+                className="w-full rounded-lg shadow-sm h-12"
               >
                 {isCreatingAccount ? "Getting Started..." : "Continue"}
               </Button>
