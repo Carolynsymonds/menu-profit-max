@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
+import { siteContent } from "@/config/site-content";
 
 const SignupSplit = () => {
   const [step, setStep] = useState(1);
@@ -178,12 +179,12 @@ const SignupSplit = () => {
           {/* Logo */}
           <div className="text-center">
             <img 
-              src="/src/assets/toast-logo.png" 
-              alt="MenuProfitMax" 
+              src={siteContent.brand.logoUrl} 
+              alt={siteContent.brand.name} 
               className="h-8 mx-auto mb-6"
             />
             <h1 className="text-2xl font-bold text-gray-900">
-              Welcome to MenuProfitMax
+              Welcome to {siteContent.brand.name}
             </h1>
           </div>
 
