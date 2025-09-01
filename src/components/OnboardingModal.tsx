@@ -539,16 +539,16 @@ const OnboardingModal = ({
 
       {/* Message Area - Middle Section */}
       <div className="text-center space-y-4">
-        <h2 className="text-3xl font-bold text-foreground animate-fade-in [animation-delay:300ms]">
+        <h2 className="text-3xl font-bold text-foreground">
           Congratulations!
         </h2>
-        <p className="text-lg text-muted-foreground max-w-md animate-fade-in [animation-delay:500ms]">
+        <p className="text-lg text-muted-foreground max-w-md">
           Thank you for joining to MenuProfitMax! You are all set to start personalizing your experience.
         </p>
       </div>
 
       {/* Action Button - Bottom Section */}
-      <Button onClick={() => setCurrentStep(2)} className="flex items-center gap-2 py-[10px] px-[55px] animate-fade-in [animation-delay:700ms]">
+      <Button onClick={() => setCurrentStep(2)} className="flex items-center gap-2 py-[10px] px-[55px]">
         Continue
       </Button>
     </div>;
