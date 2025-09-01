@@ -535,7 +535,7 @@ const OnboardingModal = ({
   const renderWelcome = () => <div className="flex flex-col items-center space-y-8 py-8">
       {/* Top Section - Success Icon */}
       <div className="animate-scale-in">
-        <img src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" alt="Rocket Launch" className="w-32 h-32" />
+        <img src="/lovable-uploads/3c2208d5-0777-4f21-88cc-bf6b7ae461a6.png" alt="Success Checkmark" className="w-32 h-32" />
       </div>
 
       {/* Message Area - Middle Section */}
@@ -853,7 +853,7 @@ const OnboardingModal = ({
 
               {/* Rocket Icon */}
               <div className="relative z-10 flex justify-center">
-                <img src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" alt="Rocket Launch" className="w-32 h-32 animate-fade-in animate-scale-in" style={{
+                <img src="/lovable-uploads/3c2208d5-0777-4f21-88cc-bf6b7ae461a6.png" alt="Success Checkmark" className="w-32 h-32 animate-fade-in animate-scale-in" style={{
                   animationDelay: '200ms',
                   animationDuration: '800ms',
                   animationFillMode: 'both'
