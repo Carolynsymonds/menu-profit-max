@@ -146,9 +146,8 @@ const OnboardingModal = ({
                     }));
                     console.log('Loaded onboarding data from Google signup response');
                   }
-          if (progress?.current_step) {
+                  if (progress?.current_step) {
             setCurrentStep(progress.current_step);
-            setShowWelcome(false);
             console.log('Set current step to:', progress.current_step);
           }
 
@@ -202,7 +201,6 @@ const OnboardingModal = ({
           }
           if (progress?.current_step) {
             setCurrentStep(progress.current_step);
-            setShowWelcome(false);
           }
         } else {
           // If user is authenticated but no data provided, load from database
@@ -265,7 +263,6 @@ const OnboardingModal = ({
         // Set current step from progress
         if (data.onboardingData.currentStep) {
           setCurrentStep(data.onboardingData.currentStep);
-          setShowWelcome(false);
         }
       }
     } catch (error) {
