@@ -122,8 +122,8 @@ const Application = () => {
           <div className="text-center space-y-6">
             <div className="flex justify-center">
               <img 
-                src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" 
-                alt="Rocket Launch" 
+                src="/lovable-uploads/11046efb-bf9a-48e3-8142-60781f0a1b75.png" 
+                alt="Success Checkmark"
                 className="w-32 h-32"
               />
             </div>
