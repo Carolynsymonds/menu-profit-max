@@ -131,28 +131,6 @@ const SignupSplit = () => {
     }
   };
 
-  const handleGoogleSignUp = async () => {
-    try {
-      const redirectUrl = createUrlWithUtm('/auth/callback');
-      
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: redirectUrl,
-        },
-      });
-
-      if (error) throw error;
-    } catch (error: any) {
-      console.error('Google signup error:', error);
-      toast({
-        title: "Authentication Error",
-        description: error.message || "Failed to sign up with Google. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
   const renderValidationIcon = (isValid: boolean) => (
     isValid ? (
       <Check className="w-4 h-4 text-green-500" />
@@ -216,7 +194,7 @@ const SignupSplit = () => {
                 disabled={!email || isCreatingAccount}
                 className="w-full rounded-lg shadow-sm h-12"
               >
-                {isCreatingAccount ? "Getting Started..." : "Continue"}
+                {isCreatingAccount ? "Creating account..." : "Continue for free"}
               </Button>
 
 
