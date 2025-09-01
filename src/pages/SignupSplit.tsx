@@ -175,7 +175,7 @@ const SignupSplit = () => {
     <div className="min-h-screen flex">
       {/* Left Side - Form */}
       <div className="flex-1 bg-white flex items-center justify-center p-8">
-        <div className="w-full max-w-lg space-y-6">
+        <div className="w-full max-w-md space-y-6">
           {/* Logo */}
           <div className="text-center">
             <Link to="/" className="inline-block">
