@@ -606,7 +606,7 @@ const OnboardingModal = ({
       <div className="space-y-4">
         <div className="space-y-2">
           <Label>What type of business do you run?</Label>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="flex flex-wrap gap-2">
             {businessTypeOptions.map((option) => {
               const Icon = option.icon;
               const isSelected = formData.businessType === option.value;
@@ -615,13 +615,13 @@ const OnboardingModal = ({
                 <Button
                   key={option.value}
                   variant={isSelected ? "default" : "outline"}
-                  className={`h-auto p-4 flex flex-col items-center gap-2 text-sm ${
+                  className={`h-auto p-3 flex flex-col items-center gap-1 text-xs ${
                     isSelected ? "bg-primary text-primary-foreground" : "hover:bg-accent"
                   }`}
                   onClick={() => handleInputChange("businessType", option.value)}
                   type="button"
                 >
-                  <Icon className="w-6 h-6" />
+                  <Icon className="w-4 h-4" />
                   <span>{option.label}</span>
                 </Button>
               );
