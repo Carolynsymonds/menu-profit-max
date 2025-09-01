@@ -886,9 +886,9 @@ const OnboardingModal = ({ open, onComplete, onboardingData }: OnboardingModalPr
                 className="w-32 h-32 animate-fade-in animate-scale-in"
               />
             </div>
-            <div className="space-y-2 animate-fade-in">
-              <h3 className="text-xl font-bold">Congrats!</h3>
-              <p className="text-sm text-muted-foreground">You are a MenuProfitMax member now! Enjoy!</p>
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>Congrats!</h3>
+              <p className="text-sm text-muted-foreground animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>You are a MenuProfitMax member now! Enjoy!</p>
               <p className="text-sm text-muted-foreground">You’ll soon gain early access to our Beta program — and get a chance to shape the future of kitchen management alongside us.</p>
               <p className="text-sm text-muted-foreground">Stay tuned — exciting updates are coming your way.</p>
             </div>
