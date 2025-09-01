@@ -883,12 +883,12 @@ const OnboardingModal = ({ open, onComplete, onboardingData }: OnboardingModalPr
               <img 
                 src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" 
                 alt="Rocket Launch" 
-                className="w-32 h-32"
+                className="w-32 h-32 animate-fade-in animate-scale-in"
               />
             </div>
-            <div className="space-y-2">
-              <h3 className="text-xl font-bold">You're All Set!</h3>
-              <p className="text-sm text-muted-foreground">Your {siteContent.brand.name} dashboard is on its way.</p>
+            <div className="space-y-2 animate-fade-in">
+              <h3 className="text-xl font-bold">Congrats!</h3>
+              <p className="text-sm text-muted-foreground">You are a MenuProfitMax member now! Enjoy!</p>
               <p className="text-sm text-muted-foreground">You’ll soon gain early access to our Beta program — and get a chance to shape the future of kitchen management alongside us.</p>
               <p className="text-sm text-muted-foreground">Stay tuned — exciting updates are coming your way.</p>
             </div>
