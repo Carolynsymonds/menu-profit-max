@@ -191,7 +191,7 @@ const SignupSplit = () => {
             <p className="text-lg text-gray-700 mb-6">
               Boost Restaurant Profits with Smarter Menu Costing
             </p>
-            <p className="text-sm text-gray-500 flex items-center justify-center gap-2">
+            <p className="text-sm text-gray-500 flex items-center justify-center gap-2 mb-8">
               <ShieldCheck size={16} className="text-gray-500" />
               Protected by enterprise grade security
             </p>
@@ -207,14 +207,14 @@ const SignupSplit = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="rounded-lg border-gray-300"
+                  className="rounded-lg border-gray-300 h-12"
                 />
               </div>
 
               <Button
                 onClick={handleEmailContinue}
                 disabled={!email || isCreatingAccount}
-                className="w-full rounded-lg shadow-sm"
+                className="w-full rounded-lg shadow-sm h-12"
               >
                 {isCreatingAccount ? "Getting Started..." : "Continue"}
               </Button>
@@ -310,21 +310,21 @@ const SignupSplit = () => {
             </blockquote>
             <div>
               <div className="font-semibold text-gray-900">Elinor B.</div>
-              <div className="text-sm">Restaurant Owner</div>
+              <div className="text-primary text-sm">Restaurant Owner</div>
             </div>
           </div>
 
           {/* Social Proof */}
           <div className="space-y-4">
-            <p className="text-sm text-right">
+            <p className="text-primary text-sm text-center">
               Trusted by Restaurateurs at
             </p>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="flex justify-center items-center gap-6 flex-wrap">
               <div className="flex items-center justify-center">
                 <img 
                   src="/lovable-uploads/9efe8d5f-1e81-42b0-8803-d420694c0d6d.png" 
                   alt="Papa John's" 
-                  className="h-10 max-w-full object-contain"
+                  className="h-6 max-w-full object-contain"
                 />
               </div>
               <div className="flex items-center justify-center">
