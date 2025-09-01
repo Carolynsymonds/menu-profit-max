@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
-import { Check, Quote } from "lucide-react";
+import { Check, Quote, ShieldCheck } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
@@ -189,7 +189,8 @@ const SignupSplit = () => {
             <p className="text-lg text-gray-700 mt-2">
               Boost Restaurant Profits with Smarter Menu Costing
             </p>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 mt-1 flex items-center justify-center gap-2">
+              <ShieldCheck size={16} className="text-gray-500" />
               Protected by enterprise grade security
             </p>
           </div>
