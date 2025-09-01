@@ -320,7 +320,11 @@ const SignupSplit = () => {
                 />
               </div>
               <div className="flex items-center justify-center">
-                <span className="text-gray-800 font-semibold text-lg">Chipotle</span>
+                <img 
+                  src="/lovable-uploads/ec3ab3f1-fac3-42f8-80b5-c88c5a6ca92f.png" 
+                  alt="Chipotle Mexican Grill" 
+                  className="h-10 max-w-full object-contain"
+                />
               </div>
               <div className="flex items-center justify-center">
                 <img 
