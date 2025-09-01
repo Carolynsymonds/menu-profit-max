@@ -530,86 +530,28 @@ const OnboardingModal = ({
     }
   };
 
-  // Step 1: Name Collection
-  const renderStep1 = () => (
-    <div className="flex flex-col items-center space-y-8 py-8 animate-fade-in">
-      {/* Welcome Header */}
-      <div className="text-center space-y-4 animate-fade-in-delay-300">
+  // Step 1: Success Message
+  const renderStep1 = () => <div className="flex flex-col items-center space-y-8 py-8">
+      {/* Top Section - Success Icon */}
+      <div className="animate-scale-in">
+        <img src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" alt="Rocket Launch" className="w-32 h-32" />
+      </div>
+
+      {/* Message Area - Middle Section */}
+      <div className="text-center space-y-4">
         <h2 className="text-3xl font-bold text-foreground">
-          Welcome to MenuProfitMax!
+          Congratulations!
         </h2>
         <p className="text-lg text-muted-foreground max-w-md">
-          Let's start by getting to know you better.
+          Thank you for joining to MenuProfitMax! You are all set to start personalizing your experience.
         </p>
       </div>
 
-      {/* Name Input Form */}
-      <div className="w-full max-w-md space-y-6 animate-fade-in-delay-500">
-        <div className="space-y-2">
-          <Label htmlFor="firstName" className="text-sm font-medium">
-            First Name
-          </Label>
-          <Input
-            id="firstName"
-            type="text"
-            placeholder="Enter your first name"
-            value={formData.firstName}
-            onChange={(e) => handleInputChange('firstName', e.target.value)}
-            className="w-full"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="lastName" className="text-sm font-medium">
-            Last Name
-          </Label>
-          <Input
-            id="lastName"
-            type="text"
-            placeholder="Enter your last name"
-            value={formData.lastName}
-            onChange={(e) => handleInputChange('lastName', e.target.value)}
-            className="w-full"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="phone" className="text-sm font-medium">
-            Phone Number
-          </Label>
-          <Input
-            id="phone"
-            type="tel"
-            placeholder="Enter your phone number"
-            value={formData.phone}
-            onChange={(e) => handleInputChange('phone', e.target.value)}
-            className="w-full"
-          />
-        </div>
-      </div>
-
-      {/* Continue Button */}
-      <div className="animate-fade-in-delay-700">
-        <Button 
-          onClick={handleContinue} 
-          disabled={!canProceedStep1 || isContinueLoading}
-          className="flex items-center gap-2 px-8 py-3"
-        >
-          {isContinueLoading ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              Saving...
-            </>
-          ) : (
-            <>
-              Continue
-              <ArrowRight className="w-4 h-4" />
-            </>
-          )}
-        </Button>
-      </div>
-    </div>
-  );
+      {/* Action Button - Bottom Section */}
+      <Button onClick={() => setCurrentStep(2)} className="flex items-center gap-2 py-[10px] px-[55px]">
+        Continue
+      </Button>
+    </div>;
 
   // Step 2: Business Basics
   const renderStep2 = () => <div className="space-y-4">
