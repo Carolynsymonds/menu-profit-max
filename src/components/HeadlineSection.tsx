@@ -6,7 +6,23 @@ import BenefitsSection from "@/components/BenefitsSection";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
 
 const HeadlineSection = () => {
-  const { navigateWithUtm } = useUtmTracking();
+
+   const handleSignupClick = () => {
+    try {
+      // GA4 recommended event
+       window.gtag?.('event', 'sign_up', {
+        method: 'cta_button',
+        button_id: 'signup-btn',
+        button_text: 'Start Free Trial',
+        page_location: window.location.href,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+
+    // then navigate (SPA)
+    navigateWithUtm('/signup');
+  };
   return (
     <section className="min-h-[80vh] bg-white flex items-center justify-center px-5 md:px-[125px] py-5">
       <div className="max-w-4xl mx-auto text-center flex flex-col md:space-y-8 animate-fade-in">
@@ -22,7 +38,7 @@ const HeadlineSection = () => {
 
         <div className="py-8 space-y-3 !mt-0 order-2 md:order-3">
            <Button 
-                onClick={() => navigateWithUtm('/signup')}
+                onClick={() => handleSignupClick()}
                 className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
                >
                  {siteContent.headline.buttonText} - <span className="font-light">for 12 months</span> sss
