@@ -569,7 +569,11 @@ const OnboardingModal = ({ open, onComplete, onboardingData }: OnboardingModalPr
     <div className="flex flex-col items-center space-y-8 py-8">
       {/* Top Section - Success Icon */}
       <div className="animate-scale-in">
-        <CheckCircle className="w-20 h-20 text-green-cta animate-pulse" />
+        <img 
+          src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" 
+          alt="Rocket Launch" 
+          className="w-32 h-32"
+        />
       </div>
 
       {/* Message Area - Middle Section */}
