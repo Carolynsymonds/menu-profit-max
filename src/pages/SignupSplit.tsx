@@ -182,16 +182,16 @@ const SignupSplit = () => {
               <img 
                 src={siteContent.brand.logoUrl} 
                 alt={siteContent.brand.name} 
-                className="h-20 mx-auto mb-6 cursor-pointer hover:opacity-80 transition-opacity"
+                className="h-40 mx-auto mb-8 cursor-pointer hover:opacity-80 transition-opacity"
               />
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
               Welcome to {siteContent.brand.name}
             </h1>
-            <p className="text-lg text-gray-700 mt-2">
+            <p className="text-lg text-gray-700 mb-6">
               Boost Restaurant Profits with Smarter Menu Costing
             </p>
-            <p className="text-sm text-gray-500 mt-1 flex items-center justify-center gap-2">
+            <p className="text-sm text-gray-500 flex items-center justify-center gap-2">
               <ShieldCheck size={16} className="text-gray-500" />
               Protected by enterprise grade security
             </p>
