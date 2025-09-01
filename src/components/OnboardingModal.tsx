@@ -737,8 +737,97 @@ const OnboardingModal = ({
             <DialogTitle className="sr-only">Onboarding Complete</DialogTitle>  
           </DialogHeader>
           <div className="text-center space-y-6">
-            <div className="flex justify-center">
-              <img src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" alt="Rocket Launch" className="w-32 h-32 animate-fade-in animate-scale-in" />
+            {/* Celebration Scene Container */}
+            <div className="relative w-full h-48 flex items-center justify-center">
+              {/* Garlands */}
+              <svg 
+                className="absolute top-0 left-0 w-full h-full pointer-events-none"
+                viewBox="0 0 300 180"
+                style={{
+                  animationDelay: '200ms',
+                  animationFillMode: 'both'
+                }}
+              >
+                <defs>
+                  <linearGradient id="garlandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{stopColor: 'hsl(var(--primary))', stopOpacity: 0.8}} />
+                    <stop offset="50%" style={{stopColor: 'hsl(var(--accent))', stopOpacity: 0.9}} />
+                    <stop offset="100%" style={{stopColor: 'hsl(var(--primary))', stopOpacity: 0.8}} />
+                  </linearGradient>
+                </defs>
+                {/* Left Garland */}
+                <path
+                  d="M20,40 Q75,70 130,40"
+                  stroke="url(#garlandGradient)"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  fill="none"
+                  className="motion-safe:animate-[garlandSlide_600ms_ease-out_200ms_both,garlandSway_4s_ease-in-out_800ms_infinite] motion-reduce:opacity-100"
+                  style={{
+                    transformOrigin: '20px 40px'
+                  }}
+                />
+                {/* Right Garland */}
+                <path
+                  d="M170,40 Q225,70 280,40"
+                  stroke="url(#garlandGradient)"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  fill="none"
+                  className="motion-safe:animate-[garlandSlide_600ms_ease-out_400ms_both,garlandSway_4s_ease-in-out_1200ms_infinite] motion-reduce:opacity-100"
+                  style={{
+                    transformOrigin: '280px 40px'
+                  }}
+                />
+                {/* Garland Decorations */}
+                <circle cx="50" cy="52" r="4" fill="hsl(var(--accent))" className="motion-safe:animate-[garlandSway_4s_ease-in-out_800ms_infinite] motion-reduce:opacity-100" />
+                <circle cx="100" cy="62" r="4" fill="hsl(var(--primary))" className="motion-safe:animate-[garlandSway_4s_ease-in-out_1000ms_infinite] motion-reduce:opacity-100" />
+                <circle cx="200" cy="62" r="4" fill="hsl(var(--accent))" className="motion-safe:animate-[garlandSway_4s_ease-in-out_1200ms_infinite] motion-reduce:opacity-100" />
+                <circle cx="250" cy="52" r="4" fill="hsl(var(--primary))" className="motion-safe:animate-[garlandSway_4s_ease-in-out_1400ms_infinite] motion-reduce:opacity-100" />
+              </svg>
+
+              {/* Confetti Burst */}
+              <div className="absolute inset-0 pointer-events-none">
+                {Array.from({length: 12}).map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-2 h-2 rounded-full motion-safe:animate-[confettiBurst_1500ms_ease-out_600ms_both] motion-reduce:hidden"
+                    style={{
+                      backgroundColor: i % 3 === 0 ? 'hsl(var(--primary))' : i % 3 === 1 ? 'hsl(var(--accent))' : 'hsl(var(--secondary))',
+                      left: '50%',
+                      top: '50%',
+                      transform: `rotate(${i * 30}deg)`,
+                      animationDelay: `${600 + i * 50}ms`
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Twinkling Sparkles */}
+              <div className="absolute inset-0 pointer-events-none">
+                {Array.from({length: 8}).map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-1 h-1 motion-safe:animate-[sparkle_2500ms_ease-in-out_infinite] motion-reduce:opacity-60"
+                    style={{
+                      background: 'hsl(var(--primary))',
+                      borderRadius: '50%',
+                      left: `${20 + i * 10}%`,
+                      top: `${15 + (i % 3) * 20}%`,
+                      animationDelay: `${i * 300}ms`
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Rocket Icon */}
+              <div className="relative z-10 flex justify-center">
+                <img src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" alt="Rocket Launch" className="w-32 h-32 animate-fade-in animate-scale-in" style={{
+                  animationDelay: '200ms',
+                  animationDuration: '800ms',
+                  animationFillMode: 'both'
+                }} />
+              </div>
             </div>
             <div className="space-y-2">
               <h3 className="text-xl font-bold animate-fade-in" style={{
