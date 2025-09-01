@@ -313,13 +313,21 @@ const SignupSplit = () => {
             </p>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white rounded-lg p-4 shadow-sm flex items-center justify-center">
-                <span className="text-gray-800 font-semibold text-sm">Papa John's</span>
+                <img 
+                  src="/lovable-uploads/9efe8d5f-1e81-42b0-8803-d420694c0d6d.png" 
+                  alt="Papa John's" 
+                  className="h-8 max-w-full object-contain"
+                />
               </div>
               <div className="bg-white rounded-lg p-4 shadow-sm flex items-center justify-center">
                 <span className="text-gray-800 font-semibold text-sm">Chipotle</span>
               </div>
               <div className="bg-white rounded-lg p-4 shadow-sm flex items-center justify-center">
-                <span className="text-gray-800 font-semibold text-sm">Chick-fil-A</span>
+                <img 
+                  src="/lovable-uploads/2e57f3ae-6eeb-4f88-8a90-a459f7dc5c67.png" 
+                  alt="Chick-fil-A" 
+                  className="h-8 max-w-full object-contain"
+                />
               </div>
               <div className="bg-white rounded-lg p-4 shadow-sm flex items-center justify-center">
                 <span className="text-gray-800 font-semibold text-sm">Applebee's</span>
