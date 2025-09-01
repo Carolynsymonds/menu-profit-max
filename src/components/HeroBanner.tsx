@@ -6,6 +6,22 @@ import { useUtmTracking } from "@/hooks/useUtmTracking";
 
 const HeroBanner = () => {
   const { navigateWithUtm } = useUtmTracking();
+  const handleSignupClick = () => {
+    try {
+      // GA4 recommended event
+      (window as any).gtag?.('event', 'sign_up', {
+        method: 'cta_button',
+        button_id: 'signup-btn',
+        button_text: 'Start Free Trial',
+        page_location: window.location.href,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+
+    // then navigate (SPA)
+    navigateWithUtm('/signup');
+  };
   return (
     <div className="bg-white py-20 my-2">
       <div className="container mx-auto px-4 text-center">
@@ -17,7 +33,7 @@ const HeroBanner = () => {
         </p>
         <div className="flex justify-center">
           <Button 
-            onClick={() => navigateWithUtm('/signup')}
+            onClick={() => handleSignupClick()}
             className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
           >
            Try for free<span className="font-light"> - for 12 months</span>
