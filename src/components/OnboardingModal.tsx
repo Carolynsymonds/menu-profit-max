@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, ArrowRight, ArrowLeft, DollarSign, Users, Calendar, TrendingUp, Trash2, Megaphone, Loader2 } from "lucide-react";
+import { CheckCircle, ArrowRight, ArrowLeft, DollarSign, Users, Calendar, TrendingUp, Trash2, Megaphone, Loader2, Utensils, Coffee, Zap, Cherry, Truck, MoreHorizontal } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { siteContent } from "@/config/site-content";
@@ -350,7 +350,7 @@ const OnboardingModal = ({
     });
   };
   const canProceedStep1 = formData.firstName && formData.lastName && formData.phone;
-  const canProceedStep2 = formData.businessName && formData.businessType;
+  const canProceedStep2 = formData.businessType;
   const canProceedStep3 = formData.location && formData.numberOfLocations;
   const canProceedStep4 = formData.specialty.trim().length > 0;
   const canProceedStep5 = true; // No validation needed for challenges
@@ -591,24 +591,46 @@ const OnboardingModal = ({
     </div>;
 
   // Step 2: Business Basics
-  const renderStep2 = () => <div className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="businessName">Business Name</Label>
-        <Input id="businessName" value={formData.businessName} onChange={e => handleInputChange("businessName", e.target.value)} placeholder="Enter your business name" />
-      </div>
+  const renderStep2 = () => {
+    const businessTypeOptions = [
+      { value: "Restaurant", label: "Restaurant", icon: Utensils },
+      { value: "Café", label: "Café", icon: Coffee },
+      { value: "Fast Food", label: "Fast Food", icon: Zap },
+      { value: "Bakery", label: "Bakery", icon: Cherry },
+      { value: "Food Truck", label: "Food Truck", icon: Truck },
+      { value: "Catering", label: "Catering", icon: Users },
+      { value: "Other", label: "Other", icon: MoreHorizontal },
+    ];
 
-      <div className="space-y-2">
-        <Label htmlFor="businessType">Business Type</Label>
-        <Select value={formData.businessType} onValueChange={value => handleInputChange("businessType", value)}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select business type" />
-          </SelectTrigger>
-          <SelectContent>
-            {businessTypes.map(type => <SelectItem key={type} value={type}>{type}</SelectItem>)}
-          </SelectContent>
-        </Select>
+    return (
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>What type of business do you run?</Label>
+          <div className="grid grid-cols-2 gap-3">
+            {businessTypeOptions.map((option) => {
+              const Icon = option.icon;
+              const isSelected = formData.businessType === option.value;
+              
+              return (
+                <Button
+                  key={option.value}
+                  variant={isSelected ? "default" : "outline"}
+                  className={`h-auto p-4 flex flex-col items-center gap-2 text-sm ${
+                    isSelected ? "bg-primary text-primary-foreground" : "hover:bg-accent"
+                  }`}
+                  onClick={() => handleInputChange("businessType", option.value)}
+                  type="button"
+                >
+                  <Icon className="w-6 h-6" />
+                  <span>{option.label}</span>
+                </Button>
+              );
+            })}
+          </div>
+        </div>
       </div>
-    </div>;
+    );
+  };
 
   // Step 3: Location Details
   const renderStep3 = () => <div className="space-y-4">
