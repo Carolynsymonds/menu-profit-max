@@ -280,16 +280,11 @@ const SignupSplit = () => {
           )}
 
           <div className="text-center text-xs text-gray-500 space-y-1">
-            <p>
-              By continuing, you agree to our{" "}
-              <Link to="/terms" className="underline hover:text-gray-700">
-                Terms of Service
-              </Link>{" "}
-              and{" "}
-              <Link to="/privacy" className="underline hover:text-gray-700">
-                Privacy Policy
-              </Link>
+             <p className="text-sm text-muted-foreground flex items-center justify-center gap-1">
+              <Check size={16} className="text-primary" />
+              No credit card required
             </p>
+
           </div>
         </div>
       </div>
