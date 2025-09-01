@@ -181,7 +181,7 @@ const SignupSplit = () => {
             <img 
               src={siteContent.brand.logoUrl} 
               alt={siteContent.brand.name} 
-              className="h-8 mx-auto mb-6"
+              className="h-20 mx-auto mb-6"
             />
             <h1 className="text-2xl font-bold text-gray-900">
               Welcome to {siteContent.brand.name}
