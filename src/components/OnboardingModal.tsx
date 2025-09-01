@@ -552,7 +552,10 @@ const OnboardingModal = ({
       </div>
 
       {/* Action Button - Bottom Section */}
-      <Button onClick={() => setShowWelcome(false)} className="flex items-center gap-2 py-[10px] px-[55px]">
+      <Button onClick={() => {
+        setShowWelcome(false);
+        setCurrentStep(1);
+      }} className="flex items-center gap-2 py-[10px] px-[55px]">
         Continue
       </Button>
     </div>;
