@@ -864,13 +864,8 @@ const OnboardingModal = ({
               <h3 className="text-xl font-bold animate-fade-in" style={{
               animationDelay: '0.2s',
               animationFillMode: 'both'
-            }}>Congrats!</h3>
-              <p className="text-sm text-muted-foreground animate-fade-in" style={{
-              animationDelay: '0.4s',
-              animationFillMode: 'both'
-            }}>You are a MenuProfitMax member now! Enjoy!</p>
-              <p className="text-sm text-muted-foreground">You’ll soon gain early access to our Beta program — and get a chance to shape the future of kitchen management alongside us.</p>
-              <p className="text-sm text-muted-foreground">Stay tuned — exciting updates are coming your way.</p>
+            }}>Than you!</h3>
+              <p className="text-sm text-muted-foreground">MenuProfitMax beta access is on the way. Watch for updates.</p>
             </div>
             <Button onClick={handleSuccessComplete} className="w-full">
              Return to Home
