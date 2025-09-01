@@ -901,31 +901,35 @@ const OnboardingModal = ({ open, onComplete, onboardingData }: OnboardingModalPr
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent className="h-full sm:h-auto max-w-2xl sm:max-h-[90vh] overflow-hidden flex flex-col" hideClose={true}>
         <DialogHeader>
-          {currentStep === 1 && (
+          {currentStep > 1 && (
             <div className="bg-muted/50 border border-muted rounded-lg p-3 mb-4">
               <p className="text-sm font-medium text-center text-muted-foreground">
                 Personalize your {siteContent.brand.name} experience by answering a few questions
               </p>
             </div>
           )}
-          <div className="flex items-center space-x-2">
-            {[1, 2, 3, 4, 5, 6].map((step, index) => (
-              <div
-                key={step}
-                className={`h-2 flex-1 rounded-full ${
-                  step <= currentStep ? "bg-primary" : "bg-muted"
-                }`}
-              />
-            ))}
-          </div>
-          <div className="text-center pt-4 max-w-[450px] my-[10px] mx-auto">
-            <h2 className="text-2xl font-bold font-grotesk">{getStepTitle()}</h2>
-            {getStepSubtitle() && (
-              <p className="text-sm text-muted-foreground mt-1">
-                {getStepSubtitle()}
-              </p>            
-              )}
-          </div>
+          {currentStep > 1 && (
+            <div className="flex items-center space-x-2">
+              {[1, 2, 3, 4, 5, 6].map((step, index) => (
+                <div
+                  key={step}
+                  className={`h-2 flex-1 rounded-full ${
+                    step <= currentStep - 1 ? "bg-primary" : "bg-muted"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+          {currentStep > 1 && (
+            <div className="text-center pt-4 max-w-[450px] my-[10px] mx-auto">
+              <h2 className="text-2xl font-bold font-grotesk">{getStepTitle()}</h2>
+              {getStepSubtitle() && (
+                <p className="text-sm text-muted-foreground mt-1">
+                  {getStepSubtitle()}
+                </p>            
+                )}
+            </div>
+          )}
         </DialogHeader>
 
         <div className="py-4 px-1 overflow-y-auto flex-1">
@@ -945,38 +949,40 @@ const OnboardingModal = ({ open, onComplete, onboardingData }: OnboardingModalPr
           )}
         </div>
 
-        <div className="flex justify-between pt-4 border-t">
-          {currentStep > 1 ? (
-            <Button
-              variant="outline"
-              onClick={() => setCurrentStep(prev => prev - 1)}
-              className="flex items-center gap-2"
-            >
-              Back
-            </Button>
-          ) : (
-            <div />
-          )}
+        {currentStep > 1 && (
+          <div className="flex justify-between pt-4 border-t">
+            {currentStep > 1 ? (
+              <Button
+                variant="outline"
+                onClick={() => setCurrentStep(prev => prev - 1)}
+                className="flex items-center gap-2"
+              >
+                Back
+              </Button>
+            ) : (
+              <div />
+            )}
 
-          {currentStep <= 6 ? (
-            <Button
-              onClick={handleContinue}
-              disabled={
-                isContinueLoading ||
-                (currentStep === 1 && !canProceedStep1) ||
-                (currentStep === 2 && !canProceedStep2) ||
-                (currentStep === 3 && !canProceedStep3) ||
-                (currentStep === 4 && !canProceedStep4) ||
-                (currentStep === 5 && !canProceedStep5) ||
-                (currentStep === 6 && !canProceedStep6)
-              }
-              className="flex items-center gap-2"
-            >
-              {isContinueLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-              {currentStep === 6 ? "Create Account" : "Continue"}
-            </Button>
-           ) : null}
-        </div>
+            {currentStep <= 6 ? (
+              <Button
+                onClick={handleContinue}
+                disabled={
+                  isContinueLoading ||
+                  (currentStep === 1 && !canProceedStep1) ||
+                  (currentStep === 2 && !canProceedStep2) ||
+                  (currentStep === 3 && !canProceedStep3) ||
+                  (currentStep === 4 && !canProceedStep4) ||
+                  (currentStep === 5 && !canProceedStep5) ||
+                  (currentStep === 6 && !canProceedStep6)
+                }
+                className="flex items-center gap-2"
+              >
+                {isContinueLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+                {currentStep === 6 ? "Create Account" : "Continue"}
+              </Button>
+             ) : null}
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
