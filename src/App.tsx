@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Index from "./pages/Index";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -32,16 +32,27 @@ const UtmTracker = () => {
   return null;
 };
 
+const ConditionalTopBanner = () => {
+  const location = useLocation();
+  const hideBannerRoutes = ['/signup', '/app'];
+  const shouldHideBanner = hideBannerRoutes.some(route => 
+    location.pathname === route || location.pathname.startsWith('/app/')
+  );
+  
+  return shouldHideBanner ? null : <TopBanner />;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <TopBanner />
-        <UtmTracker />
-        <ScrollToTop />
-        <Routes>
+        <div>
+          <ConditionalTopBanner />
+          <UtmTracker />
+          <ScrollToTop />
+          <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/free-plan" element={<Index />} />
           <Route path="/pricing" element={<Pricing />} />
@@ -58,8 +69,9 @@ const App = () => (
           <Route path="/terms-conditions" element={<TermsConditions />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
-        </Routes>
-        <CookieConsent />
+          </Routes>
+          <CookieConsent />
+        </div>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
