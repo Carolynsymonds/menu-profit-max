@@ -579,10 +579,10 @@ const OnboardingModal = ({ open, onComplete, onboardingData }: OnboardingModalPr
       {/* Message Area - Middle Section */}
       <div className="text-center space-y-4">
         <h2 className="text-3xl font-bold text-foreground">
-          Congrats!
+          Welcome to MenuProfitMax!
         </h2>
         <p className="text-lg text-muted-foreground max-w-md">
-          You are a MenuProfitMax member now! Enjoy!
+          You are all set to start personalizing your experience.
         </p>
       </div>
 
@@ -591,7 +591,7 @@ const OnboardingModal = ({ open, onComplete, onboardingData }: OnboardingModalPr
         onClick={() => setCurrentStep(2)}
         className="flex items-center gap-2"
       >
-        Personalize experience
+        Continue
       </Button>
     </div>
   );
