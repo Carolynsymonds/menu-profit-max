@@ -24,7 +24,7 @@ const SignUpForm = ({ isLogin = false }: SignUpFormProps) => {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
   const { toast } = useToast();
-  const { getStoredUtmParams, navigateWithUtm } = useUtmTracking();
+  const { getStoredUtmParams, navigateWithUtm, createUrlWithUtm } = useUtmTracking();
 
 
   // Email validation
