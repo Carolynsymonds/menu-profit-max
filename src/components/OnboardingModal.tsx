@@ -564,40 +564,31 @@ const OnboardingModal = ({ open, onComplete, onboardingData }: OnboardingModalPr
     }
   };
 
-  // Step 1: Name and Phone
+  // Step 1: Success Message
   const renderStep1 = () => (
-    <div className="space-y-6">
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="firstName">First Name</Label>
-          <Input
-            id="firstName"
-            value={formData.firstName}
-            onChange={(e) => handleInputChange("firstName", e.target.value)}
-            placeholder="Jane"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="lastName">Last Name</Label>
-          <Input
-            id="lastName"
-            value={formData.lastName}
-            onChange={(e) => handleInputChange("lastName", e.target.value)}
-            placeholder="Smith"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="phone">Phone</Label>
-          <Input
-            id="phone"
-            value={formData.phone}
-            onChange={(e) => handleInputChange("phone", e.target.value)}
-            placeholder="(555) 123-4567"
-          />
-        </div>
+    <div className="flex flex-col items-center space-y-8 py-8">
+      {/* Top Section - Success Icon */}
+      <div className="animate-scale-in">
+        <CheckCircle className="w-20 h-20 text-green-cta animate-pulse" />
       </div>
+
+      {/* Message Area - Middle Section */}
+      <div className="text-center space-y-4">
+        <h2 className="text-3xl font-bold text-foreground">
+          You did it!
+        </h2>
+        <p className="text-lg text-muted-foreground max-w-md">
+          Congrats! You are a MenuProfitMax member now! Enjoy!
+        </p>
+      </div>
+
+      {/* Action Button - Bottom Section */}
+      <Button
+        onClick={() => setCurrentStep(2)}
+        className="w-full max-w-sm h-14 rounded-2xl bg-green-cta hover:bg-green-cta/90 text-green-cta-foreground font-semibold text-base tracking-wide uppercase shadow-lg hover:shadow-xl transition-all duration-200"
+      >
+        Personalize your experience
+      </Button>
     </div>
   );
 
