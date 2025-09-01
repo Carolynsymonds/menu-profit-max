@@ -579,10 +579,10 @@ const OnboardingModal = ({ open, onComplete, onboardingData }: OnboardingModalPr
       {/* Message Area - Middle Section */}
       <div className="text-center space-y-4">
         <h2 className="text-3xl font-bold text-foreground">
-          Welcome to MenuProfitMax!
+          Congratulations!
         </h2>
         <p className="text-lg text-muted-foreground max-w-md">
-          You are all set to start personalizing your experience.
+          Thank you for joining to MenuProfitMax! You are all set to start personalizing your experience.
         </p>
       </div>
 
