@@ -47,6 +47,23 @@ const DynamicSvgIcon = ({ url, className = '', ...props }) => {
 
 const Home = () => {
   const { navigateWithUtm } = useUtmTracking();
+  
+  const handleSignupClick = () => {
+    try {
+      // GA4 recommended event
+       window.gtag?.('event', 'sign_up', {
+        method: 'cta_button',
+        button_id: 'signup-btn',
+        button_text: 'Start Free Trial',
+        page_location: window.location.href,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+
+    // then navigate (SPA)
+    navigateWithUtm('/signup');
+  };
   // Get features from site content - taking first 3 from the features section
   const features = siteContent.features.items.map(item => {
     const iconMap = {
@@ -102,7 +119,7 @@ const Home = () => {
           <div className="pt-8 space-y-4">
             <div className="flex sm:flex-row gap-4 justify-center">
                <Button 
-                onClick={() => navigateWithUtm('/signup')}
+                onClick={handleSignupClick}
                 className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
               >
                 Try for free - <span className="font-light">for 12 months</span>
@@ -159,7 +176,7 @@ const Home = () => {
               <div className="flex justify-center gap-4">
                 <div className="flex justify-center">
                   <Button 
-                    onClick={() => navigateWithUtm('/signup')}
+                    onClick={handleSignupClick}
                     className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
                   >
                     Try for free - <span className="font-light">for 12 months</span>

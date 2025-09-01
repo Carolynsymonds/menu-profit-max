@@ -11,6 +11,23 @@ const Header = () => {
   const location = useLocation();
   const isSignupPage = location.pathname === '/signup';
   const { navigateWithUtm } = useUtmTracking();
+  
+  const handleSignupClick = () => {
+    try {
+      // GA4 recommended event
+       window.gtag?.('event', 'sign_up', {
+        method: 'cta_button',
+        button_id: 'signup-btn',
+        button_text: 'Start Free Trial',
+        page_location: window.location.href,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+
+    // then navigate (SPA)
+    navigateWithUtm('/signup');
+  };
 
   // Handle scroll effect for header
   useState(() => {
@@ -68,7 +85,7 @@ const Header = () => {
             {/* Desktop Buttons - Side by side */}
             <div className="hidden md:flex items-center gap-3">
               <Button 
-                onClick={() => navigateWithUtm('/signup')}
+                onClick={handleSignupClick}
                 className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
               >
                 Try for free
@@ -85,7 +102,7 @@ const Header = () => {
 
             {/* Mobile - Try for free button next to hamburger */}
             <Button 
-              onClick={() => navigateWithUtm('/signup')}
+              onClick={handleSignupClick}
               className="md:hidden px-4 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
             >
               Try for free
@@ -118,7 +135,7 @@ const Header = () => {
                     {/* Try for free button and close button on the right */}
                     <div className="flex items-center gap-2">
                       <Button 
-                        onClick={() => navigateWithUtm('/signup')}
+                        onClick={handleSignupClick}
                         className="px-4 py-1.5 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg"
                       >
                         Try for free

@@ -9,6 +9,23 @@ import { useUtmTracking } from "@/hooks/useUtmTracking";
 const SplitScreenSection = () => {
   const isMobileOrTablet = useIsMobileOrTablet();
   const { navigateWithUtm } = useUtmTracking();
+  
+  const handleSignupClick = () => {
+    try {
+      // GA4 recommended event
+       window.gtag?.('event', 'sign_up', {
+        method: 'cta_button',
+        button_id: 'signup-btn',
+        button_text: 'Start Free Trial',
+        page_location: window.location.href,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+
+    // then navigate (SPA)
+    navigateWithUtm('/signup');
+  };
 
   useEffect(() => {
     // Only apply scroll effects on desktop (not mobile or tablet)
@@ -146,7 +163,7 @@ const SplitScreenSection = () => {
        {/* CTA Button Section - Full Width */}
       <div className="max-w-7xl mx-auto pb-14 space-y-3 text-center">
         <Button 
-          onClick={() => navigateWithUtm('/signup')}
+          onClick={handleSignupClick}
           className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
         >
            Try for free<span className="font-light"> - for 12 months</span>

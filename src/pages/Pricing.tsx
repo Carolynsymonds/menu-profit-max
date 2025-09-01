@@ -12,6 +12,23 @@ import { useUtmTracking } from "@/hooks/useUtmTracking";
 const Pricing = () => {
   const { pricing } = siteContent;
   const { navigateWithUtm } = useUtmTracking();
+  
+  const handleSignupClick = () => {
+    try {
+      // GA4 recommended event
+       window.gtag?.('event', 'sign_up', {
+        method: 'cta_button',
+        button_id: 'signup-btn',
+        button_text: 'Start Free Trial',
+        page_location: window.location.href,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+
+    // then navigate (SPA)
+    navigateWithUtm('/signup');
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -61,7 +78,7 @@ const Pricing = () => {
 
                <CardContent className="space-y-6">
                 <Button 
-                  onClick={() => navigateWithUtm('/signup')}
+                  onClick={handleSignupClick}
                   className={`w-full ${plan.popular ? 'bg-primary hover:bg-primary/90' : ''}`}
                   variant={plan.popular ? "default" : "outline"}
                 >

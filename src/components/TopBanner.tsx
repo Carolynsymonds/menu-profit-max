@@ -5,6 +5,23 @@ import { siteContent } from "@/config/site-content";
 const TopBanner = () => {
   const [isVisible, setIsVisible] = useState(true);
   const { navigateWithUtm } = useUtmTracking();
+  
+  const handleSignupClick = () => {
+    try {
+      // GA4 recommended event
+       window.gtag?.('event', 'sign_up', {
+        method: 'cta_button',
+        button_id: 'signup-btn',
+        button_text: 'Start Free Trial',
+        page_location: window.location.href,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+
+    // then navigate (SPA)
+    navigateWithUtm('/signup');
+  };
 
   if (!isVisible) return null;
 
@@ -17,7 +34,7 @@ const TopBanner = () => {
               {siteContent.topBanner.text}
             </span>
             <button 
-              onClick={() => navigateWithUtm('/signup')}
+              onClick={handleSignupClick}
               className="ml-2 text-sm underline hover:text-primary transition-colors"
             >
               {siteContent.topBanner.buttonText}

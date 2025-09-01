@@ -6,6 +6,23 @@ import { useUtmTracking } from "@/hooks/useUtmTracking";
 
 const FeatureIntroSection = () => {
   const { navigateWithUtm } = useUtmTracking();
+  
+  const handleSignupClick = () => {
+    try {
+      // GA4 recommended event
+       window.gtag?.('event', 'sign_up', {
+        method: 'cta_button',
+        button_id: 'signup-btn',
+        button_text: 'Start Free Trial',
+        page_location: window.location.href,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+
+    // then navigate (SPA)
+    navigateWithUtm('/signup');
+  };
   return (
     <section className="py-12 px-6 bg-background grid gap-10">
       <div className="max-w-6xl mx-auto w-full">
@@ -24,7 +41,7 @@ const FeatureIntroSection = () => {
       {/* CTA Button Section - Full Width */}
       <div className="max-w-7xl mx-auto space-y-3 text-center md:hidden">
         <Button 
-          onClick={() => navigateWithUtm('/signup')}
+          onClick={handleSignupClick}
           className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
         >
           {siteContent.headline.buttonText}<span className="font-light">{siteContent.headline.buttonTextLight}</span>
