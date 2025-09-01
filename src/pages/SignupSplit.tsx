@@ -302,7 +302,7 @@ const SignupSplit = () => {
         <div className="max-w-lg space-y-8 bg-white rounded-2xl p-8 shadow-sm">
           {/* Testimonial */}
           <div className="space-y-4">
-            <Quote className="w-8 h-8 text-coral-400" />
+            <Quote className="w-8 h-8 text-primary" />
             <blockquote className="text-lg text-gray-800 leading-relaxed italic">
               "MenuProfitMax transformed how I understand my restaurant's profitability. 
               The real-time ingredient costing and profit margin analysis helped me increase 
