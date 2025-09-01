@@ -310,13 +310,13 @@ const SignupSplit = () => {
             </blockquote>
             <div>
               <div className="font-semibold text-gray-900">Elinor B.</div>
-              <div className="text-sm">Restaurant Owner</div>
+              <div className="text-sm text-gray-500">Restaurant Owner</div>
             </div>
           </div>
 
           {/* Social Proof */}
           <div className="space-y-4">
-            <p className="text-sm">
+            <p className="text-md text-gray-500">
               Trusted by Restaurateurs at
             </p>
             <div className="flex justify-between items-center gap-6 flex-wrap">
