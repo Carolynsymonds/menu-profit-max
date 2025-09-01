@@ -334,7 +334,11 @@ const SignupSplit = () => {
                 />
               </div>
               <div className="flex items-center justify-center">
-                <span className="text-gray-800 font-semibold text-lg">Applebee's</span>
+                <img 
+                  src="/lovable-uploads/8881ee5b-e5b5-4950-a384-bf791c2cb69a.png" 
+                  alt="Applebee's" 
+                  className="h-10 max-w-full object-contain"
+                />
               </div>
             </div>
           </div>
