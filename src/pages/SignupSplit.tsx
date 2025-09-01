@@ -34,58 +34,68 @@ const SignupSplit = () => {
 
   const isPasswordValid = Object.values(passwordValidation).every(Boolean);
 
-  // Handle signup process
+   // Handle signup process with UTM parameters
   const handleSignupProcess = async (email: string) => {
     try {
+      // Get stored UTM parameters
       const utmParams = getStoredUtmParams();
-      const response = await supabase.functions.invoke('complete-signup', {
+      console.log('SignUpForm - Retrieved UTM params during signup:', utmParams);
+      const signupParams = {
+        utmParams,
+        referrerUrl: document.referrer || null,
+        landingPagePath: siteContent.brand.name,
+        leadId: localStorage.getItem('leadId'),
+      };
+      console.log('SignUpForm - Complete signup params being sent:', signupParams);
+
+      // Call signup process function with all parameters
+      const { data, error: signupError } = await supabase.functions.invoke('signup-process', {
         body: { 
-          email, 
-          utm_params: utmParams,
-          source: 'waitlist'
+          email,
+          ...signupParams
         }
       });
-
-      if (response.error) {
-        throw response.error;
+      
+      if (signupError) {
+        console.error('signup-process failed', signupError);
+        throw new Error('Signup process failed');
       }
 
-      return response.data;
-    } catch (error: any) {
+      console.log("signup process completed", data);
+      
+      const userId = data?.userId;
+      
+      if (!userId) {
+        console.error('signup-process returned no userId', data);
+        throw new Error('No user ID returned');
+      }
+      localStorage.setItem('userId', userId);
+      return data;
+    } catch (error) {
       console.error('Error in signup process:', error);
       throw error;
     }
   };
 
   const handleEmailContinue = async () => {
-    if (!isValidEmail(email)) {
-      toast({
-        title: "Invalid email",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
+    if (isValidEmail(email)) {
       setIsCreatingAccount(true);
-      
-      await handleSignupProcess(email);
-      setStep(2);
-      
-      toast({
-        title: "Welcome!",
-        description: "Please create your password to complete signup.",
-      });
-    } catch (error: any) {
-      console.error('Signup error:', error);
-      toast({
-        title: "Error",
-        description: error.message || "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsCreatingAccount(false);
+      try {
+        // Handle complete signup process with UTM parameters, lead creation, and account creation
+        await handleSignupProcess(email);
+        
+        // Redirect directly to app with email parameter (preserving UTM)
+        const appUrl = createUrlWithUtm('/app', { email });
+        window.location.href = appUrl;
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "An unexpected error occurred. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsCreatingAccount(false);
+      }
     }
   };
 
