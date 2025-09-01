@@ -24,7 +24,7 @@ const SignUpForm = ({ isLogin = false }: SignUpFormProps) => {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
   const { toast } = useToast();
-  const { getStoredUtmParams, navigateWithUtm, createUrlWithUtm } = useUtmTracking();
+  const { getStoredUtmParams, createUrlWithUtm } = useUtmTracking();
 
 
   // Email validation
@@ -47,19 +47,6 @@ const SignUpForm = ({ isLogin = false }: SignUpFormProps) => {
   // Handle signup process with UTM parameters
   const handleSignupProcess = async (email: string) => {
     try {
-      try {
-        // GA4 recommended event
-         window.gtag?.('event', 'sign_up', {
-          event: 'login_click',            
-          method: 'header_button',
-          button_id: 'signin-btn',
-          button_text: 'Sign in',
-          page_location: window.location.href,
-        });
-      } catch (e) {
-        // no-op if gtag not available
-      }
-      
       // Get stored UTM parameters
       const utmParams = getStoredUtmParams();
       console.log('SignUpForm - Retrieved UTM params during signup:', utmParams);
@@ -524,15 +511,6 @@ const SignUpForm = ({ isLogin = false }: SignUpFormProps) => {
             >
               {isCreatingAccount ? "Creating account..." : "Continue"}
             </Button>
-
-            <div className="text-center text-sm text-muted-foreground">
-              <p>
-                Already have an account?{" "}
-                <Link to="/login" className="text-primary hover:text-primary/80 font-medium">
-                  Sign in
-                </Link>
-              </p>
-            </div>
           </div>
         )}
 
@@ -604,16 +582,9 @@ const SignUpForm = ({ isLogin = false }: SignUpFormProps) => {
 
         {/* Footer */}
         <div className="text-center text-xs text-muted-foreground space-y-1">
-          <p>
-            By continuing, you agree to our{" "}
-            <a href="/terms-conditions" className="underline hover:text-foreground">
-              Terms & Conditions
-            </a>{" "}
-            and{" "}
-            <a href="/privacy-policy" className="underline hover:text-foreground">
-              Privacy Policy
-            </a>
-            .
+          <p className="text-sm text-muted-foreground flex items-center justify-center gap-1 mt-3">
+            <Check size={16} className="text-primary" />
+            No credit card required
           </p>
         </div>
        
