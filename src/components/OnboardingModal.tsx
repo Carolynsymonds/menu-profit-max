@@ -39,6 +39,7 @@ const OnboardingModal = ({
   const {
     toast
   } = useToast();
+  const [showWelcome, setShowWelcome] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isContinueLoading, setIsContinueLoading] = useState(false);
@@ -145,10 +146,11 @@ const OnboardingModal = ({
                     }));
                     console.log('Loaded onboarding data from Google signup response');
                   }
-                  if (progress?.current_step) {
-                    setCurrentStep(progress.current_step);
-                    console.log('Set current step to:', progress.current_step);
-                  }
+          if (progress?.current_step) {
+            setCurrentStep(progress.current_step);
+            setShowWelcome(false);
+            console.log('Set current step to:', progress.current_step);
+          }
 
                   // Only show success if user has completed ALL steps, not just if they have smart_picks
                   // Completed means having smart_picks and being on final step (now step 6)
@@ -200,6 +202,7 @@ const OnboardingModal = ({
           }
           if (progress?.current_step) {
             setCurrentStep(progress.current_step);
+            setShowWelcome(false);
           }
         } else {
           // If user is authenticated but no data provided, load from database
@@ -262,6 +265,7 @@ const OnboardingModal = ({
         // Set current step from progress
         if (data.onboardingData.currentStep) {
           setCurrentStep(data.onboardingData.currentStep);
+          setShowWelcome(false);
         }
       }
     } catch (error) {
@@ -530,8 +534,8 @@ const OnboardingModal = ({
     }
   };
 
-  // Step 1: Success Message
-  const renderStep1 = () => <div className="flex flex-col items-center space-y-8 py-8">
+  // Welcome Screen
+  const renderWelcome = () => <div className="flex flex-col items-center space-y-8 py-8">
       {/* Top Section - Success Icon */}
       <div className="animate-scale-in">
         <img src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" alt="Rocket Launch" className="w-32 h-32" />
@@ -548,9 +552,42 @@ const OnboardingModal = ({
       </div>
 
       {/* Action Button - Bottom Section */}
-      <Button onClick={() => setCurrentStep(2)} className="flex items-center gap-2 py-[10px] px-[55px]">
+      <Button onClick={() => setShowWelcome(false)} className="flex items-center gap-2 py-[10px] px-[55px]">
         Continue
       </Button>
+    </div>;
+
+  // Step 1: Personal Information
+  const renderStep1 = () => <div className="space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="firstName">First Name</Label>
+        <Input 
+          id="firstName" 
+          value={formData.firstName} 
+          onChange={e => handleInputChange("firstName", e.target.value)} 
+          placeholder="Enter your first name" 
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="lastName">Last Name</Label>
+        <Input 
+          id="lastName" 
+          value={formData.lastName} 
+          onChange={e => handleInputChange("lastName", e.target.value)} 
+          placeholder="Enter your last name" 
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="phone">Phone Number</Label>
+        <Input 
+          id="phone" 
+          value={formData.phone} 
+          onChange={e => handleInputChange("phone", e.target.value)} 
+          placeholder="Enter your phone number" 
+        />
+      </div>
     </div>;
 
   // Step 2: Business Basics
@@ -842,23 +879,37 @@ const OnboardingModal = ({
         </DialogContent>
       </Dialog>;
   }
+  // Show welcome screen first
+  if (showWelcome) {
+    return <Dialog open={open} onOpenChange={() => {}}>
+        <DialogContent className="h-full sm:h-auto max-w-lg" hideClose={true}>
+          <DialogHeader>
+            <DialogTitle className="sr-only">Welcome</DialogTitle>
+          </DialogHeader>
+          <div className="py-4 px-1">
+            {renderWelcome()}
+          </div>
+        </DialogContent>
+      </Dialog>;
+  }
+
   return <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent className="h-full sm:h-auto max-w-2xl sm:max-h-[90vh] overflow-hidden flex flex-col" hideClose={true}>
         <DialogHeader>
-          {currentStep > 1 && <div className="bg-muted/50 border border-muted rounded-lg p-3 mb-4">
-              <p className="text-sm font-medium text-center text-muted-foreground">
-                Personalize your {siteContent.brand.name} experience by answering a few questions
-              </p>
-            </div>}
-          {currentStep > 1 && <div className="flex items-center space-x-2">
-              {[1, 2, 3, 4, 5, 6].map((step, index) => <div key={step} className={`h-2 flex-1 rounded-full ${step <= currentStep - 1 ? "bg-primary" : "bg-muted"}`} />)}
-            </div>}
-          {currentStep > 1 && <div className="text-center pt-4 max-w-[450px] my-[10px] mx-auto">
-              <h2 className="text-2xl font-bold font-grotesk">{getStepTitle()}</h2>
-              {getStepSubtitle() && <p className="text-sm text-muted-foreground mt-1">
-                  {getStepSubtitle()}
-                </p>}
-            </div>}
+          <div className="bg-muted/50 border border-muted rounded-lg p-3 mb-4">
+            <p className="text-sm font-medium text-center text-muted-foreground">
+              Personalize your {siteContent.brand.name} experience by answering a few questions
+            </p>
+          </div>
+          <div className="flex items-center space-x-2">
+            {[1, 2, 3, 4, 5, 6].map((step, index) => <div key={step} className={`h-2 flex-1 rounded-full ${step <= currentStep ? "bg-primary" : "bg-muted"}`} />)}
+          </div>
+          <div className="text-center pt-4 max-w-[450px] my-[10px] mx-auto">
+            <h2 className="text-2xl font-bold font-grotesk">{getStepTitle()}</h2>
+            {getStepSubtitle() && <p className="text-sm text-muted-foreground mt-1">
+                {getStepSubtitle()}
+              </p>}
+          </div>
         </DialogHeader>
 
         <div className="py-4 px-1 overflow-y-auto flex-1">
@@ -874,16 +925,16 @@ const OnboardingModal = ({
             </>}
         </div>
 
-        {currentStep > 1 && <div className="flex justify-between pt-4 border-t">
-            {currentStep > 1 ? <Button variant="outline" onClick={() => setCurrentStep(prev => prev - 1)} className="flex items-center gap-2">
-                Back
-              </Button> : <div />}
+        <div className="flex justify-between pt-4 border-t">
+          {currentStep > 1 ? <Button variant="outline" onClick={() => setCurrentStep(prev => prev - 1)} className="flex items-center gap-2">
+              Back
+            </Button> : <div />}
 
-            {currentStep <= 6 ? <Button onClick={handleContinue} disabled={isContinueLoading || currentStep === 1 && !canProceedStep1 || currentStep === 2 && !canProceedStep2 || currentStep === 3 && !canProceedStep3 || currentStep === 4 && !canProceedStep4 || currentStep === 5 && !canProceedStep5 || currentStep === 6 && !canProceedStep6} className="flex items-center gap-2">
-                {isContinueLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-                {currentStep === 6 ? "Create Account" : "Continue"}
-              </Button> : null}
-          </div>}
+          {currentStep <= 6 ? <Button onClick={handleContinue} disabled={isContinueLoading || currentStep === 1 && !canProceedStep1 || currentStep === 2 && !canProceedStep2 || currentStep === 3 && !canProceedStep3 || currentStep === 4 && !canProceedStep4 || currentStep === 5 && !canProceedStep5 || currentStep === 6 && !canProceedStep6} className="flex items-center gap-2">
+              {isContinueLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+              {currentStep === 6 ? "Create Account" : "Continue"}
+            </Button> : null}
+        </div>
       </DialogContent>
     </Dialog>;
 };
