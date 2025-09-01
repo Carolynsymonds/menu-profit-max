@@ -200,11 +200,10 @@ const SignupSplit = () => {
           {step === 1 && (
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Business Email</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="john.doe@restaurant.com"
+                  placeholder="Business email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onKeyDown={handleKeyDown}
