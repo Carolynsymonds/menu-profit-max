@@ -316,7 +316,7 @@ const SignupSplit = () => {
 
           {/* Social Proof */}
           <div className="space-y-4">
-            <p className="text-sm text-center">
+            <p className="text-sm">
               Trusted by Restaurateurs at
             </p>
             <div className="flex justify-center items-center gap-6 flex-wrap">
