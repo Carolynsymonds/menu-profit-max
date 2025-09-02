@@ -27,15 +27,15 @@ const TopBanner = () => {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-[60] bg-muted border-b border-border">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-center py-3">
+      <div className="container mx-auto px-2 md:px-4">
+        <div className="flex items-center justify-center py-2 md:py-3">
           <div className="text-center">
-            <span className="text-sm text-foreground">
+            <span className="text-xs md:text-sm text-foreground leading-tight">
               {siteContent.topBanner.text}
             </span>
             <button 
               onClick={handleSignupClick}
-              className="ml-2 text-sm underline hover:text-primary transition-colors"
+              className="ml-1 md:ml-2 text-xs md:text-sm underline hover:text-primary transition-colors"
             >
               {siteContent.topBanner.buttonText}
             </button>

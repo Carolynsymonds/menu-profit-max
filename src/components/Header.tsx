@@ -39,12 +39,13 @@ const Header = () => {
   });
 
   return (
-   <header 
-      className={`fixed top-12 left-0 right-0 z-50 transition-all duration-300 ${
+    <header 
+      className={`fixed top-12 md:top-12 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
           ? 'bg-background/95 backdrop-blur-md shadow-sm border-b' 
           : 'bg-transparent'
       }`}
+      style={{ top: 'calc(48px + env(safe-area-inset-top, 0px))' }}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center h-16 justify-between">
