@@ -509,7 +509,7 @@ const OnboardingModal = ({
           Congratulations!
         </h2>
         <p className="text-lg text-muted-foreground max-w-md">
-          Thank you for joining MenuProfitMax! You’re all set — start personalizing your experience today!
+          Thank you for joining MenuProfitMax. Start personalizing your experience today!
         </p>
       </div>
 
