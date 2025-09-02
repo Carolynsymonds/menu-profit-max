@@ -23,8 +23,6 @@ interface FormData {
   specialty: string;
   numberOfLocations: string;
   firstName: string;
-  lastName: string;
-  phone: string;
   challenges: string[];
   selectedTools: string[];
   password: string;
@@ -55,8 +53,6 @@ const OnboardingModal = ({
     specialty: "",
     numberOfLocations: "",
     firstName: "",
-    lastName: "",
-    phone: "",
     challenges: [],
     selectedTools: [],
     password: "",
@@ -134,8 +130,6 @@ const OnboardingModal = ({
                     setFormData(prev => ({
                       ...prev,
                       firstName: draft.first_name || '',
-                      lastName: draft.last_name || '',
-                      phone: draft.phone_e164 || '',
                       businessName: draft.business_name || '',
                       businessType: draft.business_type || '',
                       location: draft.postal_code || '',
@@ -152,8 +146,8 @@ const OnboardingModal = ({
           }
 
                   // Only show success if user has completed ALL steps, not just if they have smart_picks
-                  // Completed means having smart_picks and being on final step (now step 6)
-                  if (draft.smart_picks && progress?.current_step >= 6) {
+                  // Completed means having smart_picks and being on final step (now step 5)
+                  if (draft.smart_picks && progress?.current_step >= 5) {
                     console.log("User has completed onboarding, showing success");
                     setShowSuccess(true);
                   }
@@ -187,8 +181,6 @@ const OnboardingModal = ({
             setFormData(prev => ({
               ...prev,
               firstName: draft.first_name || '',
-              lastName: draft.last_name || '',
-              phone: draft.phone_e164 || '',
               businessName: draft.business_name || '',
               businessType: draft.business_type || '',
               location: draft.postal_code || '',
@@ -249,8 +241,6 @@ const OnboardingModal = ({
         setFormData(prev => ({
           ...prev,
           firstName: draft.first_name || "",
-          lastName: draft.last_name || "",
-          phone: draft.phone_e164 || "",
           businessName: draft.business_name || "",
           businessType: draft.business_type || "",
           location: draft.postal_code || "",
@@ -349,12 +339,11 @@ const OnboardingModal = ({
       };
     });
   };
-  const canProceedStep1 = formData.firstName && formData.lastName && formData.phone;
+  const canProceedStep1 = formData.firstName;
   const canProceedStep2 = formData.businessType;
-  const canProceedStep3 = formData.location && formData.numberOfLocations;
-  const canProceedStep4 = formData.specialty.trim().length > 0;
-  const canProceedStep5 = true; // No validation needed for challenges
-  const canProceedStep6 = formData.selectedTools.length > 0; // At least 1 tool must be selected
+  const canProceedStep3 = formData.specialty.trim().length > 0;
+  const canProceedStep4 = true; // No validation needed for challenges
+  const canProceedStep5 = formData.selectedTools.length > 0; // At least 1 tool must be selected
 
   // Handle loading progress and success message
   useEffect(() => {
@@ -432,34 +421,25 @@ const OnboardingModal = ({
     switch (currentStep) {
       case 1:
         payload = {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          phoneE164: formData.phone
+          firstName: formData.firstName
         };
         break;
       case 2:
         payload = {
-          businessName: formData.businessName,
           businessType: formData.businessType
         };
         break;
       case 3:
         payload = {
-          postalCode: formData.location,
-          locationsCount: parseInt(formData.numberOfLocations) || 1
+          speciality: formData.specialty
         };
         break;
       case 4:
         payload = {
-          speciality: formData.specialty
-        };
-        break;
-      case 5:
-        payload = {
           challenges: formData.challenges
         };
         break;
-      case 6:
+      case 5:
         payload = {
           smartPicks: formData.selectedTools.reduce((acc, tool) => ({
             ...acc,
@@ -469,7 +449,7 @@ const OnboardingModal = ({
         break;
     }
     try {
-      if (currentStep <= 6) {
+      if (currentStep <= 5) {
         const {
           error
         } = await supabase.functions.invoke('onboarding-update', {
@@ -489,9 +469,9 @@ const OnboardingModal = ({
           return;
         }
 
-        // For all users, complete signup after step 6 (no password step needed)
-        if (currentStep === 6) {
-          console.log('User completing signup after step 6 - no password step needed');
+        // For all users, complete signup after step 5 (no password step needed)
+        if (currentStep === 5) {
+          console.log('User completing signup after step 5 - no password step needed');
 
           // Call signup-complete without password - server generates one automatically
           const {
@@ -515,7 +495,7 @@ const OnboardingModal = ({
           // Show success directly
           setShowSuccess(true);
         } else {
-          // For steps 1-5, move to the next step
+          // For steps 1-4, move to the next step
           setCurrentStep(prev => prev + 1);
         }
       }
@@ -568,26 +548,6 @@ const OnboardingModal = ({
           placeholder="Enter your first name" 
         />
       </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="lastName">Last Name</Label>
-        <Input 
-          id="lastName" 
-          value={formData.lastName} 
-          onChange={e => handleInputChange("lastName", e.target.value)} 
-          placeholder="Enter your last name" 
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="phone">Phone Number</Label>
-        <Input 
-          id="phone" 
-          value={formData.phone} 
-          onChange={e => handleInputChange("phone", e.target.value)} 
-          placeholder="Enter your phone number" 
-        />
-      </div>
     </div>;
 
   // Step 2: Business Basics
@@ -632,33 +592,9 @@ const OnboardingModal = ({
     );
   };
 
-  // Step 3: Location Details
-  const renderStep3 = () => <div className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="location">Location Zipcode/Postcode</Label>
-        <Input id="location" value={formData.location} onChange={e => handleInputChange("location", e.target.value)} placeholder="90210" />
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="numberOfLocations">Number of Locations</Label>
-        <Select value={formData.numberOfLocations} onValueChange={value => handleInputChange("numberOfLocations", value)}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select number of locations" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="1">1</SelectItem>
-            <SelectItem value="2-5">2-5</SelectItem>
-            <SelectItem value="6-10">6-10</SelectItem>
-            <SelectItem value="11-25">11-25</SelectItem>
-            <SelectItem value="26-50">26-50</SelectItem>
-            <SelectItem value="50+">50+</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-    </div>;
-
-  // Step 4: Business Focus
-  const renderStep4 = () => {
+  // Step 3: Business Focus
+  const renderStep3 = () => {
     const currentSpecialties = formData.businessType ? specialtyOptions[formData.businessType as keyof typeof specialtyOptions] || [] : [];
     const placeholderText = currentSpecialties.length > 0 ? `e.g., ${currentSpecialties.slice(0, 3).join(', ')}` : "Enter your specialty";
     return <div className="space-y-4">
@@ -669,8 +605,8 @@ const OnboardingModal = ({
       </div>;
   };
 
-  // Step 5: Business Challenges
-  const renderStep5 = () => <div className="space-y-6">
+  // Step 4: Business Challenges
+  const renderStep4 = () => <div className="space-y-6">
       <div className="grid grid-cols-1 gap-3">
         {challengeOptions.map(challenge => {
         const Icon = challenge.icon;
@@ -686,8 +622,8 @@ const OnboardingModal = ({
       </div>
     </div>;
 
-  // Step 6: Recommended Tools
-  const renderStep6 = () => <div className="space-y-6">
+  // Step 5: Recommended Tools
+  const renderStep5 = () => <div className="space-y-6">
       <div className="grid gap-4 min-h-[600px] overflow-y-auto">
         {productRecommendations.map((product, index) => <Card key={index} className={`border border-border cursor-pointer transition-all hover:shadow-md hover:border-primary/30 ${formData.selectedTools.includes(product.name) ? 'bg-primary/5 border-primary/50' : ''}`} onClick={() => handleToolToggle(product.name)}>
             <CardContent className="p-4">
@@ -739,11 +675,11 @@ const OnboardingModal = ({
       case 2:
         return "What’s your business called?";
       case 3:
-        return "Where is your business located?";
-      case 4:
         return "What do you serve or specialize in?";
-      case 5:
+      case 4:
         return "Your Business Challenges";
+      case 5:
+        return "Boost Your Restaurant's Profits with the Right Tools";
       case 6:
         return "Boost Your Restaurant’s Profits with the Right Tools";
       default:
@@ -757,12 +693,10 @@ const OnboardingModal = ({
       case 2:
         return "Let's start with the essentials.";
       case 3:
-        return "Tell us where your business operates.";
-      case 4:
         return "Tell us what makes your business unique.";
-      case 5:
+      case 4:
         return "Select up to 3 challenges";
-      case 6:
+      case 5:
         return `Pick partner apps to get in contact with you to cut costs, fill tables, and grow sales — all fully compatible with ${siteContent.brand.name}`;
       default:
         return "";
@@ -912,7 +846,7 @@ const OnboardingModal = ({
             </p>
           </div>
           <div className="flex items-center space-x-2">
-            {[1, 2, 3, 4, 5, 6].map((step, index) => <div key={step} className={`h-2 flex-1 rounded-full ${step <= currentStep ? "bg-primary" : "bg-muted"}`} />)}
+            {[1, 2, 3, 4, 5].map((step, index) => <div key={step} className={`h-2 flex-1 rounded-full ${step <= currentStep ? "bg-primary" : "bg-muted"}`} />)}
           </div>
           <div className="text-center pt-4 max-w-[450px] my-[10px] mx-auto">
             <h2 className="text-2xl font-bold font-grotesk">{getStepTitle()}</h2>
@@ -931,7 +865,6 @@ const OnboardingModal = ({
               {currentStep === 3 && renderStep3()}
               {currentStep === 4 && renderStep4()}
               {currentStep === 5 && renderStep5()}
-              {currentStep === 6 && renderStep6()}
             </>}
         </div>
 
@@ -940,9 +873,9 @@ const OnboardingModal = ({
               Back
             </Button> : <div />}
 
-          {currentStep <= 6 ? <Button onClick={handleContinue} disabled={isContinueLoading || currentStep === 1 && !canProceedStep1 || currentStep === 2 && !canProceedStep2 || currentStep === 3 && !canProceedStep3 || currentStep === 4 && !canProceedStep4 || currentStep === 5 && !canProceedStep5 || currentStep === 6 && !canProceedStep6} className="flex items-center gap-2">
+          {currentStep <= 5 ? <Button onClick={handleContinue} disabled={isContinueLoading || currentStep === 1 && !canProceedStep1 || currentStep === 2 && !canProceedStep2 || currentStep === 3 && !canProceedStep3 || currentStep === 4 && !canProceedStep4 || currentStep === 5 && !canProceedStep5} className="flex items-center gap-2">
               {isContinueLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-              {currentStep === 6 ? "Create Account" : "Continue"}
+              {currentStep === 5 ? "Create Account" : "Continue"}
             </Button> : null}
         </div>
       </DialogContent>
