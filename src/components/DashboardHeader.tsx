@@ -30,16 +30,8 @@ const DashboardHeader = () => {
         </div>
       </div>
 
-      {/* Right side - User info */}
-      <div className="flex items-center gap-2">
-        <Avatar className="h-8 w-8">
-          <AvatarImage src="" alt="User" />
-          <AvatarFallback>{userEmail.charAt(0).toUpperCase()}</AvatarFallback>
-        </Avatar>
-        <span className="text-sm text-muted-foreground">
-          Logged in: {userEmail || "Loading..."}
-        </span>
-      </div>
+      {/* Right side - Empty for now */}
+      <div></div>
 
     </header>
   );
