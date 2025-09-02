@@ -700,35 +700,111 @@ const OnboardingModal = ({
 
   // Success message
   if (showSuccess) {
-    return (
-      <Dialog open={open} onOpenChange={() => {}}>
+    return <Dialog open={open} onOpenChange={() => {}}>
         <DialogContent className="h-full sm:h-auto max-w-lg" hideClose={true}>
           <DialogHeader>
             <DialogTitle className="sr-only">Onboarding Complete</DialogTitle>  
           </DialogHeader>
-          <div className="text-center space-y-6">    
-            {/* Rocket Icon */}
-            <div className="relative z-10 flex justify-center">
-              <img src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" alt="Rocket Launch" className="w-32 h-32 animate-fade-in animate-scale-in" style={{
-                animationDelay: '200ms',
-                animationDuration: '800ms',
-                animationFillMode: 'both'
-              }} />
+          <div className="text-center space-y-6">
+            {/* Celebration Scene Container */}
+            <div className="relative w-full h-48 flex items-center justify-center">
+              {/* Garlands */}
+              <svg 
+                className="absolute top-0 left-0 w-full h-full pointer-events-none"
+                viewBox="0 0 300 180"
+                style={{
+                  animationDelay: '200ms',
+                  animationFillMode: 'both'
+                }}
+              >
+                <defs>
+                  <linearGradient id="garlandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{stopColor: 'hsl(var(--primary))', stopOpacity: 0.8}} />
+                    <stop offset="50%" style={{stopColor: 'hsl(var(--accent))', stopOpacity: 0.9}} />
+                    <stop offset="100%" style={{stopColor: 'hsl(var(--primary))', stopOpacity: 0.8}} />
+                  </linearGradient>
+                </defs>
+                {/* Left Garland */}
+                <path
+                  d="M20,40 Q75,70 130,40"
+                  stroke="url(#garlandGradient)"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  fill="none"
+                  className="celebration-garland-left"
+                />
+                {/* Right Garland */}
+                <path
+                  d="M170,40 Q225,70 280,40"
+                  stroke="url(#garlandGradient)"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  fill="none"
+                  className="celebration-garland-right"
+                />
+                {/* Garland Decorations */}
+                <circle cx="50" cy="52" r="4" fill="hsl(var(--accent))" className="celebration-decoration" style={{animationDelay: '800ms'}} />
+                <circle cx="100" cy="62" r="4" fill="hsl(var(--primary))" className="celebration-decoration" style={{animationDelay: '1000ms'}} />
+                <circle cx="200" cy="62" r="4" fill="hsl(var(--accent))" className="celebration-decoration" style={{animationDelay: '1200ms'}} />
+                <circle cx="250" cy="52" r="4" fill="hsl(var(--primary))" className="celebration-decoration" style={{animationDelay: '1400ms'}} />
+              </svg>
+
+              {/* Confetti Burst */}
+              <div className="absolute inset-0 pointer-events-none">
+                {Array.from({length: 12}).map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-2 h-2 rounded-full celebration-confetti"
+                    style={{
+                      backgroundColor: i % 3 === 0 ? 'hsl(var(--primary))' : i % 3 === 1 ? 'hsl(var(--accent))' : 'hsl(var(--secondary))',
+                      left: '50%',
+                      top: '50%',
+                      transform: `rotate(${i * 30}deg)`,
+                      animationDelay: `${600 + i * 50}ms`
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Twinkling Sparkles */}
+              <div className="absolute inset-0 pointer-events-none">
+                {Array.from({length: 8}).map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-1 h-1 celebration-sparkle"
+                    style={{
+                      background: 'hsl(var(--primary))',
+                      borderRadius: '50%',
+                      left: `${20 + i * 10}%`,
+                      top: `${15 + (i % 3) * 20}%`,
+                      animationDelay: `${i * 300}ms`
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Rocket Icon */}
+              <div className="relative z-10 flex justify-center">
+                <img src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" alt="Rocket Launch" className="w-32 h-32 animate-fade-in animate-scale-in" style={{
+                  animationDelay: '200ms',
+                  animationDuration: '800ms',
+                  animationFillMode: 'both'
+                }} />
+              </div>
             </div>
             <div className="space-y-2">
               <h3 className="text-xl font-bold animate-fade-in" style={{
-                animationDelay: '0.2s',
-                animationFillMode: 'both'
-              }}>Thank you!</h3>
+              animationDelay: '0.2s',
+              animationFillMode: 'both'
+            }}>Thank you!</h3>
               <p className="text-sm text-muted-foreground max-w-[400px] mt-4">MenuProfitMax beta access is on the way. Watch for updates.</p>
             </div>
             <Button onClick={handleSuccessComplete} className="w-full">
-              Return to Home
+             Return to Home
             </Button>
           </div>
         </DialogContent>
-      </Dialog>
-    );
+      </Dialog>;
   }
   // Show welcome screen first
   if (showWelcome) {
@@ -741,7 +817,7 @@ const OnboardingModal = ({
             {renderWelcome()}
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog>;
   }
 
   return <Dialog open={open} onOpenChange={() => {}}>
@@ -757,9 +833,7 @@ const OnboardingModal = ({
           </div>
           <div className="text-center pt-4 max-w-[450px] my-[10px] mx-auto">
             <h2 className="text-2xl font-bold font-grotesk">{getStepTitle()}</h2>
-            {getStepSubtitle() && <p className="text-sm text-muted-foreground mt-1">
-                {getStepSubtitle()}
-              </p>}
+            
           </div>
         </DialogHeader>
 
@@ -786,6 +860,6 @@ const OnboardingModal = ({
             </Button> : null}
         </div>
       </DialogContent>
-    </Dialog>
+    </Dialog>;
 };
 export { OnboardingModal };
