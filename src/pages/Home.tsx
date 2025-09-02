@@ -140,21 +140,20 @@ const Home = () => {
         </div>
       </section>
 
-           <FeaturesSection />
+      <FeaturesSection />
 
-
-          <div className="order-3 md:order-3 text-center">
-              
-            <div className="space-y-4 ">
+      {/* CTA Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <div className="space-y-4">
               <div className="flex justify-center gap-4">
-                <div className="flex justify-center">
-                  <Button 
-                    onClick={handleSignupClick}
-                    className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-                  >
-                    Try for free - <span className="font-light">for 12 months</span>
-                  </Button>
-                </div>
+                <Button 
+                  onClick={handleSignupClick}
+                  className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                >
+                  Try for free - <span className="font-light">for 12 months</span>
+                </Button>
                 <Button 
                   onClick={() => navigateWithUtm('/features')}
                   variant="outline" 
@@ -168,10 +167,7 @@ const Home = () => {
                 No credit card required
               </p>
             </div>
-            
           </div>
-
-          
         </div>
       </section>
 
