@@ -11,7 +11,7 @@ export const siteContent = {
 
    // Top Banner
   topBanner: {
-    text: "Early Access Open — First 100 Restaurants Get MenuProfitMax Free for 12 Months (normally $5,760)",
+    text: "Early Access Open — First 100 Restaurants Get MenuProfitMax Free for 12 Months (normally $1,188)",
     buttonText: "Join Free"
   },
 
@@ -27,7 +27,7 @@ export const siteContent = {
   headline: {
     title: "Maximize Your Restaurant Profits with Smarter Menu Costing — ",
     titleHighlight: "For Free",
-    get subtitle() { return `Be among the first to maximize restaurant profits with smarter menu costing. Early adopters get MenuProfitMax free for 12 months ($5,760 value).`; },
+    get subtitle() { return `Be among the first to maximize restaurant profits with smarter menu costing. Early adopters get MenuProfitMax free for 12 months ($1,188 value).`; },
     buttonText: "Try for free",
     buttonTextLight: " for 12 months",
     disclaimer: "No credit card required"
