@@ -17,7 +17,6 @@ interface OnboardingModalProps {
   onboardingData?: any; // Optional onboarding data from signup process
 }
 interface FormData {
-  businessName: string;
   businessType: string;
   specialty: string;
   firstName: string;
@@ -45,7 +44,6 @@ const OnboardingModal = ({
   const [user, setUser] = useState<any>(null);
   const [isGoogleUser, setIsGoogleUser] = useState(false);
   const [formData, setFormData] = useState<FormData>({
-    businessName: "",
     businessType: "",
     specialty: "",
     firstName: "",
@@ -126,7 +124,6 @@ const OnboardingModal = ({
                     setFormData(prev => ({
                       ...prev,
                       firstName: draft.first_name || '',
-                      businessName: draft.business_name || '',
                       businessType: draft.business_type || '',
                       specialty: draft.speciality || '',
                       challenges: draft.challenges || [],
@@ -175,7 +172,6 @@ const OnboardingModal = ({
             setFormData(prev => ({
               ...prev,
               firstName: draft.first_name || '',
-              businessName: draft.business_name || '',
               businessType: draft.business_type || '',
               specialty: draft.speciality || '',
               challenges: draft.challenges || [],
@@ -233,7 +229,6 @@ const OnboardingModal = ({
         setFormData(prev => ({
           ...prev,
           firstName: draft.first_name || "",
-          businessName: draft.business_name || "",
           businessType: draft.business_type || "",
           specialty: draft.speciality || "",
           challenges: draft.challenges || [],
@@ -330,7 +325,7 @@ const OnboardingModal = ({
     });
   };
   const canProceedStep1 = formData.firstName;
-  const canProceedStep2 = formData.businessName && formData.businessType;
+  const canProceedStep2 = formData.businessType;
   const canProceedStep3 = formData.specialty.trim().length > 0;
   const canProceedStep4 = true; // No validation needed for challenges
   const canProceedStep5 = formData.selectedTools.length > 0; // At least 1 tool must be selected
@@ -416,7 +411,6 @@ const OnboardingModal = ({
         break;
       case 2:
         payload = {
-          businessName: formData.businessName,
           businessType: formData.businessType
         };
         break;
@@ -540,13 +534,8 @@ const OnboardingModal = ({
       </div>
     </div>;
 
-  // Step 2: Business Basics
+  // Step 2: Business Type
   const renderStep2 = () => <div className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="businessName">Business Name</Label>
-        <Input id="businessName" value={formData.businessName} onChange={e => handleInputChange("businessName", e.target.value)} placeholder="Enter your business name" />
-      </div>
-
       <div className="space-y-2">
         <Label htmlFor="businessType">What type of business do you run?</Label>
         <div className="grid grid-cols-4 gap-2">
@@ -678,7 +667,7 @@ const OnboardingModal = ({
       case 1:
         return "Tell us how we should greet you";
       case 2:
-        return "Let's start with the essentials.";
+        return "Choose the category that best describes your business.";
       case 3:
         return "Tell us what makes your business unique.";
       case 4:
