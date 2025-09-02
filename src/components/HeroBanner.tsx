@@ -33,12 +33,19 @@ const HeroBanner = () => {
         <p className="text-lg font-light text-black/70 mb-8 max-w-[500px] mx-auto leading-relaxed p-2">
           {siteContent.heroBanner.description}
         </p>
-        <div className="flex justify-center">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-3 md:gap-4">
           <Button 
             onClick={() => handleSignupClick()}
-            className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+            className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300 w-full md:w-auto"
           >
            Try for free<span className="font-light"> - for 12 months</span>
+          </Button>
+          <Button 
+            onClick={() => navigateWithUtm('/pricing')}
+            variant="outline"
+            className="px-6 py-2 text-sm font-semibold border-2 rounded-lg hover:shadow-lg transition-all duration-300 w-full md:w-auto"
+          >
+            View plans
           </Button>
         </div>
         <p className="text-sm text-muted-foreground flex items-center justify-center gap-1 mt-3">
