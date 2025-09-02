@@ -579,7 +579,7 @@ const OnboardingModal = ({
 
   // Step 4: Business Challenges
   const renderStep4 = () => <div className="space-y-6">
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
         {challengeOptions.map(challenge => {
         const Icon = challenge.icon;
         const isSelected = formData.challenges.includes(challenge.name);
@@ -587,12 +587,12 @@ const OnboardingModal = ({
         return <Button 
             key={challenge.name} 
             variant={isSelected ? "default" : "outline"} 
-            className={`flex flex-col items-center gap-2 h-auto p-4 text-xs transition-all hover:shadow-md hover:border-primary/30 ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`} 
+            className={`flex flex-col items-center gap-1 md:gap-2 h-auto p-2 md:p-4 text-xs transition-all hover:shadow-md hover:border-primary/30 ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`} 
             onClick={() => !isDisabled && handleChallengeToggle(challenge.name)} 
             disabled={isDisabled}
           >
-            <Icon className="h-5 w-5 flex-shrink-0" />
-            <span className="text-center leading-tight">{challenge.name}</span>
+            <Icon className="h-4 w-4 md:h-5 md:w-5 flex-shrink-0" />
+            <span className="text-center leading-tight text-xs md:text-xs">{challenge.name}</span>
           </Button>;
       })}
       </div>
