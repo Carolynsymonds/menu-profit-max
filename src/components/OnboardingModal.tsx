@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, ArrowRight, ArrowLeft, DollarSign, Users, Calendar, TrendingUp, Trash2, Megaphone, Loader2, Utensils, Coffee, Zap, Cake, Truck, UtensilsCrossed, Store, Cookie } from "lucide-react";
+import { CheckCircle, ArrowRight, ArrowLeft, DollarSign, Users, Calendar, TrendingUp, Trash2, Megaphone, Loader2, Utensils, Coffee, Zap, Cake, Truck, UtensilsCrossed, Store } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { siteContent } from "@/config/site-content";
@@ -509,7 +509,7 @@ const OnboardingModal = ({
           Congratulations!
         </h2>
         <p className="text-lg text-muted-foreground max-w-md">
-          Thank you for joining MenuProfitMax! You’re all set — start personalizing your experience today!
+          Thank you for joining MenuProfitMax! Start personalizing your experience today.
         </p>
       </div>
 
@@ -543,7 +543,7 @@ const OnboardingModal = ({
               switch (businessType) {
                 case "Restaurant": return Utensils;
                 case "Café": return Coffee;
-                case "Fast Food": return Cookie;
+                case "Fast Food": return Zap;
                 case "Bakery": return Cake;
                 case "Food Truck": return Truck;
                 case "Catering": return UtensilsCrossed;
