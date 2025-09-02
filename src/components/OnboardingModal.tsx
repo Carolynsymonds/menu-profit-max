@@ -39,7 +39,7 @@ const OnboardingModal = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isContinueLoading, setIsContinueLoading] = useState(false);
   const [isEmailLoading, setIsEmailLoading] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
+  
   const [progress, setProgress] = useState(0);
   const [user, setUser] = useState<any>(null);
   const [isGoogleUser, setIsGoogleUser] = useState(false);
@@ -140,7 +140,7 @@ const OnboardingModal = ({
                   // Completed means having smart_picks and being on final step (now step 5)
                   if (draft.smart_picks && progress?.current_step >= 5) {
                     console.log("User has completed onboarding, showing success");
-                    setShowSuccess(true);
+                    onComplete();
                   }
                 }
               }
@@ -338,7 +338,7 @@ const OnboardingModal = ({
           if (prev >= 100) {
             clearInterval(interval);
             setIsLoading(false);
-            setShowSuccess(true);
+            onComplete();
             return 100;
           }
           return prev + 2;
@@ -387,9 +387,6 @@ const OnboardingModal = ({
       });
       setIsLoading(false);
     }
-  };
-  const handleSuccessComplete = () => {
-    window.location.href = '/';
   };
   const handleContinue = async () => {
     const userId = localStorage.getItem('userId');
@@ -477,8 +474,8 @@ const OnboardingModal = ({
             return;
           }
 
-          // Show success directly
-          setShowSuccess(true);
+          // Complete onboarding and show success modal in Application
+          onComplete();
         } else {
           // For steps 1-4, move to the next step
           setCurrentStep(prev => prev + 1);
@@ -701,39 +698,6 @@ const OnboardingModal = ({
       </Dialog>;
   }
 
-  // Success message
-  if (showSuccess) {
-    return <Dialog open={open} onOpenChange={() => {}}>
-        <DialogContent className="h-full sm:h-auto max-w-lg" hideClose={true}>
-          <DialogHeader>
-            <DialogTitle className="sr-only">Onboarding Complete</DialogTitle>  
-          </DialogHeader>
-          <div className="text-center space-y-6">
-            {/* Celebration Scene Container */}
-            <div className="relative w-full h-48 flex items-center justify-center">
-              {/* Rocket Icon */}
-              <div className="relative z-10 flex justify-center">
-                <img src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" alt="Rocket Launch" className="w-32 h-32 animate-fade-in animate-scale-in" style={{
-                  animationDelay: '200ms',
-                  animationDuration: '800ms',
-                  animationFillMode: 'both'
-                }} />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-xl font-bold animate-fade-in" style={{
-              animationDelay: '0.2s',
-              animationFillMode: 'both'
-            }}>Thank you!</h3>
-              <p className="text-sm text-muted-foreground max-w-[400px] mt-4">MenuProfitMax beta access is on the way. Watch for updates.</p>
-            </div>
-            <Button onClick={handleSuccessComplete} className="w-full">
-             Return to Home
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>;
-  }
   // Show welcome screen first
   if (showWelcome) {
     return <Dialog open={open} onOpenChange={() => {}}>
