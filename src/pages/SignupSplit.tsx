@@ -160,9 +160,9 @@ const SignupSplit = () => {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Form */}
-      <div className="flex-1 bg-white flex items-center justify-center p-8">
+    <div className="min-h-screen flex flex-col md:flex-row">
+      {/* Form Section - Top on mobile, Left on desktop */}
+      <div className="flex-1 bg-white flex items-center justify-center p-4 md:p-8 min-h-[60vh] md:min-h-screen">
         <div className="w-full max-w-md space-y-6">
           {/* Logo */}
           <div className="text-center">
@@ -285,9 +285,9 @@ const SignupSplit = () => {
         </div>
       </div>
 
-      {/* Right Side - Testimonial & Social Proof */}
-      <div className="flex-1 bg-gradient-to-br from-sage-50 to-sage-100 flex items-center justify-center p-8">
-        <div className="max-w-lg space-y-8 bg-white rounded-2xl p-8 shadow-sm">
+      {/* Testimonial Section - Bottom on mobile, Right on desktop */}
+      <div className="flex-1 bg-gradient-to-br from-sage-50 to-sage-100 flex items-center justify-center p-4 md:p-8 min-h-[40vh] md:min-h-screen">
+        <div className="max-w-lg space-y-6 md:space-y-8 bg-white rounded-2xl p-6 md:p-8 shadow-sm">
           {/* Testimonial */}
           <div className="space-y-4">
             <Quote className="w-8 h-8 text-primary" />
