@@ -543,7 +543,7 @@ const OnboardingModal = ({
               switch (businessType) {
                 case "Restaurant": return Utensils;
                 case "Café": return Coffee;
-                case "Fast Food": return Zap;
+                case "Fast Food": return Pizza;
                 case "Bakery": return Cake;
                 case "Food Truck": return Truck;
                 case "Catering": return UtensilsCrossed;
