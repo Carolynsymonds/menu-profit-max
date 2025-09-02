@@ -875,19 +875,12 @@ const OnboardingModal = ({
 
               {/* Rocket Icon */}
               <div className="relative z-10 flex justify-center">
-                <img src="/lovable-uploads/11046efb-bf9a-48e3-8142-60781f0a1b75.png" alt="Success Checkmark" className="w-32 h-32 animate-fade-in animate-scale-in" style={{
-                  animationDelay: '200ms',
-                  animationDuration: '800ms',
-                  animationFillMode: 'both'
-                }} />
+                <img src="/lovable-uploads/11046efb-bf9a-48e3-8142-60781f0a1b75.png" alt="Success Checkmark" className="w-32 h-32" />
               </div>
             </div>
-            <div className="space-y-2">
-              <h3 className="text-xl font-bold animate-fade-in" style={{
-              animationDelay: '0.2s',
-              animationFillMode: 'both'
-            }}>Than you!</h3>
-              <p className="text-sm text-muted-foreground">MenuProfitMax beta access is on the way. Watch for updates.</p>
+            <div className="space-y-6">
+              <h3 className="text-xl font-bold">Thank you!</h3>
+              <p className="text-sm text-muted-foreground mx-auto" style={{ maxWidth: '400px' }}>MenuProfitMax beta access is on the way. Watch for updates.</p>
             </div>
             <Button onClick={handleSuccessComplete} className="w-full">
              Return to Home
