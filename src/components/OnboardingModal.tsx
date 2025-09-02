@@ -537,7 +537,6 @@ const OnboardingModal = ({
   // Step 2: Business Type
   const renderStep2 = () => <div className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="businessType">What type of business do you run?</Label>
         <div className="grid grid-cols-4 gap-2">
           {businessTypes.map(type => {
             const getBusinessIcon = (businessType: string) => {
@@ -649,7 +648,7 @@ const OnboardingModal = ({
       case 1:
         return "What's your name?";
       case 2:
-        return "What type of business do you run?";
+        return "What’s your business called?";
       case 3:
         return "What do you serve or specialize in?";
       case 4:
