@@ -833,7 +833,9 @@ const OnboardingModal = ({
           </div>
           <div className="text-center pt-4 max-w-[450px] my-[10px] mx-auto">
             <h2 className="text-2xl font-bold font-grotesk">{getStepTitle()}</h2>
-            
+            {getStepSubtitle() && <p className="text-sm text-muted-foreground mt-1">
+                {getStepSubtitle()}
+              </p>}
           </div>
         </DialogHeader>
 
