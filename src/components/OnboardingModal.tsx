@@ -649,7 +649,7 @@ const OnboardingModal = ({
       case 1:
         return "What's your name?";
       case 2:
-        return "What’s your business called?";
+        return "What type of business do you run?";
       case 3:
         return "What do you serve or specialize in?";
       case 4:
