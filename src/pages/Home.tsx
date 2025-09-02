@@ -117,17 +117,17 @@ const Home = () => {
           </div>
 
           <div className="pt-8 space-y-4">
-            <div className="flex sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
                <Button 
                 onClick={handleSignupClick}
-                className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300 w-full sm:w-auto"
               >
                 Try for free - <span className="font-light">for 12 months</span>
               </Button>
               <Button 
                 onClick={() => navigateWithUtm('/pricing')}
                 variant="outline" 
-                className="px-6 py-2"
+                className="px-6 py-2 w-full sm:w-auto"
               >
                 View plans
               </Button>
@@ -147,17 +147,17 @@ const Home = () => {
         <div className="container mx-auto px-6">
           <div className="text-center">
             <div className="space-y-4">
-              <div className="flex justify-center gap-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Button 
                   onClick={handleSignupClick}
-                  className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                  className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300 w-full sm:w-auto"
                 >
                   Try for free - <span className="font-light">for 12 months</span>
                 </Button>
                 <Button 
                   onClick={() => navigateWithUtm('/features')}
                   variant="outline" 
-                  className="px-6 py-2"
+                  className="px-6 py-2 w-full sm:w-auto"
                 >
                   View features
                 </Button>
