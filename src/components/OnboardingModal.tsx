@@ -750,7 +750,7 @@ const OnboardingModal = ({
 
           {currentStep <= 5 ? <Button onClick={handleContinue} disabled={isContinueLoading || currentStep === 1 && !canProceedStep1 || currentStep === 2 && !canProceedStep2 || currentStep === 3 && !canProceedStep3 || currentStep === 4 && !canProceedStep4 || currentStep === 5 && !canProceedStep5} className="flex items-center gap-2">
               {isContinueLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-              {currentStep === 5 ? "Create Account" : "Continue"}
+              {currentStep === 5 ? "Create account" : "Continue"}
             </Button> : null}
         </div>
       </DialogContent>
