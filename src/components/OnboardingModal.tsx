@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, ArrowRight, ArrowLeft, DollarSign, Users, Calendar, TrendingUp, Trash2, Megaphone, Loader2 } from "lucide-react";
+import { CheckCircle, ArrowRight, ArrowLeft, DollarSign, Users, Calendar, TrendingUp, Trash2, Megaphone, Loader2, Utensils, Coffee, Zap, Cake, Truck, UtensilsCrossed, Store } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { siteContent } from "@/config/site-content";
@@ -541,16 +541,17 @@ const OnboardingModal = ({
           {businessTypes.map(type => {
             const getBusinessIcon = (businessType: string) => {
               switch (businessType) {
-                case "Restaurant": return "🍽️";
-                case "Café": return "☕";
-                case "Fast Food": return "🍔";
-                case "Bakery": return "🥐";
-                case "Food Truck": return "🚚";
-                case "Catering": return "🍱";
-                case "Other": return "🏪";
-                default: return "🍽️";
+                case "Restaurant": return Utensils;
+                case "Café": return Coffee;
+                case "Fast Food": return Zap;
+                case "Bakery": return Cake;
+                case "Food Truck": return Truck;
+                case "Catering": return UtensilsCrossed;
+                case "Other": return Store;
+                default: return Utensils;
               }
             };
+            const IconComponent = getBusinessIcon(type);
             
             return (
               <Button
@@ -559,7 +560,7 @@ const OnboardingModal = ({
                 onClick={() => handleInputChange("businessType", type)}
                 className="flex flex-col items-center gap-1 h-auto p-3 text-xs"
               >
-                <span className="text-lg">{getBusinessIcon(type)}</span>
+                <IconComponent className="w-5 h-5" />
                 <span>{type}</span>
               </Button>
             );
