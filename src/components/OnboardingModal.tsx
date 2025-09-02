@@ -582,17 +582,21 @@ const OnboardingModal = ({
 
   // Step 4: Business Challenges
   const renderStep4 = () => <div className="space-y-6">
-      <div className="grid grid-cols-1 gap-3">
+      <div className="grid grid-cols-3 gap-3">
         {challengeOptions.map(challenge => {
         const Icon = challenge.icon;
         const isSelected = formData.challenges.includes(challenge.name);
         const isDisabled = !isSelected && formData.challenges.length >= 3;
-        return <Button key={challenge.name} variant="outline" className={`h-auto p-4 justify-start text-left transition-all hover:shadow-md hover:border-primary/30 ${isSelected ? 'bg-primary/5 border-primary/50' : ''} ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`} onClick={() => !isDisabled && handleChallengeToggle(challenge.name)} disabled={isDisabled}>
-              <div className="flex items-center gap-3">
-                <Icon className="h-5 w-5 flex-shrink-0" />
-                <span className="text-sm">{challenge.name}</span>
-              </div>
-            </Button>;
+        return <Button 
+            key={challenge.name} 
+            variant={isSelected ? "default" : "outline"} 
+            className={`flex flex-col items-center gap-2 h-auto p-4 text-xs transition-all hover:shadow-md hover:border-primary/30 ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`} 
+            onClick={() => !isDisabled && handleChallengeToggle(challenge.name)} 
+            disabled={isDisabled}
+          >
+            <Icon className="h-5 w-5 flex-shrink-0" />
+            <span className="text-center leading-tight">{challenge.name}</span>
+          </Button>;
       })}
       </div>
     </div>;
