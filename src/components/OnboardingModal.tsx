@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, ArrowRight, ArrowLeft, DollarSign, Users, Calendar, TrendingUp, Trash2, Megaphone, Loader2, Utensils, Coffee, Zap, Cake, Truck, UtensilsCrossed, Store } from "lucide-react";
+import { Hamburger } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { siteContent } from "@/config/site-content";
@@ -509,7 +510,7 @@ const OnboardingModal = ({
           Congratulations!
         </h2>
         <p className="text-lg text-muted-foreground max-w-md">
-          Thank you for joining MenuProfitMax! Start personalizing your experience today.
+          Thank you for joining MenuProfitMax! You’re all set — start personalizing your experience today!
         </p>
       </div>
 
