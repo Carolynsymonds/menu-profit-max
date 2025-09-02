@@ -286,7 +286,7 @@ const SignupSplit = () => {
       </div>
 
       {/* Testimonial Section - Bottom on mobile, Right on desktop */}
-      <div className="flex-1 bg-gradient-to-br from-sage-50 to-sage-100 flex items-center justify-center p-4 md:p-8 min-h-[40vh] md:min-h-screen">
+      <div className="hidden md:flex flex-1 bg-gradient-to-br from-sage-50 to-sage-100 items-center justify-center p-4 md:p-8 min-h-[40vh] md:min-h-screen">
         <div className="max-w-lg space-y-6 md:space-y-8 bg-white rounded-2xl p-6 md:p-8 shadow-sm">
           {/* Testimonial */}
           <div className="space-y-4">
