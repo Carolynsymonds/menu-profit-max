@@ -531,12 +531,11 @@ const OnboardingModal = ({
   // Step 1: Personal Information
   const renderStep1 = () => <div className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="firstName">First Name</Label>
         <Input 
           id="firstName" 
           value={formData.firstName} 
           onChange={e => handleInputChange("firstName", e.target.value)} 
-          placeholder="Enter your first name" 
+          placeholder="Jane Doe" 
         />
       </div>
     </div>;
