@@ -140,35 +140,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-6 grid gap-8">
-          <div className="order-1 md:order-1 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 max-w-4xl mx-auto">
-              {siteContent.features.title}
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light">
-              {siteContent.features.subtitle}
-            </p>
-          </div>
+           <FeaturesSection />
 
-          <div className="order-2 md:order-2 grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {features.map((feature, index) => (
-              <Card key={index} className="text-center p-6 border-0 shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="space-y-4 pt-6">
-                  <div className="flex justify-center">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-foreground">
-                    {feature.title}
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {feature.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
 
           <div className="order-3 md:order-3 text-center">
               
@@ -278,8 +251,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-       <FeaturesSection />
 
       
       <SplitScreenSection />
