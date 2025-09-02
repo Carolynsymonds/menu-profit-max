@@ -537,6 +537,7 @@ const OnboardingModal = ({
   // Step 2: Business Type
   const renderStep2 = () => <div className="space-y-4">
       <div className="space-y-2">
+        <Label htmlFor="businessType">What type of business do you run?</Label>
         <div className="grid grid-cols-4 gap-2">
           {businessTypes.map(type => {
             const getBusinessIcon = (businessType: string) => {
@@ -574,7 +575,6 @@ const OnboardingModal = ({
     const placeholderText = currentSpecialties.length > 0 ? `e.g., ${currentSpecialties.slice(0, 3).join(', ')}` : "Enter your specialty";
     return <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="specialty">Specialty</Label>
           <Input id="specialty" value={formData.specialty} onChange={e => handleInputChange("specialty", e.target.value)} placeholder={placeholderText} className="lowercase" />
         </div>
       </div>;
