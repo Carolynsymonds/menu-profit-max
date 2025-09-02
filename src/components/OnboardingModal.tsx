@@ -700,34 +700,35 @@ const OnboardingModal = ({
 
   // Success message
   if (showSuccess) {
-    return <Dialog open={open} onOpenChange={() => {}}>
+    return (
+      <Dialog open={open} onOpenChange={() => {}}>
         <DialogContent className="h-full sm:h-auto max-w-lg" hideClose={true}>
           <DialogHeader>
             <DialogTitle className="sr-only">Onboarding Complete</DialogTitle>  
           </DialogHeader>
           <div className="text-center space-y-6">    
-              {/* Rocket Icon */}
-              <div className="relative z-10 flex justify-center">
-                <img src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" alt="Rocket Launch" className="w-32 h-32 animate-fade-in animate-scale-in" style={{
-                  animationDelay: '200ms',
-                  animationDuration: '800ms',
-                  animationFillMode: 'both'
-                }} />
-              </div>
+            {/* Rocket Icon */}
+            <div className="relative z-10 flex justify-center">
+              <img src="/lovable-uploads/f37ec620-3f96-4f90-809e-0fd1daa4a175.png" alt="Rocket Launch" className="w-32 h-32 animate-fade-in animate-scale-in" style={{
+                animationDelay: '200ms',
+                animationDuration: '800ms',
+                animationFillMode: 'both'
+              }} />
             </div>
             <div className="space-y-2">
               <h3 className="text-xl font-bold animate-fade-in" style={{
-              animationDelay: '0.2s',
-              animationFillMode: 'both'
-            }}>Thank you!</h3>
+                animationDelay: '0.2s',
+                animationFillMode: 'both'
+              }}>Thank you!</h3>
               <p className="text-sm text-muted-foreground max-w-[400px] mt-4">MenuProfitMax beta access is on the way. Watch for updates.</p>
             </div>
             <Button onClick={handleSuccessComplete} className="w-full">
-             Return to Home
+              Return to Home
             </Button>
           </div>
         </DialogContent>
-      </Dialog>;
+      </Dialog>
+    );
   }
   // Show welcome screen first
   if (showWelcome) {
@@ -740,7 +741,7 @@ const OnboardingModal = ({
             {renderWelcome()}
           </div>
         </DialogContent>
-      </Dialog>;
+      </Dialog>
   }
 
   return <Dialog open={open} onOpenChange={() => {}}>
@@ -785,6 +786,6 @@ const OnboardingModal = ({
             </Button> : null}
         </div>
       </DialogContent>
-    </Dialog>;
+    </Dialog>
 };
 export { OnboardingModal };
