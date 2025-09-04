@@ -23,7 +23,7 @@ const TrustedBy = () => {
   ];
 
   return (
-    <div className="block md:hidden py-2 px-4">
+    <div className="block md:hidden pt-2 pb-0 px-4">
       <div className="text-center">
         <p className="text-xs text-muted-foreground mb-1 font-medium">
           Trusted by Restaurateurs at

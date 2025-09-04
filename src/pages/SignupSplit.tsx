@@ -164,7 +164,7 @@ const SignupSplit = () => {
     <div className="h-screen flex flex-col md:flex-row overflow-hidden">
       {/* Form Section - Top on mobile, Left on desktop */}
       <div className="flex-1 bg-white flex items-center justify-center p-3 md:p-8 h-full md:min-h-screen">
-        <div className="w-full max-w-md space-y-4 md:space-y-6 flex flex-col justify-center h-full max-h-screen overflow-y-auto">
+        <div className="w-full max-w-md h-full flex flex-col justify-between py-4 md:py-0 md:space-y-6 md:justify-center">
           {/* Logo */}
           <div className="text-center">
             <Link to="/" className="inline-block">
