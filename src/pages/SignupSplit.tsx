@@ -283,11 +283,11 @@ const SignupSplit = () => {
             </p>
 
           </div>
+          
+          {/* Trusted by section - Mobile only */}
+          <TrustedBy />
         </div>
       </div>
-
-      {/* Trusted by section - Mobile only */}
-      <TrustedBy />
 
       {/* Testimonial Section - Bottom on mobile, Right on desktop */}
       <div className="hidden md:flex flex-1 bg-gradient-to-br from-sage-50 to-sage-100 items-center justify-center p-4 md:p-8 min-h-[40vh] md:min-h-screen">
