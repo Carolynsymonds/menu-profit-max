@@ -161,33 +161,33 @@ const SignupSplit = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col md:flex-row overflow-hidden">
+    <div className="min-h-screen flex flex-col md:flex-row">
       {/* Form Section - Top on mobile, Left on desktop */}
-      <div className="flex-1 bg-white flex items-start justify-center p-2 md:p-8 h-full md:min-h-screen">
-        <div className="w-full max-w-md h-full flex flex-col justify-between py-2 md:py-0 md:space-y-6 md:justify-center">
+      <div className="flex-1 bg-white flex items-center justify-center p-4 md:p-8 min-h-[60vh] md:min-h-screen">
+        <div className="w-full max-w-md space-y-6">
           {/* Logo */}
           <div className="text-center">
             <Link to="/" className="inline-block">
               <img 
                 src={siteContent.brand.logoUrl} 
                 alt={siteContent.brand.name} 
-                className="h-16 md:h-40 mx-auto cursor-pointer hover:opacity-80 transition-opacity"
+                className="h-28 md:h-40 mx-auto md:mb-8 cursor-pointer hover:opacity-80 transition-opacity"
               />
             </Link>
-            <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 md:mb-4">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
               Welcome to {siteContent.brand.name}
             </h1>
-            <p className="text-base md:text-lg text-gray-700 mb-3 md:mb-6">
+            <p className="text-lg text-gray-700 mb-6">
               Boost Restaurant Profits with Smarter Menu Costing
             </p>
-            <p className="text-xs md:text-sm text-gray-500 flex items-center justify-center gap-2 mb-4 md:mb-8">
-              <ShieldCheck size={14} className="text-gray-500" />
+            <p className="text-sm text-gray-500 flex items-center justify-center gap-2 mb-8">
+              <ShieldCheck size={16} className="text-gray-500" />
               Protected by enterprise grade security
             </p>
           </div>
 
           {step === 1 && (
-            <div className="flex-1 space-y-2 md:space-y-4">
+            <div className="space-y-4">
               <div className="space-y-2">
                 <Input
                   id="email"
@@ -196,17 +196,21 @@ const SignupSplit = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="rounded-lg border-gray-300 h-10 md:h-12"
+                  className="rounded-lg border-gray-300 h-12"
                 />
               </div>
 
               <Button
                 onClick={handleEmailContinue}
                 disabled={!email || isCreatingAccount}
-                className="w-full rounded-lg shadow-sm h-10 md:h-12"
+                className="w-full rounded-lg shadow-sm h-12"
               >
                 {isCreatingAccount ? "Creating account..." : "Continue for free"}
               </Button>
+
+
+             
+              
             </div>
           )}
 
@@ -279,11 +283,11 @@ const SignupSplit = () => {
             </p>
 
           </div>
-          
-          {/* Trusted by section - Mobile only */}
-          <TrustedBy />
         </div>
       </div>
+
+      {/* Trusted by section - Mobile only */}
+      <TrustedBy />
 
       {/* Testimonial Section - Bottom on mobile, Right on desktop */}
       <div className="hidden md:flex flex-1 bg-gradient-to-br from-sage-50 to-sage-100 items-center justify-center p-4 md:p-8 min-h-[40vh] md:min-h-screen">

@@ -23,9 +23,9 @@ const TrustedBy = () => {
   ];
 
   return (
-    <div className="block md:hidden pt-1 pb-0 px-2">
+    <div className="block md:hidden py-2 px-4">
       <div className="text-center">
-        <p className="text-[10px] text-muted-foreground mb-1 font-medium">
+        <p className="text-xs text-muted-foreground mb-1 font-medium">
           Trusted by Restaurateurs at
         </p>
         <div className="flex justify-around items-center gap-1 flex-wrap">
@@ -34,9 +34,7 @@ const TrustedBy = () => {
               <img 
                 src={brand.src} 
                 alt={brand.alt} 
-                className={`${brand.className} max-w-full object-contain opacity-100`}
-                style={{ opacity: 1 }}
-                loading="eager"
+                className={`${brand.className} max-w-full object-contain`}
               />
             </div>
           ))}
