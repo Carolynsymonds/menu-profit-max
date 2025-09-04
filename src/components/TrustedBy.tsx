@@ -30,7 +30,7 @@ const TrustedBy = () => {
         </p>
         <div className="flex justify-around items-center gap-1 flex-wrap">
           {brandLogos.map((brand, index) => (
-            <div key={index} className="flex items-center justify-center">
+            <div key={index} className="flex items-center justify-around">
               <img 
                 src={brand.src} 
                 alt={brand.alt} 
