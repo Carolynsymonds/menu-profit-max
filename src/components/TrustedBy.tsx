@@ -1,11 +1,25 @@
-import { Pizza, ChefHat, Utensils, Store } from "lucide-react";
-
 const TrustedBy = () => {
-  const brandIcons = [
-    { icon: Pizza, name: "Papa John's" },
-    { icon: ChefHat, name: "Chipotle Mexican Grill" }, 
-    { icon: Utensils, name: "Chick-fil-A" },
-    { icon: Store, name: "Applebee's" }
+  const brandLogos = [
+    { 
+      src: "/lovable-uploads/9efe8d5f-1e81-42b0-8803-d420694c0d6d.png", 
+      alt: "Papa John's",
+      className: "h-6"
+    },
+    { 
+      src: "/lovable-uploads/ec3ab3f1-fac3-42f8-80b5-c88c5a6ca92f.png", 
+      alt: "Chipotle Mexican Grill",
+      className: "h-8"
+    },
+    { 
+      src: "/lovable-uploads/2e57f3ae-6eeb-4f88-8a90-a459f7dc5c67.png", 
+      alt: "Chick-fil-A",
+      className: "h-8"
+    },
+    { 
+      src: "/lovable-uploads/8881ee5b-e5b5-4950-a384-bf791c2cb69a.png", 
+      alt: "Applebee's",
+      className: "h-9"
+    }
   ];
 
   return (
@@ -14,18 +28,16 @@ const TrustedBy = () => {
         <p className="text-sm text-muted-foreground mb-4 font-medium">
           Trusted by Restaurateurs at
         </p>
-        <div className="flex justify-center items-center gap-6 flex-wrap">
-          {brandIcons.map((brand, index) => {
-            const IconComponent = brand.icon;
-            return (
-              <div key={index} className="flex items-center justify-center p-2">
-                <IconComponent 
-                  size={24} 
-                  className="text-foreground/70 hover:text-foreground transition-colors" 
-                />
-              </div>
-            );
-          })}
+        <div className="flex justify-center items-center gap-4 flex-wrap">
+          {brandLogos.map((brand, index) => (
+            <div key={index} className="flex items-center justify-center p-1">
+              <img 
+                src={brand.src} 
+                alt={brand.alt} 
+                className={`${brand.className} max-w-full object-contain opacity-70 hover:opacity-100 transition-opacity`}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>
