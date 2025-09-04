@@ -3,7 +3,7 @@ const TrustedBy = () => {
     { 
       src: "/lovable-uploads/9efe8d5f-1e81-42b0-8803-d420694c0d6d.png", 
       alt: "Papa John's",
-      className: "h-6"
+      className: "h-4"
     },
     { 
       src: "/lovable-uploads/ec3ab3f1-fac3-42f8-80b5-c88c5a6ca92f.png", 
@@ -18,7 +18,7 @@ const TrustedBy = () => {
     { 
       src: "/lovable-uploads/8881ee5b-e5b5-4950-a384-bf791c2cb69a.png", 
       alt: "Applebee's",
-      className: "h-9"
+      className: "[height:3.25rem]"
     }
   ];
 
