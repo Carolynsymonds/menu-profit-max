@@ -285,7 +285,9 @@ const SignupSplit = () => {
           </div>
         </div>
         {/* Trusted by section - Mobile only */}
-        <TrustedBy />
+        <div className="mt-8">
+          <TrustedBy />
+        </div>
       </div>
 
       
