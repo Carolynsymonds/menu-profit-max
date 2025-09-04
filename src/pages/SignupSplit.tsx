@@ -161,9 +161,9 @@ const SignupSplit = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-col">
+    <div className="min-h-screen flex flex-col md:flex-row">
       {/* Form Section - Top on mobile, Left on desktop */}
-      <div className="flex-1 bg-white flex items-center justify-center p-4 md:p-8 min-h-[60vh] md:min-h-screen">
+      <div className="flex-1 bg-white flex items-center flex-col justify-center p-4 md:p-8 min-h-[60vh] md:min-h-screen">
         <div className="w-full max-w-md space-y-6">
           {/* Logo */}
           <div className="text-center">
