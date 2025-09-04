@@ -34,7 +34,9 @@ const TrustedBy = () => {
               <img 
                 src={brand.src} 
                 alt={brand.alt} 
-                className={`${brand.className} max-w-full object-contain`}
+                className={`${brand.className} max-w-full object-contain opacity-100`}
+                style={{ opacity: 1 }}
+                loading="eager"
               />
             </div>
           ))}
