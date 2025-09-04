@@ -23,9 +23,9 @@ const TrustedBy = () => {
   ];
 
   return (
-    <div className="block md:hidden pt-2 pb-0 px-4">
+    <div className="block md:hidden pt-1 pb-0 px-2">
       <div className="text-center">
-        <p className="text-xs text-muted-foreground mb-1 font-medium">
+        <p className="text-[10px] text-muted-foreground mb-1 font-medium">
           Trusted by Restaurateurs at
         </p>
         <div className="flex justify-around items-center gap-1 flex-wrap">
