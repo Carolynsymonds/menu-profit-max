@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
 import { siteContent } from "@/config/site-content";
 import BenefitsSection from "@/components/BenefitsSection";
-import TrustedBy from "@/components/TrustedBy";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
 
 const HeadlineSection = () => {
@@ -48,7 +47,6 @@ const HeadlineSection = () => {
             <Check size={14} className="text-primary" />
             {siteContent.headline.disclaimer}
           </p>
-          <TrustedBy />
         </div>
 
         <div className="pb-4 order-3 md:order-2">

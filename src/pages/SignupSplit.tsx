@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
 import { siteContent } from "@/config/site-content";
+import TrustedBy from "@/components/TrustedBy";
 
 const SignupSplit = () => {
   const [step, setStep] = useState(1);
@@ -284,6 +285,9 @@ const SignupSplit = () => {
           </div>
         </div>
       </div>
+
+      {/* Trusted by section - Mobile only */}
+      <TrustedBy />
 
       {/* Testimonial Section - Bottom on mobile, Right on desktop */}
       <div className="hidden md:flex flex-1 bg-gradient-to-br from-sage-50 to-sage-100 items-center justify-center p-4 md:p-8 min-h-[40vh] md:min-h-screen">
