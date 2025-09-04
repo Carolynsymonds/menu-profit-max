@@ -11,7 +11,7 @@ export const siteContent = {
 
    // Top Banner
   topBanner: {
-    text: "Early Access Open — First 100 Restaurants Get MenuProfitMax Free for 12 Months (normally $1,188)",
+    text: "First 100 Restaurants Get MenuProfitMax Free for 12 Months (worth $1,188)",
     buttonText: "Join Free"
   },
 
