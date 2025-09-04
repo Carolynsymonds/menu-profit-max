@@ -311,7 +311,7 @@ const SignupSplit = () => {
             <p className="text-sm text-gray-500 font-semibold">
               Trusted by Restaurateurs at
             </p>
-            <div className="flex justify-between items-center gap-6 flex-wrap">
+            <div className="flex justify-around items-center gap-6 flex-wrap">
               <div className="flex items-center justify-center">
                 <img 
                   src="/lovable-uploads/9efe8d5f-1e81-42b0-8803-d420694c0d6d.png" 
