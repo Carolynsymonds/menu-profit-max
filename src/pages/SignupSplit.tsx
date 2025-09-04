@@ -171,7 +171,7 @@ const SignupSplit = () => {
               <img 
                 src={siteContent.brand.logoUrl} 
                 alt={siteContent.brand.name} 
-                className="h-28 md:h-40 mx-auto mb-8 cursor-pointer hover:opacity-80 transition-opacity"
+                className="h-28 md:h-40 mx-auto md:mb-8 cursor-pointer hover:opacity-80 transition-opacity"
               />
             </Link>
             <h1 className="text-2xl font-bold text-gray-900 mb-4">
@@ -285,7 +285,7 @@ const SignupSplit = () => {
           </div>
         </div>
         {/* Trusted by section - Mobile only */}
-        <div className="mt-8 w-full">
+        <div className="mt-8">
           <TrustedBy />
         </div>
       </div>
