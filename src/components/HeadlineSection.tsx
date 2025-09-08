@@ -42,7 +42,7 @@ const HeadlineSection = () => {
           </p>
 
           {/* Input card */}
-          <div className="mt-8 rounded-2xl p-4 md:p-5 backdrop-blur bg-card/70 ring-1 ring-border/50 shadow-sm">
+          <div className="mt-8 p-4 md:p-5">
             <div className="flex flex-col gap-3">
                <div className="flex gap-2">
                 <div className="relative flex-1">
