@@ -52,6 +52,36 @@ export type Database = {
           },
         ]
       }
+      dish_analyses: {
+        Row: {
+          analysis_result: Json
+          created_at: string
+          dish_name: string
+          id: string
+          profit_margin: number | null
+          suggestions: Json
+          updated_at: string
+        }
+        Insert: {
+          analysis_result: Json
+          created_at?: string
+          dish_name: string
+          id?: string
+          profit_margin?: number | null
+          suggestions?: Json
+          updated_at?: string
+        }
+        Update: {
+          analysis_result?: Json
+          created_at?: string
+          dish_name?: string
+          id?: string
+          profit_margin?: number | null
+          suggestions?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       landing_pages: {
         Row: {
           created_at: string

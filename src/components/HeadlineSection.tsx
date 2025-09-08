@@ -1,13 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
-import { Check, Upload, Sparkles, X } from "lucide-react";
+import { Check, Upload, Sparkles, X, Loader2 } from "lucide-react";
 import { siteContent } from "@/config/site-content";
 import BenefitsSection from "@/components/BenefitsSection";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
+import { DishAnalysisResults } from "@/components/DishAnalysisResults";
+import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const HeadlineSection = () => {
   const { navigateWithUtm } = useUtmTracking();
+  const { toast } = useToast();
+  const [dishName, setDishName] = useState('');
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState(null);
   
   const handleSignupClick = () => {
     try {
@@ -22,6 +30,74 @@ const HeadlineSection = () => {
     }
     navigateWithUtm('/signup');
   };
+
+  const handleAnalyzeDish = async () => {
+    if (!dishName.trim()) {
+      toast({
+        title: "Please enter a dish name",
+        description: "Type in a dish to analyze its profitability",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsAnalyzing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('analyze-dish', {
+        body: { dishName: dishName.trim() }
+      });
+
+      if (error) throw error;
+
+      setAnalysisResult(data);
+      
+      // Track analysis event
+      try {
+        window.gtag?.('event', 'dish_analysis', {
+          dish_name: dishName,
+          page_location: window.location.href,
+        });
+      } catch (e) {
+        // no-op if gtag not available
+      }
+
+    } catch (error) {
+      console.error('Analysis error:', error);
+      toast({
+        title: "Analysis failed",
+        description: "There was an error analyzing your dish. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const handleNewAnalysis = () => {
+    setAnalysisResult(null);
+    setDishName('');
+  };
+
+  // Show analysis results if available
+  if (analysisResult) {
+    return (
+      <section className="relative overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0 -z-10">
+          <div className="h-full w-full bg-gradient-to-br from-background via-primary/5 to-secondary/10" />
+          <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full blur-3xl opacity-40 bg-gradient-radial from-primary/30 to-transparent" />
+          <div className="absolute -bottom-28 -right-20 h-96 w-96 rounded-full blur-3xl opacity-40 bg-gradient-radial from-secondary/30 to-transparent" />
+        </div>
+
+        <div className="mx-auto max-w-6xl px-6 pt-28 pb-16">
+          <DishAnalysisResults 
+            analysisData={analysisResult} 
+            onNewAnalysis={handleNewAnalysis}
+          />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="relative overflow-hidden">
@@ -77,18 +153,30 @@ const HeadlineSection = () => {
                     </div>
                     
                     <Input
+                      value={dishName}
+                      onChange={(e) => setDishName(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleAnalyzeDish()}
                       placeholder='Chicken Parmesan'
                       className="w-full rounded-xl border-gray-300 bg-card/70 pl-10 pr-10 py-3 focus:ring-2 focus:ring-primary/40 focus:border-primary/60"
+                      disabled={isAnalyzing}
                     />
                     
                   </div>
                 </div>
                 
                 <Button
-                  onClick={handleSignupClick}
+                  onClick={handleAnalyzeDish}
+                  disabled={isAnalyzing}
                   className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap"
                 >
-                  Boost My Profits
+                  {isAnalyzing ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Analyzing...
+                    </>
+                  ) : (
+                    'Boost My Profits'
+                  )}
                 </Button>
               </div>
 

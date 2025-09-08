@@ -1,1 +1,4 @@
 project_id = "jsjklbekqyhzqbabizve"
+
+[functions.analyze-dish]
+verify_jwt = false
