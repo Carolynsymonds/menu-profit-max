@@ -185,13 +185,13 @@ const DishAnalysisResults = () => {
                           
                           {/* Price and Margin - Stacked below title */}
                           <div className="flex items-center gap-3 text-left">
-                            <span className="text-xl font-bold text-foreground">
+                            <span className="text-base font-medium text-foreground">
                               ${newPrice.toFixed(2)}
                             </span>
                             <span className="text-muted-foreground">•</span>
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                            <Badge className={`${getMarginColor(originalDish.estimatedMargin + optimization.marginImprovement)} text-sm px-2 py-1`}>
                               +{optimization.marginImprovement}% margin
-                            </span>
+                            </Badge>
                           </div>
                         </div>
                       </AccordionTrigger>
