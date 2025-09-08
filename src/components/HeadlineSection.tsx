@@ -87,7 +87,7 @@ const HeadlineSection = () => {
                   onClick={handleSignupClick}
                   className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap"
                 >
-                  Generate Profitized Menu
+                  Generate AI Menu
                 </Button>
               </div>
             </div>
