@@ -37,7 +37,7 @@ const HeadlineSection = () => {
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-[-0.02em] text-foreground">
              Profitize Your Menu Now
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="text-xl text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light px-0">
             Try AI tool to get instant insights on costs, pricing, and margins — in seconds.
           </p>
 
