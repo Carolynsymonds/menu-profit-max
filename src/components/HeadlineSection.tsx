@@ -42,7 +42,7 @@ const HeadlineSection = () => {
           </p>
 
           {/* Input card */}
-          <div className="mt-8 rounded-2xl p-4 md:p-5 backdrop-blur bg-card/70 ring-1 ring-border/50 shadow-sm">
+          <div className="mt-8 p-4 md:p-5">
             <div className="flex flex-col md:flex-row gap-3">
               <Button
                 onClick={handleSignupClick}
