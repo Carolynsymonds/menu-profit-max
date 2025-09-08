@@ -4,7 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowLeft } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ArrowLeft, TrendingUp, DollarSign } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -40,6 +42,7 @@ const DishAnalysisResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [analysisData, setAnalysisData] = useState<DishAnalysisData | null>(null);
+  const [monthlyVolume, setMonthlyVolume] = useState<number>(100);
 
   useEffect(() => {
     const data = location.state?.analysisData;
@@ -68,6 +71,31 @@ const DishAnalysisResults = () => {
 
   const handleNewAnalysis = () => {
     navigate('/', { state: { resetForm: true } });
+  };
+
+  // Calculate monthly earnings
+  const calculateOriginalMonthlyEarnings = () => {
+    const menuPrice = parseFloat(originalDish.costBreakdown.menuPrice);
+    const ingredientCost = parseFloat(originalDish.costBreakdown.ingredientCost);
+    const laborCost = parseFloat(originalDish.costBreakdown.laborCost);
+    const profitPerDish = menuPrice - ingredientCost - laborCost;
+    return profitPerDish * monthlyVolume;
+  };
+
+  const calculateOptimizedMonthlyEarnings = (optimization: OptimizationSuggestion) => {
+    const originalMonthlyEarnings = calculateOriginalMonthlyEarnings();
+    const savings = parseFloat(optimization.costSavings?.netSavings || '0');
+    const additionalProfit = savings * monthlyVolume;
+    return originalMonthlyEarnings + additionalProfit;
+  };
+
+  const getBestOptimization = () => {
+    if (!optimizations.length) return null;
+    return optimizations.reduce((best, current) => {
+      const bestSavings = parseFloat(best.costSavings?.netSavings || '0');
+      const currentSavings = parseFloat(current.costSavings?.netSavings || '0');
+      return currentSavings > bestSavings ? current : best;
+    });
   };
 
   return (
@@ -102,6 +130,60 @@ const DishAnalysisResults = () => {
           </div>
 
           <div className="space-y-6">
+            {/* Monthly Volume Input */}
+            <Card className="bg-card/50 backdrop-blur-sm border border-border/50">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                  <DollarSign className="h-5 w-5 text-primary" />
+                  Monthly Earnings Calculator
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center gap-4">
+                  <div className="flex-1 max-w-xs">
+                    <Label htmlFor="monthlyVolume" className="text-sm font-medium">
+                      Estimated monthly sales volume
+                    </Label>
+                    <Input
+                      id="monthlyVolume"
+                      type="number"
+                      value={monthlyVolume}
+                      onChange={(e) => setMonthlyVolume(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="mt-1"
+                      min="1"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Number of dishes sold per month
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-3 gap-4 flex-1">
+                    <div className="text-center">
+                      <p className="text-sm text-muted-foreground">Original Monthly Profit</p>
+                      <p className="text-xl font-bold text-foreground">
+                        ${calculateOriginalMonthlyEarnings().toFixed(0)}
+                      </p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm text-muted-foreground">Best Optimized Profit</p>
+                      <p className="text-xl font-bold text-primary">
+                        ${getBestOptimization() ? calculateOptimizedMonthlyEarnings(getBestOptimization()!).toFixed(0) : '0'}
+                      </p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm text-muted-foreground flex items-center justify-center gap-1">
+                        <TrendingUp className="h-3 w-3" />
+                        Monthly Increase
+                      </p>
+                      <p className="text-xl font-bold text-green-600">
+                        +${getBestOptimization() ? (calculateOptimizedMonthlyEarnings(getBestOptimization()!) - calculateOriginalMonthlyEarnings()).toFixed(0) : '0'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Main Grid Layout for Dish Analysis and Suggestions */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Original Dish Analysis */}
@@ -154,12 +236,37 @@ const DishAnalysisResults = () => {
                             ))}
                           </div>
                         </div>
-                      )}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-              </div>
+                       )}
+                       
+                       {/* Monthly Earnings for Original Dish */}
+                       <div className="mt-4 pt-4 border-t">
+                         <h4 className="font-medium text-foreground mb-3">Monthly Earnings Projection</h4>
+                         <div className="grid grid-cols-2 gap-4">
+                           <div>
+                             <p className="text-sm text-muted-foreground">Profit per Dish</p>
+                             <p className="text-lg font-semibold text-foreground">
+                               ${(calculateOriginalMonthlyEarnings() / monthlyVolume).toFixed(2)}
+                             </p>
+                           </div>
+                           <div>
+                             <p className="text-sm text-muted-foreground">Monthly Profit ({monthlyVolume} dishes)</p>
+                             <p className="text-lg font-semibold text-foreground">
+                               ${calculateOriginalMonthlyEarnings().toFixed(0)}
+                             </p>
+                           </div>
+                         </div>
+                         <div className="mt-3 p-3 bg-muted/30 rounded-lg">
+                           <p className="text-sm text-muted-foreground">Annual Projection</p>
+                           <p className="text-xl font-bold text-foreground">
+                             ${(calculateOriginalMonthlyEarnings() * 12).toFixed(0)}
+                           </p>
+                         </div>
+                       </div>
+                     </div>
+                   </AccordionContent>
+                 </AccordionItem>
+               </Accordion>
+               </div>
 
               {/* Profit Optimization Opportunities */}
               <div className="space-y-4">
@@ -202,14 +309,47 @@ const DishAnalysisResults = () => {
                               {optimization.impact}
                             </p>
                           </div>
-                          <div>
-                            <h4 className="font-medium text-foreground mb-2">Implementation</h4>
-                            <p className="text-muted-foreground text-sm leading-relaxed">
-                              {optimization.implementation}
-                            </p>
-                          </div>
-                        </div>
-                      </AccordionContent>
+                           <div>
+                             <h4 className="font-medium text-foreground mb-2">Implementation</h4>
+                             <p className="text-muted-foreground text-sm leading-relaxed">
+                               {optimization.implementation}
+                             </p>
+                           </div>
+                           
+                           {/* Monthly Earnings for Optimization */}
+                           <div className="pt-4 border-t">
+                             <h4 className="font-medium text-foreground mb-3">Monthly Earnings with Optimization</h4>
+                             <div className="grid grid-cols-3 gap-4">
+                               <div>
+                                 <p className="text-sm text-muted-foreground">New Monthly Profit</p>
+                                 <p className="text-lg font-semibold text-primary">
+                                   ${calculateOptimizedMonthlyEarnings(optimization).toFixed(0)}
+                                 </p>
+                               </div>
+                               <div>
+                                 <p className="text-sm text-muted-foreground">Monthly Increase</p>
+                                 <p className="text-lg font-semibold text-green-600">
+                                   +${(calculateOptimizedMonthlyEarnings(optimization) - calculateOriginalMonthlyEarnings()).toFixed(0)}
+                                 </p>
+                               </div>
+                               <div>
+                                 <p className="text-sm text-muted-foreground">Annual Increase</p>
+                                 <p className="text-lg font-semibold text-green-600">
+                                   +${((calculateOptimizedMonthlyEarnings(optimization) - calculateOriginalMonthlyEarnings()) * 12).toFixed(0)}
+                                 </p>
+                               </div>
+                             </div>
+                             <div className="mt-3 p-3 bg-green-50 rounded-lg border border-green-200">
+                               <div className="flex justify-between items-center">
+                                 <span className="text-sm font-medium text-green-800">ROI Improvement:</span>
+                                 <span className="text-lg font-bold text-green-800">
+                                   +{((calculateOptimizedMonthlyEarnings(optimization) - calculateOriginalMonthlyEarnings()) / calculateOriginalMonthlyEarnings() * 100).toFixed(1)}%
+                                 </span>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
+                       </AccordionContent>
                     </AccordionItem>
                   );
                 })}
