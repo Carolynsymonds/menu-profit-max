@@ -38,7 +38,7 @@ const HeadlineSection = () => {
              Profitize Your Menu Now
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Upload your menu or type a dish and get instant insights on costs, pricing, and margins — in seconds.
+            Try AI tool to get instant insights on costs, pricing, and margins — in seconds.
           </p>
 
           {/* Input card */}
