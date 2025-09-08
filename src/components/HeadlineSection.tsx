@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
-import { Check } from "lucide-react";
+import { Check, Upload } from "lucide-react";
 import { siteContent } from "@/config/site-content";
 import BenefitsSection from "@/components/BenefitsSection";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
@@ -30,6 +31,17 @@ const HeadlineSection = () => {
           <h1 className="text-[42px] md:text-6xl font-bold text-foreground leading-tight tracking-tight px-0">
             Profitize Your Menu Now
           </h1>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 max-w-md mx-auto">
+          <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
+            <Upload size={20} />
+            Upload Menu
+          </Button>
+          <Input 
+            placeholder="Enter dish name..." 
+            className="w-full sm:w-auto"
+          />
         </div>
 
        
