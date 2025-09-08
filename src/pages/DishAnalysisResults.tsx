@@ -95,7 +95,7 @@ const DishAnalysisResults = () => {
               Back to Analysis
             </Button>
             
-            <h1 className="text-3xl font-bold text-center flex-1">
+            <h1 className="text-2xl font-bold text-center flex-1">
               Dish Profitability Analysis
             </h1>
             
@@ -107,8 +107,8 @@ const DishAnalysisResults = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Original Dish Analysis */}
               <div className="space-y-4">
-              <h2 className="text-2xl font-bold">
-                Your Dish Analysis
+              <h2 className="text-xl font-bold">
+                Original
               </h2>
               
               <Accordion type="single" collapsible className="w-full">
@@ -117,8 +117,8 @@ const DishAnalysisResults = () => {
                     <div className="flex items-center w-full p-4">
                       {/* Left side - Dish details */}
                       <div className="flex-1 text-left">
-                        <h3 className="text-lg font-semibold text-foreground mb-1">{originalDish.name}</h3>
-                        <p className="text-base font-medium text-foreground">${originalDish.costBreakdown.menuPrice}</p>
+                        <h3 className="text-base font-semibold text-foreground mb-1">{originalDish.name}</h3>
+                        <p className="text-sm font-medium text-foreground">${originalDish.costBreakdown.menuPrice}</p>
                         <Badge className={`text-sm px-2 py-1 mt-2 ${getMarginColor(originalDish.estimatedMargin)}`}>
                           {originalDish.estimatedMargin}% margin
                         </Badge>
@@ -164,8 +164,8 @@ const DishAnalysisResults = () => {
 
               {/* Profit Optimization Opportunities */}
               <div className="space-y-4">
-              <h2 className="text-2xl font-bold">
-                Profit Optimization Opportunities
+              <h2 className="text-xl font-bold">
+                Optimized Suggestions
               </h2>
               
               <Accordion type="single" collapsible className="w-full space-y-4">
@@ -179,13 +179,13 @@ const DishAnalysisResults = () => {
                       <AccordionTrigger className="hover:no-underline p-0">
                         <div className="w-full p-6 space-y-3">
                           {/* Title */}
-                          <h3 className="text-lg font-semibold text-foreground text-left">
+                          <h3 className="text-base font-semibold text-foreground text-left">
                             {optimization.optimization}
                           </h3>
                           
                           {/* Price and Margin - Stacked below title */}
                           <div className="flex items-center gap-3 text-left">
-                            <span className="text-base font-medium text-foreground">
+                            <span className="text-sm font-medium text-foreground">
                               ${newPrice.toFixed(2)}
                             </span>
                             <span className="text-muted-foreground">•</span>
