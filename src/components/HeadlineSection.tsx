@@ -114,11 +114,81 @@ const HeadlineSection = () => {
             Type a dish or upload your menu. Get instant suggestions to increase margins with smarter pricing, ingredient swaps, and upsell ideas.
           </p>
 
-          {/* Input card or Loading state */}
-          <div className="mt-8 p-4 md:p-5">
-            {isAnalyzing ? (
-              /* Loading overlay */
-              <div className="flex flex-col items-center justify-center py-12 px-6">
+          {/* Input card with overlay */}
+          <div className="mt-8 p-4 md:p-5 relative">
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <div className="relative flex items-center">
+                    {/* Search icon with sparkles - gradient */}
+                    <div className="absolute left-3 flex items-center gap-1 z-10">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI search icon">
+                        <path d="M16.296 2.043c.407 1.817 1.284 2.716 3.317 3.089.14 0 .255.104.255.233s-.114.233-.255.233c-1.982.373-2.909 1.218-3.315 3.081a.246.246 0 0 1-.243.18.245.245 0 0 1-.245-.191c-.407-1.818-1.28-2.697-3.313-3.07-.14 0-.254-.104-.254-.233s.114-.233.254-.233c1.982-.373 2.91-1.223 3.317-3.087a.247.247 0 0 1 .241-.175c.117 0 .212.074.241.173Z" fill="url(#_3085173834__a)"></path>
+                        <path d="M15.094 17.436A7.5 7.5 0 1 1 10 4.046v1.503A6 6 0 1 0 16.446 11h1.504a7.466 7.466 0 0 1-1.46 5.003l4.25 4.25a1 1 0 0 1-1.414 1.414l-4.232-4.231Z" fill="url(#_3085173834__b)"></path>
+                        <path d="M13.666 8.964c-.857-.236-1.356-.615-1.527-1.4 0-.095-.084-.172-.187-.172s-.187.077-.187.171c-.257.786-.67 1.244-1.528 1.401-.103 0-.187.077-.187.171 0 .095.084.172.187.172.857.235 1.357.614 1.528 1.4 0 .095.084.171.187.171s.187-.076.187-.171c.257-.786.67-1.243 1.527-1.4.104 0 .187-.077.187-.172 0-.094-.083-.171-.187-.171Z" fill="url(#_3085173834__c)"></path>
+                        <defs>
+                          <linearGradient id="_3085173834__a" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
+                            <stop stopColor="hsl(var(--primary))" stopOpacity="0.8"></stop>
+                            <stop offset="0.3" stopColor="hsl(var(--primary))" stopOpacity="1"></stop>
+                            <stop offset="0.7" stopColor="hsl(var(--primary))" stopOpacity="0.6"></stop>
+                            <stop offset="1" stopColor="hsl(var(--primary))" stopOpacity="0.9"></stop>
+                          </linearGradient>
+                          <linearGradient id="_3085173834__b" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
+                            <stop stopColor="hsl(var(--primary))" stopOpacity="1"></stop>
+                            <stop offset="0.25" stopColor="hsl(var(--primary))" stopOpacity="0.7"></stop>
+                            <stop offset="0.6" stopColor="hsl(var(--primary))" stopOpacity="0.9"></stop>
+                            <stop offset="1" stopColor="hsl(var(--primary))" stopOpacity="0.8"></stop>
+                          </linearGradient>
+                          <linearGradient id="_3085173834__c" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
+                            <stop stopColor="hsl(var(--primary))" stopOpacity="0.9"></stop>
+                            <stop offset="0.4" stopColor="hsl(var(--primary))" stopOpacity="0.6"></stop>
+                            <stop offset="0.8" stopColor="hsl(var(--primary))" stopOpacity="1"></stop>
+                            <stop offset="1" stopColor="hsl(var(--primary))" stopOpacity="0.7"></stop>
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                    </div>
+                    
+                    <Input
+                      value={dishName}
+                      onChange={(e) => setDishName(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && !isAnalyzing && handleAnalyzeDish()}
+                      placeholder='Chicken Parmesan'
+                      disabled={isAnalyzing}
+                      className="w-full rounded-xl border-gray-300 bg-card/70 pl-10 pr-10 py-3 focus:ring-2 focus:ring-primary/40 focus:border-primary/60"
+                    />
+                  </div>
+                </div>
+                
+                <Button
+                  onClick={handleAnalyzeDish}
+                  disabled={isAnalyzing}
+                  className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap"
+                >
+                  Boost My Profits
+                </Button>
+              </div>
+
+              {/* OR separator */}
+              <div className="flex items-center gap-4 py-2">
+                <div className="flex-1 h-px bg-border"></div>
+                <span className="text-sm text-muted-foreground font-medium">OR</span>
+                <div className="flex-1 h-px bg-border"></div>
+              </div>
+
+              <Button
+                onClick={handleSignupClick}
+                disabled={isAnalyzing}
+                className="flex items-center underline justify-center gap-2 rounded-xl px-4 py-3 !bg-white font-semibold text-primary hover:bg-primary/10 transition-all"
+              >
+                <Upload size={20} />
+                Upload menu
+              </Button>
+            </div>
+
+            {/* Loading overlay */}
+            {isAnalyzing && (
+              <div className="absolute inset-0 backdrop-blur-sm bg-white/80 rounded-xl flex items-center justify-center z-20">
                 <div className="flex flex-col items-center gap-6">
                   <Loader2 className="h-10 w-10 animate-spin text-primary" />
                   <div className="text-center">
@@ -128,74 +198,6 @@ const HeadlineSection = () => {
                     </p>
                   </div>
                 </div>
-              </div>
-            ) : (
-              /* Normal input form */
-              <div className="flex flex-col gap-3">
-                <div className="flex gap-2">
-                  <div className="relative flex-1">
-                    <div className="relative flex items-center">
-                      {/* Search icon with sparkles - gradient */}
-                      <div className="absolute left-3 flex items-center gap-1 z-10">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI search icon">
-                          <path d="M16.296 2.043c.407 1.817 1.284 2.716 3.317 3.089.14 0 .255.104.255.233s-.114.233-.255.233c-1.982.373-2.909 1.218-3.315 3.081a.246.246 0 0 1-.243.18.245.245 0 0 1-.245-.191c-.407-1.818-1.28-2.697-3.313-3.07-.14 0-.254-.104-.254-.233s.114-.233.254-.233c1.982-.373 2.91-1.223 3.317-3.087a.247.247 0 0 1 .241-.175c.117 0 .212.074.241.173Z" fill="url(#_3085173834__a)"></path>
-                          <path d="M15.094 17.436A7.5 7.5 0 1 1 10 4.046v1.503A6 6 0 1 0 16.446 11h1.504a7.466 7.466 0 0 1-1.46 5.003l4.25 4.25a1 1 0 0 1-1.414 1.414l-4.232-4.231Z" fill="url(#_3085173834__b)"></path>
-                          <path d="M13.666 8.964c-.857-.236-1.356-.615-1.527-1.4 0-.095-.084-.172-.187-.172s-.187.077-.187.171c-.257.786-.67 1.244-1.528 1.401-.103 0-.187.077-.187.171 0 .095.084.172.187.172.857.235 1.357.614 1.528 1.4 0 .095.084.171.187.171s.187-.076.187-.171c.257-.786.67-1.243 1.527-1.4.104 0 .187-.077.187-.172 0-.094-.083-.171-.187-.171Z" fill="url(#_3085173834__c)"></path>
-                          <defs>
-                            <linearGradient id="_3085173834__a" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
-                              <stop stopColor="hsl(var(--primary))" stopOpacity="0.8"></stop>
-                              <stop offset="0.3" stopColor="hsl(var(--primary))" stopOpacity="1"></stop>
-                              <stop offset="0.7" stopColor="hsl(var(--primary))" stopOpacity="0.6"></stop>
-                              <stop offset="1" stopColor="hsl(var(--primary))" stopOpacity="0.9"></stop>
-                            </linearGradient>
-                            <linearGradient id="_3085173834__b" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
-                              <stop stopColor="hsl(var(--primary))" stopOpacity="1"></stop>
-                              <stop offset="0.25" stopColor="hsl(var(--primary))" stopOpacity="0.7"></stop>
-                              <stop offset="0.6" stopColor="hsl(var(--primary))" stopOpacity="0.9"></stop>
-                              <stop offset="1" stopColor="hsl(var(--primary))" stopOpacity="0.8"></stop>
-                            </linearGradient>
-                            <linearGradient id="_3085173834__c" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
-                              <stop stopColor="hsl(var(--primary))" stopOpacity="0.9"></stop>
-                              <stop offset="0.4" stopColor="hsl(var(--primary))" stopOpacity="0.6"></stop>
-                              <stop offset="0.8" stopColor="hsl(var(--primary))" stopOpacity="1"></stop>
-                              <stop offset="1" stopColor="hsl(var(--primary))" stopOpacity="0.7"></stop>
-                            </linearGradient>
-                          </defs>
-                        </svg>
-                      </div>
-                      
-                      <Input
-                        value={dishName}
-                        onChange={(e) => setDishName(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && handleAnalyzeDish()}
-                        placeholder='Chicken Parmesan'
-                        className="w-full rounded-xl border-gray-300 bg-card/70 pl-10 pr-10 py-3 focus:ring-2 focus:ring-primary/40 focus:border-primary/60"
-                      />
-                    </div>
-                  </div>
-                  
-                  <Button
-                    onClick={handleAnalyzeDish}
-                    className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap"
-                  >
-                    Boost My Profits
-                  </Button>
-                </div>
-
-                {/* OR separator */}
-                <div className="flex items-center gap-4 py-2">
-                  <div className="flex-1 h-px bg-border"></div>
-                  <span className="text-sm text-muted-foreground font-medium">OR</span>
-                  <div className="flex-1 h-px bg-border"></div>
-                </div>
-
-                <Button
-                  onClick={handleSignupClick}
-                  className="flex items-center underline justify-center gap-2 rounded-xl px-4 py-3 !bg-white font-semibold text-primary hover:bg-primary/10 transition-all"
-                >
-                  <Upload size={20} />
-                  Upload menu
-                </Button>
               </div>
             )}
           </div>
