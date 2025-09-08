@@ -97,8 +97,10 @@ const DishAnalysisResults = () => {
           </div>
 
           <div className="space-y-6">
-            {/* Original Dish Analysis */}
-            <div className="space-y-4">
+            {/* Main Grid Layout for Dish Analysis and Suggestions */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Original Dish Analysis */}
+              <div className="space-y-4">
               <h2 className="text-2xl font-bold">
                 Your Dish Analysis
               </h2>
@@ -139,10 +141,10 @@ const DishAnalysisResults = () => {
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
-            </div>
+              </div>
 
-            {/* Higher-Profit Suggestions */}
-            <div className="space-y-4">
+              {/* Higher-Profit Suggestions */}
+              <div className="space-y-4">
               <h2 className="text-2xl font-bold">
                 Higher-Profit Suggestions
               </h2>
@@ -178,6 +180,7 @@ const DishAnalysisResults = () => {
                   </AccordionItem>
                 ))}
               </Accordion>
+              </div>
             </div>
 
             {/* Profitability Tip */}
