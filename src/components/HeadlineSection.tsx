@@ -49,23 +49,24 @@ const HeadlineSection = () => {
                   <div className="relative flex items-center">
                     {/* Search icon with sparkles - gradient */}
                     <div className="absolute left-3 flex items-center gap-1 z-10">
-                      <svg width="20" height="20" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"
-                           role="img" aria-label="AI search icon" className="text-primary">
-                        {/* Magnifying glass (outlined circle + handle) */}
-                        <circle cx="12" cy="12" r="6.5"
-                                fill="none" stroke="currentColor" strokeWidth="2"
-                                strokeLinecap="round" strokeLinejoin="round"/>
-                        <line x1="16.8" y1="16.8" x2="22" y2="22"
-                              stroke="currentColor" strokeWidth="2"
-                              strokeLinecap="round" strokeLinejoin="round"/>
-
-                        {/* Sparkles (flat, minimal) */}
-                        {/* Large sparkle above/right of lens */}
-                        <path d="M20.2 6.2c.45 1.35 1.35 2.25 2.7 2.7-1.35.45-2.25 1.35-2.7 2.7-.45-1.35-1.35-2.25-2.7-2.7 1.35-.45 2.25-1.35 2.7-2.7Z"
-                              fill="currentColor"/>
-                        {/* Small sparkle inside lens (upper-left quadrant) */}
-                        <path d="M11 8.4c.28.82.86 1.4 1.68 1.68-.82.28-1.4.86-1.68 1.68-.28-.82-.86-1.4-1.68-1.68.82-.28 1.4-.86 1.68-1.68Z"
-                              fill="currentColor"/>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI search icon">
+                        <path d="M16.296 2.043c.407 1.817 1.284 2.716 3.317 3.089.14 0 .255.104.255.233s-.114.233-.255.233c-1.982.373-2.909 1.218-3.315 3.081a.246.246 0 0 1-.243.18.245.245 0 0 1-.245-.191c-.407-1.818-1.28-2.697-3.313-3.07-.14 0-.254-.104-.254-.233s.114-.233.254-.233c1.982-.373 2.91-1.223 3.317-3.087a.247.247 0 0 1 .241-.175c.117 0 .212.074.241.173Z" fill="url(#_3085173834__a)"></path>
+                        <path d="M15.094 17.436A7.5 7.5 0 1 1 10 4.046v1.503A6 6 0 1 0 16.446 11h1.504a7.466 7.466 0 0 1-1.46 5.003l4.25 4.25a1 1 0 0 1-1.414 1.414l-4.232-4.231Z" fill="url(#_3085173834__b)"></path>
+                        <path d="M13.666 8.964c-.857-.236-1.356-.615-1.527-1.4 0-.095-.084-.172-.187-.172s-.187.077-.187.171c-.257.786-.67 1.244-1.528 1.401-.103 0-.187.077-.187.171 0 .095.084.172.187.172.857.235 1.357.614 1.528 1.4 0 .095.084.171.187.171s.187-.076.187-.171c.257-.786.67-1.243 1.527-1.4.104 0 .187-.077.187-.172 0-.094-.083-.171-.187-.171Z" fill="url(#_3085173834__c)"></path>
+                        <defs>
+                          <linearGradient id="_3085173834__a" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
+                            <stop stopColor="#03A5AB"></stop>
+                            <stop offset="1" stopColor="#8B3DFF"></stop>
+                          </linearGradient>
+                          <linearGradient id="_3085173834__b" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
+                            <stop stopColor="#03A5AB"></stop>
+                            <stop offset="1" stopColor="#8B3DFF"></stop>
+                          </linearGradient>
+                          <linearGradient id="_3085173834__c" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
+                            <stop stopColor="#03A5AB"></stop>
+                            <stop offset="1" stopColor="#8B3DFF"></stop>
+                          </linearGradient>
+                        </defs>
                       </svg>
                     </div>
                     
