@@ -84,21 +84,7 @@ const HeadlineSection = () => {
                 </Button>
               </div>
             </div>
-
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <Check size={16} className="text-green-600" />
-                Free
-              </span>
-              <span className="flex items-center gap-1">
-                <Check size={16} className="text-green-600" />
-                No credit card
-              </span>
-              <span className="flex items-center gap-1">
-                <Check size={16} className="text-green-600" />
-                PDF / Photo / CSV
-              </span>
-            </div>
+            
           </div>
         </div>
       </div>
