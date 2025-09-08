@@ -69,9 +69,15 @@ const HeadlineSection = () => {
                     </div>
                     
                     <Input
-                      placeholder='ChickenParmesan'
-                      className="w-full rounded-xl border-none bg-card/70 pl-14 pr-10 py-3 focus:ring-2 focus:ring-primary/40"
+                      placeholder='Chicken Parmesan'
+                      className="w-full rounded-xl border border-primary/20 bg-card/70 pl-14 pr-10 py-3 focus:ring-2 focus:ring-primary/40 focus:border-primary/60"
                     />
+                    
+                    {/* Clear button */}
+                    <button 
+                      className="absolute right-3 w-5 h-5 rounded-full bg-gray-400 hover:bg-gray-500 flex items-center justify-center transition-colors z-10"
+                    >
+                    </button>
                   </div>
                 </div>
                 
