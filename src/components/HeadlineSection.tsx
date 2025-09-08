@@ -47,7 +47,7 @@ const HeadlineSection = () => {
               <Button
                 onClick={handleSignupClick}
                 variant="outline"
-                className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 bg-white font-semibold border-primary text-primary hover:bg-primary/10 transition-all"
+                className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 !bg-white font-semibold border-primary text-primary hover:bg-primary/10 transition-all"
               >
                 <Upload size={20} />
                 Upload menu now
