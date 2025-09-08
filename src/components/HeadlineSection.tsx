@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
-import { Check, Upload, Search, Sparkles, X } from "lucide-react";
+import { Check, Upload, Sparkles, X } from "lucide-react";
 import { siteContent } from "@/config/site-content";
 import BenefitsSection from "@/components/BenefitsSection";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
@@ -49,7 +49,15 @@ const HeadlineSection = () => {
                   <div className="relative flex items-center">
                     {/* Search icon with sparkles - gradient */}
                     <div className="absolute left-3 flex items-center gap-1 z-10">
-                      <Search size={18} className="text-blue-600" />
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                           xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI search icon"
+                           className="text-blue-600">
+                        <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2" />
+                        <line x1="15.8" y1="15.8" x2="20" y2="20"
+                              stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <path d="M18.2 6.5c.5 1.5 1.5 2.5 3 3-1.5.5-2.5 1.5-3 3-.5-1.5-1.5-2.5-3-3 1.5-.5 2.5-1.5 3-3Z"
+                              fill="currentColor"/>
+                      </svg>
                     </div>
                     
                     <Input
