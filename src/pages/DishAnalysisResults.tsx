@@ -34,14 +34,20 @@ interface OriginalDish {
 }
 
 interface DishAnalysisData {
+  dishName?: string;
   originalDish: OriginalDish;
   optimizations: OptimizationSuggestion[];
+}
+
+interface MultiDishAnalysisData {
+  dishes: DishAnalysisData[];
 }
 
 const DishAnalysisResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [analysisData, setAnalysisData] = useState<DishAnalysisData | null>(null);
+  const [analysisData, setAnalysisData] = useState<DishAnalysisData[] | null>(null);
+  const [selectedDishIndex, setSelectedDishIndex] = useState<number>(0);
   const [monthlyVolume, setMonthlyVolume] = useState<number>(100);
 
   useEffect(() => {
@@ -50,14 +56,23 @@ const DishAnalysisResults = () => {
       navigate('/');
       return;
     }
-    setAnalysisData(data);
+    
+    // Handle both single dish and multi-dish formats
+    if (data.dishes) {
+      // Multi-dish format
+      setAnalysisData(data.dishes);
+    } else {
+      // Single dish format (backward compatibility)
+      setAnalysisData([data]);
+    }
   }, [location.state, navigate]);
 
-  if (!analysisData) {
+  if (!analysisData || analysisData.length === 0) {
     return null;
   }
 
-  const { originalDish, optimizations } = analysisData;
+  const currentDish = analysisData[selectedDishIndex];
+  const { originalDish, optimizations } = currentDish;
 
   const getMarginColor = (margin: number) => {
     if (margin >= 40) return "text-green-600 bg-green-50";
@@ -73,7 +88,7 @@ const DishAnalysisResults = () => {
     navigate('/', { state: { resetForm: true } });
   };
 
-  // Calculate monthly earnings
+  // Calculate monthly earnings for current dish
   const calculateOriginalMonthlyEarnings = () => {
     const menuPrice = parseFloat(originalDish.costBreakdown.menuPrice);
     const ingredientCost = parseFloat(originalDish.costBreakdown.ingredientCost);
@@ -129,13 +144,51 @@ const DishAnalysisResults = () => {
             <div className="w-32" /> {/* Spacer for centering */}
           </div>
 
+          {/* Dish Selector (if multiple dishes) */}
+          {analysisData.length > 1 && (
+            <Card className="bg-card/50 backdrop-blur-sm border border-border/50 mb-6">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg font-semibold">
+                  Analyzed Dishes ({analysisData.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {analysisData.map((dish, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedDishIndex(index)}
+                      className={`p-4 rounded-lg border text-left transition-all ${
+                        index === selectedDishIndex 
+                          ? 'border-primary bg-primary/5 shadow-md' 
+                          : 'border-border bg-card hover:border-primary/50 hover:bg-card/80'
+                      }`}
+                    >
+                      <h3 className="font-semibold text-foreground mb-2">
+                        {dish.originalDish.name}
+                      </h3>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">
+                          ${dish.originalDish.costBreakdown.menuPrice}
+                        </span>
+                        <Badge className={`text-xs px-2 py-1 ${getMarginColor(dish.originalDish.estimatedMargin)}`}>
+                          {dish.originalDish.estimatedMargin}% margin
+                        </Badge>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
           <div className="space-y-6">
             {/* Monthly Volume Input */}
             <Card className="bg-card/50 backdrop-blur-sm border border-border/50">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
                   <DollarSign className="h-5 w-5 text-primary" />
-                  Monthly Earnings Calculator
+                  Monthly Earnings Calculator - {originalDish.name}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -370,7 +423,7 @@ const DishAnalysisResults = () => {
               <Button
                 onClick={handleBackToHome}
                 variant="outline"
-                className="px-6 py-3 rounded-lg font-medium"
+                className="px-6 py-3 rounded-lg border-border hover:bg-muted transition-colors font-medium"
               >
                 Back to Home
               </Button>
@@ -378,7 +431,7 @@ const DishAnalysisResults = () => {
           </div>
         </div>
       </main>
-
+      
       <Footer />
     </div>
   );

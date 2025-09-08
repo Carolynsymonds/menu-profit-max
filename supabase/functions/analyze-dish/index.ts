@@ -20,38 +20,54 @@ serve(async (req) => {
   }
 
   try {
-    const { dishName } = await req.json();
-    console.log('Analyzing dish:', dishName);
+    const { dishName, dishNames } = await req.json();
+    
+    // Support both single dish and multiple dishes
+    const dishesToAnalyze = dishNames || [dishName];
+    console.log('Analyzing dishes:', dishesToAnalyze);
 
-    if (!dishName) {
-      throw new Error('Dish name is required');
+    if (!dishesToAnalyze || dishesToAnalyze.length === 0) {
+      throw new Error('At least one dish name is required');
     }
 
     // Initialize Supabase client
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Check if we have a recent analysis cached (within last 7 days)
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    // Process multiple dishes in parallel
+    const results = await Promise.all(dishesToAnalyze.map(async (dishName: string) => {
+      // Check if we have a recent analysis cached (within last 7 days)
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      
+      const { data: cachedAnalysis } = await supabase
+        .from('dish_analyses')
+        .select('*')
+        .eq('dish_name', dishName.toLowerCase().trim())
+        .gte('created_at', sevenDaysAgo.toISOString())
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (cachedAnalysis) {
+        console.log('Returning cached analysis for:', dishName);
+        return { dishName, analysis: cachedAnalysis.analysis_result, fromCache: true };
+      }
+
+      return { dishName, analysis: null, fromCache: false };
+    }));
+
+    // Separate cached and non-cached results
+    const cachedResults = results.filter(r => r.fromCache);
+    const uncachedDishes = results.filter(r => !r.fromCache).map(r => r.dishName);
+
+    let newAnalyses: any[] = [];
     
-    const { data: cachedAnalysis } = await supabase
-      .from('dish_analyses')
-      .select('*')
-      .eq('dish_name', dishName.toLowerCase().trim())
-      .gte('created_at', sevenDaysAgo.toISOString())
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single();
+    // Process uncached dishes
+    if (uncachedDishes.length > 0) {
+      newAnalyses = await Promise.all(uncachedDishes.map(async (dishName: string) => {
 
-    if (cachedAnalysis) {
-      console.log('Returning cached analysis for:', dishName);
-      return new Response(JSON.stringify(cachedAnalysis.analysis_result), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-
-    // Create the analysis prompt
-    const prompt = `You are a restaurant profitability consultant. Analyze the dish "${dishName}" and provide optimization recommendations to improve its profitability. Provide a structured JSON response with the following format:
+        // Create the analysis prompt for this dish
+        const prompt = `You are a restaurant profitability consultant. Analyze the dish "${dishName}" and provide optimization recommendations to improve its profitability. Provide a structured JSON response with the following format:
 
 {
   "originalDish": {
@@ -95,62 +111,86 @@ Guidelines:
 
 Respond ONLY with the JSON structure, no additional text.`;
 
-    console.log('Calling OpenAI API for dish analysis');
+        console.log('Calling OpenAI API for dish analysis:', dishName);
 
-    // Call OpenAI API
-    const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          { 
-            role: 'system', 
-            content: 'You are a restaurant profitability consultant. Respond only with valid JSON.' 
+        // Call OpenAI API
+        const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${openAIApiKey}`,
+            'Content-Type': 'application/json',
           },
-          { role: 'user', content: prompt }
-        ],
-        max_tokens: 1500,
-        temperature: 0.7
-      }),
-    });
+          body: JSON.stringify({
+            model: 'gpt-4o-mini',
+            messages: [
+              { 
+                role: 'system', 
+                content: 'You are a restaurant profitability consultant. Respond only with valid JSON.' 
+              },
+              { role: 'user', content: prompt }
+            ],
+            max_tokens: 1500,
+            temperature: 0.7
+          }),
+        });
 
-    if (!openAIResponse.ok) {
-      const errorData = await openAIResponse.json();
-      console.error('OpenAI API error:', errorData);
-      throw new Error(`OpenAI API error: ${errorData.error?.message || 'Unknown error'}`);
+        if (!openAIResponse.ok) {
+          const errorData = await openAIResponse.json();
+          console.error('OpenAI API error:', errorData);
+          throw new Error(`OpenAI API error: ${errorData.error?.message || 'Unknown error'}`);
+        }
+
+        const openAIData = await openAIResponse.json();
+        console.log('OpenAI response received for:', dishName);
+
+        let analysisResult;
+        try {
+          analysisResult = JSON.parse(openAIData.choices[0].message.content);
+        } catch (parseError) {
+          console.error('Failed to parse OpenAI JSON response for:', dishName, parseError);
+          throw new Error(`Failed to parse AI response for ${dishName}`);
+        }
+
+        // Extract profit margin for indexing
+        const profitMargin = analysisResult.originalDish?.estimatedMargin || 0;
+
+        // Cache the result in database
+        await supabase
+          .from('dish_analyses')
+          .insert({
+            dish_name: dishName.toLowerCase().trim(),
+            analysis_result: analysisResult,
+            profit_margin: profitMargin,
+            suggestions: analysisResult.optimizations || []
+          });
+
+        console.log('Analysis cached successfully for:', dishName);
+        return { dishName, analysis: analysisResult, fromCache: false };
+      }));
     }
 
-    const openAIData = await openAIResponse.json();
-    console.log('OpenAI response received');
+    // Combine all results
+    const allResults = [
+      ...cachedResults.map(r => ({ dishName: r.dishName, analysis: r.analysis })),
+      ...newAnalyses
+    ];
 
-    let analysisResult;
-    try {
-      analysisResult = JSON.parse(openAIData.choices[0].message.content);
-    } catch (parseError) {
-      console.error('Failed to parse OpenAI JSON response:', parseError);
-      throw new Error('Failed to parse AI response');
-    }
-
-    // Extract profit margin for indexing
-    const profitMargin = analysisResult.originalDish?.estimatedMargin || 0;
-
-    // Cache the result in database
-    await supabase
-      .from('dish_analyses')
-      .insert({
-        dish_name: dishName.toLowerCase().trim(),
-        analysis_result: analysisResult,
-        profit_margin: profitMargin,
-        suggestions: analysisResult.optimizations || []
+    // If single dish (backward compatibility)
+    if (dishesToAnalyze.length === 1) {
+      return new Response(JSON.stringify(allResults[0].analysis), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
+    }
 
-    console.log('Analysis cached successfully for:', dishName);
+    // Multiple dishes - return structured format
+    const multiDishResult = {
+      dishes: allResults.map(r => ({
+        dishName: r.dishName,
+        ...r.analysis
+      }))
+    };
 
-    return new Response(JSON.stringify(analysisResult), {
+    return new Response(JSON.stringify(multiDishResult), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
 

@@ -77,8 +77,8 @@ const HeadlineSection = () => {
   const handleAnalyzeDish = async () => {
     if (!dishName.trim()) {
       toast({
-        title: "Please enter a dish name",
-        description: "Type in a dish to analyze its profitability",
+        title: "Please enter dish names",
+        description: "Type in one or more dishes to analyze their profitability",
         variant: "destructive",
       });
       return;
@@ -86,8 +86,11 @@ const HeadlineSection = () => {
 
     setIsAnalyzing(true);
     try {
+      // Split multiple dishes by comma and clean them up
+      const dishNames = dishName.split(',').map(name => name.trim()).filter(name => name.length > 0);
+      
       const { data, error } = await supabase.functions.invoke('analyze-dish', {
-        body: { dishName: dishName.trim() }
+        body: { dishNames }
       });
 
       if (error) throw error;
@@ -100,7 +103,8 @@ const HeadlineSection = () => {
       // Track analysis event
       try {
         window.gtag?.('event', 'dish_analysis', {
-          dish_name: dishName,
+          dish_names: dishNames.join(', '),
+          dish_count: dishNames.length,
           page_location: window.location.href,
         });
       } catch (e) {
@@ -111,7 +115,7 @@ const HeadlineSection = () => {
       console.error('Analysis error:', error);
       toast({
         title: "Analysis failed",
-        description: "There was an error analyzing your dish. Please try again.",
+        description: "There was an error analyzing your dishes. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -176,7 +180,7 @@ const HeadlineSection = () => {
                       value={dishName}
                       onChange={(e) => setDishName(e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && !isAnalyzing && handleAnalyzeDish()}
-                      placeholder='Chicken Parmesan'
+                      placeholder='Chicken Parmesan, Lentil Pasta, Caesar Salad'
                       disabled={isAnalyzing}
                       className="w-full rounded-xl border-gray-300 bg-card/70 pl-10 pr-10 py-3 focus:ring-2 focus:ring-primary/40 focus:border-primary/60"
                     />
