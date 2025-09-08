@@ -32,8 +32,7 @@ const HeadlineSection = () => {
         <div className="absolute -bottom-28 -right-20 h-96 w-96 rounded-full blur-3xl opacity-40 bg-gradient-radial from-secondary/30 to-transparent" />
       </div>
 
-      <div className="mx-auto max-w-6xl px-6 pt-28 pb-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        {/* Copy */}
+      <div className="mx-auto max-w-3xl px-6 pt-28 pb-16 text-center">
         <div className="animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-[-0.02em] text-foreground">
             Price Smarter. Profit Faster.
@@ -62,7 +61,7 @@ const HeadlineSection = () => {
               </div>
             </div>
 
-            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
               <span className="flex items-center gap-1">
                 <Check size={16} className="text-green-600" />
                 Free
@@ -76,20 +75,6 @@ const HeadlineSection = () => {
                 PDF / Photo / CSV
               </span>
             </div>
-          </div>
-        </div>
-
-        {/* Right-side visual */}
-        <div className="relative animate-fade-in">
-          <div className="aspect-[4/3] w-full rounded-3xl overflow-hidden ring-1 ring-border/20 shadow-lg bg-card/60 backdrop-blur">
-            <img 
-              src="/lovable-uploads/f130c6c2-e32b-4884-8913-9d7b9aad91da.png" 
-              alt="Menu analysis dashboard preview" 
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <div className="absolute -bottom-4 -left-4 rounded-xl bg-card/90 px-3 py-2 text-xs shadow ring-1 ring-border/20">
-            "Found £1.40 extra margin per dish in week one." — Lena, Bistro Nova
           </div>
         </div>
       </div>
