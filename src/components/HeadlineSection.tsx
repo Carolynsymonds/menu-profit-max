@@ -32,22 +32,7 @@ const HeadlineSection = () => {
           </h1>
         </div>
 
-        <div className="py-8 space-y-3 !mt-0 order-2 md:order-3">
-           <Button 
-                onClick={() => handleSignupClick()}
-                className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-               >
-                 {siteContent.headline.buttonText} - <span className="font-light">for 12 months</span>
-               </Button>
-          <p className="text-xs text-muted-foreground flex items-center justify-center gap-1">
-            <Check size={14} className="text-primary" />
-            {siteContent.headline.disclaimer}
-          </p>
-        </div>
-
-        <div className="pb-4 order-3 md:order-2">
-          <BenefitsSection />
-        </div>
+       
       </div>
     </section>
   );
