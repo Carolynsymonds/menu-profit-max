@@ -66,11 +66,10 @@ const HeadlineSection = () => {
                     {/* Search icon with sparkles - gradient */}
                     <div className="absolute left-3 flex items-center gap-1 z-10">
                       <Search size={18} className="text-blue-600" />
-                      <Sparkles size={14} className="text-purple-600" />
                     </div>
                     
                     <Input
-                      placeholder='e.g., "Chicken Parmesan"'
+                      placeholder='Chicken Parmesan'
                       className="w-full rounded-xl border border-primary/20 bg-card/70 pl-14 pr-10 py-3 focus:ring-2 focus:ring-primary/40 focus:border-primary/60"
                     />
                     
