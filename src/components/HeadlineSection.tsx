@@ -71,13 +71,13 @@ const HeadlineSection = () => {
               {/* OR separator */}
               <div className="flex items-center gap-4 py-2">
                 <div className="flex-1 h-px bg-border"></div>
-                <span className="text-sm text-muted-foreground font-medium">OR type a dish</span>
+                <span className="text-sm text-muted-foreground font-medium">OR</span>
                 <div className="flex-1 h-px bg-border"></div>
               </div>
 
               <Button
                 onClick={handleSignupClick}
-                className="flex items-center underline justify-center gap-2 rounded-xl px-4 py-3 !bg-white font-semibold text-muted-foreground hover:bg-primary/10 transition-all"
+                className="flex items-center underline justify-center gap-2 rounded-xl px-4 py-3 !bg-white font-semibold text-primary hover:bg-primary/10 transition-all"
               >
                 <Upload size={20} />
                 Upload menu
