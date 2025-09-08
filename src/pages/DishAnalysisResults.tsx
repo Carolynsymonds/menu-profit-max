@@ -168,41 +168,51 @@ const DishAnalysisResults = () => {
                 Profit Optimization Opportunities
               </h2>
               
-              <div className="space-y-4">
+              <Accordion type="single" collapsible className="w-full space-y-4">
                 {optimizations.map((optimization, index) => {
                   const originalPrice = parseFloat(originalDish.costBreakdown.menuPrice);
                   const savings = parseFloat(optimization.costSavings?.netSavings || '0');
                   const newPrice = originalPrice - savings;
                   
                   return (
-                    <Card key={index} className="border rounded-lg bg-card shadow-sm hover:shadow-md transition-shadow">
-                      <CardContent className="p-6">
-                        <div className="space-y-3">
-                          {/* Title */}
-                          <h3 className="text-lg font-semibold text-foreground">
-                            {optimization.optimization}
-                          </h3>
-                          
-                          {/* Subtitle */}
-                          <p className="text-muted-foreground text-sm leading-relaxed">
-                            {optimization.impact}
-                          </p>
-                          
-                          {/* Price and Margin */}
-                          <div className="flex items-center gap-2 text-base font-medium">
-                            <span className="text-foreground">
-                              ${newPrice.toFixed(2)} –
-                            </span>
-                            <span className="text-green-600 font-semibold">
-                              +{optimization.marginImprovement}% margin
-                            </span>
+                    <AccordionItem key={index} value={`optimization-${index}`} className="border rounded-lg bg-card shadow-sm">
+                      <AccordionTrigger className="hover:no-underline p-0">
+                        <div className="flex items-center w-full p-6">
+                          <div className="flex-1 text-left space-y-3">
+                            {/* Title */}
+                            <h3 className="text-lg font-semibold text-foreground">
+                              {optimization.optimization}
+                            </h3>
+                            
+                            {/* Subtitle */}
+                            <p className="text-muted-foreground text-sm leading-relaxed">
+                              {optimization.impact}
+                            </p>
+                            
+                            {/* Price and Margin */}
+                            <div className="flex items-center gap-2 text-base font-medium">
+                              <span className="text-foreground">
+                                ${newPrice.toFixed(2)} –
+                              </span>
+                              <span className="text-green-600 font-semibold">
+                                +{optimization.marginImprovement}% margin
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </CardContent>
-                    </Card>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-6 pb-6">
+                        <div className="border-t pt-4">
+                          <h4 className="font-medium text-foreground mb-3">Implementation</h4>
+                          <p className="text-muted-foreground text-sm leading-relaxed">
+                            {optimization.implementation}
+                          </p>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
                   );
                 })}
-              </div>
+              </Accordion>
               </div>
             </div>
 
