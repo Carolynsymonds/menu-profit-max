@@ -44,23 +44,7 @@ const HeadlineSection = () => {
           {/* Input card */}
           <div className="mt-8 rounded-2xl p-4 md:p-5 backdrop-blur bg-card/70 ring-1 ring-border/50 shadow-sm">
             <div className="flex flex-col gap-3">
-              <Button
-                onClick={handleSignupClick}
-                variant="outline"
-                className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 !bg-white font-semibold border-primary text-primary hover:bg-primary/10 transition-all"
-              >
-                <Upload size={20} />
-                Upload menu now
-              </Button>
-
-              {/* OR separator */}
-              <div className="flex items-center gap-4 py-2">
-                <div className="flex-1 h-px bg-border"></div>
-                <span className="text-sm text-muted-foreground font-medium">OR type a dish</span>
-                <div className="flex-1 h-px bg-border"></div>
-              </div>
-
-              <div className="flex gap-2">
+               <div className="flex gap-2">
                 <div className="relative flex-1">
                   <div className="relative flex items-center">
                     {/* Search icon with sparkles - gradient */}
@@ -83,6 +67,22 @@ const HeadlineSection = () => {
                   Generate AI Menu
                 </Button>
               </div>
+
+              {/* OR separator */}
+              <div className="flex items-center gap-4 py-2">
+                <div className="flex-1 h-px bg-border"></div>
+                <span className="text-sm text-muted-foreground font-medium">OR type a dish</span>
+                <div className="flex-1 h-px bg-border"></div>
+              </div>
+
+              <Button
+                onClick={handleSignupClick}
+                variant="outline"
+                className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 !bg-white font-semibold border-primary text-primary hover:bg-primary/10 transition-all"
+              >
+                <Upload size={20} />
+                Upload menu now
+              </Button>
             </div>
             
           </div>
