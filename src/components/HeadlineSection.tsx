@@ -76,9 +76,7 @@ const HeadlineSection = () => {
                     {/* Clear button */}
                     <button 
                       className="absolute right-3 w-5 h-5 rounded-full bg-gray-400 hover:bg-gray-500 flex items-center justify-center transition-colors z-10"
-                      onClick={() => {/* Clear input logic */}}
                     >
-                      <X size={12} className="text-white" />
                     </button>
                   </div>
                 </div>
