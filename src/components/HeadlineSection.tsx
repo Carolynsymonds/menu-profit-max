@@ -233,7 +233,7 @@ const HeadlineSection = () => {
                   <img 
                     src={brand.src} 
                     alt={brand.alt} 
-                    className={`${brand.className} max-w-full object-contain opacity-70 hover:opacity-100 transition-opacity`}
+                    className={`${brand.className} max-w-full object-contain`}
                   />
                 </div>
               ))}
