@@ -177,36 +177,39 @@ const DishAnalysisResults = () => {
                   return (
                     <AccordionItem key={index} value={`optimization-${index}`} className="border rounded-lg bg-card shadow-sm">
                       <AccordionTrigger className="hover:no-underline p-0">
-                        <div className="flex items-center w-full p-6">
-                          <div className="flex-1 text-left space-y-3">
+                        <div className="flex items-center justify-between w-full p-6">
+                          <div className="flex-1 text-left">
                             {/* Title */}
                             <h3 className="text-lg font-semibold text-foreground">
                               {optimization.optimization}
                             </h3>
-                            
-                            {/* Subtitle */}
-                            <p className="text-muted-foreground text-sm leading-relaxed">
-                              {optimization.impact}
-                            </p>
-                            
-                            {/* Price and Margin */}
-                            <div className="flex items-center gap-2 text-base font-medium">
-                              <span className="text-foreground">
-                                ${newPrice.toFixed(2)} –
-                              </span>
-                              <span className="text-green-600 font-semibold">
-                                +{optimization.marginImprovement}% margin
-                              </span>
-                            </div>
+                          </div>
+                          
+                          {/* Price and Margin */}
+                          <div className="flex items-center gap-2 text-base font-medium">
+                            <span className="text-foreground">
+                              ${newPrice.toFixed(2)} –
+                            </span>
+                            <span className="text-green-600 font-semibold">
+                              +{optimization.marginImprovement}% margin
+                            </span>
                           </div>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className="px-6 pb-6">
-                        <div className="border-t pt-4">
-                          <h4 className="font-medium text-foreground mb-3">Implementation</h4>
-                          <p className="text-muted-foreground text-sm leading-relaxed">
-                            {optimization.implementation}
-                          </p>
+                        <div className="border-t pt-4 space-y-4">
+                          <div>
+                            <h4 className="font-medium text-foreground mb-2">Description</h4>
+                            <p className="text-muted-foreground text-sm leading-relaxed">
+                              {optimization.impact}
+                            </p>
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-foreground mb-2">Implementation</h4>
+                            <p className="text-muted-foreground text-sm leading-relaxed">
+                              {optimization.implementation}
+                            </p>
+                          </div>
                         </div>
                       </AccordionContent>
                     </AccordionItem>
