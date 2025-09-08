@@ -71,7 +71,7 @@ const HeadlineSection = () => {
               {/* OR separator */}
               <div className="flex items-center gap-4 py-2">
                 <div className="flex-1 h-px bg-border"></div>
-                <span className="text-sm text-muted-foreground font-medium">OR type a dish</span>
+                <span className="text-sm text-muted-foreground font-medium">OR</span>
                 <div className="flex-1 h-px bg-border"></div>
               </div>
 
