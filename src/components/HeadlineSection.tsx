@@ -51,7 +51,7 @@ const HeadlineSection = () => {
                     <div className="absolute left-3 flex items-center gap-1 z-10">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI search icon"
-                           className="text-blue-600">
+                           className="text-primary">
                         <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2" />
                         <line x1="15.8" y1="15.8" x2="20" y2="20"
                               stroke="currentColor" stroke-width="2" stroke-linecap="round" />
