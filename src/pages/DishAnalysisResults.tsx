@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, DollarSign, Lightbulb, ArrowLeft, Home } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { TrendingUp, DollarSign, Lightbulb, ArrowLeft, Home, ChefHat } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -97,39 +98,53 @@ const DishAnalysisResults = () => {
 
           <div className="space-y-6">
             {/* Original Dish Analysis */}
-            <Card className="border-2 border-primary/20">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-primary">
-                  <DollarSign className="h-5 w-5" />
-                  Your Dish Analysis
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-semibold">{originalDish.name}</h3>
-                    <Badge className={`text-lg px-3 py-1 ${getMarginColor(originalDish.estimatedMargin)}`}>
-                      {originalDish.estimatedMargin}% margin
-                    </Badge>
-                  </div>
-                  
-                  <div className="grid grid-cols-3 gap-4 text-sm">
-                    <div>
-                      <p className="text-muted-foreground">Ingredient Cost</p>
-                      <p className="font-semibold">${originalDish.costBreakdown.ingredientCost}</p>
+            <div className="space-y-4">
+              <h2 className="text-2xl font-bold flex items-center gap-2">
+                <DollarSign className="h-6 w-6 text-primary" />
+                Your Dish Analysis
+              </h2>
+              
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="original-dish" className="border rounded-lg bg-card shadow-sm">
+                  <AccordionTrigger className="hover:no-underline p-0">
+                    <div className="flex items-center w-full p-4">
+                      {/* Left side - Dish details */}
+                      <div className="flex-1 text-left">
+                        <h3 className="text-lg font-semibold text-foreground mb-1">{originalDish.name}</h3>
+                        <p className="text-base font-medium text-foreground">${originalDish.costBreakdown.menuPrice}</p>
+                        <Badge className={`text-sm px-2 py-1 mt-2 ${getMarginColor(originalDish.estimatedMargin)}`}>
+                          {originalDish.estimatedMargin}% margin
+                        </Badge>
+                      </div>
+                      
+                      {/* Right side - Food image placeholder */}
+                      <div className="w-20 h-20 bg-muted rounded-lg flex items-center justify-center ml-4 flex-shrink-0">
+                        <ChefHat className="h-8 w-8 text-muted-foreground" />
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-muted-foreground">Labor Cost</p>
-                      <p className="font-semibold">${originalDish.costBreakdown.laborCost}</p>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-4 pb-4">
+                    <div className="border-t pt-4">
+                      <h4 className="font-medium text-foreground mb-3">Cost Breakdown</h4>
+                      <div className="grid grid-cols-3 gap-4 text-sm">
+                        <div>
+                          <p className="text-muted-foreground">Ingredient Cost</p>
+                          <p className="font-semibold text-foreground">${originalDish.costBreakdown.ingredientCost}</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground">Labor Cost</p>
+                          <p className="font-semibold text-foreground">${originalDish.costBreakdown.laborCost}</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground">Menu Price</p>
+                          <p className="font-semibold text-foreground">${originalDish.costBreakdown.menuPrice}</p>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-muted-foreground">Menu Price</p>
-                      <p className="font-semibold">${originalDish.costBreakdown.menuPrice}</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
 
             {/* Higher-Profit Suggestions */}
             <div className="space-y-4">
@@ -138,25 +153,41 @@ const DishAnalysisResults = () => {
                 Higher-Profit Suggestions
               </h2>
               
-              <div className="grid gap-4">
+              <Accordion type="single" collapsible className="w-full space-y-3">
                 {suggestions.map((suggestion, index) => (
-                  <Card key={index} className="border-l-4 border-l-green-500 hover:shadow-md transition-shadow">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-lg">{suggestion.dishName}</h3>
-                        <Badge className="bg-green-100 text-green-800 text-lg px-3 py-1">
-                          {suggestion.margin}% margin
-                        </Badge>
+                  <AccordionItem key={index} value={`suggestion-${index}`} className="border rounded-lg bg-card shadow-sm">
+                    <AccordionTrigger className="hover:no-underline p-0">
+                      <div className="flex items-center w-full p-4">
+                        {/* Left side - Dish details */}
+                        <div className="flex-1 text-left">
+                          <h3 className="text-lg font-semibold text-foreground mb-1">{suggestion.dishName}</h3>
+                          <p className="text-sm text-muted-foreground">Click to see analysis details...</p>
+                          <Badge className="bg-green-100 text-green-800 text-sm px-2 py-1 mt-2">
+                            {suggestion.margin}% margin
+                          </Badge>
+                        </div>
+                        
+                        {/* Right side - Food image placeholder */}
+                        <div className="w-20 h-20 bg-muted rounded-lg flex items-center justify-center ml-4 flex-shrink-0">
+                          <ChefHat className="h-8 w-8 text-muted-foreground" />
+                        </div>
                       </div>
-                      
-                      <div className="space-y-2 text-sm text-muted-foreground">
-                        <p><strong>Why it's more profitable:</strong> {suggestion.reasoning}</p>
-                        <p><strong>Shared ingredients:</strong> {suggestion.ingredientOverlap}</p>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-4 pb-4">
+                      <div className="border-t pt-4 space-y-3">
+                        <div>
+                          <h4 className="font-medium text-foreground mb-2">Why it's more profitable:</h4>
+                          <p className="text-sm text-muted-foreground">{suggestion.reasoning}</p>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-foreground mb-2">Shared ingredients:</h4>
+                          <p className="text-sm text-muted-foreground">{suggestion.ingredientOverlap}</p>
+                        </div>
                       </div>
-                    </CardContent>
-                  </Card>
+                    </AccordionContent>
+                  </AccordionItem>
                 ))}
-              </div>
+              </Accordion>
             </div>
 
             {/* Profitability Tip */}
