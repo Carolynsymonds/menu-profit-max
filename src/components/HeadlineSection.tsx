@@ -38,7 +38,7 @@ const HeadlineSection = () => {
             Price Smarter. Profit Faster.
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Upload your menu and get instant insights on costs, pricing, and margins — in minutes.
+            Upload your menu or type a dish and get instant insights on costs, pricing, and margins — in seconds.
           </p>
 
           {/* Input card */}
@@ -49,7 +49,7 @@ const HeadlineSection = () => {
                 className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
               >
                 <Upload size={20} />
-                Upload Menu
+                Upload menu now
               </Button>
 
               <div className="relative flex-1">
