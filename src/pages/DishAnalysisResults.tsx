@@ -168,56 +168,41 @@ const DishAnalysisResults = () => {
                 Profit Optimization Opportunities
               </h2>
               
-              <Accordion type="single" collapsible className="w-full space-y-3">
-                {optimizations.map((optimization, index) => (
-                  <AccordionItem key={index} value={`optimization-${index}`} className="border rounded-lg bg-card shadow-sm">
-                    <AccordionTrigger className="hover:no-underline p-0">
-                      <div className="flex items-center w-full p-4">
-                        {/* Left side - Optimization details */}
-                        <div className="flex-1 text-left">
-                          <h3 className="text-lg font-semibold text-foreground mb-1">{optimization.optimization}</h3>
-                          <p className="text-base font-medium text-foreground">Save ${optimization.costSavings?.netSavings || 'N/A'} per dish</p>
-                          <Badge className="bg-green-100 text-green-800 text-sm px-2 py-1 mt-2">
-                            +{optimization.marginImprovement}% margin
-                          </Badge>
-                        </div>
-                        
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="px-4 pb-4">
-                      <div className="border-t pt-4 space-y-4">
-                        {optimization.costSavings && (
-                          <div>
-                            <h4 className="font-medium text-foreground mb-3">Cost Impact</h4>
-                            <div className="grid grid-cols-3 gap-4 text-sm">
-                              <div>
-                                <p className="text-muted-foreground">Ingredient Savings</p>
-                                <p className="font-semibold text-green-600">-${optimization.costSavings.ingredientSavings}</p>
-                              </div>
-                              <div>
-                                <p className="text-muted-foreground">New Ingredient Cost</p>
-                                <p className="font-semibold text-foreground">${optimization.costSavings.newIngredientCost}</p>
-                              </div>
-                              <div>
-                                <p className="text-muted-foreground">Net Savings</p>
-                                <p className="font-semibold text-green-600">${optimization.costSavings.netSavings}</p>
-                              </div>
-                            </div>
+              <div className="space-y-4">
+                {optimizations.map((optimization, index) => {
+                  const originalPrice = parseFloat(originalDish.costBreakdown.menuPrice);
+                  const savings = parseFloat(optimization.costSavings?.netSavings || '0');
+                  const newPrice = originalPrice - savings;
+                  
+                  return (
+                    <Card key={index} className="border rounded-lg bg-card shadow-sm hover:shadow-md transition-shadow">
+                      <CardContent className="p-6">
+                        <div className="space-y-3">
+                          {/* Title */}
+                          <h3 className="text-lg font-semibold text-foreground">
+                            {optimization.optimization}
+                          </h3>
+                          
+                          {/* Subtitle */}
+                          <p className="text-muted-foreground text-sm leading-relaxed">
+                            {optimization.impact}
+                          </p>
+                          
+                          {/* Price and Margin */}
+                          <div className="flex items-center gap-2 text-base font-medium">
+                            <span className="text-foreground">
+                              ${newPrice.toFixed(2)} –
+                            </span>
+                            <span className="text-green-600 font-semibold">
+                              +{optimization.marginImprovement}% margin
+                            </span>
                           </div>
-                        )}
-                        <div>
-                          <h4 className="font-medium text-foreground mb-2">Financial Impact:</h4>
-                          <p className="text-sm text-muted-foreground">{optimization.impact}</p>
                         </div>
-                        <div>
-                          <h4 className="font-medium text-foreground mb-2">How to implement:</h4>
-                          <p className="text-sm text-muted-foreground">{optimization.implementation}</p>
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
               </div>
             </div>
 
