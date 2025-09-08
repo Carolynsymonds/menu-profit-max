@@ -34,7 +34,6 @@ interface OriginalDish {
 interface DishAnalysisData {
   originalDish: OriginalDish;
   optimizations: OptimizationSuggestion[];
-  tip: string;
 }
 
 const DishAnalysisResults = () => {
@@ -55,7 +54,7 @@ const DishAnalysisResults = () => {
     return null;
   }
 
-  const { originalDish, optimizations, tip } = analysisData;
+  const { originalDish, optimizations } = analysisData;
 
   const getMarginColor = (margin: number) => {
     if (margin >= 40) return "text-green-600 bg-green-50";
@@ -107,7 +106,7 @@ const DishAnalysisResults = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Original Dish Analysis */}
               <div className="space-y-4">
-              <h2 className="text-xl font-bold">
+              <h2 className="text-xl text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light px-0">
                 Original
               </h2>
               
@@ -164,7 +163,7 @@ const DishAnalysisResults = () => {
 
               {/* Profit Optimization Opportunities */}
               <div className="space-y-4">
-              <h2 className="text-xl font-bold">
+              <h2 className="text-xl text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light px-0">
                 Optimized Suggestions
               </h2>
               
@@ -218,19 +217,6 @@ const DishAnalysisResults = () => {
               </div>
             </div>
 
-            {/* Profitability Tip */}
-            {tip && (
-              <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
-                <CardHeader>
-                  <CardTitle className="text-blue-700">
-                    Pro Tip
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-blue-800">{tip}</p>
-                </CardContent>
-              </Card>
-            )}
 
             {/* Action Buttons */}
             <div className="flex justify-center gap-4 pt-6">
