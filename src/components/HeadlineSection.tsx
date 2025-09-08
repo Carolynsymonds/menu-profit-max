@@ -54,7 +54,7 @@ const HeadlineSection = () => {
                     
                     <Input
                       placeholder='Chicken Parmesan'
-                      className="w-full rounded-xl border border-primary/20 bg-card/70 pl-14 pr-10 py-3 focus:ring-2 focus:ring-primary/40 focus:border-primary/60"
+                      className="w-full rounded-xl border border-primary/20 bg-card/70 pl-10 pr-10 py-3 focus:ring-2 focus:ring-primary/40 focus:border-primary/60"
                     />
                     
                   </div>
