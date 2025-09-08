@@ -38,7 +38,7 @@ const HeadlineSection = () => {
              Profitize Your Menu Now
           </h1>
           <p className="text-xl text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light px-0">
-            Try AI tool to get instant insights on costs, pricing, and margins — in seconds.
+            Type a dish or upload your menu. Get instant suggestions to increase margins with smarter pricing, ingredient swaps, and upsell ideas.
           </p>
 
           {/* Input card */}
