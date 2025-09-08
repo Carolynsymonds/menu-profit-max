@@ -55,16 +55,22 @@ const HeadlineSection = () => {
                         <path d="M13.666 8.964c-.857-.236-1.356-.615-1.527-1.4 0-.095-.084-.172-.187-.172s-.187.077-.187.171c-.257.786-.67 1.244-1.528 1.401-.103 0-.187.077-.187.171 0 .095.084.172.187.172.857.235 1.357.614 1.528 1.4 0 .095.084.171.187.171s.187-.076.187-.171c.257-.786.67-1.243 1.527-1.4.104 0 .187-.077.187-.172 0-.094-.083-.171-.187-.171Z" fill="url(#_3085173834__c)"></path>
                         <defs>
                           <linearGradient id="_3085173834__a" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="#03A5AB"></stop>
-                            <stop offset="1" stopColor="#8B3DFF"></stop>
+                            <stop stopColor="hsl(var(--primary))" stopOpacity="0.8"></stop>
+                            <stop offset="0.3" stopColor="hsl(var(--primary))" stopOpacity="1"></stop>
+                            <stop offset="0.7" stopColor="hsl(var(--primary))" stopOpacity="0.6"></stop>
+                            <stop offset="1" stopColor="hsl(var(--primary))" stopOpacity="0.9"></stop>
                           </linearGradient>
                           <linearGradient id="_3085173834__b" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="#03A5AB"></stop>
-                            <stop offset="1" stopColor="#8B3DFF"></stop>
+                            <stop stopColor="hsl(var(--primary))" stopOpacity="1"></stop>
+                            <stop offset="0.25" stopColor="hsl(var(--primary))" stopOpacity="0.7"></stop>
+                            <stop offset="0.6" stopColor="hsl(var(--primary))" stopOpacity="0.9"></stop>
+                            <stop offset="1" stopColor="hsl(var(--primary))" stopOpacity="0.8"></stop>
                           </linearGradient>
                           <linearGradient id="_3085173834__c" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="#03A5AB"></stop>
-                            <stop offset="1" stopColor="#8B3DFF"></stop>
+                            <stop stopColor="hsl(var(--primary))" stopOpacity="0.9"></stop>
+                            <stop offset="0.4" stopColor="hsl(var(--primary))" stopOpacity="0.6"></stop>
+                            <stop offset="0.8" stopColor="hsl(var(--primary))" stopOpacity="1"></stop>
+                            <stop offset="1" stopColor="hsl(var(--primary))" stopOpacity="0.7"></stop>
                           </linearGradient>
                         </defs>
                       </svg>
