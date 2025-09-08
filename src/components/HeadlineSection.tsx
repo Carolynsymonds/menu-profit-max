@@ -59,27 +59,36 @@ const HeadlineSection = () => {
                 <div className="flex-1 h-px bg-border"></div>
               </div>
 
-              <div className="relative flex-1">
-                <div className="relative flex items-center">
-                  {/* Search icon with sparkles - gradient */}
-                  <div className="absolute left-3 flex items-center gap-1 z-10">
-                    <Search size={18} className="text-blue-600" />
-                    <Sparkles size={14} className="text-purple-600" />
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <div className="relative flex items-center">
+                    {/* Search icon with sparkles - gradient */}
+                    <div className="absolute left-3 flex items-center gap-1 z-10">
+                      <Search size={18} className="text-blue-600" />
+                      <Sparkles size={14} className="text-purple-600" />
+                    </div>
+                    
+                    <Input
+                      placeholder='e.g., "Chicken Parmesan"'
+                      className="w-full rounded-xl border border-primary/20 bg-card/70 pl-14 pr-10 py-3 focus:ring-2 focus:ring-primary/40 focus:border-primary/60"
+                    />
+                    
+                    {/* Clear button */}
+                    <button 
+                      className="absolute right-3 w-5 h-5 rounded-full bg-gray-400 hover:bg-gray-500 flex items-center justify-center transition-colors z-10"
+                      onClick={() => {/* Clear input logic */}}
+                    >
+                      <X size={12} className="text-white" />
+                    </button>
                   </div>
-                  
-                  <Input
-                    placeholder='e.g., "Chicken Parmesan"'
-                    className="w-full rounded-xl border border-primary/20 bg-card/70 pl-14 pr-10 py-3 focus:ring-2 focus:ring-primary/40 focus:border-primary/60"
-                  />
-                  
-                  {/* Clear button */}
-                  <button 
-                    className="absolute right-3 w-5 h-5 rounded-full bg-gray-400 hover:bg-gray-500 flex items-center justify-center transition-colors z-10"
-                    onClick={() => {/* Clear input logic */}}
-                  >
-                    <X size={12} className="text-white" />
-                  </button>
                 </div>
+                
+                <Button
+                  onClick={handleSignupClick}
+                  className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap"
+                >
+                  Generate Profitized Menu
+                </Button>
               </div>
             </div>
 
