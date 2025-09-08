@@ -51,7 +51,7 @@ serve(async (req) => {
     }
 
     // Create the analysis prompt
-    const prompt = `You are a restaurant profitability consultant. Analyze the dish "${dishName}" and provide a structured JSON response with the following format:
+    const prompt = `You are a restaurant profitability consultant. Analyze the dish "${dishName}" and provide optimization recommendations to improve its profitability. Provide a structured JSON response with the following format:
 
 {
   "originalDish": {
@@ -63,16 +63,16 @@ serve(async (req) => {
       "menuPrice": "typical restaurant price in USD"
     }
   },
-  "suggestions": [
+  "optimizations": [
     {
-      "dishName": "alternative dish name",
-      "margin": "percentage as number",
-      "reasoning": "why this is more profitable",
-      "ingredientOverlap": "what ingredients are shared",
-      "costBreakdown": {
-        "ingredientCost": "estimated cost in USD",
-        "laborCost": "estimated labor cost in USD",
-        "menuPrice": "typical restaurant price in USD"
+      "optimization": "specific actionable change (e.g., Replace chicken with eggplant)",
+      "marginImprovement": "percentage point increase (e.g., 8)",
+      "impact": "explanation of financial and operational benefits",
+      "implementation": "step-by-step instructions for implementing this change",
+      "costSavings": {
+        "ingredientSavings": "cost reduction in USD",
+        "newIngredientCost": "new ingredient cost in USD", 
+        "netSavings": "net savings per dish in USD"
       }
     }
   ],
@@ -80,12 +80,17 @@ serve(async (req) => {
 }
 
 Guidelines:
-- Base analysis on typical restaurant costs and pricing
-- Suggest 3-4 higher-margin alternatives from similar cuisine categories
-- Consider ingredient costs, preparation complexity, and upsell potential
-- Provide realistic profit margins based on industry standards
-- Focus on dishes that use lower-cost ingredients or have higher pricing potential
-- Make suggestions practical for implementation in a restaurant setting
+- Focus on optimizing the SAME dish, not suggesting different dishes
+- Provide 4-5 specific optimization recommendations such as:
+  * Ingredient substitutions (lower-cost alternatives with similar taste)
+  * Portion adjustments (reducing expensive ingredients while maintaining quality)
+  * Preparation method changes (more efficient cooking techniques)
+  * Supplier optimizations (domestic vs imported ingredients)
+  * Upselling opportunities (add-ons that increase revenue)
+- Base analysis on realistic restaurant costs and supplier options
+- Ensure optimizations preserve the dish's core identity and taste profile
+- Provide specific cost savings and margin improvement percentages
+- Make recommendations practical and immediately implementable
 
 Respond ONLY with the JSON structure, no additional text.`;
 
@@ -139,7 +144,7 @@ Respond ONLY with the JSON structure, no additional text.`;
         dish_name: dishName.toLowerCase().trim(),
         analysis_result: analysisResult,
         profit_margin: profitMargin,
-        suggestions: analysisResult.suggestions || []
+        suggestions: analysisResult.optimizations || []
       });
 
     console.log('Analysis cached successfully for:', dishName);

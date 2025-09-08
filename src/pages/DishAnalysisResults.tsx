@@ -8,15 +8,15 @@ import { ArrowLeft } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-interface DishSuggestion {
-  dishName: string;
-  margin: number;
-  reasoning: string;
-  ingredientOverlap: string;
-  costBreakdown: {
-    ingredientCost: string;
-    laborCost: string;
-    menuPrice: string;
+interface OptimizationSuggestion {
+  optimization: string;
+  marginImprovement: number;
+  impact: string;
+  implementation: string;
+  costSavings: {
+    ingredientSavings: string;
+    newIngredientCost: string;
+    netSavings: string;
   };
 }
 
@@ -32,7 +32,7 @@ interface OriginalDish {
 
 interface DishAnalysisData {
   originalDish: OriginalDish;
-  suggestions: DishSuggestion[];
+  optimizations: OptimizationSuggestion[];
   tip: string;
 }
 
@@ -54,7 +54,7 @@ const DishAnalysisResults = () => {
     return null;
   }
 
-  const { originalDish, suggestions, tip } = analysisData;
+  const { originalDish, optimizations, tip } = analysisData;
 
   const getMarginColor = (margin: number) => {
     if (margin >= 40) return "text-green-600 bg-green-50";
@@ -148,23 +148,23 @@ const DishAnalysisResults = () => {
               </Accordion>
               </div>
 
-              {/* Higher-Profit Suggestions */}
+              {/* Profit Optimization Opportunities */}
               <div className="space-y-4">
               <h2 className="text-2xl font-bold">
-                Higher-Profit Suggestions
+                Profit Optimization Opportunities
               </h2>
               
               <Accordion type="single" collapsible className="w-full space-y-3">
-                {suggestions.map((suggestion, index) => (
-                  <AccordionItem key={index} value={`suggestion-${index}`} className="border rounded-lg bg-card shadow-sm">
+                {optimizations.map((optimization, index) => (
+                  <AccordionItem key={index} value={`optimization-${index}`} className="border rounded-lg bg-card shadow-sm">
                     <AccordionTrigger className="hover:no-underline p-0">
                       <div className="flex items-center w-full p-4">
-                        {/* Left side - Dish details */}
+                        {/* Left side - Optimization details */}
                         <div className="flex-1 text-left">
-                          <h3 className="text-lg font-semibold text-foreground mb-1">{suggestion.dishName}</h3>
-                          <p className="text-base font-medium text-foreground">${suggestion.costBreakdown?.menuPrice || 'N/A'}</p>
+                          <h3 className="text-lg font-semibold text-foreground mb-1">{optimization.optimization}</h3>
+                          <p className="text-base font-medium text-foreground">Save ${optimization.costSavings?.netSavings || 'N/A'} per dish</p>
                           <Badge className="bg-green-100 text-green-800 text-sm px-2 py-1 mt-2">
-                            {suggestion.margin}% margin
+                            +{optimization.marginImprovement}% margin
                           </Badge>
                         </div>
                         
@@ -172,32 +172,32 @@ const DishAnalysisResults = () => {
                     </AccordionTrigger>
                     <AccordionContent className="px-4 pb-4">
                       <div className="border-t pt-4 space-y-4">
-                        {suggestion.costBreakdown && (
+                        {optimization.costSavings && (
                           <div>
-                            <h4 className="font-medium text-foreground mb-3">Cost Breakdown</h4>
+                            <h4 className="font-medium text-foreground mb-3">Cost Impact</h4>
                             <div className="grid grid-cols-3 gap-4 text-sm">
                               <div>
-                                <p className="text-muted-foreground">Ingredient Cost</p>
-                                <p className="font-semibold text-foreground">${suggestion.costBreakdown.ingredientCost}</p>
+                                <p className="text-muted-foreground">Ingredient Savings</p>
+                                <p className="font-semibold text-green-600">-${optimization.costSavings.ingredientSavings}</p>
                               </div>
                               <div>
-                                <p className="text-muted-foreground">Labor Cost</p>
-                                <p className="font-semibold text-foreground">${suggestion.costBreakdown.laborCost}</p>
+                                <p className="text-muted-foreground">New Ingredient Cost</p>
+                                <p className="font-semibold text-foreground">${optimization.costSavings.newIngredientCost}</p>
                               </div>
                               <div>
-                                <p className="text-muted-foreground">Menu Price</p>
-                                <p className="font-semibold text-foreground">${suggestion.costBreakdown.menuPrice}</p>
+                                <p className="text-muted-foreground">Net Savings</p>
+                                <p className="font-semibold text-green-600">${optimization.costSavings.netSavings}</p>
                               </div>
                             </div>
                           </div>
                         )}
                         <div>
-                          <h4 className="font-medium text-foreground mb-2">Why it's more profitable:</h4>
-                          <p className="text-sm text-muted-foreground">{suggestion.reasoning}</p>
+                          <h4 className="font-medium text-foreground mb-2">Financial Impact:</h4>
+                          <p className="text-sm text-muted-foreground">{optimization.impact}</p>
                         </div>
                         <div>
-                          <h4 className="font-medium text-foreground mb-2">Shared ingredients:</h4>
-                          <p className="text-sm text-muted-foreground">{suggestion.ingredientOverlap}</p>
+                          <h4 className="font-medium text-foreground mb-2">How to implement:</h4>
+                          <p className="text-sm text-muted-foreground">{optimization.implementation}</p>
                         </div>
                       </div>
                     </AccordionContent>
