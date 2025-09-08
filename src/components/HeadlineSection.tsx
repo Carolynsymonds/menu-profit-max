@@ -35,7 +35,7 @@ const HeadlineSection = () => {
       <div className="mx-auto max-w-3xl px-6 pt-28 pb-16 text-center">
         <div className="animate-fade-in grid gap-3 mt-[49px]">
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-[-0.02em] text-foreground">
-            Price Smarter. Profit Faster.
+             Profitize Your Menu Now
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
             Upload your menu or type a dish and get instant insights on costs, pricing, and margins — in seconds.
