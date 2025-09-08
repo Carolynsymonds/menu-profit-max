@@ -115,10 +115,7 @@ const DishAnalysisResults = () => {
                           {originalDish.estimatedMargin}% margin
                         </Badge>
                       </div>
-                      
-                      {/* Right side - Food image placeholder */}
-                      <div className="w-20 h-20 bg-muted rounded-lg ml-4 flex-shrink-0">
-                      </div>
+                     
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="px-4 pb-4">
