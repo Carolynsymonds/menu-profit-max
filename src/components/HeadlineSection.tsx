@@ -42,14 +42,14 @@ const HeadlineSection = () => {
           </p>
 
           {/* Input card */}
-          <div className="mt-8 p-4 md:p-5">
+          <div className="mt-8 rounded-2xl p-4 md:p-5 backdrop-blur bg-card/70 ring-1 ring-border/50 shadow-sm">
             <div className="flex flex-col md:flex-row gap-3">
               <Button
                 onClick={handleSignupClick}
                 className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
               >
                 <Upload size={20} />
-                Analyze My Menu
+                Upload Menu
               </Button>
 
               <div className="relative flex-1">
