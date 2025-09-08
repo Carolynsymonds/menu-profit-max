@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TrendingUp, DollarSign, Lightbulb, ArrowLeft, Home, ChefHat } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -99,8 +99,7 @@ const DishAnalysisResults = () => {
           <div className="space-y-6">
             {/* Original Dish Analysis */}
             <div className="space-y-4">
-              <h2 className="text-2xl font-bold flex items-center gap-2">
-                <DollarSign className="h-6 w-6 text-primary" />
+              <h2 className="text-2xl font-bold">
                 Your Dish Analysis
               </h2>
               
@@ -118,8 +117,7 @@ const DishAnalysisResults = () => {
                       </div>
                       
                       {/* Right side - Food image placeholder */}
-                      <div className="w-20 h-20 bg-muted rounded-lg flex items-center justify-center ml-4 flex-shrink-0">
-                        <ChefHat className="h-8 w-8 text-muted-foreground" />
+                      <div className="w-20 h-20 bg-muted rounded-lg ml-4 flex-shrink-0">
                       </div>
                     </div>
                   </AccordionTrigger>
@@ -148,8 +146,7 @@ const DishAnalysisResults = () => {
 
             {/* Higher-Profit Suggestions */}
             <div className="space-y-4">
-              <h2 className="text-2xl font-bold flex items-center gap-2">
-                <TrendingUp className="h-6 w-6 text-green-600" />
+              <h2 className="text-2xl font-bold">
                 Higher-Profit Suggestions
               </h2>
               
@@ -168,8 +165,7 @@ const DishAnalysisResults = () => {
                         </div>
                         
                         {/* Right side - Food image placeholder */}
-                        <div className="w-20 h-20 bg-muted rounded-lg flex items-center justify-center ml-4 flex-shrink-0">
-                          <ChefHat className="h-8 w-8 text-muted-foreground" />
+                        <div className="w-20 h-20 bg-muted rounded-lg ml-4 flex-shrink-0">
                         </div>
                       </div>
                     </AccordionTrigger>
@@ -194,8 +190,7 @@ const DishAnalysisResults = () => {
             {tip && (
               <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-blue-700">
-                    <Lightbulb className="h-5 w-5" />
+                  <CardTitle className="text-blue-700">
                     Pro Tip
                   </CardTitle>
                 </CardHeader>
@@ -219,7 +214,6 @@ const DishAnalysisResults = () => {
                 variant="outline"
                 className="px-6 py-3 rounded-lg font-medium"
               >
-                <Home className="h-4 w-4 mr-2" />
                 Back to Home
               </Button>
             </div>
