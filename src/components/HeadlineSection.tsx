@@ -6,7 +6,7 @@ import { siteContent } from "@/config/site-content";
 import BenefitsSection from "@/components/BenefitsSection";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
 import { supabase } from "@/integrations/supabase/client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 const HeadlineSection = () => {
@@ -15,6 +15,13 @@ const HeadlineSection = () => {
   const navigate = useNavigate();
   const [dishName, setDishName] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
+  
+  const loadingMessages = [
+    "Finding highest margin recipes",
+    "Evaluating competitor menus", 
+    "Finding highest margin upsells"
+  ];
   
   const handleSignupClick = () => {
     try {
@@ -29,6 +36,20 @@ const HeadlineSection = () => {
     }
     navigateWithUtm('/signup');
   };
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (isAnalyzing) {
+      interval = setInterval(() => {
+        setLoadingMessageIndex((prev) => (prev + 1) % loadingMessages.length);
+      }, 2000);
+    }
+    
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isAnalyzing, loadingMessages.length]);
 
   const handleAnalyzeDish = async () => {
     if (!dishName.trim()) {
@@ -148,7 +169,7 @@ const HeadlineSection = () => {
                   {isAnalyzing ? (
                     <>
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Analyzing...
+                      <span className="animate-pulse">{loadingMessages[loadingMessageIndex]}</span>
                     </>
                   ) : (
                     'Boost My Profits'
