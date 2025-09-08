@@ -175,22 +175,21 @@ const DishAnalysisResults = () => {
                   const newPrice = originalPrice - savings;
                   
                   return (
-                    <AccordionItem key={index} value={`optimization-${index}`} className="border rounded-lg bg-card shadow-sm">
+                    <AccordionItem key={index} value={`optimization-${index}`} className="border rounded-lg bg-card shadow-sm hover:shadow-md transition-shadow duration-200">
                       <AccordionTrigger className="hover:no-underline p-0">
-                        <div className="flex items-center justify-between w-full p-6">
-                          <div className="flex-1 text-left">
-                            {/* Title */}
-                            <h3 className="text-lg font-semibold text-foreground">
-                              {optimization.optimization}
-                            </h3>
-                          </div>
+                        <div className="w-full p-6 space-y-3">
+                          {/* Title */}
+                          <h3 className="text-lg font-semibold text-foreground text-left">
+                            {optimization.optimization}
+                          </h3>
                           
-                          {/* Price and Margin */}
-                          <div className="flex items-center gap-2 text-base font-medium">
-                            <span className="text-foreground">
-                              ${newPrice.toFixed(2)} –
+                          {/* Price and Margin - Stacked below title */}
+                          <div className="flex items-center gap-3 text-left">
+                            <span className="text-xl font-bold text-foreground">
+                              ${newPrice.toFixed(2)}
                             </span>
-                            <span className="text-green-600 font-semibold">
+                            <span className="text-muted-foreground">•</span>
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                               +{optimization.marginImprovement}% margin
                             </span>
                           </div>
