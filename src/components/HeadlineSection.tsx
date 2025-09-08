@@ -33,15 +33,29 @@ const HeadlineSection = () => {
           </h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 max-w-md mx-auto">
-          <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
-            <Upload size={20} />
-            Upload Menu
-          </Button>
-          <Input 
-            placeholder="Enter dish name..." 
-            className="w-full sm:w-auto"
-          />
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-8 max-w-2xl mx-auto">
+          <div className="flex flex-col sm:flex-row gap-4 items-center">
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2 w-full sm:w-auto px-6 py-3 border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300 rounded-lg font-medium"
+            >
+              <Upload size={20} className="text-primary" />
+              Upload Menu
+            </Button>
+            
+            <div className="flex items-center gap-4">
+              <div className="hidden sm:block w-px h-8 bg-border"></div>
+              <span className="text-muted-foreground font-medium text-sm px-3 py-1 bg-muted/50 rounded-full">
+                OR
+              </span>
+              <div className="hidden sm:block w-px h-8 bg-border"></div>
+            </div>
+            
+            <Input 
+              placeholder="Enter dish name..." 
+              className="w-full sm:w-auto min-w-[200px] px-4 py-3 border-2 border-primary/20 focus:border-primary/60 rounded-lg font-medium placeholder:text-muted-foreground/70"
+            />
+          </div>
         </div>
 
        
