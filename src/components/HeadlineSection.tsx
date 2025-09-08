@@ -27,7 +27,7 @@ const HeadlineSection = () => {
   return (
     <section className="min-h-[80vh] bg-white flex items-center justify-center px-5 md:px-[125px] py-5">
       <div className="max-w-4xl mx-auto text-center flex flex-col md:space-y-8 animate-fade-in">
-        <div className="space-y-6 mt-32 sm:mt-32 order-1">
+        <div className="space-y-6 mt-32 sm:mt-32">
           <h1 className="text-[42px] md:text-6xl font-bold text-foreground leading-tight tracking-tight px-0">
             Profitize Your Menu Now
           </h1>
