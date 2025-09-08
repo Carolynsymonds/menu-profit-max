@@ -33,7 +33,7 @@ const HeadlineSection = () => {
       </div>
 
       <div className="mx-auto max-w-3xl px-6 pt-28 pb-16 text-center">
-        <div className="animate-fade-in">
+        <div className="animate-fade-in grid gap-3 mt-[49px]">
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-[-0.02em] text-foreground">
             Price Smarter. Profit Faster.
           </h1>
