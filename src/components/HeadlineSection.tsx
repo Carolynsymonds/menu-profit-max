@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Check, Upload, Sparkles, X, Loader2 } from "lucide-react";
 import { siteContent } from "@/config/site-content";
 import BenefitsSection from "@/components/BenefitsSection";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
-import { DishAnalysisResults } from "@/components/DishAnalysisResults";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -13,9 +12,9 @@ import { useToast } from "@/hooks/use-toast";
 const HeadlineSection = () => {
   const { navigateWithUtm } = useUtmTracking();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [dishName, setDishName] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState(null);
   
   const handleSignupClick = () => {
     try {
@@ -49,7 +48,10 @@ const HeadlineSection = () => {
 
       if (error) throw error;
 
-      setAnalysisResult(data);
+      // Navigate to results page with analysis data
+      navigate('/dish-analysis-results', {
+        state: { analysisData: data }
+      });
       
       // Track analysis event
       try {
@@ -72,32 +74,6 @@ const HeadlineSection = () => {
       setIsAnalyzing(false);
     }
   };
-
-  const handleNewAnalysis = () => {
-    setAnalysisResult(null);
-    setDishName('');
-  };
-
-  // Show analysis results if available
-  if (analysisResult) {
-    return (
-      <section className="relative overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 -z-10">
-          <div className="h-full w-full bg-gradient-to-br from-background via-primary/5 to-secondary/10" />
-          <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full blur-3xl opacity-40 bg-gradient-radial from-primary/30 to-transparent" />
-          <div className="absolute -bottom-28 -right-20 h-96 w-96 rounded-full blur-3xl opacity-40 bg-gradient-radial from-secondary/30 to-transparent" />
-        </div>
-
-        <div className="mx-auto max-w-6xl px-6 pt-28 pb-16">
-          <DishAnalysisResults 
-            analysisData={analysisResult} 
-            onNewAnalysis={handleNewAnalysis}
-          />
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section className="relative overflow-hidden">

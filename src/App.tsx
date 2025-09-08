@@ -12,6 +12,7 @@ import Application from "./pages/Application";
 import PurchasesBySupplier from "./pages/PurchasesBySupplier";
 import Inventory from "./pages/Inventory";
 import InventoryAnalytics from "./pages/InventoryAnalytics";
+import DishAnalysisResults from "./pages/DishAnalysisResults";
 import Pricing from "./pages/Pricing";
 import Features from "./pages/Features";
 import Contact from "./pages/Contact";
@@ -53,13 +54,14 @@ const App = () => (
           <UtmTracker />
           <ScrollToTop />
           <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/free-plan" element={<Index />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/features" element={<Features />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+           <Route path="/" element={<Home />} />
+           <Route path="/free-plan" element={<Index />} />
+           <Route path="/dish-analysis-results" element={<DishAnalysisResults />} />
+           <Route path="/pricing" element={<Pricing />} />
+           <Route path="/features" element={<Features />} />
+           <Route path="/contact" element={<Contact />} />
+           <Route path="/login" element={<Login />} />
+           <Route path="/signup" element={<Signup />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/app" element={<Application />} />
           <Route path="/app/purchases" element={<PurchasesBySupplier />} />
