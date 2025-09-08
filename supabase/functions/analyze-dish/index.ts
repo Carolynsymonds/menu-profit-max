@@ -68,7 +68,12 @@ serve(async (req) => {
       "dishName": "alternative dish name",
       "margin": "percentage as number",
       "reasoning": "why this is more profitable",
-      "ingredientOverlap": "what ingredients are shared"
+      "ingredientOverlap": "what ingredients are shared",
+      "costBreakdown": {
+        "ingredientCost": "estimated cost in USD",
+        "laborCost": "estimated labor cost in USD",
+        "menuPrice": "typical restaurant price in USD"
+      }
     }
   ],
   "tip": "actionable advice for improving profitability"

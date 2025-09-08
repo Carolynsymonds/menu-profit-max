@@ -13,6 +13,11 @@ interface DishSuggestion {
   margin: number;
   reasoning: string;
   ingredientOverlap: string;
+  costBreakdown: {
+    ingredientCost: string;
+    laborCost: string;
+    menuPrice: string;
+  };
 }
 
 interface OriginalDish {
@@ -157,7 +162,7 @@ const DishAnalysisResults = () => {
                         {/* Left side - Dish details */}
                         <div className="flex-1 text-left">
                           <h3 className="text-lg font-semibold text-foreground mb-1">{suggestion.dishName}</h3>
-                          <p className="text-sm text-muted-foreground">Click to see analysis details...</p>
+                          <p className="text-base font-medium text-foreground">${suggestion.costBreakdown?.menuPrice || 'N/A'}</p>
                           <Badge className="bg-green-100 text-green-800 text-sm px-2 py-1 mt-2">
                             {suggestion.margin}% margin
                           </Badge>
@@ -166,7 +171,26 @@ const DishAnalysisResults = () => {
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className="px-4 pb-4">
-                      <div className="border-t pt-4 space-y-3">
+                      <div className="border-t pt-4 space-y-4">
+                        {suggestion.costBreakdown && (
+                          <div>
+                            <h4 className="font-medium text-foreground mb-3">Cost Breakdown</h4>
+                            <div className="grid grid-cols-3 gap-4 text-sm">
+                              <div>
+                                <p className="text-muted-foreground">Ingredient Cost</p>
+                                <p className="font-semibold text-foreground">${suggestion.costBreakdown.ingredientCost}</p>
+                              </div>
+                              <div>
+                                <p className="text-muted-foreground">Labor Cost</p>
+                                <p className="font-semibold text-foreground">${suggestion.costBreakdown.laborCost}</p>
+                              </div>
+                              <div>
+                                <p className="text-muted-foreground">Menu Price</p>
+                                <p className="font-semibold text-foreground">${suggestion.costBreakdown.menuPrice}</p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                         <div>
                           <h4 className="font-medium text-foreground mb-2">Why it's more profitable:</h4>
                           <p className="text-sm text-muted-foreground">{suggestion.reasoning}</p>
