@@ -43,7 +43,7 @@ const HeadlineSection = () => {
 
           {/* Input card */}
           <div className="mt-8 rounded-2xl p-4 md:p-5 backdrop-blur bg-card/70 ring-1 ring-border/50 shadow-sm">
-            <div className="flex flex-col md:flex-row gap-3">
+            <div className="flex flex-col gap-3">
               <Button
                 onClick={handleSignupClick}
                 className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
@@ -52,8 +52,14 @@ const HeadlineSection = () => {
                 Upload menu now
               </Button>
 
+              {/* OR separator */}
+              <div className="flex items-center gap-4 py-2">
+                <div className="flex-1 h-px bg-border"></div>
+                <span className="text-sm text-muted-foreground font-medium">OR type a dish</span>
+                <div className="flex-1 h-px bg-border"></div>
+              </div>
+
               <div className="relative flex-1">
-                <label className="absolute -top-2 left-3 px-2 text-xs bg-card/70 text-muted-foreground">Or type a dish</label>
                 <div className="relative flex items-center">
                   {/* Search icon with sparkles - gradient */}
                   <div className="absolute left-3 flex items-center gap-1 z-10">
