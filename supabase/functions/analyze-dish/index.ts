@@ -61,7 +61,8 @@ serve(async (req) => {
       "ingredientCost": "estimated cost in USD",
       "laborCost": "estimated labor cost in USD",
       "menuPrice": "typical restaurant price in USD"
-    }
+    },
+    "ingredientList": ["ingredient with quantity and cost (e.g., '2 chicken breasts ($4.50)')", "1 cup mixed greens ($1.20)", "etc."]
   },
   "optimizations": [
     {

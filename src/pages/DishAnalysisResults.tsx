@@ -28,6 +28,7 @@ interface OriginalDish {
     laborCost: string;
     menuPrice: string;
   };
+  ingredientList: string[];
 }
 
 interface DishAnalysisData {
@@ -142,6 +143,19 @@ const DishAnalysisResults = () => {
                           <p className="font-semibold text-foreground">${originalDish.costBreakdown.menuPrice}</p>
                         </div>
                       </div>
+                      
+                      {originalDish.ingredientList && originalDish.ingredientList.length > 0 && (
+                        <div className="mt-4 pt-4 border-t">
+                          <h4 className="font-medium text-foreground mb-3">Main Ingredients</h4>
+                          <div className="space-y-1">
+                            {originalDish.ingredientList.map((ingredient, index) => (
+                              <div key={index} className="text-sm text-muted-foreground flex justify-between">
+                                <span>{ingredient}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </AccordionContent>
                 </AccordionItem>
