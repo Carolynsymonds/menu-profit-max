@@ -8,10 +8,10 @@ import { useUtmTracking } from "@/hooks/useUtmTracking";
 
 const HeadlineSection = () => {
   const { navigateWithUtm } = useUtmTracking();
-   const handleSignupClick = () => {
+  
+  const handleSignupClick = () => {
     try {
-      // GA4 recommended event
-       window.gtag?.('event', 'sign_up', {
+      window.gtag?.('event', 'sign_up', {
         method: 'cta_button',
         button_id: 'signup-btn',
         button_text: 'Start Free Trial',
@@ -20,45 +20,78 @@ const HeadlineSection = () => {
     } catch (e) {
       // no-op if gtag not available
     }
-
-    // then navigate (SPA)
     navigateWithUtm('/signup');
   };
-  return (
-    <section className="min-h-[80vh] bg-white flex items-center justify-center px-5 md:px-[125px] py-5">
-      <div className="max-w-4xl mx-auto text-center flex flex-col md:space-y-8 animate-fade-in">
-        <div className="space-y-6 mt-32 sm:mt-32">
-          <h1 className="text-[42px] md:text-6xl font-bold text-foreground leading-tight tracking-tight px-0">
-            Profitize Your Menu Now
-          </h1>
-        </div>
 
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-8 max-w-2xl mx-auto">
-          <div className="flex flex-col sm:flex-row gap-4 items-center">
-            <Button 
-              variant="outline" 
-              className="flex items-center gap-2 w-full sm:w-auto px-6 py-3 border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300 rounded-lg font-medium"
-            >
-              <Upload size={20} className="text-primary" />
-              Upload Menu
-            </Button>
-            
-            <div className="flex items-center gap-4">
-              <div className="hidden sm:block w-px h-8 bg-border"></div>
-              <span className="text-muted-foreground font-medium text-sm px-3 py-1 bg-muted/50 rounded-full">
-                OR
-              </span>
-              <div className="hidden sm:block w-px h-8 bg-border"></div>
+  return (
+    <section className="relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 -z-10">
+        <div className="h-full w-full bg-gradient-to-br from-background via-primary/5 to-secondary/10" />
+        <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full blur-3xl opacity-40 bg-gradient-radial from-primary/30 to-transparent" />
+        <div className="absolute -bottom-28 -right-20 h-96 w-96 rounded-full blur-3xl opacity-40 bg-gradient-radial from-secondary/30 to-transparent" />
+      </div>
+
+      <div className="mx-auto max-w-6xl px-6 pt-28 pb-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        {/* Copy */}
+        <div className="animate-fade-in">
+          <h1 className="text-5xl md:text-6xl font-extrabold tracking-[-0.02em] text-foreground">
+            Price Smarter. Profit Faster.
+          </h1>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Upload your menu and get instant insights on costs, pricing, and margins — in minutes.
+          </p>
+
+          {/* Input card */}
+          <div className="mt-8 rounded-2xl p-4 md:p-5 backdrop-blur bg-card/70 ring-1 ring-border/50 shadow-sm">
+            <div className="flex flex-col md:flex-row gap-3">
+              <Button
+                onClick={handleSignupClick}
+                className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
+              >
+                <Upload size={20} />
+                Analyze My Menu
+              </Button>
+
+              <div className="relative flex-1">
+                <label className="absolute -top-2 left-3 px-2 text-xs bg-card/70 text-muted-foreground">Or type a dish</label>
+                <Input
+                  placeholder='e.g., "Chicken Parmesan"'
+                  className="w-full rounded-xl border border-primary/20 bg-card/70 px-4 py-3 focus:ring-2 focus:ring-primary/40 focus:border-primary/60"
+                />
+              </div>
             </div>
-            
-            <Input 
-              placeholder="Enter dish name..." 
-              className="w-full sm:w-auto min-w-[200px] px-4 py-3 border-2 border-primary/20 focus:border-primary/60 rounded-lg font-medium placeholder:text-muted-foreground/70"
-            />
+
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+              <span className="flex items-center gap-1">
+                <Check size={16} className="text-green-600" />
+                Free
+              </span>
+              <span className="flex items-center gap-1">
+                <Check size={16} className="text-green-600" />
+                No credit card
+              </span>
+              <span className="flex items-center gap-1">
+                <Check size={16} className="text-green-600" />
+                PDF / Photo / CSV
+              </span>
+            </div>
           </div>
         </div>
 
-       
+        {/* Right-side visual */}
+        <div className="relative animate-fade-in">
+          <div className="aspect-[4/3] w-full rounded-3xl overflow-hidden ring-1 ring-border/20 shadow-lg bg-card/60 backdrop-blur">
+            <img 
+              src="/lovable-uploads/f130c6c2-e32b-4884-8913-9d7b9aad91da.png" 
+              alt="Menu analysis dashboard preview" 
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="absolute -bottom-4 -left-4 rounded-xl bg-card/90 px-3 py-2 text-xs shadow ring-1 ring-border/20">
+            "Found £1.40 extra margin per dish in week one." — Lena, Bistro Nova
+          </div>
+        </div>
       </div>
     </section>
   );

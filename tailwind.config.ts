@@ -102,6 +102,7 @@ export default {
 				'gradient-hero': 'var(--gradient-hero)',
 				'gradient-navy': 'var(--gradient-navy)',
 				'gradient-blue-cta': 'var(--gradient-blue-cta)',
+				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
