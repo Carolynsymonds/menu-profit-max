@@ -58,9 +58,9 @@ serve(async (req) => {
     "name": "dish name",
     "estimatedMargin": "percentage as number (e.g., 22)",
     "costBreakdown": {
-      "ingredientCost": "estimated cost in USD",
-      "laborCost": "estimated labor cost in USD",
-      "menuPrice": "typical restaurant price in USD"
+      "ingredientCost": "estimated cost in GBP",
+      "laborCost": "estimated labor cost in GBP",
+      "menuPrice": "typical restaurant price in GBP"
     },
     "ingredientList": ["ingredient with quantity and cost (e.g., '2 chicken breasts ($4.50)')", "1 cup mixed greens ($1.20)", "etc."]
   },
@@ -71,9 +71,9 @@ serve(async (req) => {
       "impact": "explanation of financial and operational benefits",
       "implementation": "step-by-step instructions for implementing this change",
       "costSavings": {
-        "ingredientSavings": "cost reduction in USD",
-        "newIngredientCost": "new ingredient cost in USD", 
-        "netSavings": "net savings per dish in USD"
+        "ingredientSavings": "cost reduction in GBP",
+        "newIngredientCost": "new ingredient cost in GBP", 
+        "netSavings": "net savings per dish in GBP"
       }
     }
   ],
