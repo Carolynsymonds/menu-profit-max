@@ -348,7 +348,7 @@ const DishAnalysisResults = () => {
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
-                  {dishData.dishName}
+                  {dishData.dishName.charAt(0).toUpperCase() + dishData.dishName.slice(1)}
                   {isLocked && <Lock className="w-3 h-3 ml-2 inline" />}
                 </button>
               );
@@ -393,9 +393,14 @@ const DishAnalysisResults = () => {
               {/* Original Dish Analysis */}
               <Card className="h-fit">
                 <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Calculator className="w-5 h-5" />
-                    <span>Original Dish Analysis</span>
+                  <CardTitle className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Calculator className="w-5 h-5" />
+                      <span>Dish details</span>
+                    </div>
+                    <Badge variant={getMarginColor(getDishData(selectedDish).profitMargin)}>
+                      {getDishData(selectedDish).profitMargin.toFixed(1)}% margin
+                    </Badge>
                   </CardTitle>
                   <CardDescription>
                     Current performance and cost breakdown for {getDishData(selectedDish).dishName}
@@ -405,12 +410,7 @@ const DishAnalysisResults = () => {
                   <Accordion type="single" collapsible className="space-y-4">
                     <AccordionItem value="dish-details" className="border rounded-lg px-4">
                       <AccordionTrigger className="hover:no-underline">
-                        <div className="flex items-center justify-between w-full mr-4">
-                          <span className="font-medium">Dish Details</span>
-                          <Badge variant={getMarginColor(getDishData(selectedDish).profitMargin)}>
-                            {getDishData(selectedDish).profitMargin.toFixed(1)}% margin
-                          </Badge>
-                        </div>
+                        <span className="font-medium">Dish Details</span>
                       </AccordionTrigger>
                       <AccordionContent className="pt-4">
                         <div className="space-y-4">
@@ -495,10 +495,10 @@ const DishAnalysisResults = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <TrendingUp className="w-5 h-5" />
-                    <span>Profit Optimization Opportunities</span>
+                    <span>Suggestions</span>
                   </CardTitle>
                   <CardDescription>
-                    AI-powered suggestions to maximize profitability for {getDishData(selectedDish).dishName}
+                    Suggestions
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
