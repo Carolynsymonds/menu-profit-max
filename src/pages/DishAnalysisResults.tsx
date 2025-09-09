@@ -166,7 +166,9 @@ const DishAnalysisResults = () => {
   };
 
   const calculateOriginalMonthlyEarnings = (dish: DishAnalysisData, volume: number) => {
-    const profitPerDish = dish.dishPrice - dish.totalCost;
+    const dishPrice = dish.dishPrice || 0;
+    const totalCost = dish.totalCost || 0;
+    const profitPerDish = dishPrice - totalCost;
     return profitPerDish * volume;
   };
 
@@ -273,19 +275,19 @@ const DishAnalysisResults = () => {
                   <CardContent className={`p-6 ${isLocked ? 'blur-sm' : ''}`}>
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-bold text-xl">{dish.dishName}</h3>
-                      <Badge variant={getMarginColor(dish.profitMargin)}>
-                        {dish.profitMargin.toFixed(1)}% margin
+                      <Badge variant={getMarginColor(dish.profitMargin || 0)}>
+                        {(dish.profitMargin || 0).toFixed(1)}% margin
                       </Badge>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-4 mb-4">
                       <div className="text-center p-3 bg-muted/50 rounded-lg">
                         <p className="text-sm text-muted-foreground mb-1">Current Price</p>
-                        <p className="text-lg font-semibold">${dish.dishPrice.toFixed(2)}</p>
+                        <p className="text-lg font-semibold">${(dish.dishPrice || 0).toFixed(2)}</p>
                       </div>
                       <div className="text-center p-3 bg-muted/50 rounded-lg">
                         <p className="text-sm text-muted-foreground mb-1">Total Cost</p>
-                        <p className="text-lg font-semibold">${dish.totalCost.toFixed(2)}</p>
+                        <p className="text-lg font-semibold">${(dish.totalCost || 0).toFixed(2)}</p>
                       </div>
                     </div>
                     
@@ -358,8 +360,8 @@ const DishAnalysisResults = () => {
                       <AccordionTrigger className="hover:no-underline">
                         <div className="flex items-center justify-between w-full mr-4">
                           <span className="font-medium">Dish Details</span>
-                          <Badge variant={getMarginColor(selectedDish.profitMargin)}>
-                            {selectedDish.profitMargin.toFixed(1)}% margin
+                          <Badge variant={getMarginColor(selectedDish.profitMargin || 0)}>
+                            {(selectedDish.profitMargin || 0).toFixed(1)}% margin
                           </Badge>
                         </div>
                       </AccordionTrigger>
@@ -368,17 +370,17 @@ const DishAnalysisResults = () => {
                           <div className="grid grid-cols-2 gap-4">
                             <div className="text-center p-3 bg-muted/50 rounded-lg">
                               <p className="text-sm text-muted-foreground mb-1">Current Price</p>
-                              <p className="text-xl font-bold">${selectedDish.dishPrice.toFixed(2)}</p>
+                              <p className="text-xl font-bold">${(selectedDish.dishPrice || 0).toFixed(2)}</p>
                             </div>
                             <div className="text-center p-3 bg-muted/50 rounded-lg">
                               <p className="text-sm text-muted-foreground mb-1">Total Cost</p>
-                              <p className="text-xl font-bold">${selectedDish.totalCost.toFixed(2)}</p>
+                              <p className="text-xl font-bold">${(selectedDish.totalCost || 0).toFixed(2)}</p>
                             </div>
                           </div>
                           <div className="text-center p-4 bg-primary/5 rounded-lg border border-primary/20">
                             <p className="text-sm text-muted-foreground mb-1">Profit per Dish</p>
                             <p className="text-2xl font-bold text-primary">
-                              ${(selectedDish.dishPrice - selectedDish.totalCost).toFixed(2)}
+                              ${((selectedDish.dishPrice || 0) - (selectedDish.totalCost || 0)).toFixed(2)}
                             </p>
                           </div>
                         </div>
@@ -395,14 +397,14 @@ const DishAnalysisResults = () => {
                             <div key={index} className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
                               <span className="font-medium">{ingredient.name}</span>
                               <div className="text-right">
-                                <p className="font-semibold">${ingredient.cost.toFixed(2)}</p>
+                                <p className="font-semibold">${(ingredient.cost || 0).toFixed(2)}</p>
                                 <p className="text-xs text-muted-foreground">{ingredient.quantity} {ingredient.unit}</p>
                               </div>
                             </div>
                           ))}
                           <div className="flex justify-between items-center p-3 bg-primary/5 rounded-lg border border-primary/20 font-semibold">
                             <span>Total Cost</span>
-                            <span className="text-primary">${selectedDish.totalCost.toFixed(2)}</span>
+                            <span className="text-primary">${(selectedDish.totalCost || 0).toFixed(2)}</span>
                           </div>
                         </div>
                       </AccordionContent>
@@ -418,13 +420,13 @@ const DishAnalysisResults = () => {
                             <div className="text-center p-3 bg-muted/50 rounded-lg">
                               <p className="text-sm text-muted-foreground mb-1">Revenue</p>
                               <p className="text-lg font-bold">
-                                ${(selectedDish.dishPrice * monthlyVolume).toFixed(0)}
+                                ${((selectedDish.dishPrice || 0) * monthlyVolume).toFixed(0)}
                               </p>
                             </div>
                             <div className="text-center p-3 bg-muted/50 rounded-lg">
                               <p className="text-sm text-muted-foreground mb-1">Costs</p>
                               <p className="text-lg font-bold">
-                                ${(selectedDish.totalCost * monthlyVolume).toFixed(0)}
+                                ${((selectedDish.totalCost || 0) * monthlyVolume).toFixed(0)}
                               </p>
                             </div>
                           </div>
@@ -460,7 +462,7 @@ const DishAnalysisResults = () => {
                           <div className="flex items-center justify-between w-full mr-4">
                             <span className="font-medium text-left">{suggestion.title}</span>
                             <Badge variant="secondary" className="ml-2">
-                              +${suggestion.monthlyImpact.toFixed(0)}/mo
+                              +${(suggestion.monthlyImpact || 0).toFixed(0)}/mo
                             </Badge>
                           </div>
                         </AccordionTrigger>
@@ -476,7 +478,7 @@ const DishAnalysisResults = () => {
                               <div className="p-3 bg-green-50 rounded-lg border border-green-200">
                                 <p className="text-sm text-green-600 mb-1">Monthly Boost</p>
                                 <p className="font-semibold text-green-700">
-                                  +${suggestion.monthlyImpact.toFixed(0)}
+                                  +${(suggestion.monthlyImpact || 0).toFixed(0)}
                                 </p>
                               </div>
                             </div>
