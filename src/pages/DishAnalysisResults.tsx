@@ -191,13 +191,22 @@ const DishAnalysisResults = () => {
     const laborCost = dish.originalDish?.costBreakdown?.laborCost || 0;
     const totalCost = ingredientCost + laborCost;
     
+    // Map optimizations to expected format
+    const suggestions = (dish.optimizations || []).map((opt: any): OptimizationSuggestion => ({
+      title: opt.optimization || opt.title || '',
+      description: opt.impact || opt.description || '',
+      impact: opt.impact || '',
+      implementation: opt.implementation || '',
+      monthlyImpact: opt.costSavings?.netSavings || opt.monthlyImpact || 0
+    }));
+    
     return {
       dishName: dish.originalDish?.name || '',
       dishPrice,
       totalCost,
       profitMargin: dish.originalDish?.estimatedMargin || 0,
       ingredients,
-      suggestions: dish.optimizations || []
+      suggestions
     };
   };
 
