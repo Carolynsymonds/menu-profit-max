@@ -383,7 +383,7 @@ const DishAnalysisResults = () => {
               <Card className="h-fit">
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
-                    <div className="inline-flex flex-col items-start bg-slate-50 p-4">
+                    <div className="inline-flex flex-col items-start p-4">
                       <div className="text-4xl font-semibold leading-none text-slate-900">
                         {getDishData(selectedDish).profitMargin.toFixed(1)}%
                       </div>
