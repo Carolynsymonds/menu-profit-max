@@ -383,11 +383,19 @@ const DishAnalysisResults = () => {
               <Card className="h-fit">
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
-                    <div className="inline-flex flex-col items-start p-4">
-                      <div className="text-4xl font-semibold leading-none text-slate-900">
-                        {getDishData(selectedDish).profitMargin.toFixed(1)}%
+                    <div className="flex items-center gap-8">
+                      <div className="inline-flex flex-col items-start p-4">
+                        <div className="text-4xl font-semibold leading-none text-slate-900">
+                          {getDishData(selectedDish).profitMargin.toFixed(1)}%
+                        </div>
+                        <div className="mt-2 text-base text-slate-600">margin</div>
                       </div>
-                      <div className="mt-2 text-base text-slate-600">margin</div>
+                      <div className="inline-flex flex-col items-start p-4">
+                        <div className="text-4xl font-semibold leading-none text-slate-900">
+                          ${((getDishData(selectedDish).dishPrice - getDishData(selectedDish).totalCost) * monthlyVolume * 12).toLocaleString()}
+                        </div>
+                        <div className="mt-2 text-base text-slate-600">profit per year</div>
+                      </div>
                     </div>
                   </div>
                 </CardHeader>
