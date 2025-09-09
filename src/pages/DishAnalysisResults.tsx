@@ -320,6 +320,11 @@ const DishAnalysisResults = () => {
             </Button>
           </div>
 
+          {/* Results Header */}
+          <div className="text-center my-16 mx-auto max-w-[600px]">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight">Results</h1>
+          </div>
+
           {/* Dish Chips Selector */}
           <div className="flex items-center justify-center gap-3 mb-8">
             {(analysisData.dishes || []).map((dish, index) => {
