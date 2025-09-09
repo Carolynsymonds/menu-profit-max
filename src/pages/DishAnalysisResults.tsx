@@ -354,22 +354,28 @@ const DishAnalysisResults = () => {
                   </CardContent>
                   
                   {isLocked && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">
-                      <div className="text-center p-6">
-                        <Lock className="w-8 h-8 text-primary mx-auto mb-3" />
-                        <h4 className="font-semibold mb-2">Analysis Locked</h4>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          Unlock to see complete optimization suggestions
-                        </p>
-                        <Button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setShowVerificationModal(true);
-                          }}
-                          className="bg-primary hover:bg-primary/90"
-                        >
-                          🔓 Unlock Analysis
-                        </Button>
+                    <div className="absolute inset-0 rounded-lg">
+                      {/* Semi-transparent background layer */}
+                      <div className="absolute inset-0 bg-background/60 backdrop-blur-sm rounded-lg" />
+                      
+                      {/* Fully opaque content layer */}
+                      <div className="relative z-10 h-full flex items-center justify-center">
+                        <div className="text-center p-6 bg-white rounded-lg shadow-lg border border-border/20">
+                          <Lock className="w-8 h-8 text-primary mx-auto mb-3" />
+                          <h4 className="font-semibold mb-2">Analysis Locked</h4>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Unlock to see complete optimization suggestions
+                          </p>
+                          <Button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowVerificationModal(true);
+                            }}
+                            className="bg-primary hover:bg-primary/90"
+                          >
+                            🔓 Unlock Analysis
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   )}
