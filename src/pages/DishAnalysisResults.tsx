@@ -401,7 +401,7 @@ const DishAnalysisResults = () => {
                           margin
                           <Tooltip>
                             <TooltipTrigger>
-                              <Info className="w-4 h-4 text-muted-foreground hover:text-foreground" />
+                              <Info className="w-4 h-4 text-slate-500 hover:text-slate-700 cursor-help" />
                             </TooltipTrigger>
                             <TooltipContent>
                               <p className="max-w-xs">This estimate is based on a standard Paella recipe, adapted from common ingredient costs and portion sizes in the US market. You can adjust details for your own recipe.</p>
@@ -417,7 +417,7 @@ const DishAnalysisResults = () => {
                           profit per year
                           <Tooltip>
                             <TooltipTrigger>
-                              <Info className="w-4 h-4 text-muted-foreground hover:text-foreground" />
+                              <Info className="w-4 h-4 text-slate-500 hover:text-slate-700 cursor-help" />
                             </TooltipTrigger>
                             <TooltipContent>
                               <p className="max-w-xs">This estimate is based on a standard Paella recipe, adapted from common ingredient costs and portion sizes in the US market. You can adjust details for your own recipe.</p>
