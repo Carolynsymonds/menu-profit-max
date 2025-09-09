@@ -394,9 +394,14 @@ const DishAnalysisResults = () => {
               <Card className="h-fit">
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
-                    <Badge variant={getMarginColor(getDishData(selectedDish).profitMargin)}>
-                      {getDishData(selectedDish).profitMargin.toFixed(1)}% margin
-                    </Badge>
+                    <div className="bg-gray-50 rounded-lg p-4 text-center">
+                      <div className="text-2xl font-semibold text-slate-800 leading-tight">
+                        {getDishData(selectedDish).profitMargin.toFixed(1)}%
+                      </div>
+                      <div className="text-sm font-medium text-slate-500 tracking-wide mt-1">
+                        Margin
+                      </div>
+                    </div>
                   </div>
                   <CardDescription>
                     Current performance and cost breakdown for {getDishData(selectedDish).dishName}
