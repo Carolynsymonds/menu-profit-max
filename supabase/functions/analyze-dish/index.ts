@@ -145,9 +145,22 @@ Respond ONLY with the JSON structure, no additional text.`;
 
         let analysisResult;
         try {
-          analysisResult = JSON.parse(openAIData.choices[0].message.content);
+          let content = openAIData.choices[0].message.content;
+          
+          // Strip markdown code blocks if present
+          if (content.includes('```json')) {
+            content = content.replace(/```json\s*/g, '').replace(/```\s*$/g, '');
+          } else if (content.includes('```')) {
+            content = content.replace(/```\s*/g, '').replace(/```\s*$/g, '');
+          }
+          
+          // Clean up any extra whitespace
+          content = content.trim();
+          
+          analysisResult = JSON.parse(content);
         } catch (parseError) {
           console.error('Failed to parse OpenAI JSON response for:', dishName, parseError);
+          console.error('Raw content:', openAIData.choices[0].message.content);
           throw new Error(`Failed to parse AI response for ${dishName}`);
         }
 
