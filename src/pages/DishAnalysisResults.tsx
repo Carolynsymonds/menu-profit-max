@@ -318,7 +318,7 @@ const DishAnalysisResults = () => {
         <div className="mx-auto max-w-6xl px-6 pt-32 pb-16">
 
           {/* Results Header */}
-          <div className="text-center my-16 mx-auto max-w-[600px]">
+          <div className="text-center mb-16 mx-auto max-w-[600px]">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight">Results</h1>
           </div>
 
