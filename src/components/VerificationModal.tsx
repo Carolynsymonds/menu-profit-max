@@ -104,9 +104,6 @@ export const VerificationModal = ({ isOpen, onClose, dishesData }: VerificationM
         {!emailSent ? (
           <div className="space-y-4 mt-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium">
-                Email Address
-              </Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
