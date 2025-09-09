@@ -133,7 +133,7 @@ export const VerificationModal = ({ isOpen, onClose, dishesData }: VerificationM
                 disabled={isLoading}
                 className="flex-1"
               >
-                {isLoading ? "Sending..." : "Send Verification"}
+                {isLoading ? "Sending..." : "Unlock"}
               </Button>
             </div>
 
