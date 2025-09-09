@@ -44,17 +44,8 @@ interface ChipProps {
 }
 
 function Chip({ item, onRemove }: ChipProps) {
-  const seed = item.name || item.id;
-  const hue = hashHue(seed || "");
-  
   return (
     <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-2.5 py-1.5 text-sm text-primary">
-      <span 
-        className="grid h-6 w-6 place-items-center rounded-full text-[10px] font-semibold text-white"
-        style={{ backgroundColor: `hsl(${hue} 70% 45%)` }}
-      >
-        {initials(seed)}
-      </span>
       <span className="max-w-[12rem] truncate">
         {item.name}
       </span>
