@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { ArrowLeft, Calculator, TrendingUp, DollarSign, Users, Clock, CheckCircle, Lock } from 'lucide-react';
+import { ArrowLeft, Calculator, TrendingUp, DollarSign, Users, Clock, CheckCircle, Lock, Info } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { VerificationModal } from '@/components/VerificationModal';
@@ -412,9 +412,12 @@ const DishAnalysisResults = () => {
                   
                   {/* Explanation Banner */}
                   <div className="px-6 pb-4">
-                    <p className="text-sm text-slate-600 bg-slate-50 p-3 rounded-lg border">
-                      Based on a standard US-style Paella recipe — tweak details to match yours.
-                    </p>
+                    <div className="flex items-start gap-3 bg-blue-50 border border-blue-200 border-l-4 border-l-blue-400 p-4 rounded-lg shadow-sm">
+                      <Info className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                      <p className="text-base text-blue-700 font-medium">
+                        Based on a standard US-style Paella recipe — tweak details to match yours.
+                      </p>
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent>
