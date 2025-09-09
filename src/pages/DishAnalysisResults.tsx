@@ -559,15 +559,6 @@ const DishAnalysisResults = () => {
             </div>
           )}
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mt-12">
-            <Button onClick={handleNewAnalysis} variant="outline" size="lg">
-              Analyze Another Dish
-            </Button>
-            <Button onClick={handleBackToHome} size="lg">
-              Back to Home
-            </Button>
-          </div>
         </div>
       </main>
       

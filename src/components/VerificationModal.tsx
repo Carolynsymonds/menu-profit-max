@@ -121,20 +121,6 @@ export const VerificationModal = ({ isOpen, onClose, dishesData }: VerificationM
               </div>
             </div>
 
-            <div className="bg-muted/50 rounded-lg p-4">
-              <div className="flex items-start space-x-3">
-                <AlertCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <div className="text-sm">
-                  <p className="font-medium text-foreground mb-1">What you'll unlock:</p>
-                  <ul className="text-muted-foreground space-y-1">
-                    <li>• Complete analysis for all {dishesData.length} dishes</li>
-                    <li>• Detailed profit optimization suggestions</li>
-                    <li>• Monthly earnings projections</li>
-                    <li>• Actionable cost-saving recommendations</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
 
             <div className="flex space-x-3">
               <Button
@@ -154,9 +140,6 @@ export const VerificationModal = ({ isOpen, onClose, dishesData }: VerificationM
               </Button>
             </div>
 
-            <p className="text-xs text-muted-foreground text-center">
-              By continuing, you agree to receive email updates about your analysis results.
-            </p>
           </div>
         ) : (
           <div className="space-y-4 mt-6">
