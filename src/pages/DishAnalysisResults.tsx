@@ -222,7 +222,7 @@ const DishAnalysisResults = () => {
         monthlyImpact: monthlySavings,
         marginImprovement
       };
-    });
+    }).sort((a, b) => b.marginImprovement - a.marginImprovement);
     
     return {
       dishName: dish.originalDish?.name || '',
@@ -545,8 +545,8 @@ const DishAnalysisResults = () => {
                         <AccordionTrigger className="hover:no-underline">
                           <div className="flex items-center justify-between w-full mr-4">
                             <span className="font-medium text-left">{suggestion.title}</span>
-                            <Badge variant="secondary" className="ml-2">
-                              +{suggestion.marginImprovement.toFixed(1)}% margin
+                            <Badge variant="default" className="ml-2 bg-green-100 text-green-700 hover:bg-green-200 border-green-300">
+                              +{suggestion.marginImprovement.toFixed(1)}%
                             </Badge>
                           </div>
                         </AccordionTrigger>
