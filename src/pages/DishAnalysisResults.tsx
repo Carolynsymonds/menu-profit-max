@@ -267,6 +267,39 @@ const DishAnalysisResults = () => {
     });
   };
 
+  // New calculation functions for enhanced banner
+  const calculateTotalOptimizedEarnings = (volume: number) => {
+    return (analysisData.dishes || []).reduce((total, dish) => {
+      const originalEarnings = calculateOriginalMonthlyEarnings(dish, volume);
+      const bestOptimization = getBestOptimization(dish);
+      if (bestOptimization) {
+        return total + originalEarnings + (bestOptimization.monthlyImpact * volume);
+      }
+      return total + originalEarnings;
+    }, 0);
+  };
+
+  const calculateTotalOriginalEarnings = (volume: number) => {
+    return (analysisData.dishes || []).reduce((total, dish) => 
+      total + calculateOriginalMonthlyEarnings(dish, volume), 0
+    );
+  };
+
+  const calculateOptimizationImpact = (volume: number) => {
+    const original = calculateTotalOriginalEarnings(volume);
+    const optimized = calculateTotalOptimizedEarnings(volume);
+    const monthlyImprovement = optimized - original;
+    const percentageImprovement = original > 0 ? (monthlyImprovement / original) * 100 : 0;
+    
+    return {
+      original,
+      optimized,
+      monthlyImprovement,
+      annualImprovement: monthlyImprovement * 12,
+      percentageImprovement
+    };
+  };
+
   return (
     <div className="bg-white min-h-screen">
       <Header />
@@ -296,20 +329,21 @@ const DishAnalysisResults = () => {
             <div className="w-32" /> {/* Spacer for centering */}
           </div>
 
-          {/* Monthly Earnings Calculator */}
+          {/* Actual vs Suggested Earnings */}
           <Card className="mb-8">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Calculator className="w-5 h-5" />
-                <span>Monthly Earnings Calculator</span>
+                <span>Actual vs Suggested Earnings</span>
               </CardTitle>
               <CardDescription>
-                Adjust the monthly sales volume to see projected earnings for all dishes
+                Compare your current earnings with optimized projections across all dishes
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center space-x-6">
-                <div className="flex-1 max-w-xs">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Monthly Volume Input */}
+                <div className="space-y-2">
                   <Label htmlFor="monthlyVolume" className="text-sm font-medium">
                     Monthly sales volume (per dish)
                   </Label>
@@ -318,21 +352,77 @@ const DishAnalysisResults = () => {
                     type="number"
                     value={monthlyVolume}
                     onChange={(e) => setMonthlyVolume(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="mt-2"
+                    className="text-center font-medium"
                     min="1"
                   />
+                  <p className="text-xs text-muted-foreground text-center">
+                    Across {analysisData.dishes.length} dishes
+                  </p>
                 </div>
-                
-                <div className="flex-1 text-center">
-                  <p className="text-sm text-muted-foreground mb-1">Total Monthly Potential</p>
-                  <p className="text-2xl font-bold text-primary">
-                    ${(analysisData.dishes || []).reduce((total, dish) => 
-                      total + calculateOriginalMonthlyEarnings(dish, monthlyVolume), 0
-                    ).toFixed(0)}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Across all {analysisData.dishes.length} dishes
-                  </p>
+
+                {/* Actual vs Suggested Comparison */}
+                <div className="lg:col-span-2 bg-gradient-to-r from-gray-50 to-green-50 dark:from-gray-900 dark:to-green-900/20 p-6 rounded-lg border">
+                  <div className="grid grid-cols-2 gap-8">
+                    {/* Actual Column */}
+                    <div className="text-center">
+                      <h3 className="text-lg font-semibold text-muted-foreground mb-2">ACTUAL</h3>
+                      <div className="space-y-1">
+                        <p className="text-2xl font-bold">
+                          ${calculateOptimizationImpact(monthlyVolume).original.toFixed(0)}
+                          <span className="text-sm font-normal text-muted-foreground">/mo</span>
+                        </p>
+                        <p className="text-lg text-muted-foreground">
+                          ${(calculateOptimizationImpact(monthlyVolume).original * 12).toFixed(0)}
+                          <span className="text-sm">/yr</span>
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Suggested Column */}
+                    <div className="text-center">
+                      <h3 className="text-lg font-semibold text-green-600 mb-2">SUGGESTED</h3>
+                      <div className="space-y-1">
+                        <p className="text-2xl font-bold text-green-600">
+                          ${calculateOptimizationImpact(monthlyVolume).optimized.toFixed(0)}
+                          <span className="text-sm font-normal text-muted-foreground">/mo</span>
+                        </p>
+                        <p className="text-lg text-green-600">
+                          ${(calculateOptimizationImpact(monthlyVolume).optimized * 12).toFixed(0)}
+                          <span className="text-sm">/yr</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Improvement Metrics */}
+                  <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center justify-center space-x-6 text-center">
+                      <div>
+                        <div className="flex items-center justify-center space-x-1">
+                          <TrendingUp className="w-4 h-4 text-green-600" />
+                          <span className="text-sm font-medium text-muted-foreground">Monthly Boost:</span>
+                        </div>
+                        <p className="text-lg font-bold text-green-600">
+                          +${Math.abs(calculateOptimizationImpact(monthlyVolume).monthlyImprovement).toFixed(0)} 
+                          <span className="text-sm font-medium">
+                            (+{calculateOptimizationImpact(monthlyVolume).percentageImprovement.toFixed(1)}%)
+                          </span>
+                        </p>
+                      </div>
+                      <div>
+                        <div className="flex items-center justify-center space-x-1">
+                          <TrendingUp className="w-4 h-4 text-green-600" />
+                          <span className="text-sm font-medium text-muted-foreground">Annual Boost:</span>
+                        </div>
+                        <p className="text-lg font-bold text-green-600">
+                          +${Math.abs(calculateOptimizationImpact(monthlyVolume).annualImprovement).toFixed(0)}
+                          <span className="text-sm font-medium">
+                            (+{calculateOptimizationImpact(monthlyVolume).percentageImprovement.toFixed(1)}%)
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>
