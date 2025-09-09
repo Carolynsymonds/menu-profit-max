@@ -342,9 +342,9 @@ const DishAnalysisResults = () => {
                       setSelectedDishIndex(index);
                     }
                   }}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-sky-300 ${
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-primary/30 ${
                     isActive
-                      ? 'bg-white text-slate-900 border border-sky-500 ring-2 ring-sky-200/60'
+                      ? 'bg-white text-slate-900 border border-primary ring-2 ring-primary/20'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
