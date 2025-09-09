@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Link, useNavigate } from "react-router-dom";
-import { Check, Upload, Sparkles, X, Loader2 } from "lucide-react";
+import { Upload, Loader2 } from "lucide-react";
+import DishMultiInput from "@/components/DishMultiInput";
 import { siteContent } from "@/config/site-content";
 import BenefitsSection from "@/components/BenefitsSection";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
@@ -14,8 +13,7 @@ const HeadlineSection = () => {
   const { navigateWithUtm } = useUtmTracking();
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [dishes, setDishes] = useState<string[]>([]);
-  const [currentInput, setCurrentInput] = useState('');
+  const [dishes, setDishes] = useState<{id: string, name: string}[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   
@@ -76,56 +74,12 @@ const HeadlineSection = () => {
     };
   }, [isAnalyzing, loadingMessages.length]);
 
-  const addDish = (dishName: string) => {
-    const trimmedName = dishName.trim();
-    if (trimmedName && !dishes.includes(trimmedName)) {
-      setDishes([...dishes, trimmedName]);
-    }
-  };
-
-  const removeDish = (dishToRemove: string) => {
-    setDishes(dishes.filter(dish => dish !== dishToRemove));
-  };
-
-  const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' || e.key === ',') {
-      e.preventDefault();
-      if (currentInput.trim()) {
-        // Handle comma-separated values
-        const newDishes = currentInput.split(',').map(d => d.trim()).filter(d => d.length > 0);
-        newDishes.forEach(dish => addDish(dish));
-        setCurrentInput('');
-      } else if (e.key === 'Enter' && dishes.length > 0) {
-        handleAnalyzeDish();
-      }
-    } else if (e.key === 'Backspace' && currentInput === '' && dishes.length > 0) {
-      // Remove last dish when backspace is pressed on empty input
-      setDishes(dishes.slice(0, -1));
-    }
+  const handleDishesChange = (newDishes: {id: string, name: string}[]) => {
+    setDishes(newDishes);
   };
 
   const handleAnalyzeDish = async () => {
-    // Add current input to dishes if not empty
-    if (currentInput.trim()) {
-      const newDishes = currentInput.split(',').map(d => d.trim()).filter(d => d.length > 0);
-      const allDishes = [...dishes];
-      newDishes.forEach(dish => {
-        if (dish && !allDishes.includes(dish)) {
-          allDishes.push(dish);
-        }
-      });
-      setDishes(allDishes);
-      setCurrentInput('');
-      
-      if (allDishes.length === 0) {
-        toast({
-          title: "Please enter dish names",
-          description: "Type in one or more dishes to analyze their profitability",
-          variant: "destructive",
-        });
-        return;
-      }
-    } else if (dishes.length === 0) {
+    if (dishes.length === 0) {
       toast({
         title: "Please enter dish names",
         description: "Type in one or more dishes to analyze their profitability",
@@ -136,12 +90,10 @@ const HeadlineSection = () => {
 
     setIsAnalyzing(true);
     try {
-      const dishesToAnalyze = currentInput.trim() ? 
-        [...dishes, ...currentInput.split(',').map(d => d.trim()).filter(d => d.length > 0 && !dishes.includes(d))] : 
-        dishes;
+      const dishNames = dishes.map(dish => dish.name);
       
       const { data, error } = await supabase.functions.invoke('analyze-dish', {
-        body: { dishNames: dishesToAnalyze }
+        body: { dishNames }
       });
 
       if (error) throw error;
@@ -154,8 +106,8 @@ const HeadlineSection = () => {
       // Track analysis event
       try {
         window.gtag?.('event', 'dish_analysis', {
-          dish_names: dishesToAnalyze.join(', '),
-          dish_count: dishesToAnalyze.length,
+          dish_names: dishNames.join(', '),
+          dish_count: dishNames.length,
           page_location: window.location.href,
         });
       } catch (e) {
@@ -227,35 +179,11 @@ const HeadlineSection = () => {
                       </svg>
                     </div>
                     
-                    <div className="min-h-[48px] w-full rounded-xl border border-gray-300 bg-card/70 px-3 py-3 pl-10 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary/60 transition-all">
-                      {/* Display existing dishes as badges */}
-                      <div className="flex flex-wrap gap-2 mb-2">
-                        {dishes.map((dish, index) => (
-                          <Badge
-                            key={index}
-                            variant="secondary"
-                            className="flex items-center gap-1 px-2 py-1 bg-primary/10 text-primary hover:bg-primary/20"
-                          >
-                            {dish}
-                            <X
-                              size={14}
-                              className="cursor-pointer hover:text-destructive"
-                              onClick={() => removeDish(dish)}
-                            />
-                          </Badge>
-                        ))}
-                      </div>
-                      
-                      {/* Input field */}
-                      <input
-                        value={currentInput}
-                        onChange={(e) => setCurrentInput(e.target.value)}
-                        onKeyDown={handleInputKeyDown}
-                        placeholder={dishes.length === 0 ? 'Chicken Parmesan, Lentil Pasta, Caesar Salad' : 'Add another dish...'}
-                        disabled={isAnalyzing}
-                        className="w-full bg-transparent border-none outline-none text-base placeholder:text-muted-foreground"
-                      />
-                    </div>
+                    <DishMultiInput
+                      value={dishes}
+                      onChange={handleDishesChange}
+                      disabled={isAnalyzing}
+                    />
                   </div>
                 </div>
                 
