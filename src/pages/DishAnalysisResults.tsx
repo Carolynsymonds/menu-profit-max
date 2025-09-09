@@ -500,7 +500,20 @@ const DishAnalysisResults = () => {
                           </div>
                         </div>
                       </AccordionContent>
-                    </AccordionItem>
+                     </AccordionItem>
+                     
+                     {/* Edit Button */}
+                     <div className="mt-6 flex justify-center">
+                       <Button
+                         variant="default"
+                         size="lg"
+                         onClick={() => setShowEditModal(true)}
+                         className="flex items-center gap-2"
+                       >
+                         <Pencil className="w-4 h-4" />
+                         Edit Dish Details
+                       </Button>
+                     </div>
                   </Accordion>
                 </CardContent>
               </Card>
@@ -584,19 +597,6 @@ const DishAnalysisResults = () => {
                   </Accordion>
                 </CardContent>
               </Card>
-              
-              {/* Edit Button */}
-              <div className="mt-6 flex justify-center">
-                <Button
-                  variant="default"
-                  size="lg"
-                  onClick={() => setShowEditModal(true)}
-                  className="flex items-center gap-2"
-                >
-                  <Pencil className="w-4 h-4" />
-                  Edit Dish Details
-                </Button>
-              </div>
             </div>
           )}
 
