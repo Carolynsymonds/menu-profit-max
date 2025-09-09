@@ -308,17 +308,6 @@ const DishAnalysisResults = () => {
         </div>
 
         <div className="mx-auto max-w-6xl px-6 pt-32 pb-16">
-          {/* Navigation Header */}
-          <div className="flex items-center justify-between mb-8">
-            <Button
-              variant="ghost"
-              onClick={handleBackToHome}
-              className="flex items-center space-x-2 text-muted-foreground hover:text-foreground"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to Analysis</span>
-            </Button>
-          </div>
 
           {/* Results Header */}
           <div className="text-center my-16 mx-auto max-w-[600px]">
