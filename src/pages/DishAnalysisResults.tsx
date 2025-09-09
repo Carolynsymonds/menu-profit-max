@@ -389,15 +389,19 @@ const DishAnalysisResults = () => {
               </CardContent>
             </Card>
           ) : (
-            <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Original Dish Analysis */}
               <Card className="h-fit">
                 <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
+                  <CardTitle className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Calculator className="w-5 h-5" />
+                      <span>Dish details</span>
+                    </div>
                     <Badge variant={getMarginColor(getDishData(selectedDish).profitMargin)}>
                       {getDishData(selectedDish).profitMargin.toFixed(1)}% margin
                     </Badge>
-                  </div>
+                  </CardTitle>
                   <CardDescription>
                     Current performance and cost breakdown for {getDishData(selectedDish).dishName}
                   </CardDescription>
@@ -482,6 +486,73 @@ const DishAnalysisResults = () => {
                         </div>
                       </AccordionContent>
                     </AccordionItem>
+                  </Accordion>
+                </CardContent>
+              </Card>
+
+              {/* Profit Optimization Opportunities */}
+              <Card className="h-fit">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <TrendingUp className="w-5 h-5" />
+                    <span>Suggestions</span>
+                  </CardTitle>
+                  <CardDescription>
+                    Suggestions
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Accordion type="single" collapsible className="space-y-4">
+                    {getDishData(selectedDish).suggestions.map((suggestion, index) => (
+                      <AccordionItem key={index} value={`suggestion-${index}`} className="border rounded-lg px-4">
+                        <AccordionTrigger className="hover:no-underline">
+                          <div className="flex items-center justify-between w-full mr-4">
+                            <span className="font-medium text-left">{suggestion.title}</span>
+                            <Badge variant="default" className="ml-2 bg-green-100 text-green-700 hover:bg-green-200 border-green-300">
+                              +{suggestion.marginImprovement.toFixed(1)}%
+                            </Badge>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-4">
+                          <div className="space-y-4">
+                            <p className="text-muted-foreground">{suggestion.description}</p>
+                            
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                                <p className="text-sm text-blue-600 mb-1">Impact</p>
+                                <p className="font-semibold text-blue-700">{suggestion.impact}</p>
+                              </div>
+                              <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+                                <p className="text-sm text-purple-600 mb-1">Margin Improvement</p>
+                                <p className="font-semibold text-purple-700">
+                                  +{suggestion.marginImprovement.toFixed(1)}%
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="p-4 bg-muted/50 rounded-lg">
+                              <h4 className="font-medium mb-2 flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4" />
+                                <span>Implementation Steps</span>
+                              </h4>
+                              <p className="text-sm text-muted-foreground">{suggestion.implementation}</p>
+                            </div>
+
+                            {monthlyVolume > 0 && (
+                              <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
+                                <p className="text-sm text-primary mb-1">Projected Monthly Earnings</p>
+                                <p className="text-xl font-bold text-primary">
+                                  ${calculateOptimizedMonthlyEarnings(selectedDish, suggestion, monthlyVolume).toFixed(0)}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  vs ${calculateOriginalMonthlyEarnings(selectedDish, monthlyVolume).toFixed(0)} current
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
                   </Accordion>
                 </CardContent>
               </Card>
