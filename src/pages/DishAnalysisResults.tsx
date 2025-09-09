@@ -353,26 +353,26 @@ const DishAnalysisResults = () => {
                     </div>
                   </CardContent>
                   
-                  {isLocked && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">
-                      <div className="text-center p-6">
-                        <Lock className="w-8 h-8 text-primary mx-auto mb-3" />
-                        <h4 className="font-semibold mb-2">Analysis Locked</h4>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          Unlock to see complete optimization suggestions
-                        </p>
-                        <Button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setShowVerificationModal(true);
-                          }}
-                          className="bg-primary hover:bg-primary/90"
-                        >
-                          🔓 Unlock Analysis
-                        </Button>
-                      </div>
-                    </div>
-                  )}
+                   {isLocked && (
+                     <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg">
+                       <div className="text-center p-6 bg-background/95 rounded-lg shadow-xl border">
+                         <Lock className="w-8 h-8 text-primary mx-auto mb-3" />
+                         <h4 className="font-semibold mb-2 text-foreground">Analysis Locked</h4>
+                         <p className="text-sm text-muted-foreground mb-4">
+                           Unlock to see complete optimization suggestions
+                         </p>
+                         <Button 
+                           onClick={(e) => {
+                             e.stopPropagation();
+                             setShowVerificationModal(true);
+                           }}
+                           className="bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-200"
+                         >
+                           🔓 Unlock Analysis
+                         </Button>
+                       </div>
+                     </div>
+                   )}
                 </Card>
               );
             })}
