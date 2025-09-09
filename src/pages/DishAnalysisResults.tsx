@@ -413,7 +413,7 @@ const DishAnalysisResults = () => {
                   
                   {/* Explanation Banner */}
                   <div className="px-6 pb-4">
-                    <div className="flex items-start gap-3 border border-primary border-l-4 border-l-primary rounded-lg shadow-sm">
+                    <div className="flex items-start gap-3 border border-primary border-l-4 border-l-primary rounded-lg shadow-sm p-2.5">
                       <Info className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                       <p className="text-base text-primary">
                         Based on a standard US-style Paella recipe — tweak details to match yours.
