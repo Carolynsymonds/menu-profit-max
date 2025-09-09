@@ -145,7 +145,7 @@ const DishAnalysisResults = () => {
     handleVerification();
   }, [location.state, navigate, searchParams, toast]);
 
-  if (!analysisData || analysisData.dishes.length === 0) {
+  if (!analysisData || !analysisData.dishes || analysisData.dishes.length === 0) {
     return null;
   }
 
@@ -178,9 +178,9 @@ const DishAnalysisResults = () => {
   };
 
   const getBestOptimization = (dish: DishAnalysisData) => {
-    if (!dish.suggestions.length) return null;
+    if (!dish.suggestions || !dish.suggestions.length) return null;
     return dish.suggestions.reduce((best, current) => {
-      return current.monthlyImpact > best.monthlyImpact ? current : best;
+      return (current.monthlyImpact || 0) > (best.monthlyImpact || 0) ? current : best;
     });
   };
 
@@ -243,7 +243,7 @@ const DishAnalysisResults = () => {
                 <div className="flex-1 text-center">
                   <p className="text-sm text-muted-foreground mb-1">Total Monthly Potential</p>
                   <p className="text-2xl font-bold text-primary">
-                    ${analysisData.dishes.reduce((total, dish) => 
+                    ${(analysisData.dishes || []).reduce((total, dish) => 
                       total + calculateOriginalMonthlyEarnings(dish, monthlyVolume), 0
                     ).toFixed(0)}
                   </p>
@@ -257,7 +257,7 @@ const DishAnalysisResults = () => {
 
           {/* Dishes Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            {analysisData.dishes.map((dish, index) => {
+            {(analysisData.dishes || []).map((dish, index) => {
               const isLocked = index > 0 && !isVerified;
               
               return (
@@ -393,7 +393,7 @@ const DishAnalysisResults = () => {
                       </AccordionTrigger>
                       <AccordionContent className="pt-4">
                         <div className="space-y-3">
-                          {selectedDish.ingredients.map((ingredient, index) => (
+                          {(selectedDish.ingredients || []).map((ingredient, index) => (
                             <div key={index} className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
                               <span className="font-medium">{ingredient.name}</span>
                               <div className="text-right">
@@ -456,7 +456,7 @@ const DishAnalysisResults = () => {
                 </CardHeader>
                 <CardContent>
                   <Accordion type="single" collapsible className="space-y-4">
-                    {selectedDish.suggestions.map((suggestion, index) => (
+                    {(selectedDish.suggestions || []).map((suggestion, index) => (
                       <AccordionItem key={index} value={`suggestion-${index}`} className="border rounded-lg px-4">
                         <AccordionTrigger className="hover:no-underline">
                           <div className="flex items-center justify-between w-full mr-4">
