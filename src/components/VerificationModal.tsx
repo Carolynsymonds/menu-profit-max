@@ -90,7 +90,7 @@ export const VerificationModal = ({ isOpen, onClose, dishesData }: VerificationM
               <Lock className="w-6 h-6 text-primary" />
             )}
           </div>
-          <DialogTitle className="text-xl font-semibold">
+          <DialogTitle className="text-xl font-semibold mx-auto">
             {emailSent ? "Check Your Email!" : "Unlock Full Analysis"}
           </DialogTitle>
           <DialogDescription className="text-center">
