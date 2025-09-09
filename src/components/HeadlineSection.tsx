@@ -1,19 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { Link, useNavigate } from "react-router-dom";
 import { Check, Upload, Sparkles, X, Loader2 } from "lucide-react";
 import { siteContent } from "@/config/site-content";
 import BenefitsSection from "@/components/BenefitsSection";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
 import { supabase } from "@/integrations/supabase/client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, KeyboardEvent } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 const HeadlineSection = () => {
   const { navigateWithUtm } = useUtmTracking();
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [dishName, setDishName] = useState('');
+  const [dishes, setDishes] = useState<string[]>([]);
+  const [currentInput, setCurrentInput] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   
@@ -74,8 +76,56 @@ const HeadlineSection = () => {
     };
   }, [isAnalyzing, loadingMessages.length]);
 
+  const addDish = (dishName: string) => {
+    const trimmedName = dishName.trim();
+    if (trimmedName && !dishes.includes(trimmedName)) {
+      setDishes([...dishes, trimmedName]);
+    }
+  };
+
+  const removeDish = (dishToRemove: string) => {
+    setDishes(dishes.filter(dish => dish !== dishToRemove));
+  };
+
+  const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      if (currentInput.trim()) {
+        // Handle comma-separated values
+        const newDishes = currentInput.split(',').map(d => d.trim()).filter(d => d.length > 0);
+        newDishes.forEach(dish => addDish(dish));
+        setCurrentInput('');
+      } else if (e.key === 'Enter' && dishes.length > 0) {
+        handleAnalyzeDish();
+      }
+    } else if (e.key === 'Backspace' && currentInput === '' && dishes.length > 0) {
+      // Remove last dish when backspace is pressed on empty input
+      setDishes(dishes.slice(0, -1));
+    }
+  };
+
   const handleAnalyzeDish = async () => {
-    if (!dishName.trim()) {
+    // Add current input to dishes if not empty
+    if (currentInput.trim()) {
+      const newDishes = currentInput.split(',').map(d => d.trim()).filter(d => d.length > 0);
+      const allDishes = [...dishes];
+      newDishes.forEach(dish => {
+        if (dish && !allDishes.includes(dish)) {
+          allDishes.push(dish);
+        }
+      });
+      setDishes(allDishes);
+      setCurrentInput('');
+      
+      if (allDishes.length === 0) {
+        toast({
+          title: "Please enter dish names",
+          description: "Type in one or more dishes to analyze their profitability",
+          variant: "destructive",
+        });
+        return;
+      }
+    } else if (dishes.length === 0) {
       toast({
         title: "Please enter dish names",
         description: "Type in one or more dishes to analyze their profitability",
@@ -86,11 +136,12 @@ const HeadlineSection = () => {
 
     setIsAnalyzing(true);
     try {
-      // Split multiple dishes by comma and clean them up
-      const dishNames = dishName.split(',').map(name => name.trim()).filter(name => name.length > 0);
+      const dishesToAnalyze = currentInput.trim() ? 
+        [...dishes, ...currentInput.split(',').map(d => d.trim()).filter(d => d.length > 0 && !dishes.includes(d))] : 
+        dishes;
       
       const { data, error } = await supabase.functions.invoke('analyze-dish', {
-        body: { dishNames }
+        body: { dishNames: dishesToAnalyze }
       });
 
       if (error) throw error;
@@ -103,8 +154,8 @@ const HeadlineSection = () => {
       // Track analysis event
       try {
         window.gtag?.('event', 'dish_analysis', {
-          dish_names: dishNames.join(', '),
-          dish_count: dishNames.length,
+          dish_names: dishesToAnalyze.join(', '),
+          dish_count: dishesToAnalyze.length,
           page_location: window.location.href,
         });
       } catch (e) {
@@ -146,9 +197,9 @@ const HeadlineSection = () => {
             <div className="flex flex-col gap-3">
               <div className="flex gap-2">
                 <div className="relative flex-1">
-                  <div className="relative flex items-center">
+                  <div className="relative">
                     {/* Search icon with sparkles - gradient */}
-                    <div className="absolute left-3 flex items-center gap-1 z-10">
+                    <div className="absolute left-3 top-3 flex items-center gap-1 z-10">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI search icon">
                         <path d="M16.296 2.043c.407 1.817 1.284 2.716 3.317 3.089.14 0 .255.104.255.233s-.114.233-.255.233c-1.982.373-2.909 1.218-3.315 3.081a.246.246 0 0 1-.243.18.245.245 0 0 1-.245-.191c-.407-1.818-1.28-2.697-3.313-3.07-.14 0-.254-.104-.254-.233s.114-.233.254-.233c1.982-.373 2.91-1.223 3.317-3.087a.247.247 0 0 1 .241-.175c.117 0 .212.074.241.173Z" fill="url(#_3085173834__a)"></path>
                         <path d="M15.094 17.436A7.5 7.5 0 1 1 10 4.046v1.503A6 6 0 1 0 16.446 11h1.504a7.466 7.466 0 0 1-1.46 5.003l4.25 4.25a1 1 0 0 1-1.414 1.414l-4.232-4.231Z" fill="url(#_3085173834__b)"></path>
@@ -176,14 +227,35 @@ const HeadlineSection = () => {
                       </svg>
                     </div>
                     
-                    <Input
-                      value={dishName}
-                      onChange={(e) => setDishName(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && !isAnalyzing && handleAnalyzeDish()}
-                      placeholder='Chicken Parmesan, Lentil Pasta, Caesar Salad'
-                      disabled={isAnalyzing}
-                      className="w-full rounded-xl border-gray-300 bg-card/70 pl-10 pr-10 py-3 focus:ring-2 focus:ring-primary/40 focus:border-primary/60"
-                    />
+                    <div className="min-h-[48px] w-full rounded-xl border border-gray-300 bg-card/70 px-3 py-3 pl-10 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary/60 transition-all">
+                      {/* Display existing dishes as badges */}
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        {dishes.map((dish, index) => (
+                          <Badge
+                            key={index}
+                            variant="secondary"
+                            className="flex items-center gap-1 px-2 py-1 bg-primary/10 text-primary hover:bg-primary/20"
+                          >
+                            {dish}
+                            <X
+                              size={14}
+                              className="cursor-pointer hover:text-destructive"
+                              onClick={() => removeDish(dish)}
+                            />
+                          </Badge>
+                        ))}
+                      </div>
+                      
+                      {/* Input field */}
+                      <input
+                        value={currentInput}
+                        onChange={(e) => setCurrentInput(e.target.value)}
+                        onKeyDown={handleInputKeyDown}
+                        placeholder={dishes.length === 0 ? 'Chicken Parmesan, Lentil Pasta, Caesar Salad' : 'Add another dish...'}
+                        disabled={isAnalyzing}
+                        className="w-full bg-transparent border-none outline-none text-base placeholder:text-muted-foreground"
+                      />
+                    </div>
                   </div>
                 </div>
                 
