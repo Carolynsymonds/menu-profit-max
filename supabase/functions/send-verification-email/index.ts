@@ -60,7 +60,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send verification email
     const emailResponse = await resend.emails.send({
-      from: "MenuProfitMax <onboarding@resend.dev>",
+      from: "onboarding@resend.dev",
       to: [email],
       subject: "Unlock Your Complete Dish Analysis",
       html: `
