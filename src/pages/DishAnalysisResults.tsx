@@ -393,15 +393,11 @@ const DishAnalysisResults = () => {
               {/* Original Dish Analysis */}
               <Card className="h-fit">
                 <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Calculator className="w-5 h-5" />
-                      <span>Dish details</span>
-                    </div>
+                  <div className="flex items-center justify-between mb-2">
                     <Badge variant={getMarginColor(getDishData(selectedDish).profitMargin)}>
                       {getDishData(selectedDish).profitMargin.toFixed(1)}% margin
                     </Badge>
-                  </CardTitle>
+                  </div>
                   <CardDescription>
                     Current performance and cost breakdown for {getDishData(selectedDish).dishName}
                   </CardDescription>
@@ -493,12 +489,8 @@ const DishAnalysisResults = () => {
               {/* Profit Optimization Opportunities */}
               <Card className="h-fit">
                 <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <TrendingUp className="w-5 h-5" />
-                    <span>Suggestions</span>
-                  </CardTitle>
                   <CardDescription>
-                    Suggestions
+                    Optimization recommendations to improve profitability and reduce costs
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
