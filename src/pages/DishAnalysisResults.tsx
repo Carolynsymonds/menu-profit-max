@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { ArrowLeft, Calculator, TrendingUp, DollarSign, Users, Clock, CheckCircle, Lock, Info } from 'lucide-react';
+import { ArrowLeft, Calculator, TrendingUp, DollarSign, Users, Clock, CheckCircle, Lock, Info, Pencil } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { VerificationModal } from '@/components/VerificationModal';
@@ -60,6 +60,7 @@ const DishAnalysisResults = () => {
   const [monthlyVolume, setMonthlyVolume] = useState<number>(100);
   const [isVerified, setIsVerified] = useState(false);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   useEffect(() => {
     const handleVerification = async () => {
@@ -583,6 +584,19 @@ const DishAnalysisResults = () => {
                   </Accordion>
                 </CardContent>
               </Card>
+              
+              {/* Edit Button */}
+              <div className="mt-6 flex justify-center">
+                <Button
+                  variant="default"
+                  size="lg"
+                  onClick={() => setShowEditModal(true)}
+                  className="flex items-center gap-2"
+                >
+                  <Pencil className="w-4 h-4" />
+                  Edit Dish Details
+                </Button>
+              </div>
             </div>
           )}
 
