@@ -4,9 +4,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { ArrowLeft, Calculator, TrendingUp, DollarSign, Users, Clock, CheckCircle, Lock, Info } from 'lucide-react';
+import { ArrowLeft, Calculator, TrendingUp, DollarSign, Users, Clock, CheckCircle, Lock } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { VerificationModal } from '@/components/VerificationModal';
@@ -304,8 +303,7 @@ const DishAnalysisResults = () => {
   };
 
   return (
-    <TooltipProvider>
-      <div className="bg-white min-h-screen">
+    <div className="bg-white min-h-screen">
         <Header />
         
         <main className="relative overflow-hidden">
@@ -397,35 +395,26 @@ const DishAnalysisResults = () => {
                         <div className="text-4xl font-semibold leading-none text-slate-900">
                           {getDishData(selectedDish).profitMargin.toFixed(1)}%
                         </div>
-                        <div className="mt-2 text-base text-slate-600 flex items-center gap-2">
+                        <div className="mt-2 text-base text-slate-600">
                           margin
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Info className="w-4 h-4 text-slate-500 hover:text-slate-700 cursor-help" />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p className="max-w-xs">This estimate is based on a standard Paella recipe, adapted from common ingredient costs and portion sizes in the US market. You can adjust details for your own recipe.</p>
-                            </TooltipContent>
-                          </Tooltip>
                         </div>
                       </div>
                       <div className="inline-flex flex-col items-start p-4">
                         <div className="text-4xl font-semibold leading-none text-slate-900">
                           ${((getDishData(selectedDish).dishPrice - getDishData(selectedDish).totalCost) * monthlyVolume * 12).toLocaleString()}
                         </div>
-                        <div className="mt-2 text-base text-slate-600 flex items-center gap-2">
+                        <div className="mt-2 text-base text-slate-600">
                           profit per year
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Info className="w-4 h-4 text-slate-500 hover:text-slate-700 cursor-help" />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p className="max-w-xs">This estimate is based on a standard Paella recipe, adapted from common ingredient costs and portion sizes in the US market. You can adjust details for your own recipe.</p>
-                            </TooltipContent>
-                          </Tooltip>
                         </div>
                       </div>
                     </div>
+                  </div>
+                  
+                  {/* Explanation Banner */}
+                  <div className="px-6 pb-4">
+                    <p className="text-sm text-slate-600 bg-slate-50 p-3 rounded-lg border">
+                      This estimate is based on a standard Paella recipe, adapted from common ingredient costs and portion sizes in the US market. You can adjust details for your own recipe.
+                    </p>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -608,7 +597,6 @@ const DishAnalysisResults = () => {
         />
       )}
     </div>
-    </TooltipProvider>
   );
 };
 
