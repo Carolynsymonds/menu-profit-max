@@ -267,36 +267,36 @@ const DishAnalysisResults = () => {
     });
   };
 
-  // New calculation functions for enhanced banner
-  const calculateTotalOptimizedEarnings = (volume: number) => {
-    return (analysisData.dishes || []).reduce((total, dish) => {
-      const originalEarnings = calculateOriginalMonthlyEarnings(dish, volume);
+  // Simplified earnings calculations
+  const calculateEarningsData = (volume: number) => {
+    let totalOriginal = 0;
+    let totalOptimized = 0;
+    
+    (analysisData.dishes || []).forEach((dish) => {
+      const dishData = getDishData(dish);
+      const profitPerDish = dishData.dishPrice - dishData.totalCost;
+      const dishEarnings = profitPerDish * volume;
+      
+      totalOriginal += dishEarnings;
+      
+      // Add best optimization if available
       const bestOptimization = getBestOptimization(dish);
-      if (bestOptimization) {
-        return total + originalEarnings + (bestOptimization.monthlyImpact * volume);
-      }
-      return total + originalEarnings;
-    }, 0);
-  };
-
-  const calculateTotalOriginalEarnings = (volume: number) => {
-    return (analysisData.dishes || []).reduce((total, dish) => 
-      total + calculateOriginalMonthlyEarnings(dish, volume), 0
-    );
-  };
-
-  const calculateOptimizationImpact = (volume: number) => {
-    const original = calculateTotalOriginalEarnings(volume);
-    const optimized = calculateTotalOptimizedEarnings(volume);
-    const monthlyImprovement = optimized - original;
-    const percentageImprovement = original > 0 ? (monthlyImprovement / original) * 100 : 0;
+      const additionalEarnings = bestOptimization ? (bestOptimization.monthlyImpact || 0) : 0;
+      totalOptimized += dishEarnings + additionalEarnings;
+    });
+    
+    const monthlyBoost = totalOptimized - totalOriginal;
+    const annualBoost = monthlyBoost * 12;
+    const percentageBoost = totalOriginal > 0 ? (monthlyBoost / totalOriginal) * 100 : 0;
     
     return {
-      original,
-      optimized,
-      monthlyImprovement,
-      annualImprovement: monthlyImprovement * 12,
-      percentageImprovement
+      actualMonthly: totalOriginal,
+      suggestedMonthly: totalOptimized,
+      actualAnnual: totalOriginal * 12,
+      suggestedAnnual: totalOptimized * 12,
+      monthlyBoost,
+      annualBoost,
+      percentageBoost
     };
   };
 
@@ -329,102 +329,90 @@ const DishAnalysisResults = () => {
             <div className="w-32" /> {/* Spacer for centering */}
           </div>
 
-          {/* Actual vs Suggested Earnings */}
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Calculator className="w-5 h-5" />
-                <span>Actual vs Suggested Earnings</span>
+          {/* Enhanced Actual vs Suggested Earnings Table */}
+          <Card className="mb-8 border-2 border-primary/20">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center space-x-3 text-xl">
+                <Calculator className="w-6 h-6 text-primary" />
+                <span>Monthly Volume vs Annual Projections</span>
               </CardTitle>
-              <CardDescription>
-                Compare your current earnings with optimized projections across all dishes
-              </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Monthly Volume Input */}
-                <div className="space-y-2">
-                  <Label htmlFor="monthlyVolume" className="text-sm font-medium">
-                    Monthly sales volume (per dish)
-                  </Label>
-                  <Input
-                    id="monthlyVolume"
-                    type="number"
-                    value={monthlyVolume}
-                    onChange={(e) => setMonthlyVolume(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="text-center font-medium"
-                    min="1"
-                  />
-                  <p className="text-xs text-muted-foreground text-center">
-                    Across {analysisData.dishes.length} dishes
-                  </p>
-                </div>
-
-                {/* Actual vs Suggested Comparison */}
-                <div className="lg:col-span-2 bg-gradient-to-r from-gray-50 to-green-50 dark:from-gray-900 dark:to-green-900/20 p-6 rounded-lg border">
-                  <div className="grid grid-cols-2 gap-8">
-                    {/* Actual Column */}
-                    <div className="text-center">
-                      <h3 className="text-lg font-semibold text-muted-foreground mb-2">ACTUAL</h3>
-                      <div className="space-y-1">
-                        <p className="text-2xl font-bold">
-                          ${calculateOptimizationImpact(monthlyVolume).original.toFixed(0)}
-                          <span className="text-sm font-normal text-muted-foreground">/mo</span>
-                        </p>
-                        <p className="text-lg text-muted-foreground">
-                          ${(calculateOptimizationImpact(monthlyVolume).original * 12).toFixed(0)}
-                          <span className="text-sm">/yr</span>
-                        </p>
+              {(() => {
+                const earnings = calculateEarningsData(monthlyVolume);
+                return (
+                  <div className="space-y-6">
+                    {/* Volume Input and Main Comparison */}
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-center">
+                      {/* Volume Input */}
+                      <div className="space-y-2">
+                        <Label className="text-sm font-semibold">Monthly Volume</Label>
+                        <div className="relative">
+                          <Input
+                            type="number"
+                            value={monthlyVolume}
+                            onChange={(e) => setMonthlyVolume(Math.max(1, parseInt(e.target.value) || 1))}
+                            className="text-center text-lg font-bold border-2"
+                            min="1"
+                          />
+                          <div className="text-xs text-muted-foreground text-center mt-1">dishes each</div>
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Suggested Column */}
-                    <div className="text-center">
-                      <h3 className="text-lg font-semibold text-green-600 mb-2">SUGGESTED</h3>
-                      <div className="space-y-1">
-                        <p className="text-2xl font-bold text-green-600">
-                          ${calculateOptimizationImpact(monthlyVolume).optimized.toFixed(0)}
-                          <span className="text-sm font-normal text-muted-foreground">/mo</span>
-                        </p>
-                        <p className="text-lg text-green-600">
-                          ${(calculateOptimizationImpact(monthlyVolume).optimized * 12).toFixed(0)}
-                          <span className="text-sm">/yr</span>
-                        </p>
+                      {/* Actual vs Suggested - Main Display */}
+                      <div className="lg:col-span-3">
+                        <div className="bg-gradient-to-r from-slate-50 via-white to-green-50 dark:from-slate-900 dark:via-slate-800 dark:to-green-900/30 p-6 rounded-xl border-2">
+                          <div className="grid grid-cols-2 gap-8 mb-4">
+                            {/* Actual Column */}
+                            <div className="text-center space-y-2">
+                              <h3 className="text-lg font-bold text-slate-600 dark:text-slate-400">ACTUAL</h3>
+                              <div className="text-3xl font-black text-slate-800 dark:text-white">
+                                ${earnings.actualMonthly.toLocaleString()}/mo
+                              </div>
+                              <div className="text-xl font-bold text-slate-600 dark:text-slate-300">
+                                ${earnings.actualAnnual.toLocaleString()}/yr
+                              </div>
+                            </div>
+
+                            {/* Suggested Column */}
+                            <div className="text-center space-y-2">
+                              <h3 className="text-lg font-bold text-green-600">SUGGESTED</h3>
+                              <div className="text-3xl font-black text-green-700 dark:text-green-400">
+                                ${earnings.suggestedMonthly.toLocaleString()}/mo
+                              </div>
+                              <div className="text-xl font-bold text-green-600 dark:text-green-400">
+                                ${earnings.suggestedAnnual.toLocaleString()}/yr
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Boost Metrics */}
+                          <div className="grid grid-cols-2 gap-4 pt-4 border-t">
+                            <div className="text-center">
+                              <div className="text-sm font-medium text-muted-foreground mb-1">Monthly Boost</div>
+                              <div className="flex items-center justify-center space-x-1">
+                                <TrendingUp className="w-4 h-4 text-green-600" />
+                                <span className="text-lg font-bold text-green-600">
+                                  +${Math.abs(earnings.monthlyBoost).toLocaleString()} ({earnings.percentageBoost.toFixed(1)}%)
+                                </span>
+                              </div>
+                            </div>
+                            <div className="text-center">
+                              <div className="text-sm font-medium text-muted-foreground mb-1">Annual Boost</div>
+                              <div className="flex items-center justify-center space-x-1">
+                                <TrendingUp className="w-4 h-4 text-green-600" />
+                                <span className="text-lg font-bold text-green-600">
+                                  +${Math.abs(earnings.annualBoost).toLocaleString()} ({earnings.percentageBoost.toFixed(1)}%)
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-
-                  {/* Improvement Metrics */}
-                  <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                    <div className="flex items-center justify-center space-x-6 text-center">
-                      <div>
-                        <div className="flex items-center justify-center space-x-1">
-                          <TrendingUp className="w-4 h-4 text-green-600" />
-                          <span className="text-sm font-medium text-muted-foreground">Monthly Boost:</span>
-                        </div>
-                        <p className="text-lg font-bold text-green-600">
-                          +${Math.abs(calculateOptimizationImpact(monthlyVolume).monthlyImprovement).toFixed(0)} 
-                          <span className="text-sm font-medium">
-                            (+{calculateOptimizationImpact(monthlyVolume).percentageImprovement.toFixed(1)}%)
-                          </span>
-                        </p>
-                      </div>
-                      <div>
-                        <div className="flex items-center justify-center space-x-1">
-                          <TrendingUp className="w-4 h-4 text-green-600" />
-                          <span className="text-sm font-medium text-muted-foreground">Annual Boost:</span>
-                        </div>
-                        <p className="text-lg font-bold text-green-600">
-                          +${Math.abs(calculateOptimizationImpact(monthlyVolume).annualImprovement).toFixed(0)}
-                          <span className="text-sm font-medium">
-                            (+{calculateOptimizationImpact(monthlyVolume).percentageImprovement.toFixed(1)}%)
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                );
+              })()}
             </CardContent>
           </Card>
 
