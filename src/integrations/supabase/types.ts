@@ -82,6 +82,39 @@ export type Database = {
         }
         Relationships: []
       }
+      dish_analysis_verifications: {
+        Row: {
+          created_at: string
+          dishes_data: Json
+          email: string
+          expires_at: string
+          id: string
+          updated_at: string
+          verification_token: string
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          dishes_data: Json
+          email: string
+          expires_at?: string
+          id?: string
+          updated_at?: string
+          verification_token: string
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          dishes_data?: Json
+          email?: string
+          expires_at?: string
+          id?: string
+          updated_at?: string
+          verification_token?: string
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
       landing_pages: {
         Row: {
           created_at: string
