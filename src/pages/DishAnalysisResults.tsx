@@ -19,6 +19,7 @@ interface OptimizationSuggestion {
   impact: string;
   implementation: string;
   monthlyImpact: number;
+  marginImprovement: number; // percentage points improvement
 }
 
 interface Ingredient {
@@ -183,6 +184,23 @@ const DishAnalysisResults = () => {
     });
   };
 
+  // Helper functions for margin calculations
+  const calculateCurrentMarginPercentage = (dishPrice: number, totalCost: number): number => {
+    if (dishPrice <= 0) return 0;
+    return ((dishPrice - totalCost) / dishPrice) * 100;
+  };
+
+  const calculateMarginImprovement = (dishPrice: number, totalCost: number, monthlySavings: number): number => {
+    if (dishPrice <= 0 || monthlyVolume <= 0) return 0;
+    
+    const currentMargin = calculateCurrentMarginPercentage(dishPrice, totalCost);
+    const costSavingsPerDish = monthlySavings / monthlyVolume; // Convert monthly savings to per-dish savings
+    const newCost = totalCost - costSavingsPerDish;
+    const newMargin = calculateCurrentMarginPercentage(dishPrice, newCost);
+    
+    return newMargin - currentMargin;
+  };
+
   // Helper function to get dish data in expected format
   const getDishData = (dish: DishAnalysisData) => {
     const ingredients = parseIngredients(dish.originalDish?.ingredientList || []);
@@ -192,13 +210,19 @@ const DishAnalysisResults = () => {
     const totalCost = ingredientCost + laborCost;
     
     // Map optimizations to expected format
-    const suggestions = (dish.optimizations || []).map((opt: any): OptimizationSuggestion => ({
-      title: opt.optimization || opt.title || '',
-      description: opt.impact || opt.description || '',
-      impact: opt.impact || '',
-      implementation: opt.implementation || '',
-      monthlyImpact: opt.costSavings?.netSavings || opt.monthlyImpact || 0
-    }));
+    const suggestions = (dish.optimizations || []).map((opt: any): OptimizationSuggestion => {
+      const monthlySavings = opt.costSavings?.netSavings || opt.monthlyImpact || 0;
+      const marginImprovement = calculateMarginImprovement(dishPrice, totalCost, monthlySavings);
+      
+      return {
+        title: opt.optimization || opt.title || '',
+        description: opt.impact || opt.description || '',
+        impact: opt.impact || '',
+        implementation: opt.implementation || '',
+        monthlyImpact: monthlySavings,
+        marginImprovement
+      };
+    });
     
     return {
       dishName: dish.originalDish?.name || '',
@@ -523,6 +547,11 @@ const DishAnalysisResults = () => {
                             <span className="font-medium text-left">{suggestion.title}</span>
                             <Badge variant="secondary" className="ml-2">
                               +${(suggestion.monthlyImpact || 0).toFixed(0)}/mo
+                              {suggestion.marginImprovement > 0 && (
+                                <span className="ml-1 text-xs">
+                                  (+{suggestion.marginImprovement.toFixed(1)}%)
+                                </span>
+                              )}
                             </Badge>
                           </div>
                         </AccordionTrigger>
@@ -530,7 +559,7 @@ const DishAnalysisResults = () => {
                           <div className="space-y-4">
                             <p className="text-muted-foreground">{suggestion.description}</p>
                             
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-3 gap-4">
                               <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
                                 <p className="text-sm text-blue-600 mb-1">Impact</p>
                                 <p className="font-semibold text-blue-700">{suggestion.impact}</p>
@@ -539,6 +568,12 @@ const DishAnalysisResults = () => {
                                 <p className="text-sm text-green-600 mb-1">Monthly Boost</p>
                                 <p className="font-semibold text-green-700">
                                   +${(suggestion.monthlyImpact || 0).toFixed(0)}
+                                </p>
+                              </div>
+                              <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+                                <p className="text-sm text-purple-600 mb-1">Margin Improvement</p>
+                                <p className="font-semibold text-purple-700">
+                                  +{suggestion.marginImprovement.toFixed(1)}%
                                 </p>
                               </div>
                             </div>
