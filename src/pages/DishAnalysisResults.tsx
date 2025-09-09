@@ -254,6 +254,14 @@ const DishAnalysisResults = () => {
     return originalEarnings + (suggestion.monthlyImpact * volume);
   };
 
+  const calculateOriginalAnnualEarnings = (dish: DishAnalysisData, volume: number) => {
+    return calculateOriginalMonthlyEarnings(dish, volume) * 12;
+  };
+
+  const calculateOptimizedAnnualEarnings = (dish: DishAnalysisData, suggestion: OptimizationSuggestion, volume: number) => {
+    return calculateOptimizedMonthlyEarnings(dish, suggestion, volume) * 12;
+  };
+
   const getBestOptimization = (dish: DishAnalysisData) => {
     const suggestions = dish.optimizations || [];
     if (!suggestions.length) return null;
@@ -506,7 +514,7 @@ const DishAnalysisResults = () => {
                           <div className="space-y-4">
                             <p className="text-muted-foreground">{suggestion.description}</p>
                             
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-3 gap-4">
                               <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
                                 <p className="text-sm text-blue-600 mb-1">Impact</p>
                                 <p className="font-semibold text-blue-700">{suggestion.impact}</p>
@@ -515,6 +523,12 @@ const DishAnalysisResults = () => {
                                 <p className="text-sm text-purple-600 mb-1">Margin Improvement</p>
                                 <p className="font-semibold text-purple-700">
                                   +{suggestion.marginImprovement.toFixed(1)}%
+                                </p>
+                              </div>
+                              <div className="p-3 bg-green-50 rounded-lg border border-green-200">
+                                <p className="text-sm text-green-600 mb-1">Annual Profit Boost</p>
+                                <p className="font-semibold text-green-700">
+                                  +${((calculateOptimizedAnnualEarnings(selectedDish, suggestion, monthlyVolume) - calculateOriginalAnnualEarnings(selectedDish, monthlyVolume)).toLocaleString())}
                                 </p>
                               </div>
                             </div>
@@ -528,14 +542,25 @@ const DishAnalysisResults = () => {
                             </div>
 
                             {monthlyVolume > 0 && (
-                              <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
-                                <p className="text-sm text-primary mb-1">Projected Monthly Earnings</p>
-                                <p className="text-xl font-bold text-primary">
-                                  ${calculateOptimizedMonthlyEarnings(selectedDish, suggestion, monthlyVolume).toFixed(0)}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  vs ${calculateOriginalMonthlyEarnings(selectedDish, monthlyVolume).toFixed(0)} current
-                                </p>
+                              <div className="space-y-3">
+                                <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
+                                  <p className="text-sm text-primary mb-1">Projected Monthly Earnings</p>
+                                  <p className="text-xl font-bold text-primary">
+                                    ${calculateOptimizedMonthlyEarnings(selectedDish, suggestion, monthlyVolume).toFixed(0)}
+                                  </p>
+                                  <p className="text-xs text-muted-foreground">
+                                    vs ${calculateOriginalMonthlyEarnings(selectedDish, monthlyVolume).toFixed(0)} current
+                                  </p>
+                                </div>
+                                <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                                  <p className="text-sm text-green-600 mb-1">Projected Annual Earnings</p>
+                                  <p className="text-xl font-bold text-green-700">
+                                    ${calculateOptimizedAnnualEarnings(selectedDish, suggestion, monthlyVolume).toLocaleString()}
+                                  </p>
+                                  <p className="text-xs text-muted-foreground">
+                                    vs ${calculateOriginalAnnualEarnings(selectedDish, monthlyVolume).toLocaleString()} current
+                                  </p>
+                                </div>
                               </div>
                             )}
                           </div>
