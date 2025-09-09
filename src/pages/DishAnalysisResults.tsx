@@ -28,22 +28,22 @@ interface Ingredient {
   cost: number;
 }
 
+interface CostBreakdown {
+  menuPrice: number;
+  ingredientCost: number;
+  laborCost: number;
+}
+
 interface OriginalDish {
-  dishName: string;
-  dishPrice: number;
-  totalCost: number;
-  profitMargin: number;
-  ingredients: Ingredient[];
-  suggestions: OptimizationSuggestion[];
+  name: string;
+  estimatedMargin: number;
+  costBreakdown: CostBreakdown;
+  ingredientList: string[];
 }
 
 interface DishAnalysisData {
-  dishName: string;
-  dishPrice: number;
-  totalCost: number;
-  profitMargin: number;
-  ingredients: Ingredient[];
-  suggestions: OptimizationSuggestion[];
+  originalDish: OriginalDish;
+  optimizations: OptimizationSuggestion[];
 }
 
 interface MultiDishAnalysisData {
@@ -151,6 +151,56 @@ const DishAnalysisResults = () => {
 
   const selectedDish = analysisData.dishes[selectedDishIndex];
 
+  // Helper function to parse ingredient strings
+  const parseIngredients = (ingredientList: string[]): Ingredient[] => {
+    if (!ingredientList || !Array.isArray(ingredientList)) return [];
+    
+    return ingredientList.map(ingredientStr => {
+      // Parse strings like "2 cups lentil pasta ($2.00)"
+      const match = ingredientStr.match(/^(.+?)\s*\(\$?([\d.]+)\)$/);
+      if (match) {
+        const [, description, cost] = match;
+        const parts = description.trim().split(' ');
+        const quantity = parts[0] || '';
+        const unit = parts[1] || '';
+        const name = parts.slice(2).join(' ') || description.trim();
+        
+        return {
+          name: name || description.trim(),
+          quantity,
+          unit,
+          cost: parseFloat(cost) || 0
+        };
+      }
+      
+      // Fallback for unparseable strings
+      return {
+        name: ingredientStr,
+        quantity: '',
+        unit: '',
+        cost: 0
+      };
+    });
+  };
+
+  // Helper function to get dish data in expected format
+  const getDishData = (dish: DishAnalysisData) => {
+    const ingredients = parseIngredients(dish.originalDish?.ingredientList || []);
+    const dishPrice = dish.originalDish?.costBreakdown?.menuPrice || 0;
+    const ingredientCost = dish.originalDish?.costBreakdown?.ingredientCost || 0;
+    const laborCost = dish.originalDish?.costBreakdown?.laborCost || 0;
+    const totalCost = ingredientCost + laborCost;
+    
+    return {
+      dishName: dish.originalDish?.name || '',
+      dishPrice,
+      totalCost,
+      profitMargin: dish.originalDish?.estimatedMargin || 0,
+      ingredients,
+      suggestions: dish.optimizations || []
+    };
+  };
+
   const getMarginColor = (margin: number) => {
     if (margin >= 40) return "default";
     if (margin >= 25) return "secondary";
@@ -166,9 +216,8 @@ const DishAnalysisResults = () => {
   };
 
   const calculateOriginalMonthlyEarnings = (dish: DishAnalysisData, volume: number) => {
-    const dishPrice = dish.dishPrice || 0;
-    const totalCost = dish.totalCost || 0;
-    const profitPerDish = dishPrice - totalCost;
+    const dishData = getDishData(dish);
+    const profitPerDish = dishData.dishPrice - dishData.totalCost;
     return profitPerDish * volume;
   };
 
@@ -178,8 +227,9 @@ const DishAnalysisResults = () => {
   };
 
   const getBestOptimization = (dish: DishAnalysisData) => {
-    if (!dish.suggestions || !dish.suggestions.length) return null;
-    return dish.suggestions.reduce((best, current) => {
+    const suggestions = dish.optimizations || [];
+    if (!suggestions.length) return null;
+    return suggestions.reduce((best, current) => {
       return (current.monthlyImpact || 0) > (best.monthlyImpact || 0) ? current : best;
     });
   };
@@ -259,6 +309,7 @@ const DishAnalysisResults = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             {(analysisData.dishes || []).map((dish, index) => {
               const isLocked = index > 0 && !isVerified;
+              const dishData = getDishData(dish);
               
               return (
                 <Card
@@ -274,20 +325,20 @@ const DishAnalysisResults = () => {
                 >
                   <CardContent className={`p-6 ${isLocked ? 'blur-sm' : ''}`}>
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-bold text-xl">{dish.dishName}</h3>
-                      <Badge variant={getMarginColor(dish.profitMargin || 0)}>
-                        {(dish.profitMargin || 0).toFixed(1)}% margin
+                      <h3 className="font-bold text-xl">{dishData.dishName}</h3>
+                      <Badge variant={getMarginColor(dishData.profitMargin)}>
+                        {dishData.profitMargin.toFixed(1)}% margin
                       </Badge>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-4 mb-4">
                       <div className="text-center p-3 bg-muted/50 rounded-lg">
                         <p className="text-sm text-muted-foreground mb-1">Current Price</p>
-                        <p className="text-lg font-semibold">${(dish.dishPrice || 0).toFixed(2)}</p>
+                        <p className="text-lg font-semibold">${dishData.dishPrice.toFixed(2)}</p>
                       </div>
                       <div className="text-center p-3 bg-muted/50 rounded-lg">
                         <p className="text-sm text-muted-foreground mb-1">Total Cost</p>
-                        <p className="text-lg font-semibold">${(dish.totalCost || 0).toFixed(2)}</p>
+                        <p className="text-lg font-semibold">${dishData.totalCost.toFixed(2)}</p>
                       </div>
                     </div>
                     
@@ -351,7 +402,7 @@ const DishAnalysisResults = () => {
                     <span>Original Dish Analysis</span>
                   </CardTitle>
                   <CardDescription>
-                    Current performance and cost breakdown for {selectedDish.dishName}
+                    Current performance and cost breakdown for {getDishData(selectedDish).dishName}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -360,8 +411,8 @@ const DishAnalysisResults = () => {
                       <AccordionTrigger className="hover:no-underline">
                         <div className="flex items-center justify-between w-full mr-4">
                           <span className="font-medium">Dish Details</span>
-                          <Badge variant={getMarginColor(selectedDish.profitMargin || 0)}>
-                            {(selectedDish.profitMargin || 0).toFixed(1)}% margin
+                          <Badge variant={getMarginColor(getDishData(selectedDish).profitMargin)}>
+                            {getDishData(selectedDish).profitMargin.toFixed(1)}% margin
                           </Badge>
                         </div>
                       </AccordionTrigger>
@@ -370,17 +421,17 @@ const DishAnalysisResults = () => {
                           <div className="grid grid-cols-2 gap-4">
                             <div className="text-center p-3 bg-muted/50 rounded-lg">
                               <p className="text-sm text-muted-foreground mb-1">Current Price</p>
-                              <p className="text-xl font-bold">${(selectedDish.dishPrice || 0).toFixed(2)}</p>
+                              <p className="text-xl font-bold">${getDishData(selectedDish).dishPrice.toFixed(2)}</p>
                             </div>
                             <div className="text-center p-3 bg-muted/50 rounded-lg">
                               <p className="text-sm text-muted-foreground mb-1">Total Cost</p>
-                              <p className="text-xl font-bold">${(selectedDish.totalCost || 0).toFixed(2)}</p>
+                              <p className="text-xl font-bold">${getDishData(selectedDish).totalCost.toFixed(2)}</p>
                             </div>
                           </div>
                           <div className="text-center p-4 bg-primary/5 rounded-lg border border-primary/20">
                             <p className="text-sm text-muted-foreground mb-1">Profit per Dish</p>
                             <p className="text-2xl font-bold text-primary">
-                              ${((selectedDish.dishPrice || 0) - (selectedDish.totalCost || 0)).toFixed(2)}
+                              ${(getDishData(selectedDish).dishPrice - getDishData(selectedDish).totalCost).toFixed(2)}
                             </p>
                           </div>
                         </div>
@@ -393,18 +444,18 @@ const DishAnalysisResults = () => {
                       </AccordionTrigger>
                       <AccordionContent className="pt-4">
                         <div className="space-y-3">
-                          {(selectedDish.ingredients || []).map((ingredient, index) => (
+                          {getDishData(selectedDish).ingredients.map((ingredient, index) => (
                             <div key={index} className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
                               <span className="font-medium">{ingredient.name}</span>
                               <div className="text-right">
-                                <p className="font-semibold">${(ingredient.cost || 0).toFixed(2)}</p>
+                                <p className="font-semibold">${ingredient.cost.toFixed(2)}</p>
                                 <p className="text-xs text-muted-foreground">{ingredient.quantity} {ingredient.unit}</p>
                               </div>
                             </div>
                           ))}
                           <div className="flex justify-between items-center p-3 bg-primary/5 rounded-lg border border-primary/20 font-semibold">
                             <span>Total Cost</span>
-                            <span className="text-primary">${(selectedDish.totalCost || 0).toFixed(2)}</span>
+                            <span className="text-primary">${getDishData(selectedDish).totalCost.toFixed(2)}</span>
                           </div>
                         </div>
                       </AccordionContent>
@@ -420,13 +471,13 @@ const DishAnalysisResults = () => {
                             <div className="text-center p-3 bg-muted/50 rounded-lg">
                               <p className="text-sm text-muted-foreground mb-1">Revenue</p>
                               <p className="text-lg font-bold">
-                                ${((selectedDish.dishPrice || 0) * monthlyVolume).toFixed(0)}
+                                ${(getDishData(selectedDish).dishPrice * monthlyVolume).toFixed(0)}
                               </p>
                             </div>
                             <div className="text-center p-3 bg-muted/50 rounded-lg">
                               <p className="text-sm text-muted-foreground mb-1">Costs</p>
                               <p className="text-lg font-bold">
-                                ${((selectedDish.totalCost || 0) * monthlyVolume).toFixed(0)}
+                                ${(getDishData(selectedDish).totalCost * monthlyVolume).toFixed(0)}
                               </p>
                             </div>
                           </div>
@@ -451,12 +502,12 @@ const DishAnalysisResults = () => {
                     <span>Profit Optimization Opportunities</span>
                   </CardTitle>
                   <CardDescription>
-                    AI-powered suggestions to maximize profitability for {selectedDish.dishName}
+                    AI-powered suggestions to maximize profitability for {getDishData(selectedDish).dishName}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Accordion type="single" collapsible className="space-y-4">
-                    {(selectedDish.suggestions || []).map((suggestion, index) => (
+                    {getDishData(selectedDish).suggestions.map((suggestion, index) => (
                       <AccordionItem key={index} value={`suggestion-${index}`} className="border rounded-lg px-4">
                         <AccordionTrigger className="hover:no-underline">
                           <div className="flex items-center justify-between w-full mr-4">
