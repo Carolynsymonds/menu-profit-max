@@ -395,10 +395,10 @@ const DishAnalysisResults = () => {
                       </div>
                       <div className="mt-2 text-base text-slate-600">margin</div>
                     </div>
+                    <div className="text-sm text-muted-foreground">
+                      Current performance and cost breakdown for {getDishData(selectedDish).dishName}
+                    </div>
                   </div>
-                  <CardDescription>
-                    Current performance and cost breakdown for {getDishData(selectedDish).dishName}
-                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Accordion type="single" collapsible className="space-y-4">
