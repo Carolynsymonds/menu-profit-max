@@ -323,87 +323,58 @@ const DishAnalysisResults = () => {
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Analysis</span>
             </Button>
-            <h1 className="text-4xl font-bold text-center flex-1 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-              {analysisData.dishes.length} Dish{analysisData.dishes.length !== 1 ? 'es' : ''} Analyzed
-            </h1>
-            <div className="w-32" /> {/* Spacer for centering */}
           </div>
 
-
-          {/* Dishes Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Dish Chips Selector */}
+          <div className="flex items-center gap-3 mb-8">
             {(analysisData.dishes || []).map((dish, index) => {
               const isLocked = index > 0 && !isVerified;
               const dishData = getDishData(dish);
+              const isActive = selectedDishIndex === index && !isLocked;
               
               return (
-                <Card
+                <button
                   key={index}
-                  className={`relative transition-all duration-200 ${
-                    selectedDishIndex === index && !isLocked
-                      ? 'ring-2 ring-primary border-primary shadow-lg'
-                      : isLocked
-                      ? 'opacity-60'
-                      : 'hover:border-primary/50 cursor-pointer'
+                  onClick={() => {
+                    if (isLocked) {
+                      setShowVerificationModal(true);
+                    } else {
+                      setSelectedDishIndex(index);
+                    }
+                  }}
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-sky-300 ${
+                    isActive
+                      ? 'bg-white text-slate-900 border border-sky-500 ring-2 ring-sky-200/60'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
-                  onClick={() => !isLocked && setSelectedDishIndex(index)}
                 >
-                  <CardContent className={`p-6 ${isLocked ? 'blur-sm' : ''}`}>
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-bold text-xl">{dishData.dishName}</h3>
-                      <Badge variant={getMarginColor(dishData.profitMargin)}>
-                        {dishData.profitMargin.toFixed(1)}% margin
-                      </Badge>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div className="text-center p-3 bg-muted/50 rounded-lg">
-                        <p className="text-sm text-muted-foreground mb-1">Current Price</p>
-                        <p className="text-lg font-semibold">${dishData.dishPrice.toFixed(2)}</p>
-                      </div>
-                      <div className="text-center p-3 bg-muted/50 rounded-lg">
-                        <p className="text-sm text-muted-foreground mb-1">Total Cost</p>
-                        <p className="text-lg font-semibold">${dishData.totalCost.toFixed(2)}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="text-center p-4 bg-primary/5 rounded-lg border border-primary/20">
-                      <p className="text-sm text-muted-foreground mb-1">Monthly Earnings Potential</p>
-                      <p className="text-2xl font-bold text-primary">
-                        ${calculateOriginalMonthlyEarnings(dish, monthlyVolume).toFixed(0)}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        Based on {monthlyVolume} dishes/month
-                      </p>
-                    </div>
-                  </CardContent>
-                  
-                  {isLocked && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">
-                      <div className="text-center p-6">
-                        <Lock className="w-8 h-8 text-primary mx-auto mb-3" />
-                        <h4 className="font-semibold mb-2">Analysis Locked</h4>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          Unlock to see complete optimization suggestions
-                        </p>
-                        <Button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setShowVerificationModal(true);
-                          }}
-                          className="bg-primary hover:bg-primary/90"
-                        >
-                          🔓 Unlock Analysis
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </Card>
+                  {dishData.dishName}
+                  {isLocked && <Lock className="w-3 h-3 ml-2 inline" />}
+                </button>
               );
             })}
           </div>
 
-          {/* Selected Dish Analysis - Only show if not locked */}
+          {/* Blur overlay for locked dishes */}
+          {selectedDishIndex > 0 && !isVerified && (
+            <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 flex items-center justify-center">
+              <div className="text-center p-8 bg-white rounded-lg shadow-xl max-w-md mx-4">
+                <Lock className="w-12 h-12 text-primary mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2">Analysis Locked</h3>
+                <p className="text-muted-foreground mb-6">
+                  Unlock to see complete optimization suggestions for all dishes
+                </p>
+                <Button 
+                  onClick={() => setShowVerificationModal(true)}
+                  className="bg-primary hover:bg-primary/90"
+                >
+                  🔓 Unlock Full Analysis
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Selected Dish Analysis - Only show if valid dish is selected */}
           {(!selectedDish || (selectedDishIndex > 0 && !isVerified)) ? (
             <Card className="mb-8">
               <CardContent className="text-center py-12">
