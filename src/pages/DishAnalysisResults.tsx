@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ArrowLeft, Calculator, TrendingUp, DollarSign, Users, Clock, CheckCircle, Lock } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -234,11 +234,6 @@ const DishAnalysisResults = () => {
     };
   };
 
-  const getMarginColor = (margin: number) => {
-    if (margin >= 40) return "default";
-    if (margin >= 25) return "secondary";
-    return "destructive";
-  };
 
   const handleBackToHome = () => {
     navigate('/');
@@ -326,7 +321,7 @@ const DishAnalysisResults = () => {
           </div>
 
           {/* Dish Chips Selector */}
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center justify-center gap-3 mb-8">
             {(analysisData.dishes || []).map((dish, index) => {
               const isLocked = index > 0 && !isVerified;
               const dishData = getDishData(dish);
@@ -342,7 +337,7 @@ const DishAnalysisResults = () => {
                       setSelectedDishIndex(index);
                     }
                   }}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-primary/30 ${
+                  className={`rounded-full px-6 py-3 text-base font-medium transition focus:outline-none focus:ring-2 focus:ring-primary/30 ${
                     isActive
                       ? 'bg-white text-slate-900 border border-primary ring-2 ring-primary/20'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
@@ -394,9 +389,12 @@ const DishAnalysisResults = () => {
               <Card className="h-fit">
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
-                    <Badge variant={getMarginColor(getDishData(selectedDish).profitMargin)}>
-                      {getDishData(selectedDish).profitMargin.toFixed(1)}% margin
-                    </Badge>
+                    <div className="inline-flex flex-col items-start bg-slate-50 p-4">
+                      <div className="text-4xl font-semibold leading-none text-slate-900">
+                        {getDishData(selectedDish).profitMargin.toFixed(1)}%
+                      </div>
+                      <div className="mt-2 text-base text-slate-600">margin</div>
+                    </div>
                   </div>
                   <CardDescription>
                     Current performance and cost breakdown for {getDishData(selectedDish).dishName}
@@ -500,9 +498,9 @@ const DishAnalysisResults = () => {
                         <AccordionTrigger className="hover:no-underline">
                           <div className="flex items-center justify-between w-full mr-4">
                             <span className="font-medium text-left">{suggestion.title}</span>
-                            <Badge variant="default" className="ml-2 bg-green-100 text-green-700 hover:bg-green-200 border-green-300">
+                            <div className="ml-2 bg-green-100 text-green-700 border border-green-300 rounded px-2 py-1 text-sm font-medium">
                               +{suggestion.marginImprovement.toFixed(1)}%
-                            </Badge>
+                            </div>
                           </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4">
