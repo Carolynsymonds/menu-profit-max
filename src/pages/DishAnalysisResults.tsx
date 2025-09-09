@@ -413,7 +413,7 @@ const DishAnalysisResults = () => {
                   {/* Explanation Banner */}
                   <div className="px-6 pb-4">
                     <p className="text-sm text-slate-600 bg-slate-50 p-3 rounded-lg border">
-                      This estimate is based on a standard Paella recipe, adapted from common ingredient costs and portion sizes in the US market. You can adjust details for your own recipe.
+                      Based on a standard US-style Paella recipe — tweak details to match yours.
                     </p>
                   </div>
                 </CardHeader>
