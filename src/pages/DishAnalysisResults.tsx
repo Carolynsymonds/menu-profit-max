@@ -212,7 +212,7 @@ const DishAnalysisResults = () => {
     // Map optimizations to expected format
     const suggestions = (dish.optimizations || []).map((opt: any): OptimizationSuggestion => {
       const monthlySavings = opt.costSavings?.netSavings || opt.monthlyImpact || 0;
-      const marginImprovement = calculateMarginImprovement(dishPrice, totalCost, monthlySavings);
+      const marginImprovement = opt.marginImprovement || 2; // Default to 2% if not provided
       
       return {
         title: opt.optimization || opt.title || '',
@@ -546,12 +546,7 @@ const DishAnalysisResults = () => {
                           <div className="flex items-center justify-between w-full mr-4">
                             <span className="font-medium text-left">{suggestion.title}</span>
                             <Badge variant="secondary" className="ml-2">
-                              +${(suggestion.monthlyImpact || 0).toFixed(0)}/mo
-                              {suggestion.marginImprovement > 0 && (
-                                <span className="ml-1 text-xs">
-                                  (+{suggestion.marginImprovement.toFixed(1)}%)
-                                </span>
-                              )}
+                              +{suggestion.marginImprovement.toFixed(1)}% margin
                             </Badge>
                           </div>
                         </AccordionTrigger>
@@ -559,16 +554,10 @@ const DishAnalysisResults = () => {
                           <div className="space-y-4">
                             <p className="text-muted-foreground">{suggestion.description}</p>
                             
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-2 gap-4">
                               <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
                                 <p className="text-sm text-blue-600 mb-1">Impact</p>
                                 <p className="font-semibold text-blue-700">{suggestion.impact}</p>
-                              </div>
-                              <div className="p-3 bg-green-50 rounded-lg border border-green-200">
-                                <p className="text-sm text-green-600 mb-1">Monthly Boost</p>
-                                <p className="font-semibold text-green-700">
-                                  +${(suggestion.monthlyImpact || 0).toFixed(0)}
-                                </p>
                               </div>
                               <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
                                 <p className="text-sm text-purple-600 mb-1">Margin Improvement</p>
