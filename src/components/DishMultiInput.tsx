@@ -158,7 +158,7 @@ function DishMultiInput({
 
   return (
     <div className="w-full">
-      <div className="min-h-[41px] w-full rounded-xl border border-gray-300 bg-card/70 px-3 py-3 pl-10 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary/60 transition-all">
+      <div className="min-h-[41px] w-full rounded-xl border border-gray-300 bg-card/70 px-3 py-2 pl-10 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary/60 transition-all">
         {/* Display existing dishes as chips */}
         {selected.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-2">
