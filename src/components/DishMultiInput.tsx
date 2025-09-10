@@ -178,7 +178,7 @@ function DishMultiInput({
           onBlur={onBlur}
           placeholder={selected.length === 0 ? placeholder : 'Add another dish...'}
           disabled={disabled}
-          className="w-full bg-transparent border-none outline-none text-base placeholder:text-muted-foreground"
+          className="w-full bg-transparent border-none outline-none text-sm placeholder:text-muted-foreground"
         />
       </div>
 
