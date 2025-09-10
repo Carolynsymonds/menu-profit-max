@@ -207,8 +207,12 @@ Respond ONLY with the JSON structure, no additional text.`;
             content = content.replace(/```\s*/g, '').replace(/```\s*$/g, '');
           }
           
-          // Clean up any extra whitespace
+          // Remove JavaScript-style comments that make JSON invalid
+          content = content.replace(/\/\/.*$/gm, '');
+          
+          // Clean up any extra whitespace and trailing commas
           content = content.trim();
+          content = content.replace(/,(\s*[}\]])/g, '$1'); // Remove trailing commas
           
           analysisResult = JSON.parse(content);
         } catch (parseError) {
