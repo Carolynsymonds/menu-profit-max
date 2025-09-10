@@ -1,27 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import { Loader2 } from "lucide-react";
 import DishMultiInput from "@/components/DishMultiInput";
-import { siteContent } from "@/config/site-content";
-import BenefitsSection from "@/components/BenefitsSection";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
-import { supabase } from "@/integrations/supabase/client";
-import { useState, useEffect, KeyboardEvent } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 const HeadlineSection = () => {
   const { navigateWithUtm } = useUtmTracking();
-  const { toast } = useToast();
-  const navigate = useNavigate();
   const [dishes, setDishes] = useState<{id: string, name: string}[]>([]);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
-  
-  const loadingMessages = [
-    "Finding highest margin recipes",
-    "Evaluating competitor menus", 
-    "Finding highest margin upsells"
-  ];
   
   const brandLogos = [
     { 
@@ -60,70 +44,13 @@ const HeadlineSection = () => {
     navigateWithUtm('/signup');
   };
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    
-    if (isAnalyzing) {
-      interval = setInterval(() => {
-        setLoadingMessageIndex((prev) => (prev + 1) % loadingMessages.length);
-      }, 2000);
-    }
-    
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isAnalyzing, loadingMessages.length]);
-
   const handleDishesChange = (newDishes: {id: string, name: string}[]) => {
     setDishes(newDishes);
   };
 
   const handleAnalyzeDish = async () => {
-    if (dishes.length === 0) {
-      toast({
-        title: "Please enter dish names",
-        description: "Type in one or more dishes to analyze their profitability",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsAnalyzing(true);
-    try {
-      const dishNames = dishes.map(dish => dish.name);
-      
-      const { data, error } = await supabase.functions.invoke('analyze-dish', {
-        body: { dishNames }
-      });
-
-      if (error) throw error;
-
-      // Navigate to results page with analysis data
-      navigate('/dish-analysis-results', {
-        state: { analysisData: data }
-      });
-      
-      // Track analysis event
-      try {
-        window.gtag?.('event', 'dish_analysis', {
-          dish_names: dishNames.join(', '),
-          dish_count: dishNames.length,
-          page_location: window.location.href,
-        });
-      } catch (e) {
-        // no-op if gtag not available
-      }
-
-    } catch (error) {
-      console.error('Analysis error:', error);
-      toast({
-        title: "Analysis failed",
-        description: "There was an error analyzing your dishes. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsAnalyzing(false);
-    }
+    // Functionality disabled for free plan
+    console.log("Analysis functionality disabled");
   };
 
   return (
@@ -182,14 +109,12 @@ const HeadlineSection = () => {
                     <DishMultiInput
                       value={dishes}
                       onChange={handleDishesChange}
-                      disabled={isAnalyzing}
                     />
                   </div>
                 </div>
                 
                 <Button
                   onClick={handleAnalyzeDish}
-                  disabled={isAnalyzing}
                   className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap"
                 >
                   Boost My Profits
@@ -198,20 +123,7 @@ const HeadlineSection = () => {
 
             </div>
 
-            {/* Loading overlay */}
-            {isAnalyzing && (
-              <div className="absolute inset-0 backdrop-blur-sm bg-white/80 rounded-xl flex items-center justify-center z-20">
-                <div className="flex flex-col items-center gap-6">
-                  <Loader2 className="h-10 w-10 animate-spin text-primary" />
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Analyzing your dish...</h3>
-                    <p className="text-base text-muted-foreground animate-pulse">
-                      {loadingMessages[loadingMessageIndex]}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
+            {/* Loading overlay - removed since functionality is disabled */}
           </div>
           
           {/* Brand logos section */}
