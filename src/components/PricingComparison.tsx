@@ -27,7 +27,47 @@ interface PricingComparisonProps {
 }
 
 export default function PricingComparison({ data }: PricingComparisonProps) {
-  const [strategies, setStrategies] = useState(data);
+  const [strategies, setStrategies] = useState(() => {
+    // Initialize calculated fields for all strategies
+    const initializeStrategy = (strategy: PricingStrategy) => {
+      const primeCost = (strategy.prepLabor || 0) + (strategy.foodCost || 0);
+      const plateProfit = (strategy.price || 0) - primeCost;
+      
+      return {
+        ...strategy,
+        primeCost,
+        plateProfit,
+        profitUplift: undefined,
+        annualProfitUplift: undefined
+      };
+    };
+
+    const initialized = {
+      standard: initializeStrategy(data.standard),
+      highMargin: initializeStrategy(data.highMargin),
+      premium: initializeStrategy(data.premium)
+    };
+
+    // Calculate profit uplifts for non-standard strategies
+    const standardProfit = initialized.standard.plateProfit;
+    
+    ['highMargin', 'premium'].forEach(key => {
+      const strategy = initialized[key as keyof typeof initialized];
+      const uplift = strategy.plateProfit - standardProfit;
+      const percentage = standardProfit > 0 ? (uplift / standardProfit) * 100 : 0;
+      
+      strategy.profitUplift = {
+        percentage: Math.round(percentage * 10) / 10,
+        amount: Math.round(uplift * 100) / 100
+      };
+      
+      if (strategy.estimatedVolume) {
+        strategy.annualProfitUplift = uplift * strategy.estimatedVolume * 12;
+      }
+    });
+
+    return initialized;
+  });
 
   // Update calculated fields when inputs change
   const updateStrategy = (strategyKey: keyof typeof strategies, field: string, value: number) => {
