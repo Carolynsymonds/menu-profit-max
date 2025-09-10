@@ -256,16 +256,6 @@ const DishAnalysisResults = () => {
 
           <div className="mx-auto max-w-6xl px-6 pt-16 pb-16">
             <PricingComparison data={pricingComparisonData} />
-
-            {/* New Analysis Button */}
-            <div className="text-center mt-12">
-              <Button
-                onClick={handleNewAnalysis}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 rounded-xl font-semibold"
-              >
-                Analyze Another Dish
-              </Button>
-            </div>
           </div>
         </main>
         
