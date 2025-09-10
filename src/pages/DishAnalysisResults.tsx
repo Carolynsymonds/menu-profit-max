@@ -277,10 +277,10 @@ const DishAnalysisResults = () => {
   // Helper function to get dish data in expected format
   const getDishData = (dish: DishAnalysisData) => {
     const ingredients = parseIngredients(dish.originalDish?.ingredientList || []);
-    const dishPrice = dish.originalDish?.costBreakdown?.menuPrice || 0;
-    const ingredientCost = dish.originalDish?.costBreakdown?.ingredientCost || 0;
-    const laborCost = dish.originalDish?.costBreakdown?.laborCost || 0;
-    const totalCost = ingredientCost + laborCost;
+    const dishPrice = Number(dish.originalDish?.costBreakdown?.menuPrice) || 0;
+    const ingredientCost = Number(dish.originalDish?.costBreakdown?.ingredientCost) || 0;
+    const laborCost = Number(dish.originalDish?.costBreakdown?.laborCost) || 0;
+    const totalCost = Number((ingredientCost + laborCost).toFixed(2)) || 0;
     
     // Map optimizations to expected format
     const suggestions = (dish.optimizations || []).map((opt: any): OptimizationSuggestion => {
