@@ -319,7 +319,7 @@ const DishAnalysisResults = () => {
 
           {/* Results Header */}
           <div className="text-center mb-16 mx-auto max-w-[600px]">
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight">Results</h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight">Dish profit analysis</h1>
           </div>
 
           {/* Dish Chips Selector */}
@@ -391,7 +391,7 @@ const DishAnalysisResults = () => {
               <Card className="h-fit">
                 <CardHeader>
                   <h1 className="text-center font-bold text-gray-900 mb-8 leading-tight" style={{fontSize: '1rem'}}>
-                    {getDishData(selectedDish).dishName.charAt(0).toUpperCase() + getDishData(selectedDish).dishName.slice(1)} Profit
+                    Profit overview
                   </h1>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-8">
