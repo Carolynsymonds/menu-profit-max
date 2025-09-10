@@ -22,12 +22,9 @@ interface ProcessingStep {
 export const MenuUploadModal: React.FC<MenuUploadModalProps> = ({ open, onOpenChange }) => {
   const [file, setFile] = useState<File | null>(null);
   const [menuData, setMenuData] = useState<any>(null);
-  const [extractedDishes, setExtractedDishes] = useState<any[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingSteps, setProcessingSteps] = useState<ProcessingStep[]>([
     { id: 'upload', label: 'Upload menu file', status: 'pending' },
-    { id: 'parse', label: 'Parse menu structure', status: 'pending' },
-    { id: 'extract', label: 'Extract dishes and ingredients', status: 'pending' },
     { id: 'analyze', label: 'Analyze profitability', status: 'pending' },
   ]);
   const navigate = useNavigate();
@@ -50,90 +47,23 @@ export const MenuUploadModal: React.FC<MenuUploadModalProps> = ({ open, onOpenCh
     setFile(uploadedFile);
     updateStepStatus('upload', 'completed');
 
-    // Read and parse the JSON file
+    // Read and validate JSON file
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        updateStepStatus('parse', 'processing');
         const jsonData = JSON.parse(e.target?.result as string);
         setMenuData(jsonData);
-        
-        // Extract dishes for preview
-        const dishes = extractDishesFromMenu(jsonData);
-        setExtractedDishes(dishes);
-        
-        updateStepStatus('parse', 'completed');
-        updateStepStatus('extract', 'completed');
-        
-        if (dishes.length === 0) {
-          toast.error('No dishes found in the menu. Please check the JSON structure.');
-          updateStepStatus('parse', 'failed');
-        }
+        toast.success('Menu file uploaded successfully!');
       } catch (error) {
         console.error('Error parsing JSON:', error);
         toast.error('Invalid JSON file. Please check the format.');
-        updateStepStatus('parse', 'failed');
+        updateStepStatus('upload', 'failed');
         setFile(null);
       }
     };
     reader.readAsText(uploadedFile);
   }, []);
 
-  const extractDishesFromMenu = (jsonData: any): any[] => {
-    const dishes: any[] = [];
-    
-    try {
-      if (jsonData.menu && jsonData.menu.sections) {
-        jsonData.menu.sections.forEach((section: any) => {
-          if (section.items && Array.isArray(section.items)) {
-            section.items.forEach((item: any) => {
-              dishes.push({
-                name: item.name || item.title || 'Unknown Dish',
-                price: item.price || null,
-                ingredients: item.ingredients || [],
-                category: section.name || 'Unknown Section'
-              });
-            });
-          }
-        });
-      } else if (jsonData.sections && Array.isArray(jsonData.sections)) {
-        jsonData.sections.forEach((section: any) => {
-          if (section.items && Array.isArray(section.items)) {
-            section.items.forEach((item: any) => {
-              dishes.push({
-                name: item.name || item.title || 'Unknown Dish',
-                price: item.price || null,
-                ingredients: item.ingredients || [],
-                category: section.name || 'Unknown Section'
-              });
-            });
-          }
-        });
-      } else if (jsonData.items && Array.isArray(jsonData.items)) {
-        jsonData.items.forEach((item: any) => {
-          dishes.push({
-            name: item.name || item.title || 'Unknown Dish',
-            price: item.price || null,
-            ingredients: item.ingredients || [],
-            category: 'Menu Item'
-          });
-        });
-      } else if (Array.isArray(jsonData)) {
-        jsonData.forEach((item: any) => {
-          dishes.push({
-            name: item.name || item.title || 'Unknown Dish',
-            price: item.price || null,
-            ingredients: item.ingredients || [],
-            category: 'Menu Item'
-          });
-        });
-      }
-    } catch (error) {
-      console.error('Error extracting dishes:', error);
-    }
-
-    return dishes;
-  };
 
   const handleProcessMenu = async () => {
     if (!file || !menuData) return;
@@ -157,7 +87,7 @@ export const MenuUploadModal: React.FC<MenuUploadModalProps> = ({ open, onOpenCh
 
       updateStepStatus('analyze', 'completed');
 
-      toast.success(`Successfully analyzed ${data.successfulAnalyses} out of ${data.totalDishes} dishes!`);
+      toast.success('Menu analysis completed successfully!');
       
       // Navigate to results page with menu upload ID
       navigate(`/dish-analysis-results?menuUploadId=${data.menuUploadId}`);
@@ -175,7 +105,6 @@ export const MenuUploadModal: React.FC<MenuUploadModalProps> = ({ open, onOpenCh
   const resetModal = () => {
     setFile(null);
     setMenuData(null);
-    setExtractedDishes([]);
     setIsProcessing(false);
     setProcessingSteps(prev => prev.map(step => ({ ...step, status: 'pending' })));
   };
@@ -278,32 +207,6 @@ export const MenuUploadModal: React.FC<MenuUploadModalProps> = ({ open, onOpenCh
             </Card>
           )}
 
-          {/* Dishes Preview */}
-          {extractedDishes.length > 0 && (
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="font-semibold mb-4">Found {extractedDishes.length} dishes:</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-60 overflow-y-auto">
-                  {extractedDishes.slice(0, 20).map((dish, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                      <div>
-                        <p className="font-medium text-sm">{dish.name}</p>
-                        <p className="text-xs text-muted-foreground">{dish.category}</p>
-                      </div>
-                      {dish.price && (
-                        <Badge variant="outline">${dish.price}</Badge>
-                      )}
-                    </div>
-                  ))}
-                  {extractedDishes.length > 20 && (
-                    <div className="col-span-full text-center text-sm text-muted-foreground">
-                      ...and {extractedDishes.length - 20} more dishes
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          )}
 
           {/* Action Buttons */}
           <div className="flex gap-3 pt-4">
@@ -314,7 +217,7 @@ export const MenuUploadModal: React.FC<MenuUploadModalProps> = ({ open, onOpenCh
             >
               Cancel
             </Button>
-            {file && extractedDishes.length > 0 && (
+            {file && menuData && (
               <Button 
                 onClick={handleProcessMenu}
                 disabled={isProcessing}
@@ -326,7 +229,7 @@ export const MenuUploadModal: React.FC<MenuUploadModalProps> = ({ open, onOpenCh
                     Processing...
                   </>
                 ) : (
-                  `Analyze ${extractedDishes.length} Dishes`
+                  'Analyze Menu'
                 )}
               </Button>
             )}
