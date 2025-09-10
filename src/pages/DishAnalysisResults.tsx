@@ -145,19 +145,25 @@ const DishAnalysisResults = () => {
 
           // Convert menu upload results to dish analysis format
           const analysisResults = menuUploadData.analysis_results as any;
-          const dishes = analysisResults?.dishes?.map((dishResult: any) => ({
-            originalDish: {
-              name: dishResult.dish || 'Unknown Dish',
-              estimatedMargin: dishResult.analysis?.originalDish?.estimatedMargin || 0,
-              costBreakdown: dishResult.analysis?.originalDish?.costBreakdown || {
-                menuPrice: 0,
-                ingredientCost: 0,
-                laborCost: 0
+          const dishes = analysisResults?.dishes?.map((dishResult: any) => {
+            const analysis = dishResult.analysis || {};
+            const costBreakdown = analysis.costBreakdown || {};
+            const profitabilityMetrics = analysis.profitabilityMetrics || {};
+            
+            return {
+              originalDish: {
+                name: dishResult.dish || 'Unknown Dish',
+                estimatedMargin: profitabilityMetrics.grossMargin || 0,
+                costBreakdown: {
+                  menuPrice: analysis.currentPrice || 0,
+                  ingredientCost: costBreakdown.ingredients || 0,
+                  laborCost: (costBreakdown.labor || 0) + (costBreakdown.overhead || 0)
+                },
+                ingredientList: analysis.ingredients || []
               },
-              ingredientList: dishResult.analysis?.originalDish?.ingredientList || []
-            },
-            optimizations: dishResult.analysis?.optimizations || []
-          })) || [];
+              optimizations: analysis.optimizationSuggestions || []
+            };
+          }) || [];
 
           setAnalysisData({ dishes });
           setIsVerified(true); // Menu uploads are automatically verified
