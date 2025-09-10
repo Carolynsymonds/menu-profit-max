@@ -560,24 +560,12 @@ const DishAnalysisResults = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {/* Category Tags Overview */}
-                  <div className="flex flex-wrap gap-2 mb-6 pb-4 border-b">
-                    {['Upsell', 'Swap', 'Portion', 'Supplier', 'Prep', 'Menu copy'].map((category) => (
-                      <Badge key={category} className="bg-gray-100 text-gray-700 border-gray-200 text-xs">
-                        {category}
-                      </Badge>
-                    ))}
-                  </div>
-                  
                   <Accordion type="single" collapsible className="space-y-4">
                     {getDishData(selectedDish).suggestions.map((suggestion, index) => (
                       <AccordionItem key={index} value={`suggestion-${index}`} className="border rounded-lg px-4">
                         <AccordionTrigger className="hover:no-underline">
                           <div className="flex items-center justify-between w-full mr-4">
                             <div className="flex items-center gap-3 text-left">
-                              <Badge className={`${getSuggestionCategory(suggestion.title).color} border text-xs`}>
-                                {getSuggestionCategory(suggestion.title).category}
-                              </Badge>
                               <span className="font-medium">{suggestion.title}</span>
                             </div>
                             <Badge className="bg-green-100 text-green-700 border-green-200 text-xs ml-2">
