@@ -151,7 +151,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         {/* Strategy */}
         <div className="py-4 text-sm font-medium text-gray-700">Strategy</div>
         <div className="py-4 text-gray-600">—</div>
-        <div className="py-4 text-gray-800">{strategies.highMargin.strategy}</div>
+        <div className="py-4 px-[10px] text-gray-800">{strategies.highMargin.strategy}</div>
         <div className="py-4 text-gray-800">{strategies.premium.strategy}</div>
 
         {/* Rating */}
