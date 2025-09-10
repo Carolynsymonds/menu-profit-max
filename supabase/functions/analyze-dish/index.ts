@@ -11,6 +11,128 @@ const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
+// Pricing comparison analysis handler
+async function handlePricingComparison(dishName: string) {
+  const prompt = `You are a restaurant profitability consultant. Analyze the dish "${dishName}" and create three strategic pricing variations to maximize profitability.
+
+Create a pricing comparison with these three strategies:
+1. STANDARD: Current/baseline version of the dish
+2. HIGH MARGIN: Same dish with cost-saving optimizations (ingredient swaps, portion adjustments)  
+3. PREMIUM: Upgraded version with premium ingredients and higher pricing
+
+Provide a structured JSON response with the following format:
+
+{
+  "standard": {
+    "dishName": "${dishName}",
+    "strategy": "",
+    "recipeRating": 5,
+    "recipeUrl": "#",
+    "price": "realistic price in USD",
+    "prepLabor": "estimated prep labor cost in USD", 
+    "foodCost": "estimated food cost in USD",
+    "estimatedVolume": 5000
+  },
+  "highMargin": {
+    "dishName": "${dishName}",
+    "strategy": "brief description of cost-saving strategy (e.g., 'Swap 25% beef for mushrooms')",
+    "recipeRating": 5,
+    "recipeUrl": "#",
+    "price": "same or similar price as standard",
+    "prepLabor": "labor cost after optimization",
+    "foodCost": "reduced food cost after optimization", 
+    "estimatedVolume": 5000
+  },
+  "premium": {
+    "dishName": "${dishName}",
+    "strategy": "brief description of premium upgrade (e.g., 'Wagyu beef upgrade')",
+    "recipeRating": 5,
+    "recipeUrl": "#", 
+    "price": "higher premium price",
+    "prepLabor": "potentially higher labor cost",
+    "foodCost": "higher food cost for premium ingredients",
+    "estimatedVolume": 5000
+  }
+}
+
+Guidelines:
+- Base all costs on realistic restaurant pricing
+- High Margin strategy should reduce food costs by 20-40% through smart substitutions
+- Premium strategy should increase price by 50-100% with luxury ingredients
+- Keep the dish's core identity intact across all three versions
+- All costs should be in USD format (numbers only, no currency symbols)
+- Ensure the math makes sense: prep + food = prime cost, price - prime = profit
+
+Respond ONLY with the JSON structure, no additional text.`;
+
+  console.log('Calling OpenAI API for pricing comparison:', dishName);
+
+  try {
+    const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${openAIApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          { 
+            role: 'system', 
+            content: 'You are a restaurant profitability consultant. Respond only with valid JSON.' 
+          },
+          { role: 'user', content: prompt }
+        ],
+        max_tokens: 800,
+        temperature: 0.7
+      }),
+    });
+
+    if (!openAIResponse.ok) {
+      const errorData = await openAIResponse.json();
+      console.error('OpenAI API error:', errorData);
+      throw new Error(`OpenAI API error: ${errorData.error?.message || 'Unknown error'}`);
+    }
+
+    const openAIData = await openAIResponse.json();
+    console.log('OpenAI pricing comparison response received for:', dishName);
+
+    let pricingData;
+    try {
+      let content = openAIData.choices[0].message.content;
+      
+      // Clean up the response
+      if (content.includes('```json')) {
+        content = content.replace(/```json\s*/g, '').replace(/```\s*$/g, '');
+      } else if (content.includes('```')) {
+        content = content.replace(/```\s*/g, '').replace(/```\s*$/g, '');
+      }
+      
+      content = content.replace(/\/\/.*$/gm, ''); // Remove comments
+      content = content.trim();
+      content = content.replace(/,(\s*[}\]])/g, '$1'); // Remove trailing commas
+      
+      pricingData = JSON.parse(content);
+      console.log('Parsed pricing comparison data:', pricingData);
+    } catch (parseError) {
+      console.error('Failed to parse pricing comparison JSON:', parseError);
+      console.error('Raw content:', openAIData.choices[0].message.content);
+      throw new Error('Failed to parse AI response for pricing comparison');
+    }
+
+    return new Response(JSON.stringify({
+      type: 'pricing-comparison',
+      data: pricingData
+    }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+
+  } catch (error) {
+    console.error('Error in pricing comparison:', error);
+    throw error;
+  }
+}
+
 serve(async (req) => {
   console.log('Analyze dish function called');
   
@@ -20,14 +142,20 @@ serve(async (req) => {
   }
 
   try {
-    const { dishNames, dishName, menuContext } = await req.json();
+    const { dishNames, dishName, menuContext, analysisType } = await req.json();
     
     // Support both single dish and multiple dishes
     const dishesToAnalyze = dishNames || [dishName];
     console.log('Analyzing dishes:', dishesToAnalyze);
+    console.log('Analysis type:', analysisType);
 
     if (!dishesToAnalyze || dishesToAnalyze.length === 0) {
       throw new Error('At least one dish name is required');
+    }
+
+    // Handle pricing comparison analysis
+    if (analysisType === 'pricing-comparison') {
+      return await handlePricingComparison(dishesToAnalyze[0]);
     }
 
     // Initialize Supabase client

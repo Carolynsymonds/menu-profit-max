@@ -2,10 +2,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const HeadlineSection = () => {
   const { navigateWithUtm } = useUtmTracking();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [dishName, setDishName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   
   const brandLogos = [
     { 
@@ -45,8 +51,54 @@ const HeadlineSection = () => {
   };
 
   const handleAnalyzeDish = async () => {
-    // Functionality disabled for free plan
-    console.log("Analysis functionality disabled");
+    if (!dishName.trim()) {
+      toast({
+        title: "Please enter a dish name",
+        description: "Enter a dish name to get profit optimization strategies.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('analyze-dish', {
+        body: {
+          dishName: dishName.trim(),
+          analysisType: 'pricing-comparison'
+        }
+      });
+
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw new Error(error.message);
+      }
+
+      if (!data) {
+        throw new Error('No analysis data received');
+      }
+
+      console.log('Analysis response:', data);
+
+      // Navigate to results page with pricing comparison data
+      navigate('/dish-analysis-results', {
+        state: {
+          pricingComparison: data.data,
+          analysisType: 'pricing-comparison'
+        }
+      });
+
+    } catch (error) {
+      console.error('Error analyzing dish:', error);
+      toast({
+        title: "Analysis Failed",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -113,9 +165,10 @@ const HeadlineSection = () => {
                 
                 <Button
                   onClick={handleAnalyzeDish}
-                  className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap"
+                  disabled={isLoading}
+                  className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap disabled:opacity-50"
                 >
-                  Boost My Profits
+                  {isLoading ? "Analyzing..." : "Boost My Profits"}
                 </Button>
               </div>
 

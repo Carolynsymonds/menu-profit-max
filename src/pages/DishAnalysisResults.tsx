@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
+import PricingComparison from '@/components/PricingComparison';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
@@ -187,6 +188,15 @@ const DishAnalysisResults = () => {
       }
     };
 
+    // Handle pricing comparison data
+    const pricingComparisonData = location.state?.pricingComparison;
+    const analysisType = location.state?.analysisType;
+    
+    if (pricingComparisonData && analysisType === 'pricing-comparison') {
+      // Don't process further, we'll render PricingComparison component
+      return;
+    }
+
     // Handle regular analysis data from location state
     const data = location.state?.analysisData;
     
@@ -218,6 +228,63 @@ const DishAnalysisResults = () => {
     // Handle verification
     handleVerification();
   }, [location.state, navigate, searchParams, toast]);
+
+  const handleBackToHome = () => {
+    navigate('/');
+  };
+
+  const handleNewAnalysis = () => {
+    navigate('/', { state: { resetForm: true } });
+  };
+
+  // Handle pricing comparison display
+  const pricingComparisonData = location.state?.pricingComparison;
+  const analysisType = location.state?.analysisType;
+  
+  if (pricingComparisonData && analysisType === 'pricing-comparison') {
+    return (
+      <div className="bg-white min-h-screen">
+        <Header />
+        
+        <main className="relative overflow-hidden">
+          {/* Background */}
+          <div className="absolute inset-0 -z-10">
+            <div className="h-full w-full bg-gradient-to-br from-background via-primary/5 to-secondary/10" />
+            <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full blur-3xl opacity-40 bg-gradient-radial from-primary/30 to-transparent" />
+            <div className="absolute -bottom-28 -right-20 h-96 w-96 rounded-full blur-3xl opacity-40 bg-gradient-radial from-secondary/30 to-transparent" />
+          </div>
+
+          <div className="mx-auto max-w-6xl px-6 pt-32 pb-16">
+            {/* Back to Home Button */}
+            <div className="mb-8">
+              <Button
+                onClick={handleBackToHome}
+                variant="ghost"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Home
+              </Button>
+            </div>
+
+            <PricingComparison data={pricingComparisonData} />
+
+            {/* New Analysis Button */}
+            <div className="text-center mt-12">
+              <Button
+                onClick={handleNewAnalysis}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 rounded-xl font-semibold"
+              >
+                Analyze Another Dish
+              </Button>
+            </div>
+          </div>
+        </main>
+        
+        <Footer />
+      </div>
+    );
+  }
 
   if (!analysisData || !analysisData.dishes || analysisData.dishes.length === 0) {
     return null;
@@ -305,15 +372,6 @@ const DishAnalysisResults = () => {
       ingredients,
       suggestions
     };
-  };
-
-
-  const handleBackToHome = () => {
-    navigate('/');
-  };
-
-  const handleNewAnalysis = () => {
-    navigate('/', { state: { resetForm: true } });
   };
 
   const calculateOriginalMonthlyEarnings = (dish: DishAnalysisData, volume: number) => {
