@@ -416,7 +416,7 @@ const DishAnalysisResults = () => {
                     <div className="flex items-start gap-3 border border-primary border-l-4 border-l-primary rounded-lg shadow-sm p-2.5">
                       <Info className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                       <p className="text-base text-primary">
-                        Based on a standard US-style Paella recipe — tweak details to match yours.
+                        Based on a standard US-style {getDishData(selectedDish).dishName} recipe — tweak details to match yours.
                       </p>
                     </div>
                   </div>
