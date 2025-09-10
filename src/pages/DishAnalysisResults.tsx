@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Calculator, TrendingUp, DollarSign, Users, Clock, CheckCircle, Lock, Info, Pencil } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -270,6 +271,33 @@ const DishAnalysisResults = () => {
     });
   };
 
+  // Helper function to categorize suggestions
+  const getSuggestionCategory = (title: string): { category: string; color: string } => {
+    const titleLower = title.toLowerCase();
+    
+    if (titleLower.includes('offer') || titleLower.includes('add') || titleLower.includes('side') || titleLower.includes('upsell')) {
+      return { category: 'Upsell', color: 'bg-blue-100 text-blue-700 border-blue-200' };
+    }
+    if (titleLower.includes('replace') || titleLower.includes('substitute') || titleLower.includes('swap')) {
+      return { category: 'Swap', color: 'bg-purple-100 text-purple-700 border-purple-200' };
+    }
+    if (titleLower.includes('reduce') || titleLower.includes('portion') || titleLower.includes('size')) {
+      return { category: 'Portion', color: 'bg-orange-100 text-orange-700 border-orange-200' };
+    }
+    if (titleLower.includes('supplier') || titleLower.includes('switch') || titleLower.includes('source')) {
+      return { category: 'Supplier', color: 'bg-green-100 text-green-700 border-green-200' };
+    }
+    if (titleLower.includes('prep') || titleLower.includes('method') || titleLower.includes('technique')) {
+      return { category: 'Prep', color: 'bg-yellow-100 text-yellow-700 border-yellow-200' };
+    }
+    if (titleLower.includes('menu') || titleLower.includes('copy') || titleLower.includes('description') || titleLower.includes('name')) {
+      return { category: 'Menu copy', color: 'bg-pink-100 text-pink-700 border-pink-200' };
+    }
+    
+    // Default fallback
+    return { category: 'Swap', color: 'bg-gray-100 text-gray-700 border-gray-200' };
+  };
+
   // Simplified earnings calculations
   const calculateEarningsData = (volume: number) => {
     let totalOriginal = 0;
@@ -397,7 +425,7 @@ const DishAnalysisResults = () => {
                     <div className="flex items-center gap-8">
                       <div className="inline-flex flex-col items-start p-4">
                         <div className="text-4xl font-semibold leading-none text-slate-900">
-                          {getDishData(selectedDish).profitMargin.toFixed(1)}%
+                          {Math.round(getDishData(selectedDish).profitMargin)}%
                         </div>
                         <div className="mt-2 text-base text-slate-600">
                           margin
@@ -525,10 +553,10 @@ const DishAnalysisResults = () => {
               <Card className="h-fit">
                 <CardHeader>
                   <h1 className="text-center font-bold text-gray-900 mb-8 leading-tight" style={{fontSize: '1rem'}}>
-                    Suggestions
+                    Improvement ideas
                   </h1>
-                  <CardDescription>
-                    Optimization recommendations to improve profitability and reduce costs
+                  <CardDescription className="text-center">
+                    Estimated impact on margin
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -537,9 +565,11 @@ const DishAnalysisResults = () => {
                       <AccordionItem key={index} value={`suggestion-${index}`} className="border rounded-lg px-4">
                         <AccordionTrigger className="hover:no-underline">
                           <div className="flex items-center justify-between w-full mr-4">
-                            <span className="font-medium text-left">{suggestion.title}</span>
-                            <div className="ml-2 bg-green-100 text-green-700 border border-green-300 rounded px-2 py-1 text-sm font-medium">
-                              +{suggestion.marginImprovement.toFixed(1)}%
+                            <div className="flex items-center gap-3 text-left">
+                              <Badge className={`${getSuggestionCategory(suggestion.title).color} border text-xs`}>
+                                {getSuggestionCategory(suggestion.title).category}
+                              </Badge>
+                              <span className="font-medium">{suggestion.title} — +{Math.round(suggestion.marginImprovement)}% est.</span>
                             </div>
                           </div>
                         </AccordionTrigger>
@@ -555,7 +585,7 @@ const DishAnalysisResults = () => {
                               <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
                                 <p className="text-sm text-purple-600 mb-1">Margin Improvement</p>
                                 <p className="font-semibold text-purple-700">
-                                  +{suggestion.marginImprovement.toFixed(1)}%
+                                  +{Math.round(suggestion.marginImprovement)}%
                                 </p>
                               </div>
                               <div className="p-3 bg-green-50 rounded-lg border border-green-200">
