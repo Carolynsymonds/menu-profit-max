@@ -390,6 +390,9 @@ const DishAnalysisResults = () => {
               {/* Original Dish Analysis */}
               <Card className="h-fit">
                 <CardHeader>
+                  <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight" style={{fontSize: '1.75rem'}}>
+                    {getDishData(selectedDish).dishName.charAt(0).toUpperCase() + getDishData(selectedDish).dishName.slice(1)} Profit
+                  </h1>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-8">
                       <div className="inline-flex flex-col items-start p-4">
@@ -521,6 +524,9 @@ const DishAnalysisResults = () => {
               {/* Profit Optimization Opportunities */}
               <Card className="h-fit">
                 <CardHeader>
+                  <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight" style={{fontSize: '1.75rem'}}>
+                    Suggestions
+                  </h1>
                   <CardDescription>
                     Optimization recommendations to improve profitability and reduce costs
                   </CardDescription>
