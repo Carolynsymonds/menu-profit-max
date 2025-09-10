@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { Upload, Loader2 } from "lucide-react";
 import DishMultiInput from "@/components/DishMultiInput";
+import { MenuUploadModal } from "@/components/MenuUploadModal";
 import { siteContent } from "@/config/site-content";
 import BenefitsSection from "@/components/BenefitsSection";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
@@ -16,6 +17,7 @@ const HeadlineSection = () => {
   const [dishes, setDishes] = useState<{id: string, name: string}[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
+  const [isMenuUploadModalOpen, setIsMenuUploadModalOpen] = useState(false);
   
   const loadingMessages = [
     "Finding highest margin recipes",
@@ -204,7 +206,7 @@ const HeadlineSection = () => {
               </div>
 
               <Button
-                onClick={handleSignupClick}
+                onClick={() => setIsMenuUploadModalOpen(true)}
                 disabled={isAnalyzing}
                 className="flex items-center underline justify-center gap-2 rounded-xl px-4 py-3 bg-card/50 font-semibold text-primary hover:text-primary/80 hover:bg-card/50 transition-colors"
               >
@@ -245,6 +247,11 @@ const HeadlineSection = () => {
           </div>
         </div>
       </div>
+      
+      <MenuUploadModal 
+        open={isMenuUploadModalOpen}
+        onOpenChange={setIsMenuUploadModalOpen}
+      />
     </section>
   );
 };

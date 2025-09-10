@@ -2,3 +2,6 @@ project_id = "jsjklbekqyhzqbabizve"
 
 [functions.analyze-dish]
 verify_jwt = false
+
+[functions.process-menu-upload]
+verify_jwt = false

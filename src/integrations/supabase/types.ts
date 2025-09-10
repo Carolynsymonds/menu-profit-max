@@ -199,6 +199,42 @@ export type Database = {
           },
         ]
       }
+      menu_uploads: {
+        Row: {
+          analysis_results: Json | null
+          created_at: string
+          id: string
+          menu_data: Json
+          original_filename: string
+          processed_dishes: Json | null
+          processing_status: string
+          updated_at: string
+          user_email: string
+        }
+        Insert: {
+          analysis_results?: Json | null
+          created_at?: string
+          id?: string
+          menu_data: Json
+          original_filename: string
+          processed_dishes?: Json | null
+          processing_status?: string
+          updated_at?: string
+          user_email: string
+        }
+        Update: {
+          analysis_results?: Json | null
+          created_at?: string
+          id?: string
+          menu_data?: Json
+          original_filename?: string
+          processed_dishes?: Json | null
+          processing_status?: string
+          updated_at?: string
+          user_email?: string
+        }
+        Relationships: []
+      }
       static_content: {
         Row: {
           content_type: string

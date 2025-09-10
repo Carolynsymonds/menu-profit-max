@@ -20,7 +20,7 @@ serve(async (req) => {
   }
 
   try {
-    const { dishName, dishNames } = await req.json();
+    const { dishNames, dishName, menuContext } = await req.json();
     
     // Support both single dish and multiple dishes
     const dishesToAnalyze = dishNames || [dishName];
@@ -34,44 +34,96 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // Process multiple dishes in parallel
-    const results = await Promise.all(dishesToAnalyze.map(async (dishName: string) => {
-      // Check if we have a recent analysis cached (within last 7 days)
-      const sevenDaysAgo = new Date();
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const results = await Promise.all(dishesToAnalyze.map(async (dishName: string, index: number) => {
+      const currentMenuContext = Array.isArray(menuContext) ? menuContext[index] : menuContext;
       
-      const { data: cachedAnalysis } = await supabase
-        .from('dish_analyses')
-        .select('*')
-        .eq('dish_name', dishName.toLowerCase().trim())
-        .gte('created_at', sevenDaysAgo.toISOString())
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single();
+      // Skip cache if menu context provided for more accurate analysis
+      if (!currentMenuContext) {
+        // Check if we have a recent analysis cached (within last 7 days)
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        
+        const { data: cachedAnalysis } = await supabase
+          .from('dish_analyses')
+          .select('*')
+          .eq('dish_name', dishName.toLowerCase().trim())
+          .gte('created_at', sevenDaysAgo.toISOString())
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
 
-      if (cachedAnalysis) {
-        console.log('Returning cached analysis for:', dishName);
-        return { dishName, analysis: cachedAnalysis.analysis_result, fromCache: true };
+        if (cachedAnalysis) {
+          console.log('Returning cached analysis for:', dishName);
+          return { dishName, analysis: cachedAnalysis.analysis_result, fromCache: true };
+        }
       }
 
-      return { dishName, analysis: null, fromCache: false };
+      return { dishName, analysis: null, fromCache: false, menuContext: currentMenuContext };
     }));
 
     // Separate cached and non-cached results
     const cachedResults = results.filter(r => r.fromCache);
-    const uncachedDishes = results.filter(r => !r.fromCache).map(r => r.dishName);
+    const uncachedDishes = results.filter(r => !r.fromCache);
 
     let newAnalyses: any[] = [];
     
     // Process uncached dishes
     if (uncachedDishes.length > 0) {
-      newAnalyses = await Promise.all(uncachedDishes.map(async (dishName: string) => {
+      newAnalyses = await Promise.all(uncachedDishes.map(async (result: any) => {
+        const { dishName, menuContext: currentMenuContext } = result;
 
-        // Create the analysis prompt for this dish
-        const prompt = `You are a restaurant profitability consultant. Analyze the dish "${dishName}" and provide optimization recommendations to improve its profitability. Provide a structured JSON response with the following format:
+        // Create enhanced prompt for menu context or standard prompt
+        let prompt;
+        
+        if (currentMenuContext) {
+          // Enhanced prompt with actual menu data
+          prompt = `You are a restaurant profitability consultant. Analyze the dish "${dishName}" using the provided menu information and give detailed optimization recommendations.
+
+DISH DETAILS:
+- Name: ${dishName}
+- Current Price: $${currentMenuContext.price || 'Unknown'}
+- Ingredients: ${currentMenuContext.ingredients ? currentMenuContext.ingredients.join(', ') : 'Not specified'}
+- Recipe/Description: ${currentMenuContext.recipe || 'Not provided'}
+- Prep Time: ${currentMenuContext.prepTime || 'Unknown'} minutes
+- Category: ${currentMenuContext.category || 'Unknown'}
+
+Provide a structured JSON response with the following format:
 
 {
   "originalDish": {
-    "name": "dish name",
+    "name": "${dishName}",
+    "estimatedMargin": "percentage as number (e.g., 22)",
+    "costBreakdown": {
+      "ingredientCost": "estimated cost in USD based on provided ingredients",
+      "laborCost": "estimated labor cost in USD based on prep time",
+      "menuPrice": "${currentMenuContext.price || 'estimated price'}"
+    },
+    "ingredientList": ["ingredient with quantity and cost based on actual ingredients provided"]
+  },
+  "optimizations": [
+    {
+      "optimization": "specific actionable change based on actual ingredients and recipe",
+      "marginImprovement": "percentage point increase (e.g., 8)",
+      "impact": "explanation of financial and operational benefits",
+      "implementation": "step-by-step instructions for implementing this change",
+      "costSavings": {
+        "ingredientSavings": "cost reduction in USD",
+        "newIngredientCost": "new ingredient cost in USD", 
+        "netSavings": "net savings per dish in USD"
+      }
+    }
+  ],
+  "tip": "actionable advice for improving profitability based on actual menu data"
+}
+
+Focus on specific recommendations based on the actual ingredients and recipe provided. Consider ingredient substitutions, portion optimization, prep efficiency improvements, and pricing strategies.`;
+        } else {
+          // Standard prompt for dishes without menu context
+          prompt = `You are a restaurant profitability consultant. Analyze the dish "${dishName}" and provide optimization recommendations to improve its profitability. Provide a structured JSON response with the following format:
+
+{
+  "originalDish": {
+    "name": "${dishName}",
     "estimatedMargin": "percentage as number (e.g., 22)",
     "costBreakdown": {
       "ingredientCost": "estimated cost in USD",
@@ -110,6 +162,7 @@ Guidelines:
 - Make recommendations practical and immediately implementable
 
 Respond ONLY with the JSON structure, no additional text.`;
+        }
 
         console.log('Calling OpenAI API for dish analysis:', dishName);
 
@@ -167,12 +220,16 @@ Respond ONLY with the JSON structure, no additional text.`;
         // Extract profit margin for indexing
         const profitMargin = analysisResult.originalDish?.estimatedMargin || 0;
 
-        // Cache the result in database
+        // Cache the result in database with menu context
         await supabase
           .from('dish_analyses')
           .insert({
             dish_name: dishName.toLowerCase().trim(),
-            analysis_result: analysisResult,
+            analysis_result: {
+              ...analysisResult,
+              menu_context: currentMenuContext || null,
+              analysis_type: currentMenuContext ? 'menu_upload' : 'individual'
+            },
             profit_margin: profitMargin,
             suggestions: analysisResult.optimizations || []
           });

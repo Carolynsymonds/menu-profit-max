@@ -121,6 +121,66 @@ const DishAnalysisResults = () => {
       }
     };
 
+    const handleMenuUpload = async () => {
+      const menuUploadId = searchParams.get('menuUploadId');
+      
+      if (menuUploadId) {
+        try {
+          const { data: menuUploadData, error } = await supabase
+            .from('menu_uploads')
+            .select('*')
+            .eq('id', menuUploadId)
+            .eq('processing_status', 'completed')
+            .single();
+
+          if (error || !menuUploadData) {
+            toast({
+              title: "Menu Upload Not Found",
+              description: "The menu upload was not found or is still processing.",
+              variant: "destructive",
+            });
+            navigate('/');
+            return;
+          }
+
+          // Convert menu upload results to dish analysis format
+          const analysisResults = menuUploadData.analysis_results as any;
+          const dishes = analysisResults?.dishes?.map((dishResult: any) => ({
+            originalDish: {
+              name: dishResult.dish || 'Unknown Dish',
+              estimatedMargin: dishResult.analysis?.originalDish?.estimatedMargin || 0,
+              costBreakdown: dishResult.analysis?.originalDish?.costBreakdown || {
+                menuPrice: 0,
+                ingredientCost: 0,
+                laborCost: 0
+              },
+              ingredientList: dishResult.analysis?.originalDish?.ingredientList || []
+            },
+            optimizations: dishResult.analysis?.optimizations || []
+          })) || [];
+
+          setAnalysisData({ dishes });
+          setIsVerified(true); // Menu uploads are automatically verified
+          
+          toast({
+            title: "Menu Analysis Complete!",
+            description: `Successfully analyzed ${dishes.length} dishes from your menu.`,
+          });
+
+          return;
+        } catch (error) {
+          console.error('Menu upload loading error:', error);
+          toast({
+            title: "Loading Error",
+            description: "Something went wrong loading your menu analysis.",
+            variant: "destructive",
+          });
+          navigate('/');
+          return;
+        }
+      }
+    };
+
     // Handle regular analysis data from location state
     const data = location.state?.analysisData;
     
@@ -137,7 +197,13 @@ const DishAnalysisResults = () => {
       return;
     }
 
-    // If no location state and no verification token, redirect home
+    // Check for menu upload ID
+    if (searchParams.get('menuUploadId')) {
+      handleMenuUpload();
+      return;
+    }
+
+    // If no location state and no verification token and no menu upload, redirect home
     if (!searchParams.get('verify')) {
       navigate('/');
       return;
