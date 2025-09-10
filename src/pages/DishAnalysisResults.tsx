@@ -254,19 +254,7 @@ const DishAnalysisResults = () => {
             <div className="absolute -bottom-28 -right-20 h-96 w-96 rounded-full blur-3xl opacity-40 bg-gradient-radial from-secondary/30 to-transparent" />
           </div>
 
-          <div className="mx-auto max-w-6xl px-6 pt-32 pb-16">
-            {/* Back to Home Button */}
-            <div className="mb-8">
-              <Button
-                onClick={handleBackToHome}
-                variant="ghost"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
-              </Button>
-            </div>
-
+          <div className="mx-auto max-w-6xl px-6 pt-16 pb-16">
             <PricingComparison data={pricingComparisonData} />
 
             {/* New Analysis Button */}
