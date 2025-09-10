@@ -11,8 +11,6 @@ interface AppetizerSuggestion {
 interface HighMarginAppetizersProps {
   dishName: string;
   appetizers: AppetizerSuggestion[];
-  isVerified?: boolean;
-  onUnlock?: () => void;
 }
 
 const StarRating = ({ rating }: { rating: number }) => (
@@ -36,7 +34,7 @@ const getCostBadgeColor = (cost: string) => {
   }
 };
 
-export default function HighMarginAppetizers({ dishName, appetizers, isVerified = false, onUnlock }: HighMarginAppetizersProps) {
+export default function HighMarginAppetizers({ dishName, appetizers }: HighMarginAppetizersProps) {
   return (
     <div className="w-full bg-gray-50 py-12 mt-8">
       <div className="mx-auto max-w-6xl px-4">
@@ -44,24 +42,8 @@ export default function HighMarginAppetizers({ dishName, appetizers, isVerified 
           High Margin Appetizer Ideas For {dishName}
         </h3>
         
-        <div className="relative bg-white rounded-xl shadow-sm overflow-hidden">
-          {!isVerified && (
-            <div className="absolute inset-0 z-10 bg-white/80 backdrop-blur-sm flex items-center justify-center">
-              <div className="text-center">
-                <button
-                  onClick={onUnlock}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors"
-                >
-                  Unlock Premium Features
-                </button>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Enter your email to access high-margin appetizer suggestions
-                </p>
-              </div>
-            </div>
-          )}
-          
-          <div className={`overflow-x-auto ${!isVerified ? 'blur-md' : ''}`}>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-200">
