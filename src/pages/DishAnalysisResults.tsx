@@ -418,7 +418,7 @@ const DishAnalysisResults = () => {
               {/* Original Dish Analysis */}
               <Card className="h-fit">
                 <CardHeader>
-                  <h1 className="text-center font-bold text-gray-900 mb-8 leading-tight" style={{fontSize: '1rem'}}>
+                  <h1 className="text-center font-bold text-gray-900 leading-tight" style={{fontSize: '1rem'}}>
                     Profit overview
                   </h1>
                   <div className="flex items-center justify-between mb-2">
@@ -552,7 +552,7 @@ const DishAnalysisResults = () => {
               {/* Profit Optimization Opportunities */}
               <Card className="h-fit">
                 <CardHeader>
-                  <h1 className="text-center font-bold text-gray-900 mb-8 leading-tight" style={{fontSize: '1rem'}}>
+                  <h1 className="text-center font-bold text-gray-900 leading-tight" style={{fontSize: '1rem'}}>
                     Improvement ideas
                   </h1>
                   <CardDescription className="text-center">
