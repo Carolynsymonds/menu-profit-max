@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import HighMarginAppetizers from './HighMarginAppetizers';
+import { VerificationModal } from './VerificationModal';
 
 interface PricingStrategy {
   dishName: string;
@@ -34,9 +35,11 @@ interface PricingComparisonProps {
     premium: PricingStrategy;
     appetizers?: AppetizerSuggestion[];
   };
+  isVerified?: boolean;
 }
 
-export default function PricingComparison({ data }: PricingComparisonProps) {
+export default function PricingComparison({ data, isVerified = false }: PricingComparisonProps) {
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [strategies, setStrategies] = useState(() => {
     // Initialize calculated fields for all strategies
     const initializeStrategy = (strategy: PricingStrategy) => {
@@ -348,8 +351,17 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <HighMarginAppetizers 
           dishName={strategies.standard.dishName}
           appetizers={data.appetizers}
+          isVerified={isVerified}
+          onUnlock={() => setShowVerificationModal(true)}
         />
       )}
+      
+      {/* Verification Modal */}
+      <VerificationModal
+        isOpen={showVerificationModal}
+        onClose={() => setShowVerificationModal(false)}
+        dishesData={[data]}
+      />
     </div>
   );
 }

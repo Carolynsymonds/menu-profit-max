@@ -255,7 +255,7 @@ const DishAnalysisResults = () => {
           </div>
 
           <div className="mx-auto max-w-6xl px-6 pt-16 pb-16">
-            <PricingComparison data={pricingComparisonData} />
+            <PricingComparison data={pricingComparisonData} isVerified={isVerified} />
           </div>
         </main>
         
