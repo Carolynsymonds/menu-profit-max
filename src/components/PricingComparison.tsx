@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import HighMarginAppetizers from './HighMarginAppetizers';
 
 interface PricingStrategy {
   dishName: string;
@@ -18,11 +19,20 @@ interface PricingStrategy {
   annualProfitUplift?: number;
 }
 
+interface AppetizerSuggestion {
+  starter: string;
+  ingredientCost: 'Very Low' | 'Low' | 'Medium' | 'High';
+  marginPotential: number;
+  perceivedPremium: number;
+  whyItWorks: string;
+}
+
 interface PricingComparisonProps {
   data: {
     standard: PricingStrategy;
     highMargin: PricingStrategy;
     premium: PricingStrategy;
+    appetizers?: AppetizerSuggestion[];
   };
 }
 
@@ -332,6 +342,14 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
         </div>
       </section>
+      
+      {/* High Margin Appetizers Section */}
+      {data.appetizers && data.appetizers.length > 0 && (
+        <HighMarginAppetizers 
+          dishName={strategies.standard.dishName}
+          appetizers={data.appetizers}
+        />
+      )}
     </div>
   );
 }

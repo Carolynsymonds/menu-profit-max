@@ -52,7 +52,16 @@ Provide a structured JSON response with the following format:
     "prepLabor": "potentially higher labor cost",
     "foodCost": "higher food cost for premium ingredients",
     "estimatedVolume": 5000
-  }
+  },
+  "appetizers": [
+    {
+      "starter": "appetizer name",
+      "ingredientCost": "Very Low/Low/Medium/High",
+      "marginPotential": "number from 1-5",
+      "perceivedPremium": "number from 1-5", 
+      "whyItWorks": "explanation of why this appetizer complements the main dish"
+    }
+  ]
 }
 
 Guidelines:
@@ -62,6 +71,12 @@ Guidelines:
 - Keep the dish's core identity intact across all three versions
 - All costs should be in USD format (numbers only, no currency symbols)
 - Ensure the math makes sense: prep + food = prime cost, price - prime = profit
+- Generate 5 appetizer suggestions that complement ${dishName}
+- Focus on high-margin appetizers with low ingredient costs but good perceived value
+- Consider flavor profiles that pair well with ${dishName}
+- Ingredient costs: Very Low (under $1), Low ($1-2), Medium ($2-4), High ($4+)
+- Margin potential: 5=85-90%, 4=75-85%, 3=65-75%, 2=55-65%, 1=45-55%
+- Perceived premium: 5=indulgent/upscale, 4=upmarket, 3=standard, 2=casual, 1=basic
 
 Respond ONLY with the JSON structure, no additional text.`;
 
