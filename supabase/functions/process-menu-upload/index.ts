@@ -21,11 +21,8 @@ serve(async (req) => {
     // Initialize Supabase client
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const openAIApiKey = Deno.env.get('OPENAI_API_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
-    // Parse and extract dishes from menu
-    const processedDishes = extractDishesFromMenu(menuData);
-    console.log(`Extracted ${processedDishes.length} dishes from menu`);
 
     // Store menu upload in database
     const { data: menuUpload, error: insertError } = await supabase
@@ -34,7 +31,6 @@ serve(async (req) => {
         user_email: userEmail,
         original_filename: filename,
         menu_data: menuData,
-        processed_dishes: processedDishes,
         processing_status: 'processing'
       })
       .select()
@@ -47,52 +43,134 @@ serve(async (req) => {
 
     console.log(`Menu upload stored with ID: ${menuUpload.id}`);
 
-    // Process each dish for analysis
-    const analysisPromises = processedDishes.map(async (dish: any) => {
-      try {
-        // Call analyze-dish function for each dish
-        const { data: analysisResult, error: analysisError } = await supabase.functions.invoke('analyze-dish', {
-          body: {
-            dishName: dish.name,
-            menuContext: {
-              ingredients: dish.ingredients,
-              recipe: dish.recipe,
-              price: dish.price,
-              prepTime: dish.prep_time,
-              menuUploadId: menuUpload.id
-            }
-          }
-        });
+    // Analyze entire menu with ChatGPT in one call
+    const analysisPrompt = `
+Analyze this restaurant menu JSON data and provide comprehensive profitability analysis for all dishes. 
 
-        if (analysisError) {
-          console.error(`Error analyzing dish ${dish.name}:`, analysisError);
-          return null;
-        }
+Menu Data: ${JSON.stringify(menuData)}
 
-        return {
-          dish: dish.name,
-          analysis: analysisResult
-        };
-      } catch (error) {
-        console.error(`Failed to analyze dish ${dish.name}:`, error);
-        return null;
+Please analyze every dish in the menu and return a JSON response with this exact structure:
+
+{
+  "dishes": [
+    {
+      "name": "dish name",
+      "category": "menu category/section",
+      "price": "current menu price or null if not provided",
+      "ingredients": ["list of likely ingredients based on dish name and description"],
+      "estimatedCostBreakdown": {
+        "ingredients": "estimated ingredient cost",
+        "labor": "estimated labor cost", 
+        "overhead": "estimated overhead cost",
+        "total": "total estimated cost"
+      },
+      "profitabilityMetrics": {
+        "grossMargin": "gross profit margin percentage",
+        "netProfit": "net profit amount",
+        "marginCategory": "High/Medium/Low"
+      },
+      "optimizationSuggestions": [
+        "specific actionable suggestions to improve profitability"
+      ],
+      "competitiveAnalysis": {
+        "marketPositioning": "how this dish compares to market",
+        "pricingRecommendation": "suggested pricing strategy"
       }
+    }
+  ],
+  "menuOverview": {
+    "totalDishes": "number of dishes analyzed",
+    "averageMargin": "overall menu margin",
+    "topPerformers": ["list of most profitable dishes"],
+    "improvementOpportunities": ["menu-wide suggestions"]
+  }
+}
+
+Instructions:
+- Extract ALL dishes from the JSON regardless of structure
+- For each dish, intelligently identify likely ingredients even if not explicitly listed
+- Estimate realistic food costs, labor time, and overhead
+- Provide specific, actionable optimization suggestions
+- Consider typical restaurant profit margins (food cost should be 25-35% of price)
+- If prices aren't provided, suggest optimal pricing based on estimated costs
+- Focus on practical recommendations that can immediately improve profitability
+
+Return only valid JSON, no additional text.`;
+
+    console.log('Sending menu to ChatGPT for comprehensive analysis...');
+
+    const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${openAIApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4.1-2025-04-14',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a restaurant profitability expert. Analyze menu data and provide detailed cost analysis and optimization recommendations for each dish. Always respond with valid JSON only.'
+          },
+          {
+            role: 'user',
+            content: analysisPrompt
+          }
+        ],
+        max_tokens: 4000,
+        temperature: 0.3
+      }),
     });
 
-    // Wait for all analyses to complete
-    const analysisResults = await Promise.all(analysisPromises);
-    const successfulAnalyses = analysisResults.filter(result => result !== null);
+    if (!openAIResponse.ok) {
+      const errorText = await openAIResponse.text();
+      console.error('OpenAI API error:', errorText);
+      throw new Error(`OpenAI API error: ${openAIResponse.status} ${errorText}`);
+    }
 
-    console.log(`Completed analysis for ${successfulAnalyses.length} dishes`);
+    const openAIData = await openAIResponse.json();
+    const analysisContent = openAIData.choices[0].message.content;
+
+    console.log('Raw ChatGPT response:', analysisContent);
+
+    // Parse ChatGPT response
+    let menuAnalysis;
+    try {
+      // Clean the response (remove any markdown formatting)
+      const cleanedContent = analysisContent.replace(/```json\n?|\n?```/g, '').trim();
+      menuAnalysis = JSON.parse(cleanedContent);
+    } catch (parseError) {
+      console.error('Error parsing ChatGPT response:', parseError);
+      throw new Error('Failed to parse menu analysis response');
+    }
+
+    console.log(`ChatGPT analyzed ${menuAnalysis.dishes.length} dishes`);
+
+    // Format results for compatibility with existing UI
+    const formattedResults = menuAnalysis.dishes.map((dish: any) => ({
+      dish: dish.name,
+      analysis: {
+        dishName: dish.name,
+        costBreakdown: dish.estimatedCostBreakdown,
+        profitabilityMetrics: dish.profitabilityMetrics,
+        optimizationSuggestions: dish.optimizationSuggestions,
+        competitiveAnalysis: dish.competitiveAnalysis,
+        ingredients: dish.ingredients,
+        category: dish.category,
+        currentPrice: dish.price
+      }
+    }));
 
     // Update menu upload with analysis results
     const { error: updateError } = await supabase
       .from('menu_uploads')
       .update({
+        processed_dishes: menuAnalysis.dishes,
         analysis_results: {
-          dishes: successfulAnalyses,
-          totalDishes: processedDishes.length,
-          successfulAnalyses: successfulAnalyses.length,
+          dishes: formattedResults,
+          menuOverview: menuAnalysis.menuOverview,
+          totalDishes: menuAnalysis.dishes.length,
+          successfulAnalyses: menuAnalysis.dishes.length,
           completedAt: new Date().toISOString()
         },
         processing_status: 'completed'
@@ -104,12 +182,15 @@ serve(async (req) => {
       throw updateError;
     }
 
+    console.log('Menu analysis completed successfully');
+
     return new Response(JSON.stringify({
       success: true,
       menuUploadId: menuUpload.id,
-      totalDishes: processedDishes.length,
-      successfulAnalyses: successfulAnalyses.length,
-      analysisResults: successfulAnalyses
+      totalDishes: menuAnalysis.dishes.length,
+      successfulAnalyses: menuAnalysis.dishes.length,
+      analysisResults: formattedResults,
+      menuOverview: menuAnalysis.menuOverview
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
@@ -126,56 +207,3 @@ serve(async (req) => {
     });
   }
 });
-
-function extractDishesFromMenu(menuData: any): any[] {
-  const dishes: any[] = [];
-  
-  try {
-    // Handle different possible menu structures
-    if (menuData.menu && menuData.menu.sections) {
-      // Structure: { menu: { sections: [...] } }
-      menuData.menu.sections.forEach((section: any) => {
-        if (section.items && Array.isArray(section.items)) {
-          section.items.forEach((item: any) => {
-            dishes.push(processMenuItem(item, section.name));
-          });
-        }
-      });
-    } else if (menuData.sections && Array.isArray(menuData.sections)) {
-      // Structure: { sections: [...] }
-      menuData.sections.forEach((section: any) => {
-        if (section.items && Array.isArray(section.items)) {
-          section.items.forEach((item: any) => {
-            dishes.push(processMenuItem(item, section.name));
-          });
-        }
-      });
-    } else if (menuData.items && Array.isArray(menuData.items)) {
-      // Structure: { items: [...] }
-      menuData.items.forEach((item: any) => {
-        dishes.push(processMenuItem(item));
-      });
-    } else if (Array.isArray(menuData)) {
-      // Structure: [...]
-      menuData.forEach((item: any) => {
-        dishes.push(processMenuItem(item));
-      });
-    }
-  } catch (error) {
-    console.error('Error extracting dishes from menu:', error);
-  }
-
-  return dishes;
-}
-
-function processMenuItem(item: any, sectionName?: string): any {
-  return {
-    name: item.name || item.title || 'Unknown Dish',
-    price: item.price || null,
-    ingredients: item.ingredients || [],
-    recipe: item.recipe || item.description || '',
-    prep_time: item.prep_time || item.prepTime || null,
-    section: sectionName || 'Unknown Section',
-    category: item.category || sectionName || 'Unknown'
-  };
-}
