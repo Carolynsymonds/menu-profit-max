@@ -119,13 +119,14 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
   };
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-12 bg-white">
+    <div className="w-full bg-white py-12">
       <h2 className="text-4xl font-extrabold tracking-tight text-black text-center mb-10">
         Plans & strategies
       </h2>
-
-      {/* Column headers */}
-      <div className="grid grid-cols-4 gap-6 border-t border-gray-200 pt-6">
+      
+      <section className="mx-auto max-w-6xl px-4">
+        {/* Column headers */}
+        <div className="grid grid-cols-4 gap-6 border-t border-gray-200 pt-6">
         <div className="text-sm font-medium text-gray-500"> </div>
         <div className="text-lg font-semibold">Standard</div>
         <div className="text-lg font-semibold">High Margin</div>
@@ -329,7 +330,8 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <div className="py-3 font-semibold">
           £{strategies.premium.annualProfitUplift ? strategies.premium.annualProfitUplift.toLocaleString() : '0'}
         </div>
-      </div>
-    </section>
+        </div>
+      </section>
+    </div>
   );
 }
