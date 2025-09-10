@@ -17,8 +17,8 @@ async function handlePricingComparison(dishName: string) {
 
 Create a pricing comparison with these three strategies:
 1. STANDARD: Current/baseline version of the dish
-2. HIGH MARGIN: Same dish with cost-saving optimizations (ingredient swaps, portion adjustments)  
-3. PREMIUM: Upgraded version with premium ingredients and higher pricing
+2. HIGH MARGIN: Same dish with cost-saving optimizations (PRESERVE DISH AUTHENTICITY)  
+3. PREMIUM: Upgraded version with ultra-luxury ingredients and fine-dining presentation
 
 Provide a structured JSON response with the following format:
 
@@ -35,7 +35,7 @@ Provide a structured JSON response with the following format:
   },
   "highMargin": {
     "dishName": "${dishName}",
-    "strategy": "brief description of cost-saving strategy (e.g., 'Swap 25% beef for mushrooms')",
+    "strategy": "brief description of SMART cost-saving strategy that MAINTAINS dish identity",
     "recipeRating": 5,
     "recipeUrl": "#",
     "price": "same or similar price as standard",
@@ -45,12 +45,12 @@ Provide a structured JSON response with the following format:
   },
   "premium": {
     "dishName": "${dishName}",
-    "strategy": "brief description of premium upgrade (e.g., 'Wagyu beef upgrade')",
+    "strategy": "brief description of ULTRA-PREMIUM upgrade with luxury ingredients",
     "recipeRating": 5,
     "recipeUrl": "#", 
-    "price": "higher premium price",
-    "prepLabor": "potentially higher labor cost",
-    "foodCost": "higher food cost for premium ingredients",
+    "price": "significantly higher premium price (Michelin-star level)",
+    "prepLabor": "potentially higher labor cost for refined presentation",
+    "foodCost": "much higher food cost for luxury ingredients",
     "estimatedVolume": 5000
   },
   "appetizers": [
@@ -64,10 +64,24 @@ Provide a structured JSON response with the following format:
   ]
 }
 
-Guidelines:
+CRITICAL GUIDELINES:
+
+HIGH MARGIN STRATEGY - PRESERVE AUTHENTICITY:
+- NEVER change core ingredients that define the dish (e.g., NO quinoa in risotto, NO tofu in beef dishes)
+- Focus on SMART cost reductions: portion optimization, supplier efficiency, prep method improvements
+- Acceptable changes: reducing garnish portions, local vs imported ingredients, batch prep efficiency
+- FORBIDDEN changes: fundamental ingredient swaps that alter the dish's essence
+- Target: 20-40% cost reduction while maintaining quality and authenticity
+
+PREMIUM STRATEGY - ULTRA-LUXURY:
+- Price increase: 100-200% or MORE (think Michelin-star restaurants)
+- Use truly luxury ingredients: wagyu beef, A5 beef, truffle, caviar, gold leaf, aged premium cheeses
+- Add fine-dining presentation: tableside service, premium plateware, elaborate garnishes
+- Example: $15 pizza → $45-60 with truffle oil, premium aged cheeses, gold leaf
+- Example: $25 pasta → $75-85 with fresh white truffle, aged Parmigiano-Reggiano (24+ months)
+
+GENERAL RULES:
 - Base all costs on realistic restaurant pricing
-- High Margin strategy should reduce food costs by 20-40% through smart substitutions
-- Premium strategy should increase price by 50-100% with luxury ingredients
 - Keep the dish's core identity intact across all three versions
 - All costs should be in USD format (numbers only, no currency symbols)
 - Ensure the math makes sense: prep + food = prime cost, price - prime = profit
