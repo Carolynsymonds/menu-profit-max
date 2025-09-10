@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
-import DishMultiInput from "@/components/DishMultiInput";
+import { Input } from "@/components/ui/input";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
 import { useState } from "react";
 
 const HeadlineSection = () => {
   const { navigateWithUtm } = useUtmTracking();
-  const [dishes, setDishes] = useState<{id: string, name: string}[]>([]);
+  const [dishName, setDishName] = useState("");
   
   const brandLogos = [
     { 
@@ -42,10 +42,6 @@ const HeadlineSection = () => {
       // no-op if gtag not available
     }
     navigateWithUtm('/signup');
-  };
-
-  const handleDishesChange = (newDishes: {id: string, name: string}[]) => {
-    setDishes(newDishes);
   };
 
   const handleAnalyzeDish = async () => {
@@ -106,9 +102,11 @@ const HeadlineSection = () => {
                       </svg>
                     </div>
                     
-                    <DishMultiInput
-                      value={dishes}
-                      onChange={handleDishesChange}
+                    <Input
+                      value={dishName}
+                      onChange={(e) => setDishName(e.target.value)}
+                      placeholder="Enter a dish name (e.g., Margherita Pizza)"
+                      className="pl-12 pr-4 py-3 text-base border-2 border-input bg-background rounded-xl focus:border-primary focus:ring-primary"
                     />
                   </div>
                 </div>
