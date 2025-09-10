@@ -30,11 +30,21 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
   const [strategies, setStrategies] = useState(() => {
     // Initialize calculated fields for all strategies
     const initializeStrategy = (strategy: PricingStrategy) => {
-      const primeCost = (strategy.prepLabor || 0) + (strategy.foodCost || 0);
-      const plateProfit = (strategy.price || 0) - primeCost;
+      // Ensure all values are numbers
+      const price = Number(strategy.price) || 0;
+      const prepLabor = Number(strategy.prepLabor) || 0;
+      const foodCost = Number(strategy.foodCost) || 0;
+      const estimatedVolume = strategy.estimatedVolume ? Number(strategy.estimatedVolume) : undefined;
+      
+      const primeCost = prepLabor + foodCost;
+      const plateProfit = price - primeCost;
       
       return {
         ...strategy,
+        price,
+        prepLabor,
+        foodCost,
+        estimatedVolume,
         primeCost,
         plateProfit,
         profitUplift: undefined,
@@ -75,12 +85,12 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
       const updated = { ...prev };
       const strategy = { ...updated[strategyKey] };
       
-      // Update the field
-      (strategy as any)[field] = value;
+      // Update the field, ensuring it's a number
+      (strategy as any)[field] = Number(value) || 0;
       
       // Recalculate derived fields
-      strategy.primeCost = strategy.prepLabor + strategy.foodCost;
-      strategy.plateProfit = strategy.price - strategy.primeCost;
+      strategy.primeCost = Number(strategy.prepLabor) + Number(strategy.foodCost);
+      strategy.plateProfit = Number(strategy.price) - strategy.primeCost;
       
       // Calculate profit uplift compared to standard
       if (strategyKey !== 'standard') {
@@ -104,7 +114,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
   };
 
   const handleInputChange = (strategyKey: keyof typeof strategies, field: string, event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(event.target.value) || 0;
+    const value = Number(event.target.value) || 0;
     updateStrategy(strategyKey, field, value);
   };
 
