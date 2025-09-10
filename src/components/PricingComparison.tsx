@@ -136,7 +136,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
       
       <section className="mx-auto max-w-6xl px-4">
         {/* Column headers */}
-        <div className="grid grid-cols-4 gap-6 border-t border-gray-200 pt-6">
+        <div className="grid grid-cols-4 border-t border-gray-200 pt-6">
         <div className="text-sm font-medium text-gray-500"> </div>
         <div className="text-lg font-semibold">Standard</div>
         <div className="text-lg font-semibold">High Margin</div>
