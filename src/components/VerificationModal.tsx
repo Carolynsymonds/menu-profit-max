@@ -57,11 +57,13 @@ export const VerificationModal = ({ isOpen, onClose, dishesData, purpose = 'unlo
 
       if (error) throw error;
 
-      setEmailSent(true);
       toast({
         title: "Full Report Sent!",
         description: "Your report request has been successfully submitted.",
       });
+      
+      // Close modal immediately after success
+      handleClose();
     } catch (error: any) {
       console.error('Error saving report request:', error);
       toast({
