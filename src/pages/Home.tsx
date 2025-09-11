@@ -242,7 +242,7 @@ const Home = () => {
                 <Button 
                   onClick={handleAnalyzeDish}
                   disabled={isLoading || !dishName.trim()}
-                  className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap disabled:opacity-50"
+                  className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap"
                 >
                   {isLoading ? (
                     <>
