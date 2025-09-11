@@ -38,7 +38,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
   const [showReportModal, setShowReportModal] = useState(false);
 
   return (
-    <section className="mx-auto max-w-6xl px-4 mt-12">
+    <section className="mx-auto max-w-6xl mt-12">
       {/* Section Header */}
       <div className="pt-8 pb-4">
         <h3 className="text-lg font-semibold text-gray-900">
@@ -150,7 +150,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
       />
 
       {/* Wine Pairing Section */}
-      <div className="mx-auto max-w-6xl px-4 mt-12">
+      <div className="mx-auto max-w-6xl mt-12">
         <div className="pt-8 pb-4">
           <h3 className="text-lg font-semibold text-gray-900">
             Wine Pairing Ideas to go with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
@@ -251,7 +251,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
       </div>
 
       {/* Non-Alcoholic Pairing Section */}
-      <div className="mx-auto max-w-6xl px-4 mt-12">
+      <div className="mx-auto max-w-6xl mt-12">
         <div className="pt-8 pb-4 border-t border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900">
             Non-Alcoholic Pairing Ideas to go with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
@@ -352,7 +352,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
       </div>
 
       {/* High Margin Dessert Ideas Section */}
-      <div className="mx-auto max-w-6xl px-4 mt-12">
+      <div className="mx-auto max-w-6xl mt-12">
         <div className="pt-8 pb-4">
           <h3 className="text-lg font-semibold text-gray-900">
             High Margin Dessert Ideas to go with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}

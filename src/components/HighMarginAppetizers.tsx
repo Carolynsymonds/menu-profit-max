@@ -36,7 +36,7 @@ const getCostBadgeColor = (cost: string) => {
 
 export default function HighMarginAppetizers({ dishName, appetizers }: HighMarginAppetizersProps) {
   return (
-    <section className="mx-auto max-w-6xl px-4 mt-12">
+    <section className="mx-auto max-w-6xl mt-12">
       {/* Section Header */}
       <div className="pt-8 pb-4">
         <h3 className="text-lg font-semibold text-gray-900">
