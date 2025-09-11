@@ -139,17 +139,17 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
       
       <section className="mx-auto max-w-6xl px-4">
         {/* Column headers */}
-        <div className="grid grid-cols-4 border-t border-gray-200 pt-6">
+        <div className="grid grid-cols-4">
         <div className="text-sm font-medium text-gray-500"> </div>
         <div className="text-lg font-semibold">Standard</div>
         <div className="text-lg font-semibold">High Margin</div>
         <div className="text-lg font-semibold">Premium</div>
 
         {/* Dish name */}
-        <div className="py-4 text-sm font-medium text-gray-700">Dish</div>
-        <div className="py-4">{strategies.standard.dishName}</div>
-        <div className="py-4">{strategies.highMargin.dishName}</div>
-        <div className="py-4">{strategies.premium.dishName}</div>
+        <div className="py-4 text-sm font-medium text-gray-700 border-t border-gray-200 pt-6">Dish</div>
+        <div className="py-4 border-t border-gray-200 pt-6">{strategies.standard.dishName}</div>
+        <div className="py-4 border-t border-gray-200 pt-6">{strategies.highMargin.dishName}</div>
+        <div className="py-4 border-t border-gray-200 pt-6">{strategies.premium.dishName}</div>
 
         {/* Strategy */}
         <div className="py-4 text-sm font-medium text-gray-700">Strategy</div>
