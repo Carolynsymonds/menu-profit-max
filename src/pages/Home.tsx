@@ -91,42 +91,54 @@ const Home = () => {
     if (!dishName.trim()) {
       toast({
         title: "Please enter a dish name",
-        description: "We need a dish name to analyze pricing opportunities.",
+        description: "Enter a dish name to get profit optimization strategies.",
         variant: "destructive",
       });
       return;
     }
 
+    console.log('Starting dish analysis for:', dishName.trim());
     setIsLoading(true);
-    setLoadingText("Evaluating competitor menus");
-
+    
     try {
+      console.log('Calling Supabase function...');
       const { data, error } = await supabase.functions.invoke('analyze-dish', {
-        body: { 
+        body: {
           dishName: dishName.trim(),
           analysisType: 'pricing-comparison'
         }
       });
 
+      console.log('Supabase function response:', { data, error });
+
       if (error) {
-        throw error;
+        console.error('Supabase function error:', error);
+        throw new Error(error.message);
       }
 
-      // Navigate to results page with the pricing comparison data
-      navigate('/dish-analysis-results', { 
-        state: { 
-          pricingComparison: data,
-          dishName: dishName.trim()
-        } 
+      if (!data) {
+        throw new Error('No analysis data received');
+      }
+
+      console.log('Analysis successful, navigating to results...');
+
+      // Navigate to results page with pricing comparison data
+      navigate('/dish-analysis-results', {
+        state: {
+          pricingComparison: data.data,
+          analysisType: 'pricing-comparison'
+        }
       });
+
     } catch (error) {
       console.error('Error analyzing dish:', error);
       toast({
-        title: "Analysis failed",
-        description: "We couldn't analyze your dish right now. Please try again.",
+        title: "Analysis Failed",
+        description: "Something went wrong. Please try again.",
         variant: "destructive",
       });
     } finally {
+      console.log('Setting loading to false');
       setIsLoading(false);
     }
   };
@@ -177,7 +189,10 @@ const Home = () => {
               {siteContent.homePage.title}
             </h1>
             
-           <div className="mt-8 p-4 md:p-5 relative max-w-[44rem] mx-auto my-2.5">
+           
+          </div>
+
+          <div className="mt-8 p-4 md:p-5 relative">
             <p className="text-lg text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light mb-6 text-center">
               Type a dish and get instant suggestions to increase margins with smarter pricing, ingredient swaps, and upsell ideas.
             </p>
@@ -252,9 +267,6 @@ const Home = () => {
               )}
             </div>
           </div>
-          </div>
-
-          
         </div>
       </section>
 
