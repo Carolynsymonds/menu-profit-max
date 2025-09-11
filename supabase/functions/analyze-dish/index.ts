@@ -61,6 +61,15 @@ Provide a structured JSON response with the following format:
       "perceivedPremium": "number from 1-5", 
       "whyItWorks": "explanation of why this appetizer complements the main dish"
     }
+  ],
+  "toppings": [
+    {
+      "name": "topping/extra name",
+      "ingredientCost": "Very Low/Low/Medium/High",
+      "marginPotential": "number from 1-5",
+      "perceivedPremium": "number from 1-5",
+      "whyItWorks": "explanation of why this topping enhances the main dish"
+    }
   ]
 }
 
@@ -88,6 +97,9 @@ GENERAL RULES:
 - Generate 5 appetizer suggestions that complement ${dishName}
 - Focus on high-margin appetizers with low ingredient costs but good perceived value
 - Consider flavor profiles that pair well with ${dishName}
+- Generate 4-5 topping/extra suggestions that can be added to enhance ${dishName}
+- Focus on high-margin toppings with low ingredient costs but good perceived value
+- Consider add-ons that complement the dish without overwhelming it (sauces, garnishes, extras)
 - Ingredient costs: Very Low (under $1), Low ($1-2), Medium ($2-4), High ($4+)
 - Margin potential: 5=85-90%, 4=75-85%, 3=65-75%, 2=55-65%, 1=45-55%
 - Perceived premium: 5=indulgent/upscale, 4=upmarket, 3=standard, 2=casual, 1=basic
