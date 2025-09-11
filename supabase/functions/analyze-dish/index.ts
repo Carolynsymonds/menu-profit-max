@@ -48,7 +48,7 @@ Provide a structured JSON response with the following format:
   },
   "highMargin": {
     "dishName": "${dishName}",
-    "strategy": "SPECIFIC cost-saving optimizations that maintain dish authenticity (use examples like: 'Use dark chicken meat (thighs/legs) instead of breast — cheaper, juicier, and actually preferred for curries. Stretch the sauce with cashew paste or cream + yogurt blend (cost-effective, adds richness). Bulk flavor with house spice blend (roasted & ground in-house once, used across dishes).')",
+    "strategy": "Given the following recipe: [RECIPE], suggest me one high-margin strategy that keeps the dish tasty but reduces cost. Be specific, practical, and written in one short actionable line (e.g., 'Swap 25% mushrooms with peas & stems', 'Swap out 25% Beef for Mushroom').",
     "recipeRating": 5,
     "recipeUrl": "#",
     "price": "same or similar price as standard",
@@ -119,13 +119,13 @@ EVERY STRATEGY MUST INCLUDE:
 - Complete cooking method with numbered steps
 - All pricing data calculated consistently
 
-HIGH MARGIN STRATEGY - CONCISE COST-SAVING SWAPS:
+HIGH MARGIN STRATEGY - ONE CONCISE ACTIONABLE LINE:
 - NEVER change core ingredients that define the dish
-- Use CONCISE, specific swaps that enhance taste while reducing cost
-- Examples: "Swap 25% beef for mushrooms", "Use chicken thighs instead of breast", "Replace heavy cream with cream + yogurt blend"
-- Keep suggestions to 8 words or less when possible
-- Focus on ONE main swap per dish that saves the most money
-- Target: 20-40% cost reduction while maintaining quality
+- Must be ONE specific, actionable swap in 8 words or less
+- Format: "Swap X% ingredient A for ingredient B" or "Replace ingredient A with ingredient B"
+- Examples: "Swap 25% beef for mushrooms", "Use chicken thighs instead of breast", "Replace heavy cream with yogurt blend"
+- Focus on ONE main cost-saving change that maintains dish quality
+- Target: 20-40% cost reduction while keeping the dish authentic
 
 PREMIUM STRATEGY - ULTRA-LUXURY:
 - Price increase: 100-200% or MORE (think Michelin-star restaurants)
