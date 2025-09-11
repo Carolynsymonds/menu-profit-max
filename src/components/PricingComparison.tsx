@@ -179,11 +179,11 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
       
       <section className="mx-auto max-w-6xl px-4">
         {/* Column headers */}
-        <div className="grid grid-cols-4">
-        <div className="text-[15px] font-medium text-gray-500 border-b border-gray-200"> </div>
-        <div className="text-[15px] font-semibold pb-[10px] border-b border-gray-200">Standard</div>
-        <div className="text-[15px] font-semibold pb-[10px] border-b border-gray-200">High Margin</div>
-        <div className="flex flex-col pb-[10px] border-b border-gray-200">
+        <div className="grid grid-cols-4 sticky top-0 bg-white z-10 border-b border-gray-200">
+        <div className="text-[15px] font-medium text-gray-500"> </div>
+        <div className="text-[15px] font-semibold pb-[10px]">Standard</div>
+        <div className="text-[15px] font-semibold pb-[10px]">High Margin</div>
+        <div className="flex flex-col pb-[10px]">
           <span className="text-[15px] font-semibold mb-2">Premium</span>
           <Button 
             variant="default" 
@@ -193,6 +193,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
           >
             Download full report
           </Button>
+        </div>
         </div>
 
         {/* Strategy */}
@@ -402,8 +403,8 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <div className="py-3 text-[15px] font-semibold">
           £{strategies.premium.annualProfitUplift ? strategies.premium.annualProfitUplift.toLocaleString() : '0'}
         </div>
-        </div>
       </section>
+      
       
       {/* High Margin Appetizers Section */}
       {data.appetizers && data.appetizers.length > 0 && (
