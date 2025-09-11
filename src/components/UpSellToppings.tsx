@@ -238,11 +238,11 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
           </table>
           
           {/* Overlaid Download Button */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
             <Button 
               variant="default" 
               size="sm"
-              className="self-start font-normal text-xs h-8 pointer-events-auto shadow-lg"
+              className="font-normal text-xs h-8 pointer-events-auto shadow-lg"
               onClick={() => setShowReportModal(true)}
             >
               Download full report
