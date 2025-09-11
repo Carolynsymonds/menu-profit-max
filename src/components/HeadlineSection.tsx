@@ -168,7 +168,7 @@ const HeadlineSection = () => {
                   disabled={isLoading}
                   className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap disabled:opacity-50"
                 >
-                  {isLoading ? "Analyzing..." : "Boost My Profits"}
+                  {isLoading ? "Analyzing..." : "Get My Profit Report"}
                 </Button>
               </div>
 
