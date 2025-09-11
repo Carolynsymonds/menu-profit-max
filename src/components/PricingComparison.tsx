@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import HighMarginAppetizers from './HighMarginAppetizers';
 import { Button } from "@/components/ui/button";
+import { RecipeModal } from './RecipeModal';
+
+interface Ingredient {
+  name: string;
+  quantity: string;
+  unit: string;
+  cost: number;
+}
 
 interface PricingStrategy {
   dishName: string;
   strategy: string;
   recipeRating: number;
   recipeUrl: string;
+  ingredients?: Ingredient[];
   price: number;
   prepLabor: number;
   foodCost: number;
@@ -38,6 +47,13 @@ interface PricingComparisonProps {
 }
 
 export default function PricingComparison({ data }: PricingComparisonProps) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState<{
+    name: string;
+    rating: number;
+    ingredients: Ingredient[];
+  } | null>(null);
+
   const [strategies, setStrategies] = useState(() => {
     // Initialize calculated fields for all strategies
     const initializeStrategy = (strategy: PricingStrategy) => {
@@ -129,6 +145,17 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
     updateStrategy(strategyKey, field, value);
   };
 
+  const handleViewRecipe = (strategy: PricingStrategy) => {
+    if (strategy.ingredients && strategy.ingredients.length > 0) {
+      setSelectedRecipe({
+        name: strategy.dishName,
+        rating: strategy.recipeRating,
+        ingredients: strategy.ingredients
+      });
+      setModalOpen(true);
+    }
+  };
+
   return (
     <div className="w-full bg-white py-12">
       <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight text-center capitalize">
@@ -168,19 +195,34 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
           <span className="text-amber-400">
             {'★'.repeat(strategies.standard.recipeRating)}{'☆'.repeat(5 - strategies.standard.recipeRating)}
           </span>
-          <a href={strategies.standard.recipeUrl} className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black">View recipe</a>
+          <button 
+            onClick={() => handleViewRecipe(strategies.standard)} 
+            className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black bg-transparent border-none cursor-pointer"
+          >
+            View recipe
+          </button>
         </div>
         <div className="py-4">
           <span className="text-amber-400">
             {'★'.repeat(strategies.highMargin.recipeRating)}{'☆'.repeat(5 - strategies.highMargin.recipeRating)}
           </span>
-          <a href={strategies.highMargin.recipeUrl} className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black">View recipe</a>
+          <button 
+            onClick={() => handleViewRecipe(strategies.highMargin)} 
+            className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black bg-transparent border-none cursor-pointer"
+          >
+            View recipe
+          </button>
         </div>
         <div className="py-4 blur-sm">
           <span className="text-amber-400">
             {'★'.repeat(strategies.premium.recipeRating)}{'☆'.repeat(5 - strategies.premium.recipeRating)}
           </span>
-          <a href={strategies.premium.recipeUrl} className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black">View recipe</a>
+          <button 
+            onClick={() => handleViewRecipe(strategies.premium)} 
+            className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black bg-transparent border-none cursor-pointer"
+          >
+            View recipe
+          </button>
         </div>
 
         {/* Sales (per dish) */}
@@ -356,6 +398,17 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <HighMarginAppetizers 
           dishName={strategies.standard.dishName}
           appetizers={data.appetizers}
+        />
+      )}
+
+      {/* Recipe Modal */}
+      {selectedRecipe && (
+        <RecipeModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          recipeName={selectedRecipe.name}
+          rating={selectedRecipe.rating}
+          ingredients={selectedRecipe.ingredients}
         />
       )}
     </div>
