@@ -114,6 +114,11 @@ Provide a structured JSON response with the following format:
 
 CRITICAL GUIDELINES:
 
+EVERY STRATEGY MUST INCLUDE:
+- Complete ingredients list with specific quantities, units, and costs
+- Complete cooking method with numbered steps
+- All pricing data calculated consistently
+
 HIGH MARGIN STRATEGY - SPECIFIC COST-SAVING TECHNIQUES:
 - NEVER change core ingredients that define the dish (e.g., NO quinoa in risotto, NO tofu in beef dishes)
 - Use SPECIFIC cost-saving swaps that enhance the dish: "Use dark chicken meat (thighs/legs) instead of breast — cheaper, juicier, and actually preferred for curries"
@@ -419,6 +424,7 @@ Respond ONLY with the JSON structure, no additional text.`;
         let analysisResult;
         try {
           let content = openAIData.choices[0].message.content;
+          console.log('Raw OpenAI response content:', content);
           
           // Strip markdown code blocks if present
           if (content.includes('```json')) {
@@ -435,6 +441,14 @@ Respond ONLY with the JSON structure, no additional text.`;
           content = content.replace(/,(\s*[}\]])/g, '$1'); // Remove trailing commas
           
           analysisResult = JSON.parse(content);
+          console.log('Parsed analysis result:', JSON.stringify(analysisResult, null, 2));
+          
+          // Validate that all strategies have ingredients
+          ['standard', 'highMargin', 'premium'].forEach(strategy => {
+            if (!analysisResult[strategy]?.ingredients) {
+              console.warn(`Missing ingredients for ${strategy} strategy`);
+            }
+          });
         } catch (parseError) {
           console.error('Failed to parse OpenAI JSON response for:', dishName, parseError);
           console.error('Raw content:', openAIData.choices[0].message.content);
