@@ -353,7 +353,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
 
       {/* High Margin Dessert Ideas Section */}
       <div className="mx-auto max-w-6xl px-4 mt-12">
-        <div className="pt-8 pb-4 border-t border-gray-200">
+        <div className="pt-8 pb-4">
           <h3 className="text-lg font-semibold text-gray-900">
             High Margin Dessert Ideas to go with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
           </h3>
@@ -367,7 +367,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
                 <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
                 </th>
                 <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
-                  Ingredient Cost (Low/Med/High)
+                  Ingredient Cost
                 </th>
                 <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
                   Margin Potential
