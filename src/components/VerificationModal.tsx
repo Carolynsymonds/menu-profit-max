@@ -110,7 +110,7 @@ export const VerificationModal = ({ isOpen, onClose, dishesData, purpose = 'unlo
             {emailSent
               ? "Your report request has been successfully submitted and processed"
               : (purpose === 'download-report'
-                  ? "Get a comprehensive PDF report with detailed analysis, optimization strategies, and profit projections sent directly to your email."
+                  ? "Unlock expert analysis, optimization strategies, and clear profit projections—delivered instantly to your inbox."
                   : "Get complete access to all dish analyses and detailed optimization recommendations."
                 )
             }
