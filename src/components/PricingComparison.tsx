@@ -160,7 +160,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <div className="py-4 text-[15px] font-medium text-gray-700 border-t border-gray-200 pt-6">Strategy</div>
         <div className="py-4 text-[15px] text-gray-600 border-t border-gray-200 pt-6">—</div>
         <div className="py-4 px-[10px] text-[15px] text-gray-800 border-t border-gray-200 pt-6">{strategies.highMargin.strategy}</div>
-        <div className="py-4 text-[15px] text-gray-800 border-t border-gray-200 pt-6">{strategies.premium.strategy}</div>
+        <div className="py-4 text-[15px] text-gray-800 border-t border-gray-200 pt-6 blur-sm">{strategies.premium.strategy}</div>
 
         {/* Rating */}
         <div className="py-4 text-[15px] font-medium text-gray-700">Recipe rating</div>
@@ -176,7 +176,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
           </span>
           <a href={strategies.highMargin.recipeUrl} className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black">View recipe</a>
         </div>
-        <div className="py-4">
+        <div className="py-4 blur-sm">
           <span className="text-amber-400">
             {'★'.repeat(strategies.premium.recipeRating)}{'☆'.repeat(5 - strategies.premium.recipeRating)}
           </span>
@@ -208,7 +208,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             step="0.01"
           />
         </div>
-        <div className="py-3">
+        <div className="py-3 blur-sm">
           <input 
             className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px] text-gray-900" 
             value={strategies.premium.price.toFixed(2)}
@@ -243,7 +243,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             step="0.01"
           />
         </div>
-        <div className="py-3">
+        <div className="py-3 blur-sm">
           <input 
             className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
             value={strategies.premium.prepLabor.toFixed(2)}
@@ -272,7 +272,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             step="0.01"
           />
         </div>
-        <div className="py-3">
+        <div className="py-3 blur-sm">
           <input 
             className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
             value={strategies.premium.foodCost.toFixed(2)}
@@ -285,7 +285,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <div className="py-3 text-[15px] font-medium text-gray-700">Prime cost</div>
         <div className="py-3 text-[15px] text-gray-900">£{strategies.standard.primeCost.toFixed(2)}</div>
         <div className="py-3 text-[15px] text-gray-900">£{strategies.highMargin.primeCost.toFixed(2)}</div>
-        <div className="py-3 text-[15px] text-gray-900">£{strategies.premium.primeCost.toFixed(2)}</div>
+        <div className="py-3 text-[15px] text-gray-900 blur-sm">£{strategies.premium.primeCost.toFixed(2)}</div>
 
         {/* Profit per dish */}
         <div className="pt-6 pb-2 text-[15px] font-semibold text-gray-900 border-t border-gray-200">Profit (per dish)</div>
@@ -296,7 +296,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <div className="py-3 text-[15px] font-medium text-gray-700">Plate profit</div>
         <div className="py-3 text-[15px] font-semibold">£{strategies.standard.plateProfit.toFixed(2)}</div>
         <div className="py-3 text-[15px] font-semibold">£{strategies.highMargin.plateProfit.toFixed(2)}</div>
-        <div className="py-3 text-[15px] font-semibold">£{strategies.premium.plateProfit.toFixed(2)}</div>
+        <div className="py-3 text-[15px] font-semibold blur-sm">£{strategies.premium.plateProfit.toFixed(2)}</div>
 
         <div className="py-3 text-[15px] font-medium text-gray-700">Profit uplift</div>
         <div className="py-3 text-[15px] text-gray-500">—</div>
@@ -307,7 +307,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             </span>
           )}
         </div>
-        <div className="py-3">
+        <div className="py-3 blur-sm">
           {strategies.premium.profitUplift && (
             <span className="rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700">
               +{strategies.premium.profitUplift.percentage}% (£{strategies.premium.profitUplift.amount})
@@ -331,7 +331,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             type="number"
           />
         </div>
-        <div className="py-3">
+        <div className="py-3 blur-sm">
           <input 
             className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
             value={strategies.premium.estimatedVolume || 5000}
@@ -345,7 +345,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <div className="py-3 text-[15px] font-semibold">
           £{strategies.highMargin.annualProfitUplift ? strategies.highMargin.annualProfitUplift.toLocaleString() : '0'}
         </div>
-        <div className="py-3 text-[15px] font-semibold">
+        <div className="py-3 text-[15px] font-semibold blur-sm">
           £{strategies.premium.annualProfitUplift ? strategies.premium.annualProfitUplift.toLocaleString() : '0'}
         </div>
         </div>
