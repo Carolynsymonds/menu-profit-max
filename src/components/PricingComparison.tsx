@@ -150,7 +150,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             asChild
             variant="default" 
             size="sm"
-            className="self-start"
+            className="self-start font-normal text-xs"
           >
             <a href="/signup?target=plans">Download full report</a>
           </Button>
