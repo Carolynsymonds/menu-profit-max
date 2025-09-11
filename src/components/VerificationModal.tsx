@@ -47,27 +47,25 @@ export const VerificationModal = ({ isOpen, onClose, dishesData, purpose = 'unlo
     setIsLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('send-verification-email', {
-        body: {
+      const { data, error } = await supabase
+        .from('report_requests')
+        .insert({
           email: email.trim(),
-          dishesData,
+          dishes_data: dishesData,
           purpose
-        }
-      });
+        });
 
       if (error) throw error;
 
       setEmailSent(true);
       toast({
-        title: purpose === 'download-report' ? "Report Email Sent!" : "Verification Email Sent!",
-        description: purpose === 'download-report' 
-          ? "Check your inbox for your comprehensive dish analysis report."
-          : "Check your inbox and click the verification link to unlock your analysis.",
+        title: "Full Report Sent!",
+        description: "Your report request has been successfully submitted.",
       });
     } catch (error: any) {
-      console.error('Error sending verification email:', error);
+      console.error('Error saving report request:', error);
       toast({
-        title: "Failed to Send Email",
+        title: "Failed to Submit Request",
         description: error.message || "Please try again later",
         variant: "destructive",
       });
@@ -96,16 +94,13 @@ export const VerificationModal = ({ isOpen, onClose, dishesData, purpose = 'unlo
           </div>
           <DialogTitle className="text-xl font-semibold mx-auto">
             {emailSent 
-              ? "Check Your Email!" 
+              ? "Full Report Sent!" 
               : (purpose === 'download-report' ? "Download Full Report" : "Unlock Full Analysis")
             }
           </DialogTitle>
           <DialogDescription className="text-center">
             {emailSent
-              ? (purpose === 'download-report' 
-                  ? "We've sent your comprehensive dish analysis report to your email."
-                  : "We've sent a verification link to your email. Click it to unlock your complete dish analysis."
-                )
+              ? "Your report request has been successfully submitted and processed!"
               : (purpose === 'download-report'
                   ? "Get a comprehensive PDF report with detailed analysis, optimization strategies, and profit projections sent directly to your email."
                   : "Get complete access to all dish analyses and detailed optimization recommendations."
@@ -147,8 +142,8 @@ export const VerificationModal = ({ isOpen, onClose, dishesData, purpose = 'unlo
                 className="flex-1"
               >
                 {isLoading 
-                  ? "Sending..." 
-                  : (purpose === 'download-report' ? "Send Report" : "Unlock")
+                  ? "Submitting..." 
+                  : (purpose === 'download-report' ? "Submit Request" : "Unlock")
                 }
               </Button>
             </div>
@@ -160,22 +155,9 @@ export const VerificationModal = ({ isOpen, onClose, dishesData, purpose = 'unlo
               <div className="flex items-center space-x-2">
                 <CheckCircle className="w-5 h-5 text-green-600" />
                 <p className="text-sm text-green-800">
-                  {purpose === 'download-report' ? 'Report' : 'Verification email'} sent to <strong>{email}</strong>
+                  Report request successfully submitted for <strong>{email}</strong>
                 </p>
               </div>
-            </div>
-
-            <div className="text-center space-y-3">
-              <p className="text-sm text-muted-foreground">
-                Don't see the email? Check your spam folder or try again.
-              </p>
-              <Button
-                variant="outline"
-                onClick={() => setEmailSent(false)}
-                className="text-sm"
-              >
-                Use Different Email
-              </Button>
             </div>
 
             <Button onClick={handleClose} className="w-full">

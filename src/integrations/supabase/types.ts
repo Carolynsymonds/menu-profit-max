@@ -84,31 +84,43 @@ export type Database = {
       }
       dish_analysis_verifications: {
         Row: {
+          access_count: number | null
           created_at: string
           dishes_data: Json
+          domain_hash: string | null
           email: string
+          email_hash: string | null
           expires_at: string
           id: string
+          last_accessed_at: string | null
           updated_at: string
           verification_token: string
           verified_at: string | null
         }
         Insert: {
+          access_count?: number | null
           created_at?: string
           dishes_data: Json
+          domain_hash?: string | null
           email: string
+          email_hash?: string | null
           expires_at?: string
           id?: string
+          last_accessed_at?: string | null
           updated_at?: string
           verification_token: string
           verified_at?: string | null
         }
         Update: {
+          access_count?: number | null
           created_at?: string
           dishes_data?: Json
+          domain_hash?: string | null
           email?: string
+          email_hash?: string | null
           expires_at?: string
           id?: string
+          last_accessed_at?: string | null
           updated_at?: string
           verification_token?: string
           verified_at?: string | null
@@ -143,7 +155,7 @@ export type Database = {
           referrer_url: string | null
           status: string
           updated_at: string
-          user_id: string | null
+          user_id: string
           utm_campaign: string | null
           utm_content: string | null
           utm_medium: string | null
@@ -159,7 +171,7 @@ export type Database = {
           referrer_url?: string | null
           status?: string
           updated_at?: string
-          user_id?: string | null
+          user_id: string
           utm_campaign?: string | null
           utm_content?: string | null
           utm_medium?: string | null
@@ -175,7 +187,7 @@ export type Database = {
           referrer_url?: string | null
           status?: string
           updated_at?: string
-          user_id?: string | null
+          user_id?: string
           utm_campaign?: string | null
           utm_content?: string | null
           utm_medium?: string | null
@@ -210,6 +222,7 @@ export type Database = {
           processing_status: string
           updated_at: string
           user_email: string
+          user_id: string | null
         }
         Insert: {
           analysis_results?: Json | null
@@ -221,6 +234,7 @@ export type Database = {
           processing_status?: string
           updated_at?: string
           user_email: string
+          user_id?: string | null
         }
         Update: {
           analysis_results?: Json | null
@@ -232,6 +246,34 @@ export type Database = {
           processing_status?: string
           updated_at?: string
           user_email?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      report_requests: {
+        Row: {
+          created_at: string
+          dishes_data: Json
+          email: string
+          id: string
+          purpose: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          dishes_data?: Json
+          email: string
+          id?: string
+          purpose?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          dishes_data?: Json
+          email?: string
+          id?: string
+          purpose?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -350,6 +392,36 @@ export type Database = {
           },
         ]
       }
+      user_profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string | null
+          display_name: string | null
+          id: string
+          public_email: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          id: string
+          public_email?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+          public_email?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           created_at: string
@@ -385,11 +457,109 @@ export type Database = {
           },
         ]
       }
+      verification_audit_log: {
+        Row: {
+          access_ip_hash: string | null
+          action: string
+          created_at: string | null
+          email_hash: string
+          id: string
+          success: boolean | null
+          user_agent_hash: string | null
+          verification_id: string | null
+        }
+        Insert: {
+          access_ip_hash?: string | null
+          action: string
+          created_at?: string | null
+          email_hash: string
+          id?: string
+          success?: boolean | null
+          user_agent_hash?: string | null
+          verification_id?: string | null
+        }
+        Update: {
+          access_ip_hash?: string | null
+          action?: string
+          created_at?: string | null
+          email_hash?: string
+          id?: string
+          success?: boolean | null
+          user_agent_hash?: string | null
+          verification_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_audit_log_verification_id_fkey"
+            columns: ["verification_id"]
+            isOneToOne: false
+            referencedRelation: "dish_analysis_verifications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      verification_rate_limits: {
+        Row: {
+          attempt_count: number | null
+          email_hash: string
+          first_attempt_at: string | null
+          id: string
+          ip_hash: string | null
+          last_attempt_at: string | null
+        }
+        Insert: {
+          attempt_count?: number | null
+          email_hash: string
+          first_attempt_at?: string | null
+          id?: string
+          ip_hash?: string | null
+          last_attempt_at?: string | null
+        }
+        Update: {
+          attempt_count?: number | null
+          email_hash?: string
+          first_attempt_at?: string | null
+          id?: string
+          ip_hash?: string | null
+          last_attempt_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      dish_analyses_demo: {
+        Row: {
+          created_at: string | null
+          dish_name: string | null
+          id: string | null
+          is_demo: boolean | null
+          profit_range: string | null
+          public_analysis: Json | null
+        }
+        Insert: {
+          created_at?: string | null
+          dish_name?: string | null
+          id?: string | null
+          is_demo?: never
+          profit_range?: never
+          public_analysis?: never
+        }
+        Update: {
+          created_at?: string | null
+          dish_name?: string | null
+          id?: string | null
+          is_demo?: never
+          profit_range?: never
+          public_analysis?: never
+        }
+        Relationships: []
+      }
     }
     Functions: {
+      check_verification_rate_limit: {
+        Args: { p_email: string; p_ip_address?: string }
+        Returns: boolean
+      }
       citext: {
         Args: { "": boolean } | { "": string } | { "": unknown }
         Returns: string
@@ -414,6 +584,14 @@ export type Database = {
         Args: { "": string }
         Returns: string
       }
+      cleanup_expired_verifications: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      cleanup_expired_verifications_secure: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
       get_landing_page_analytics: {
         Args: { days_back?: number; min_leads?: number }
         Returns: {
@@ -428,6 +606,41 @@ export type Database = {
           signup_to_onboard_pct: number
           signups: number
         }[]
+      }
+      log_security_event: {
+        Args: { event_data?: Json; event_type: string }
+        Returns: undefined
+      }
+      log_verification_access: {
+        Args: { p_action: string; p_email: string; p_token?: string }
+        Returns: undefined
+      }
+      log_verification_access_enhanced: {
+        Args: {
+          p_action: string
+          p_email: string
+          p_ip_address?: string
+          p_token?: string
+          p_user_agent?: string
+        }
+        Returns: undefined
+      }
+      migrate_menu_uploads_to_user_ids: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      process_contact_submission: {
+        Args: {
+          p_email: string
+          p_landing_page_id?: string
+          p_message?: string
+          p_subject?: string
+        }
+        Returns: string
+      }
+      validate_email_domain: {
+        Args: { email_address: string }
+        Returns: boolean
       }
     }
     Enums: {
