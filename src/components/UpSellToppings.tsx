@@ -157,7 +157,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
       <div className="mx-auto max-w-6xl px-4 mt-12">
         <div className="pt-8 pb-4 border-t border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900">
-            PAIRING Wine Pairing Ideas to go with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
+            Wine Pairing Ideas to go with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
           </h3>
         </div>
 
