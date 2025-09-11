@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { VerificationModal } from './VerificationModal';
 
 interface ToppingSuggestion {
   name: string;
@@ -33,6 +35,8 @@ const getCostBadgeColor = (cost: string) => {
 };
 
 export default function UpSellToppings({ dishName, toppings }: UpSellToppingsProps) {
+  const [showReportModal, setShowReportModal] = useState(false);
+
   return (
     <section className="mx-auto max-w-6xl px-4 mt-12">
       {/* Section Header */}
@@ -51,7 +55,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
         <div className="text-[15px] font-medium text-gray-700">Why It Works with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}</div>
 
         {/* Topping Rows */}
-        {toppings.map((topping, index) => (
+        {toppings.slice(0, Math.ceil(toppings.length / 2)).map((topping, index) => (
           <React.Fragment key={index}>
             <div className="p-[10px] font-medium text-gray-900 text-[15px] blur-sm">
               {topping.name}
@@ -88,7 +92,66 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
             </div>
           </React.Fragment>
         ))}
+
+        {/* Download Report Button in the middle */}
+        <div className="col-span-5 py-8 flex justify-center">
+          <Button 
+            variant="default" 
+            size="lg"
+            className="font-medium"
+            onClick={() => setShowReportModal(true)}
+          >
+            Download Full Report
+          </Button>
+        </div>
+
+        {/* Remaining Topping Rows */}
+        {toppings.slice(Math.ceil(toppings.length / 2)).map((topping, index) => (
+          <React.Fragment key={index + Math.ceil(toppings.length / 2)}>
+            <div className="p-[10px] font-medium text-gray-900 text-[15px] blur-sm">
+              {topping.name}
+            </div>
+            <div className="p-[10px] blur-sm">
+              <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[15px] font-medium border ${getCostBadgeColor(topping.ingredientCost)}`}>
+                {topping.ingredientCost}
+              </span>
+            </div>
+            <div className="p-[10px] blur-sm">
+              <div className="flex flex-col">
+                <StarRating rating={topping.marginPotential} />
+                <span className="text-[15px] text-gray-500 mt-1">
+                  {topping.marginPotential === 5 ? '85–90%' :
+                   topping.marginPotential === 4 ? '75–85%' :
+                   topping.marginPotential === 3 ? '65–75%' :
+                   topping.marginPotential === 2 ? '55–65%' : '45–55%'}
+                </span>
+              </div>
+            </div>
+            <div className="p-[10px] blur-sm">
+              <div className="flex flex-col">
+                <StarRating rating={topping.perceivedPremium} />
+                <span className="text-[15px] text-gray-500 mt-1">
+                  {topping.perceivedPremium === 5 ? 'Luxury, indulgent' :
+                   topping.perceivedPremium === 4 ? 'Creamy, indulgent' :
+                   topping.perceivedPremium === 3 ? 'Rustic, artisanal' :
+                   topping.perceivedPremium === 2 ? 'Standard' : 'Basic'}
+                </span>
+              </div>
+            </div>
+            <div className="p-[10px] text-[15px] text-gray-700 blur-sm">
+              {topping.whyItWorks}
+            </div>
+          </React.Fragment>
+        ))}
       </div>
+
+      {/* Report Download Modal */}
+      <VerificationModal
+        isOpen={showReportModal}
+        onClose={() => setShowReportModal(false)}
+        dishesData={[{ toppings, dishName }]}
+        purpose="download-report"
+      />
     </section>
   );
 }
