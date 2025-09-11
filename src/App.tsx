@@ -46,12 +46,9 @@ const ConditionalTopBanner = () => {
 
 const ConditionalBottomBanner = () => {
   const location = useLocation();
-  const hideBannerRoutes = ['/signup', '/app', '/login'];
-  const shouldHideBanner = hideBannerRoutes.some(route => 
-    location.pathname === route || location.pathname.startsWith('/app/')
-  );
+  const shouldShowBanner = location.pathname === '/dish-analysis-results';
   
-  return shouldHideBanner ? null : <BottomBanner />;
+  return shouldShowBanner ? <BottomBanner /> : null;
 };
 
 const App = () => (
