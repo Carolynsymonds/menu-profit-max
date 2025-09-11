@@ -39,7 +39,7 @@ Provide a structured JSON response with the following format:
     "recipeRating": 5,
     "recipeUrl": "#",
     "price": "same or similar price as standard",
-    "prepLabor": "labor cost after optimization",
+    "prepLabor": "same prep labor cost as standard (no labor optimization)",
     "foodCost": "reduced food cost after optimization", 
     "estimatedVolume": 5000
   },
@@ -78,6 +78,7 @@ CRITICAL GUIDELINES:
 HIGH MARGIN STRATEGY - PRESERVE AUTHENTICITY:
 - NEVER change core ingredients that define the dish (e.g., NO quinoa in risotto, NO tofu in beef dishes)
 - Focus on SMART cost reductions: portion optimization, supplier efficiency, prep method improvements
+- Labor costs remain identical to Standard strategy (no labor optimization)
 - Acceptable changes: reducing garnish portions, local vs imported ingredients, batch prep efficiency
 - FORBIDDEN changes: fundamental ingredient swaps that alter the dish's essence
 - Target: 20-40% cost reduction while maintaining quality and authenticity
