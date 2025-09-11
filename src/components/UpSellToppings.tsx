@@ -280,45 +280,75 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
               </tr>
             </thead>
             <tbody>
-              {nonAlcoholicPairings.map((drink, index) => (
-                <tr key={index} className={`border-b border-gray-100 ${index === 0 ? 'mb-2.5' : ''}`}>
-                  <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
-                    {drink.name}
-                  </td>
-                  <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
-                    {drink.costRange}
-                  </td>
-                  <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
-                    {drink.marginPotential}
-                  </td>
-                  <td className="py-3 px-2 text-[15px] blur-sm">
-                    <div className="flex flex-col">
-                      <StarRating rating={drink.premiumRating} />
-                      <span className="text-[13px] text-gray-500 mt-1">
-                        {drink.premiumDescription}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
-                    {drink.whyItWorks}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          
-          {/* Overlaid Download Button */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-            <Button 
-              variant="default" 
-              size="sm"
-              className="self-start font-normal text-xs h-8 pointer-events-auto shadow-lg"
-              onClick={() => setShowReportModal(true)}
-            >
-              Download full report
-            </Button>
-          </div>
-        </div>
+               {nonAlcoholicPairings.slice(0, Math.ceil(nonAlcoholicPairings.length / 2)).map((drink, index) => (
+                 <tr key={index} className={`border-b border-gray-100 ${index === 0 ? 'mb-2.5' : ''}`}>
+                   <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
+                     {drink.name}
+                   </td>
+                   <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                     {drink.costRange}
+                   </td>
+                   <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                     {drink.marginPotential}
+                   </td>
+                   <td className="py-3 px-2 text-[15px] blur-sm">
+                     <div className="flex flex-col">
+                       <StarRating rating={drink.premiumRating} />
+                       <span className="text-[13px] text-gray-500 mt-1">
+                         {drink.premiumDescription}
+                       </span>
+                     </div>
+                   </td>
+                   <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                     {drink.whyItWorks}
+                   </td>
+                 </tr>
+               ))}
+               
+               {/* Download Report Button in the middle */}
+               <tr>
+                 <td colSpan={5} className="py-8">
+                   <div className="flex justify-center">
+                     <Button 
+                       variant="default" 
+                       size="sm"
+                       className="self-start font-normal text-xs h-8"
+                       onClick={() => setShowReportModal(true)}
+                     >
+                       Download full report
+                     </Button>
+                   </div>
+                 </td>
+               </tr>
+               
+               {/* Remaining Non-Alcoholic Rows */}
+               {nonAlcoholicPairings.slice(Math.ceil(nonAlcoholicPairings.length / 2)).map((drink, index) => (
+                 <tr key={index + Math.ceil(nonAlcoholicPairings.length / 2)} className="border-b border-gray-100">
+                   <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
+                     {drink.name}
+                   </td>
+                   <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                     {drink.costRange}
+                   </td>
+                   <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                     {drink.marginPotential}
+                   </td>
+                   <td className="py-3 px-2 text-[15px] blur-sm">
+                     <div className="flex flex-col">
+                       <StarRating rating={drink.premiumRating} />
+                       <span className="text-[13px] text-gray-500 mt-1">
+                         {drink.premiumDescription}
+                       </span>
+                     </div>
+                   </td>
+                   <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                     {drink.whyItWorks}
+                   </td>
+                 </tr>
+               ))}
+             </tbody>
+           </table>
+         </div>
       </div>
 
       {/* High Margin Dessert Ideas Section */}
@@ -351,53 +381,91 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
               </tr>
             </thead>
             <tbody>
-              {dessertIdeas.map((dessert, index) => (
-                <tr key={index} className={`border-b border-gray-100 ${index === 0 ? 'mb-2.5' : ''}`}>
-                  <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
-                    {dessert.name}
-                  </td>
-                  <td className="py-3 px-2 text-[15px] blur-sm">
-                    {dessert.ingredientCost}
-                  </td>
-                  <td className="py-3 px-2 text-[15px] blur-sm">
-                    <div className="flex flex-col">
-                      <StarRating rating={dessert.marginPotential} />
-                      <span className="text-[13px] text-gray-500 mt-1">
-                        {dessert.marginPotential === 5 ? '85–90%' :
-                         dessert.marginPotential === 4 ? '75–85%' :
-                         dessert.marginPotential === 3 ? '65–75%' :
-                         dessert.marginPotential === 2 ? '55–65%' : '45–55%'}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-2 text-[15px] blur-sm">
-                    <div className="flex flex-col">
-                      <StarRating rating={dessert.premiumRating} />
-                      <span className="text-[13px] text-gray-500 mt-1">
-                        {dessert.premiumDescription}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
-                    {dessert.whyItWorks}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          
-          {/* Overlaid Download Button */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-            <Button 
-              variant="default" 
-              size="sm"
-              className="self-start font-normal text-xs h-8 pointer-events-auto shadow-lg"
-              onClick={() => setShowReportModal(true)}
-            >
-              Download full report
-            </Button>
-          </div>
-        </div>
+               {dessertIdeas.slice(0, Math.ceil(dessertIdeas.length / 2)).map((dessert, index) => (
+                 <tr key={index} className={`border-b border-gray-100 ${index === 0 ? 'mb-2.5' : ''}`}>
+                   <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
+                     {dessert.name}
+                   </td>
+                   <td className="py-3 px-2 text-[15px] blur-sm">
+                     {dessert.ingredientCost}
+                   </td>
+                   <td className="py-3 px-2 text-[15px] blur-sm">
+                     <div className="flex flex-col">
+                       <StarRating rating={dessert.marginPotential} />
+                       <span className="text-[13px] text-gray-500 mt-1">
+                         {dessert.marginPotential === 5 ? '85–90%' :
+                          dessert.marginPotential === 4 ? '75–85%' :
+                          dessert.marginPotential === 3 ? '65–75%' :
+                          dessert.marginPotential === 2 ? '55–65%' : '45–55%'}
+                       </span>
+                     </div>
+                   </td>
+                   <td className="py-3 px-2 text-[15px] blur-sm">
+                     <div className="flex flex-col">
+                       <StarRating rating={dessert.premiumRating} />
+                       <span className="text-[13px] text-gray-500 mt-1">
+                         {dessert.premiumDescription}
+                       </span>
+                     </div>
+                   </td>
+                   <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                     {dessert.whyItWorks}
+                   </td>
+                 </tr>
+               ))}
+               
+               {/* Download Report Button in the middle */}
+               <tr>
+                 <td colSpan={5} className="py-8">
+                   <div className="flex justify-center">
+                     <Button 
+                       variant="default" 
+                       size="sm"
+                       className="self-start font-normal text-xs h-8"
+                       onClick={() => setShowReportModal(true)}
+                     >
+                       Download full report
+                     </Button>
+                   </div>
+                 </td>
+               </tr>
+               
+               {/* Remaining Dessert Rows */}
+               {dessertIdeas.slice(Math.ceil(dessertIdeas.length / 2)).map((dessert, index) => (
+                 <tr key={index + Math.ceil(dessertIdeas.length / 2)} className="border-b border-gray-100">
+                   <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
+                     {dessert.name}
+                   </td>
+                   <td className="py-3 px-2 text-[15px] blur-sm">
+                     {dessert.ingredientCost}
+                   </td>
+                   <td className="py-3 px-2 text-[15px] blur-sm">
+                     <div className="flex flex-col">
+                       <StarRating rating={dessert.marginPotential} />
+                       <span className="text-[13px] text-gray-500 mt-1">
+                         {dessert.marginPotential === 5 ? '85–90%' :
+                          dessert.marginPotential === 4 ? '75–85%' :
+                          dessert.marginPotential === 3 ? '65–75%' :
+                          dessert.marginPotential === 2 ? '55–65%' : '45–55%'}
+                       </span>
+                     </div>
+                   </td>
+                   <td className="py-3 px-2 text-[15px] blur-sm">
+                     <div className="flex flex-col">
+                       <StarRating rating={dessert.premiumRating} />
+                       <span className="text-[13px] text-gray-500 mt-1">
+                         {dessert.premiumDescription}
+                       </span>
+                     </div>
+                   </td>
+                   <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                     {dessert.whyItWorks}
+                   </td>
+                 </tr>
+               ))}
+             </tbody>
+           </table>
+         </div>
       </div>
     </section>
   );
