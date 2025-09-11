@@ -169,7 +169,7 @@ Respond ONLY with the JSON structure, no additional text.`;
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4.1-2025-04-14', // Using newer model with better token support
         messages: [
           { 
             role: 'system', 
@@ -177,8 +177,7 @@ Respond ONLY with the JSON structure, no additional text.`;
           },
           { role: 'user', content: prompt }
         ],
-        max_tokens: 2000,
-        temperature: 0.7
+        max_completion_tokens: 4000, // Increased token limit and using correct parameter for newer models
       }),
     });
 
@@ -194,6 +193,23 @@ Respond ONLY with the JSON structure, no additional text.`;
     let pricingData;
     try {
       let content = openAIData.choices[0].message.content;
+      console.log('Raw OpenAI response content length:', content.length);
+      console.log('Raw OpenAI response content (first 500 chars):', content.substring(0, 500));
+      console.log('Raw OpenAI response content (last 500 chars):', content.substring(Math.max(0, content.length - 500)));
+      
+      // Check if response appears truncated by looking for incomplete JSON structures
+      const openBraces = (content.match(/{/g) || []).length;
+      const closeBraces = (content.match(/}/g) || []).length;
+      const openBrackets = (content.match(/\[/g) || []).length;
+      const closeBrackets = (content.match(/\]/g) || []).length;
+      
+      console.log('JSON structure check - Open braces:', openBraces, 'Close braces:', closeBraces);
+      console.log('JSON structure check - Open brackets:', openBrackets, 'Close brackets:', closeBrackets);
+      
+      if (openBraces !== closeBraces || openBrackets !== closeBrackets) {
+        console.error('Response appears to be truncated - mismatched braces/brackets');
+        throw new Error('AI response appears to be truncated - JSON structure is incomplete');
+      }
       
       // Clean up the response
       if (content.includes('```json')) {
@@ -207,7 +223,16 @@ Respond ONLY with the JSON structure, no additional text.`;
       content = content.replace(/,(\s*[}\]])/g, '$1'); // Remove trailing commas
       
       pricingData = JSON.parse(content);
-      console.log('Parsed pricing comparison data:', pricingData);
+      console.log('Parsed pricing comparison data successfully');
+      
+      // Validate that all strategies have ingredients
+      ['standard', 'highMargin', 'premium'].forEach(strategy => {
+        if (!pricingData[strategy]?.ingredients) {
+          console.warn(`Missing ingredients for ${strategy} strategy`);
+        } else {
+          console.log(`${strategy} strategy has ${pricingData[strategy].ingredients.length} ingredients`);
+        }
+      });
     } catch (parseError) {
       console.error('Failed to parse pricing comparison JSON:', parseError);
       console.error('Raw content:', openAIData.choices[0].message.content);
