@@ -53,15 +53,15 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
         {/* Topping Rows */}
         {toppings.map((topping, index) => (
           <React.Fragment key={index}>
-            <div className="p-[10px] font-medium text-gray-900 text-[15px] blur-[1px]">
+            <div className="p-[10px] font-medium text-gray-900 text-[15px] blur-sm">
               {topping.name}
             </div>
-            <div className="p-[10px] blur-[1px]">
+            <div className="p-[10px] blur-sm">
               <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[15px] font-medium border ${getCostBadgeColor(topping.ingredientCost)}`}>
                 {topping.ingredientCost}
               </span>
             </div>
-            <div className="p-[10px] blur-[1px]">
+            <div className="p-[10px] blur-sm">
               <div className="flex flex-col">
                 <StarRating rating={topping.marginPotential} />
                 <span className="text-[15px] text-gray-500 mt-1">
@@ -72,7 +72,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
                 </span>
               </div>
             </div>
-            <div className="p-[10px] blur-[1px]">
+            <div className="p-[10px] blur-sm">
               <div className="flex flex-col">
                 <StarRating rating={topping.perceivedPremium} />
                 <span className="text-[15px] text-gray-500 mt-1">
@@ -83,7 +83,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
                 </span>
               </div>
             </div>
-            <div className="p-[10px] text-[15px] text-gray-700 blur-[1px]">
+            <div className="p-[10px] text-[15px] text-gray-700 blur-sm">
               {topping.whyItWorks}
             </div>
           </React.Fragment>
