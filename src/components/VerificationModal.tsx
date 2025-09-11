@@ -106,7 +106,7 @@ export const VerificationModal = ({ isOpen, onClose, dishesData, purpose = 'unlo
           </DialogTitle>
           <DialogDescription className="text-center">
             {emailSent
-              ? "Your report request has been successfully submitted and processed!"
+              ? "Your report request has been successfully submitted and processed"
               : (purpose === 'download-report'
                   ? "Get a comprehensive PDF report with detailed analysis, optimization strategies, and profit projections sent directly to your email."
                   : "Get complete access to all dish analyses and detailed optimization recommendations."
