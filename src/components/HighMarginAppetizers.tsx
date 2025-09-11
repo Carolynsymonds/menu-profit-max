@@ -40,7 +40,7 @@ export default function HighMarginAppetizers({ dishName, appetizers }: HighMargi
       {/* Section Header */}
       <div className="pt-8 pb-4 border-t border-gray-200">
         <h3 className="text-lg font-semibold text-gray-900">
-          High Margin Appetizer Ideas For {dishName}
+          High Margin Appetizer Ideas For {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
         </h3>
       </div>
 
