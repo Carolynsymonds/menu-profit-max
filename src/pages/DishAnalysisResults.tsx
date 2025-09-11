@@ -770,15 +770,13 @@ const DishAnalysisResults = () => {
        )}
        
        {/* Sticky Download Banner - Always visible on this page */}
-       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
-         <div className="flex items-center justify-center py-4 px-6">
-           <Button
-             onClick={() => setShowDownloadModal(true)}
-             className="bg-primary text-primary-foreground hover:bg-primary/90"
-           >
-             Download Full Report
-           </Button>
-         </div>
+       <div className="fixed bottom-0 left-0 w-full bg-white shadow-inner py-4 flex justify-center">
+         <button 
+           onClick={() => setShowDownloadModal(true)}
+           className="bg-gradient-to-r from-purple-600 to-purple-500 text-white font-bold px-6 py-3 rounded-full shadow-md"
+         >
+           Generate AI Images
+         </button>
        </div>
      </div>
    );
