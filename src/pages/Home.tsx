@@ -192,7 +192,7 @@ const Home = () => {
            
           </div>
 
-          <div className="p-4 md:p-5 relative max-w-[700px] my-[10px] mx-auto">
+          <div className="p-4 md:p-5 relative max-w-[700px] my-[10px] mx-auto mt-0">
             <p className="text-lg text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light mb-6 text-center">
               Type a dish and get instant suggestions to increase margins with smarter pricing, ingredient swaps, and upsell ideas.
             </p>
@@ -242,7 +242,7 @@ const Home = () => {
                 <Button 
                   onClick={handleAnalyzeDish}
                   disabled={isLoading || !dishName.trim()}
-                  className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap"
+                  className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap disabled:opacity-50"
                 >
                   {isLoading ? (
                     <>
