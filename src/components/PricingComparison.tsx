@@ -3,6 +3,7 @@ import HighMarginAppetizers from './HighMarginAppetizers';
 import UpSellToppings from './UpSellToppings';
 import { Button } from "@/components/ui/button";
 import { RecipeModal } from './RecipeModal';
+import { VerificationModal } from './VerificationModal';
 
 interface Ingredient {
   name: string;
@@ -58,6 +59,7 @@ interface PricingComparisonProps {
 
 export default function PricingComparison({ data }: PricingComparisonProps) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState<{
     name: string;
     rating: number;
@@ -184,12 +186,12 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <div className="flex flex-col pb-[10px] border-b border-gray-200">
           <span className="text-[15px] font-semibold mb-2">Premium</span>
           <Button 
-            asChild
             variant="default" 
             size="sm"
             className="self-start font-normal text-xs h-8"
+            onClick={() => setShowReportModal(true)}
           >
-            <a href="/signup?target=plans">Download full report</a>
+            Download full report
           </Button>
         </div>
 
@@ -429,6 +431,14 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
           ingredients={selectedRecipe.ingredients}
         />
       )}
+
+      {/* Report Download Modal */}
+      <VerificationModal
+        isOpen={showReportModal}
+        onClose={() => setShowReportModal(false)}
+        dishesData={[data]}
+        purpose="download-report"
+      />
     </div>
   );
 }

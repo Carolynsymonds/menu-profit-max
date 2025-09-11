@@ -11,9 +11,10 @@ interface VerificationModalProps {
   isOpen: boolean;
   onClose: () => void;
   dishesData: any[];
+  purpose?: 'unlock-analysis' | 'download-report';
 }
 
-export const VerificationModal = ({ isOpen, onClose, dishesData }: VerificationModalProps) => {
+export const VerificationModal = ({ isOpen, onClose, dishesData, purpose = 'unlock-analysis' }: VerificationModalProps) => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
@@ -49,7 +50,8 @@ export const VerificationModal = ({ isOpen, onClose, dishesData }: VerificationM
       const { data, error } = await supabase.functions.invoke('send-verification-email', {
         body: {
           email: email.trim(),
-          dishesData
+          dishesData,
+          purpose
         }
       });
 
@@ -57,8 +59,10 @@ export const VerificationModal = ({ isOpen, onClose, dishesData }: VerificationM
 
       setEmailSent(true);
       toast({
-        title: "Verification Email Sent!",
-        description: "Check your inbox and click the verification link to unlock your analysis.",
+        title: purpose === 'download-report' ? "Report Email Sent!" : "Verification Email Sent!",
+        description: purpose === 'download-report' 
+          ? "Check your inbox for your comprehensive dish analysis report."
+          : "Check your inbox and click the verification link to unlock your analysis.",
       });
     } catch (error: any) {
       console.error('Error sending verification email:', error);
@@ -91,12 +95,21 @@ export const VerificationModal = ({ isOpen, onClose, dishesData }: VerificationM
             )}
           </div>
           <DialogTitle className="text-xl font-semibold mx-auto">
-            {emailSent ? "Check Your Email!" : "Unlock Full Analysis"}
+            {emailSent 
+              ? "Check Your Email!" 
+              : (purpose === 'download-report' ? "Download Full Report" : "Unlock Full Analysis")
+            }
           </DialogTitle>
           <DialogDescription className="text-center">
             {emailSent
-              ? "We've sent a verification link to your email. Click it to unlock your complete dish analysis."
-              : "Get complete access to all dish analyses and detailed optimization recommendations."
+              ? (purpose === 'download-report' 
+                  ? "We've sent your comprehensive dish analysis report to your email."
+                  : "We've sent a verification link to your email. Click it to unlock your complete dish analysis."
+                )
+              : (purpose === 'download-report'
+                  ? "Get a comprehensive PDF report with detailed analysis, optimization strategies, and profit projections sent directly to your email."
+                  : "Get complete access to all dish analyses and detailed optimization recommendations."
+                )
             }
           </DialogDescription>
         </DialogHeader>
@@ -133,7 +146,10 @@ export const VerificationModal = ({ isOpen, onClose, dishesData }: VerificationM
                 disabled={isLoading}
                 className="flex-1"
               >
-                {isLoading ? "Sending..." : "Unlock"}
+                {isLoading 
+                  ? "Sending..." 
+                  : (purpose === 'download-report' ? "Send Report" : "Unlock")
+                }
               </Button>
             </div>
 
@@ -144,7 +160,7 @@ export const VerificationModal = ({ isOpen, onClose, dishesData }: VerificationM
               <div className="flex items-center space-x-2">
                 <CheckCircle className="w-5 h-5 text-green-600" />
                 <p className="text-sm text-green-800">
-                  Verification email sent to <strong>{email}</strong>
+                  {purpose === 'download-report' ? 'Report' : 'Verification email'} sent to <strong>{email}</strong>
                 </p>
               </div>
             </div>
