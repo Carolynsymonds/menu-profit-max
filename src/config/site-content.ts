@@ -43,7 +43,7 @@ export const siteContent = {
   // Home Page Section
   homePage: {
     title: "Smarter Menu Costing. Bigger Profits.",
-    subtitle: "Track ingredient costs, compare suppliers, and maximize profit margins with real-time insights.",
+    subtitle: "",
     buttonText: "Try for free",
     buttonTextLight: ""
   },
