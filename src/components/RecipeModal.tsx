@@ -23,9 +23,10 @@ interface RecipeModalProps {
   method?: string[];
   strategy?: string;
   strategyType?: 'standard' | 'highMargin' | 'premium';
+  showPrices?: boolean;
 }
 
-export function RecipeModal({ isOpen, onClose, recipeName, rating, ingredients, method, strategy, strategyType }: RecipeModalProps) {
+export function RecipeModal({ isOpen, onClose, recipeName, rating, ingredients, method, strategy, strategyType, showPrices = true }: RecipeModalProps) {
   const totalCost = ingredients.reduce((sum, ingredient) => sum + ingredient.cost, 0);
   
   const getStrategyBadgeColor = (type?: string) => {
@@ -68,25 +69,29 @@ export function RecipeModal({ isOpen, onClose, recipeName, rating, ingredients, 
             
             <div className="space-y-3">
               {ingredients.map((ingredient, index) => (
-                <div key={index} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                <div key={index} className={`py-2 border-b border-gray-100 last:border-b-0 ${showPrices ? 'flex justify-between items-center' : 'block'}`}>
                   <div className="flex-1">
                     <span className="text-[15px] text-gray-900 font-medium">{ingredient.name}</span>
                     <div className="text-[15px] text-gray-600">
                       {ingredient.quantity} {ingredient.unit}
                     </div>
                   </div>
-                  <div className="text-right">
-                    <span className="text-[15px] text-gray-900 font-medium">${ingredient.cost.toFixed(2)}</span>
-                  </div>
+                  {showPrices && (
+                    <div className="text-right">
+                      <span className="text-[15px] text-gray-900 font-medium">${ingredient.cost.toFixed(2)}</span>
+                    </div>
+                  )}
                 </div>
               ))}
               
-              <div className="pt-3 mt-3 border-t border-gray-200">
-                <div className="flex justify-between items-center">
-                  <span className="text-[15px] font-semibold text-gray-900">Total Cost</span>
-                  <span className="text-[15px] font-semibold text-gray-900">${totalCost.toFixed(2)}</span>
+              {showPrices && (
+                <div className="pt-3 mt-3 border-t border-gray-200">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[15px] font-semibold text-gray-900">Total Cost</span>
+                    <span className="text-[15px] font-semibold text-gray-900">${totalCost.toFixed(2)}</span>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 

@@ -68,6 +68,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
     method?: string[];
     strategy: string;
     strategyType: 'standard' | 'highMargin' | 'premium';
+    showPrices: boolean;
   } | null>(null);
 
   const [strategies, setStrategies] = useState(() => {
@@ -208,7 +209,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
     console.log('processedRecipe result:', processedRecipe);
     if (processedRecipe) {
       console.log('Setting selectedRecipe and opening modal');
-      setSelectedRecipe(processedRecipe);
+      setSelectedRecipe({ ...processedRecipe, showPrices: false });
       setModalOpen(true);
     } else {
       console.log('No processed recipe - ingredients missing?', strategy.ingredients);
@@ -218,7 +219,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
   const handleSeeEstimate = (strategy: PricingStrategy, strategyType: 'standard' | 'highMargin' | 'premium') => {
     const processedRecipe = processRecipeForStrategy(strategy, strategyType);
     if (processedRecipe) {
-      setSelectedRecipe(processedRecipe);
+      setSelectedRecipe({ ...processedRecipe, showPrices: true });
       setModalOpen(true);
     }
   };
@@ -507,6 +508,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             method={selectedRecipe.method}
             strategy={selectedRecipe.strategy}
             strategyType={selectedRecipe.strategyType}
+            showPrices={selectedRecipe.showPrices}
           />
         </>
       )}
