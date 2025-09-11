@@ -160,6 +160,12 @@ GENERAL RULES:
 Respond ONLY with the JSON structure, no additional text.`;
 
   console.log('Calling OpenAI API for pricing comparison:', dishName);
+  console.log('OpenAI API key configured:', !!openAIApiKey);
+  console.log('Prompt length:', prompt.length);
+
+  if (!openAIApiKey) {
+    throw new Error('OpenAI API key not configured');
+  }
 
   try {
     const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -169,7 +175,7 @@ Respond ONLY with the JSON structure, no additional text.`;
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4.1-2025-04-14', // Using newer model with better token support
+        model: 'gpt-4o', // Using reliable model that supports large responses
         messages: [
           { 
             role: 'system', 
@@ -177,14 +183,17 @@ Respond ONLY with the JSON structure, no additional text.`;
           },
           { role: 'user', content: prompt }
         ],
-        max_completion_tokens: 4000, // Increased token limit and using correct parameter for newer models
+        max_tokens: 4000, // Using max_tokens for this model
+        temperature: 0.3 // Lower temperature for more consistent JSON output
       }),
     });
 
     if (!openAIResponse.ok) {
       const errorData = await openAIResponse.json();
-      console.error('OpenAI API error:', errorData);
-      throw new Error(`OpenAI API error: ${errorData.error?.message || 'Unknown error'}`);
+      console.error('OpenAI API error response status:', openAIResponse.status);
+      console.error('OpenAI API error headers:', Object.fromEntries(openAIResponse.headers.entries()));
+      console.error('OpenAI API error data:', errorData);
+      throw new Error(`OpenAI API error (${openAIResponse.status}): ${JSON.stringify(errorData)}`);
     }
 
     const openAIData = await openAIResponse.json();
