@@ -84,15 +84,19 @@ const HeadlineSection = () => {
       return;
     }
 
+    console.log('Starting dish analysis for:', dishName.trim());
     setIsLoading(true);
     
     try {
+      console.log('Calling Supabase function...');
       const { data, error } = await supabase.functions.invoke('analyze-dish', {
         body: {
           dishName: dishName.trim(),
           analysisType: 'pricing-comparison'
         }
       });
+
+      console.log('Supabase function response:', { data, error });
 
       if (error) {
         console.error('Supabase function error:', error);
@@ -103,7 +107,7 @@ const HeadlineSection = () => {
         throw new Error('No analysis data received');
       }
 
-      console.log('Analysis response:', data);
+      console.log('Analysis successful, navigating to results...');
 
       // Navigate to results page with pricing comparison data
       navigate('/dish-analysis-results', {
@@ -121,6 +125,7 @@ const HeadlineSection = () => {
         variant: "destructive",
       });
     } finally {
+      console.log('Setting loading to false');
       setIsLoading(false);
     }
   };
