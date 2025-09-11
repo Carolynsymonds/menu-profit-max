@@ -37,9 +37,6 @@ const BottomBanner = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center py-3 gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-800 font-medium">
-                {siteContent.bottomBanner.text}
-              </span>
               <button 
                 onClick={handleDownloadClick}
                 className="text-sm bg-primary text-white px-3 py-1.5 rounded-md hover:bg-primary/90 transition-colors font-medium whitespace-nowrap"
