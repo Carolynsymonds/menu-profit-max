@@ -15,7 +15,7 @@ const HeadlineSection = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("Evaluating competitor menus");
   
-  const loadingMessages = ["Evaluating competitor menus", "Finding high margins"];
+  const loadingMessages = ["Evaluating competitor menus", "Finding highest margin recipes"];
   
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -27,7 +27,7 @@ const HeadlineSection = () => {
           const nextIndex = (currentIndex + 1) % loadingMessages.length;
           return loadingMessages[nextIndex];
         });
-      }, 2000);
+      }, 3500);
     }
     
     return () => {
