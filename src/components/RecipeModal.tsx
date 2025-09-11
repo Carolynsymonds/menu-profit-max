@@ -50,7 +50,7 @@ export function RecipeModal({ isOpen, onClose, recipeName, rating, ingredients, 
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md mx-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">{recipeName}</DialogTitle>
+          <DialogTitle className="text-xl font-semibold capitalize">{recipeName}</DialogTitle>
           <DialogDescription>
             <div className="flex items-center gap-2 mt-2">
               <span className="text-amber-400">
