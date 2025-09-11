@@ -152,7 +152,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             size="sm"
             className="self-start"
           >
-            <a href="/signup?target=plans">Get started</a>
+            <a href="/signup?target=plans">Download full report</a>
           </Button>
         </div>
 
