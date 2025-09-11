@@ -187,7 +187,7 @@ const HeadlineSection = () => {
                       value={dishName}
                       onChange={(e) => setDishName(e.target.value)}
                       placeholder="Enter a dish name (e.g., Margherita Pizza)"
-                      className="pl-12 pr-4 py-3 text-base border-2 border-input bg-background rounded-xl focus:border-primary focus:ring-primary"
+                      className="pl-12 pr-4 py-3 text-base border-2 border-input bg-white rounded-xl focus:border-primary focus:ring-primary"
                     />
                   </div>
                 </div>
