@@ -85,11 +85,17 @@ export const VerificationModal = ({ isOpen, onClose, dishesData, purpose = 'unlo
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="text-center">
-          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+          <div className="mx-auto w-32 h-32 flex items-center justify-center mb-4">
             {emailSent ? (
-              <CheckCircle className="w-6 h-6 text-primary" />
+              <img 
+                src="/lovable-uploads/5b64c1c1-e8c8-46a3-9e33-4e45b6bdd701.png" 
+                alt="Success Checkmark"
+                className="w-32 h-32"
+              />
             ) : (
-              <Lock className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                <Lock className="w-6 h-6 text-primary" />
+              </div>
             )}
           </div>
           <DialogTitle className="text-xl font-semibold mx-auto">
@@ -151,18 +157,6 @@ export const VerificationModal = ({ isOpen, onClose, dishesData, purpose = 'unlo
           </div>
         ) : (
           <div className="space-y-4 mt-6">
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="w-5 h-5 text-green-600" />
-                <p className="text-sm text-green-800">
-                  Report request successfully submitted for <strong>{email}</strong>
-                </p>
-              </div>
-            </div>
-
-            <Button onClick={handleClose} className="w-full">
-              Close
-            </Button>
           </div>
         )}
       </DialogContent>
