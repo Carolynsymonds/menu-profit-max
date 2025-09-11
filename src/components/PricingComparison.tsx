@@ -161,7 +161,16 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
 
   // Process recipe data based on strategy type
   const processRecipeForStrategy = (strategy: PricingStrategy, strategyType: 'standard' | 'highMargin' | 'premium') => {
-    if (!strategy.ingredients || strategy.ingredients.length === 0) return null;
+    console.log('processRecipeForStrategy called:', { 
+      strategyIngredients: strategy.ingredients, 
+      ingredientsLength: strategy.ingredients?.length,
+      strategyType 
+    });
+    
+    if (!strategy.ingredients || strategy.ingredients.length === 0) {
+      console.log('No ingredients found, returning null');
+      return null;
+    }
 
     let processedIngredients = [...strategy.ingredients];
 
@@ -192,10 +201,15 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
   };
 
   const handleViewRecipe = (strategy: PricingStrategy, strategyType: 'standard' | 'highMargin' | 'premium') => {
+    console.log('handleViewRecipe called with:', { strategy, strategyType });
     const processedRecipe = processRecipeForStrategy(strategy, strategyType);
+    console.log('processedRecipe result:', processedRecipe);
     if (processedRecipe) {
+      console.log('Setting selectedRecipe and opening modal');
       setSelectedRecipe(processedRecipe);
       setModalOpen(true);
+    } else {
+      console.log('No processed recipe - ingredients missing?', strategy.ingredients);
     }
   };
 
@@ -454,15 +468,18 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
 
       {/* Recipe Modal */}
       {selectedRecipe && (
-        <RecipeModal
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          recipeName={selectedRecipe.name}
-          rating={selectedRecipe.rating}
-          ingredients={selectedRecipe.ingredients}
-          strategy={selectedRecipe.strategy}
-          strategyType={selectedRecipe.strategyType}
-        />
+        <>
+          {console.log('Rendering RecipeModal with:', { selectedRecipe, modalOpen })}
+          <RecipeModal
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)}
+            recipeName={selectedRecipe.name}
+            rating={selectedRecipe.rating}
+            ingredients={selectedRecipe.ingredients}
+            strategy={selectedRecipe.strategy}
+            strategyType={selectedRecipe.strategyType}
+          />
+        </>
       )}
 
       {/* Report Download Modal */}
