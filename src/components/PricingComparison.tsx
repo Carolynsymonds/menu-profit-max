@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import HighMarginAppetizers from './HighMarginAppetizers';
+import { Button } from "@/components/ui/button";
 
 interface PricingStrategy {
   dishName: string;
@@ -143,7 +144,17 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <div className="text-sm font-medium text-gray-500"> </div>
         <div className="text-lg font-semibold pb-[10px]">Standard</div>
         <div className="text-lg font-semibold pb-[10px]">High Margin</div>
-        <div className="text-lg font-semibold pb-[10px]">Premium</div>
+        <div className="flex flex-col pb-[10px]">
+          <span className="text-lg font-semibold mb-2">Premium</span>
+          <Button 
+            asChild
+            variant="default" 
+            size="sm"
+            className="self-start"
+          >
+            <a href="/signup?target=plans">Get started</a>
+          </Button>
+        </div>
 
         {/* Strategy */}
         <div className="py-4 text-sm font-medium text-gray-700 border-t border-gray-200 pt-6">Strategy</div>
