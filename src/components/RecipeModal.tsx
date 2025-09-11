@@ -48,8 +48,8 @@ export function RecipeModal({ isOpen, onClose, recipeName, rating, ingredients, 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md mx-auto">
-        <DialogHeader>
+      <DialogContent className="max-w-md mx-auto max-h-[90vh] overflow-hidden flex flex-col">
+        <DialogHeader className="flex-shrink-0">
           <DialogTitle className="text-xl font-semibold capitalize">{recipeName}</DialogTitle>
           <DialogDescription>
             <div className="flex items-center gap-2 mt-2">
@@ -61,7 +61,7 @@ export function RecipeModal({ isOpen, onClose, recipeName, rating, ingredients, 
           </DialogDescription>
         </DialogHeader>
         
-        <div className="mt-6 space-y-6">
+        <div className="mt-6 space-y-6 overflow-y-auto flex-1 pr-2">
           {/* Ingredients Section */}
           <div>
             <h3 className="text-[15px] font-medium mb-4">Ingredients</h3>
