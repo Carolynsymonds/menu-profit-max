@@ -177,10 +177,7 @@ const Home = () => {
               {siteContent.homePage.title}
             </h1>
             
-           
-          </div>
-
-          <div className="mt-8 p-4 md:p-5 relative">
+           <div className="mt-8 p-4 md:p-5 relative">
             <p className="text-lg text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light mb-6 text-center">
               Type a dish and get instant suggestions to increase margins with smarter pricing, ingredient swaps, and upsell ideas.
             </p>
@@ -255,6 +252,9 @@ const Home = () => {
               )}
             </div>
           </div>
+          </div>
+
+          
         </div>
       </section>
 
