@@ -385,7 +385,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             type="number"
           />
         </div>
-        <div className="py-3 blur-sm">
+        <div className="py-3">
           <input 
             className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
             value={strategies.premium.estimatedVolume || 5000}
@@ -399,7 +399,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <div className="py-3 text-[15px] font-semibold">
           £{strategies.highMargin.annualProfitUplift ? strategies.highMargin.annualProfitUplift.toLocaleString() : '0'}
         </div>
-        <div className="py-3 text-[15px] font-semibold blur-sm">
+        <div className="py-3 text-[15px] font-semibold">
           £{strategies.premium.annualProfitUplift ? strategies.premium.annualProfitUplift.toLocaleString() : '0'}
         </div>
         </div>
