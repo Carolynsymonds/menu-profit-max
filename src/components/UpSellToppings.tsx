@@ -57,7 +57,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
         {/* Topping Rows */}
         {toppings.slice(0, Math.ceil(toppings.length / 2)).map((topping, index) => (
           <React.Fragment key={index}>
-            <div className={`p-[10px] font-medium text-gray-900 text-[15px] blur-sm ${index === 0 ? 'mb-2.5' : ''}`}>
+            <div className={`p-[10px] font-medium text-gray-900 text-[15px] blur-sm ${index === 0 ? 'mb-5' : ''}`}>
               {topping.name}
             </div>
             <div className="p-[10px] blur-sm">
@@ -180,7 +180,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
             </thead>
             <tbody>
               {winePairings.slice(0, Math.ceil(winePairings.length / 2)).map((wine, index) => (
-                <tr key={index} className={`border-b border-gray-100 ${index === 0 ? 'mb-2.5' : ''}`}>
+                <tr key={index} className={`border-b border-gray-100 ${index === 0 ? 'mb-5' : ''}`}>
                   <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
                     {wine.name}
                   </td>
@@ -281,7 +281,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
             </thead>
             <tbody>
                {nonAlcoholicPairings.slice(0, Math.ceil(nonAlcoholicPairings.length / 2)).map((drink, index) => (
-                 <tr key={index} className={`border-b border-gray-100 ${index === 0 ? 'mb-2.5' : ''}`}>
+                  <tr key={index} className={`border-b border-gray-100 ${index === 0 ? 'mb-5' : ''}`}>
                    <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
                      {drink.name}
                    </td>
@@ -382,7 +382,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
             </thead>
             <tbody>
                {dessertIdeas.slice(0, Math.ceil(dessertIdeas.length / 2)).map((dessert, index) => (
-                 <tr key={index} className={`border-b border-gray-100 ${index === 0 ? 'mb-2.5' : ''}`}>
+                 <tr key={index} className={`border-b border-gray-100 ${index === 0 ? 'mb-5' : ''}`}>
                    <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
                      {dessert.name}
                    </td>
