@@ -46,7 +46,7 @@ export default function HighMarginAppetizers({ dishName, appetizers }: HighMargi
 
       {/* Grid Headers */}
       <div className="grid grid-cols-5 gap-0 border-t border-gray-200 pt-4">
-        <div className="text-[15px] font-medium text-gray-700">Starter</div>
+        <div className="text-[15px] font-medium text-gray-700"></div>
         <div className="text-[15px] font-medium text-gray-700">Ingredient Cost</div>
         <div className="text-[15px] font-medium text-gray-700">Margin Potential</div>
         <div className="text-[15px] font-medium text-gray-700">Perceived Premium</div>
