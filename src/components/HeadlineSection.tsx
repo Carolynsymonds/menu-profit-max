@@ -5,6 +5,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 const HeadlineSection = () => {
   const { navigateWithUtm } = useUtmTracking();
@@ -174,7 +175,18 @@ const HeadlineSection = () => {
 
             </div>
 
-            {/* Loading overlay - removed since functionality is disabled */}
+            {/* Loading overlay */}
+            {isLoading && (
+              <div className="absolute inset-0 backdrop-blur-sm bg-white/80 rounded-xl flex items-center justify-center z-20">
+                <div className="flex flex-col items-center gap-6">
+                  <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                  <div className="text-center">
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Analyzing your dish...</h3>
+                    <p className="text-base text-muted-foreground animate-pulse">Evaluating competitor menus</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           
           {/* Brand logos section */}
