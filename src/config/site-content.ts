@@ -15,6 +15,13 @@ export const siteContent = {
     buttonText: "Join Free"
   },
 
+  // Bottom Banner
+  bottomBanner: {
+    text: "Join 500+ restaurants maximizing profits with MenuProfitMax",
+    buttonText: "Start Free Trial",
+    buttonTextLight: "12 months free"
+  },
+
   // Brand and Logo
   brand: {
     name: "MenuProfitMax",

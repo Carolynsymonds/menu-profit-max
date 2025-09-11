@@ -24,6 +24,7 @@ import CookieConsent from "./components/CookieConsent";
 import { useUtmTracking } from "./hooks/useUtmTracking";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import TopBanner from "./components/TopBanner";
+import BottomBanner from "./components/BottomBanner";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,16 @@ const ConditionalTopBanner = () => {
   );
   
   return shouldHideBanner ? null : <TopBanner />;
+};
+
+const ConditionalBottomBanner = () => {
+  const location = useLocation();
+  const hideBannerRoutes = ['/signup', '/app', '/login'];
+  const shouldHideBanner = hideBannerRoutes.some(route => 
+    location.pathname === route || location.pathname.startsWith('/app/')
+  );
+  
+  return shouldHideBanner ? null : <BottomBanner />;
 };
 
 const App = () => (
@@ -72,6 +83,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
           </Routes>
+          <ConditionalBottomBanner />
           <CookieConsent />
         </div>
       </BrowserRouter>
