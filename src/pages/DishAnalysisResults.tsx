@@ -757,31 +757,31 @@ const DishAnalysisResults = () => {
           onClose={() => setShowVerificationModal(false)}
           dishesData={analysisData.dishes}
         />
-      )}
-      
-      {/* Download Report Modal */}
-      {analysisData && (
-        <VerificationModal
-          isOpen={showDownloadModal}
-          onClose={() => setShowDownloadModal(false)}
-          dishesData={analysisData.dishes}
-          purpose="download-report"
-        />
-      )}
-      
-      {/* Sticky Download Banner */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
-        <div className="flex items-center justify-center py-4 px-6">
-          <Button
-            onClick={() => setShowDownloadModal(true)}
-            className="bg-primary text-primary-foreground hover:bg-primary/90"
-          >
-            Download Full Report
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-};
+       )}
+       
+       {/* Download Report Modal */}
+       {analysisData && (
+         <VerificationModal
+           isOpen={showDownloadModal}
+           onClose={() => setShowDownloadModal(false)}
+           dishesData={analysisData.dishes || []}
+           purpose="download-report"
+         />
+       )}
+       
+       {/* Sticky Download Banner - Always visible on this page */}
+       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+         <div className="flex items-center justify-center py-4 px-6">
+           <Button
+             onClick={() => setShowDownloadModal(true)}
+             className="bg-primary text-primary-foreground hover:bg-primary/90"
+           >
+             Download Full Report
+           </Button>
+         </div>
+       </div>
+     </div>
+   );
+ };
 
 export default DishAnalysisResults;
