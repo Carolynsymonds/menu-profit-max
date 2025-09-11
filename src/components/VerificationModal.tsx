@@ -87,7 +87,7 @@ export const VerificationModal = ({ isOpen, onClose, dishesData, purpose = 'unlo
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="text-center">
-          <div className="mx-auto w-32 h-32 flex items-center justify-center mb-4">
+          <div className="mx-auto w-32 h-32 flex items-center justify-center">
             {emailSent ? (
               <img 
                 src="/lovable-uploads/5b64c1c1-e8c8-46a3-9e33-4e45b6bdd701.png" 
