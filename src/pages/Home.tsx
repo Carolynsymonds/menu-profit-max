@@ -177,7 +177,7 @@ const Home = () => {
               {siteContent.homePage.title}
             </h1>
             
-           <div className="mt-8 p-4 md:p-5 relative">
+           <div className="mt-8 p-4 md:p-5 relative max-w-[44rem] mx-auto my-2.5">
             <p className="text-lg text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light mb-6 text-center">
               Type a dish and get instant suggestions to increase margins with smarter pricing, ingredient swaps, and upsell ideas.
             </p>
