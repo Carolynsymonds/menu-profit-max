@@ -55,13 +55,13 @@ export default function HighMarginAppetizers({ dishName, appetizers }: HighMargi
         {/* Appetizer Rows */}
         {appetizers.map((appetizer, index) => (
           <React.Fragment key={index}>
-            <div className={`p-[10px] font-medium text-gray-900 text-[15px] ${index === 0 ? 'mb-2.5' : ''}`}>
+            <div className={`py-[10px] font-medium text-gray-900 text-[15px] ${index === 0 ? 'mb-2.5' : ''}`}>
               {appetizer.starter}
             </div>
-            <div className="p-[10px] text-[15px]">
+            <div className="py-[10px] text-[15px]">
               {appetizer.ingredientCost}
             </div>
-            <div className="p-[10px]">
+            <div className="py-[10px]">
               <div className="flex flex-col">
                 <StarRating rating={appetizer.marginPotential} />
                 <span className="text-[15px] text-gray-500 mt-1">
@@ -72,7 +72,7 @@ export default function HighMarginAppetizers({ dishName, appetizers }: HighMargi
                 </span>
               </div>
             </div>
-            <div className="p-[10px]">
+            <div className="py-[10px]">
               <div className="flex flex-col">
                 <StarRating rating={appetizer.perceivedPremium} />
                 <span className="text-[15px] text-gray-500 mt-1">
@@ -83,7 +83,7 @@ export default function HighMarginAppetizers({ dishName, appetizers }: HighMargi
                 </span>
               </div>
             </div>
-            <div className="p-[10px] text-[15px] text-gray-700">
+            <div className="py-[10px] text-[15px] text-gray-700">
               {appetizer.whyItWorks}
             </div>
           </React.Fragment>
