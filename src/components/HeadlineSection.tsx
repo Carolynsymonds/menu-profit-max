@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -13,6 +13,29 @@ const HeadlineSection = () => {
   const { toast } = useToast();
   const [dishName, setDishName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("Evaluating competitor menus");
+  
+  const loadingMessages = ["Evaluating competitor menus", "Finding high margins"];
+  
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (isLoading) {
+      interval = setInterval(() => {
+        setLoadingText(prev => {
+          const currentIndex = loadingMessages.indexOf(prev);
+          const nextIndex = (currentIndex + 1) % loadingMessages.length;
+          return loadingMessages[nextIndex];
+        });
+      }, 2000);
+    }
+    
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [isLoading]);
   
   const brandLogos = [
     { 
@@ -182,7 +205,7 @@ const HeadlineSection = () => {
                   <Loader2 className="h-10 w-10 animate-spin text-primary" />
                   <div className="text-center">
                     <h3 className="text-lg font-semibold text-foreground mb-2">Analyzing your dish...</h3>
-                    <p className="text-base text-muted-foreground animate-pulse">Evaluating competitor menus</p>
+                    <p className="text-base text-muted-foreground animate-pulse">{loadingText}</p>
                   </div>
                 </div>
               </div>
