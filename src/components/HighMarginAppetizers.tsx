@@ -61,7 +61,7 @@ export default function HighMarginAppetizers({ dishName, appetizers }: HighMargi
                 Perceived Premium
               </th>
               <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
-                Why It Works
+                Why It Works with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
               </th>
             </tr>
           </thead>
