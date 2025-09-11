@@ -119,16 +119,13 @@ EVERY STRATEGY MUST INCLUDE:
 - Complete cooking method with numbered steps
 - All pricing data calculated consistently
 
-HIGH MARGIN STRATEGY - SPECIFIC COST-SAVING TECHNIQUES:
-- NEVER change core ingredients that define the dish (e.g., NO quinoa in risotto, NO tofu in beef dishes)
-- Use SPECIFIC cost-saving swaps that enhance the dish: "Use dark chicken meat (thighs/legs) instead of breast — cheaper, juicier, and actually preferred for curries"
-- Stretch expensive ingredients cost-effectively: "Stretch the sauce with cashew paste or cream + yogurt blend (cost-effective, adds richness)"
-- Optimize spice sourcing: "Bulk flavor with house spice blend (roasted & ground in-house once, used across dishes)"
-- Include high-margin sides: "Serve with lower-cost sides (naan, rice, pickles) that have huge markups"
-- Labor costs remain identical to Standard strategy (no labor optimization)
-- Provide DETAILED ingredient swaps with exact reasoning why they work better
-- Target: 20-40% cost reduction while maintaining or enhancing quality and authenticity
-- Each ingredient change must include specific cost-saving logic
+HIGH MARGIN STRATEGY - CONCISE COST-SAVING SWAPS:
+- NEVER change core ingredients that define the dish
+- Use CONCISE, specific swaps that enhance taste while reducing cost
+- Examples: "Swap 25% beef for mushrooms", "Use chicken thighs instead of breast", "Replace heavy cream with cream + yogurt blend"
+- Keep suggestions to 8 words or less when possible
+- Focus on ONE main swap per dish that saves the most money
+- Target: 20-40% cost reduction while maintaining quality
 
 PREMIUM STRATEGY - ULTRA-LUXURY:
 - Price increase: 100-200% or MORE (think Michelin-star restaurants)
