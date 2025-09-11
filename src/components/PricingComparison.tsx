@@ -169,9 +169,9 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         {/* Column headers */}
         <div className="grid grid-cols-4">
         <div className="text-[15px] font-medium text-gray-500"> </div>
-        <div className="text-[15px] font-semibold pb-[10px]">Standard</div>
-        <div className="text-[15px] font-semibold pb-[10px]">High Margin</div>
-        <div className="flex flex-col pb-[10px]">
+        <div className="text-[15px] font-semibold pb-[10px] border-b border-gray-200">Standard</div>
+        <div className="text-[15px] font-semibold pb-[10px] border-b border-gray-200">High Margin</div>
+        <div className="flex flex-col pb-[10px] border-b border-gray-200">
           <span className="text-[15px] font-semibold mb-2">Premium</span>
           <Button 
             asChild
