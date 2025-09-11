@@ -215,6 +215,14 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
     }
   };
 
+  const handleSeeEstimate = (strategy: PricingStrategy, strategyType: 'standard' | 'highMargin' | 'premium') => {
+    const processedRecipe = processRecipeForStrategy(strategy, strategyType);
+    if (processedRecipe) {
+      setSelectedRecipe(processedRecipe);
+      setModalOpen(true);
+    }
+  };
+
   return (
     <div className="w-full bg-white py-12">
       <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight text-center capitalize">
@@ -354,7 +362,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
           />
         </div>
 
-        <div className="py-3 text-[15px] font-medium text-gray-700">Food cost <a className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black" href="#">See estimate</a></div>
+        <div className="py-3 text-[15px] font-medium text-gray-700">Food cost</div>
         <div className="py-3">
           <input 
             className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
@@ -363,6 +371,12 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             type="number"
             step="0.01"
           />
+          <button 
+            onClick={() => handleSeeEstimate(strategies.standard, 'standard')} 
+            className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black bg-transparent border-none cursor-pointer"
+          >
+            See estimate
+          </button>
         </div>
         <div className="py-3">
           <input 
@@ -372,6 +386,12 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             type="number"
             step="0.01"
           />
+          <button 
+            onClick={() => handleSeeEstimate(strategies.highMargin, 'highMargin')} 
+            className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black bg-transparent border-none cursor-pointer"
+          >
+            See estimate
+          </button>
         </div>
         <div className="py-3 blur-sm">
           <input 
@@ -381,6 +401,12 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             type="number"
             step="0.01"
           />
+          <button 
+            onClick={() => handleSeeEstimate(strategies.premium, 'premium')} 
+            className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black bg-transparent border-none cursor-pointer"
+          >
+            See estimate
+          </button>
         </div>
 
         <div className="py-3 text-[15px] font-medium text-gray-700">Prime cost</div>
