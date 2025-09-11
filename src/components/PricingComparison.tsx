@@ -141,9 +141,9 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         {/* Column headers */}
         <div className="grid grid-cols-4">
         <div className="text-sm font-medium text-gray-500"> </div>
-        <div className="text-lg font-semibold">Standard</div>
-        <div className="text-lg font-semibold">High Margin</div>
-        <div className="text-lg font-semibold">Premium</div>
+        <div className="text-lg font-semibold pb-[10px]">Standard</div>
+        <div className="text-lg font-semibold pb-[10px]">High Margin</div>
+        <div className="text-lg font-semibold pb-[10px]">Premium</div>
 
         {/* Strategy */}
         <div className="py-4 text-sm font-medium text-gray-700 border-t border-gray-200 pt-6">Strategy</div>
