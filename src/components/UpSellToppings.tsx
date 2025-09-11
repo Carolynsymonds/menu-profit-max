@@ -202,9 +202,25 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
                     {wine.whyItWorks}
                   </td>
                 </tr>
-              ))}
-              
-              {/* Remaining Wine Rows */}
+               ))}
+               
+               {/* Download Report Button in the middle */}
+               <tr>
+                 <td colSpan={5} className="py-8">
+                   <div className="flex justify-center">
+                     <Button 
+                       variant="default" 
+                       size="sm"
+                       className="self-start font-normal text-xs h-8"
+                       onClick={() => setShowReportModal(true)}
+                     >
+                       Download full report
+                     </Button>
+                   </div>
+                 </td>
+               </tr>
+               
+               {/* Remaining Wine Rows */}
               {winePairings.slice(Math.ceil(winePairings.length / 2)).map((wine, index) => (
                 <tr key={index + Math.ceil(winePairings.length / 2)} className="border-b border-gray-100">
                   <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
@@ -229,21 +245,9 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
                   </td>
                 </tr>
               ))}
-            </tbody>
-          </table>
-          
-          {/* Overlaid Download Button */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
-            <Button 
-              variant="default" 
-              size="sm"
-              className="font-normal text-xs h-8 pointer-events-auto shadow-lg"
-              onClick={() => setShowReportModal(true)}
-            >
-              Download full report
-            </Button>
-          </div>
-        </div>
+             </tbody>
+           </table>
+         </div>
       </div>
 
       {/* Non-Alcoholic Pairing Section */}
