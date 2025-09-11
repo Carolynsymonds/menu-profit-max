@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import HighMarginAppetizers from './HighMarginAppetizers';
+import UpSellToppings from './UpSellToppings';
 import { Button } from "@/components/ui/button";
 import { RecipeModal } from './RecipeModal';
 
@@ -37,12 +38,21 @@ interface AppetizerSuggestion {
   whyItWorks: string;
 }
 
+interface ToppingSuggestion {
+  name: string;
+  ingredientCost: 'Low' | 'Med' | 'High';
+  marginPotential: number;
+  perceivedPremium: number;
+  whyItWorks: string;
+}
+
 interface PricingComparisonProps {
   data: {
     standard: PricingStrategy;
     highMargin: PricingStrategy;
     premium: PricingStrategy;
     appetizers?: AppetizerSuggestion[];
+    toppings?: ToppingSuggestion[];
   };
 }
 
@@ -398,6 +408,14 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <HighMarginAppetizers 
           dishName={strategies.standard.dishName}
           appetizers={data.appetizers}
+        />
+      )}
+
+      {/* Up Sell Toppings Section */}
+      {data.toppings && data.toppings.length > 0 && (
+        <UpSellToppings 
+          dishName={strategies.standard.dishName}
+          toppings={data.toppings}
         />
       )}
 
