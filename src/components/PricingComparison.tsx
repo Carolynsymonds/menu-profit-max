@@ -18,6 +18,7 @@ interface PricingStrategy {
   recipeRating: number;
   recipeUrl: string;
   ingredients?: Ingredient[];
+  method?: string[];
   price: number;
   prepLabor: number;
   foodCost: number;
@@ -64,6 +65,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
     name: string;
     rating: number;
     ingredients: Ingredient[];
+    method?: string[];
     strategy: string;
     strategyType: 'standard' | 'highMargin' | 'premium';
   } | null>(null);
@@ -476,6 +478,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             recipeName={selectedRecipe.name}
             rating={selectedRecipe.rating}
             ingredients={selectedRecipe.ingredients}
+            method={selectedRecipe.method}
             strategy={selectedRecipe.strategy}
             strategyType={selectedRecipe.strategyType}
           />

@@ -25,33 +25,72 @@ Provide a structured JSON response with the following format:
 {
   "standard": {
     "dishName": "${dishName}",
-    "strategy": "",
+    "strategy": "Current/baseline version of the dish",
     "recipeRating": 5,
     "recipeUrl": "#",
     "price": "realistic price in USD",
     "prepLabor": "estimated prep labor cost in USD", 
     "foodCost": "estimated food cost in USD",
-    "estimatedVolume": 5000
+    "estimatedVolume": 5000,
+    "ingredients": [
+      {
+        "name": "ingredient name",
+        "quantity": "amount (e.g., 1 lb, 2 tbsp)",
+        "unit": "unit (e.g., lb, tbsp, cup)",
+        "cost": "cost in USD as number"
+      }
+    ],
+    "method": [
+      "Step 1: First cooking instruction",
+      "Step 2: Second cooking instruction",
+      "Step 3: Continue with remaining steps..."
+    ]
   },
   "highMargin": {
     "dishName": "${dishName}",
-    "strategy": "brief description of SMART cost-saving strategy that MAINTAINS dish identity",
+    "strategy": "SPECIFIC cost-saving optimizations that maintain dish authenticity (use examples like: 'Use dark chicken meat (thighs/legs) instead of breast — cheaper, juicier, and actually preferred for curries. Stretch the sauce with cashew paste or cream + yogurt blend (cost-effective, adds richness). Bulk flavor with house spice blend (roasted & ground in-house once, used across dishes).')",
     "recipeRating": 5,
     "recipeUrl": "#",
     "price": "same or similar price as standard",
     "prepLabor": "same prep labor cost as standard (no labor optimization)",
     "foodCost": "reduced food cost after optimization", 
-    "estimatedVolume": 5000
+    "estimatedVolume": 5000,
+    "ingredients": [
+      {
+        "name": "optimized ingredient name (cost-saving swap when possible)",
+        "quantity": "amount (potentially adjusted for efficiency)",
+        "unit": "unit",
+        "cost": "reduced cost in USD as number"
+      }
+    ],
+    "method": [
+      "Step 1: Optimized preparation method",
+      "Step 2: Cost-efficient cooking technique",
+      "Step 3: Continue with cost-saving steps..."
+    ]
   },
   "premium": {
     "dishName": "${dishName}",
-    "strategy": "brief description of ULTRA-PREMIUM upgrade with luxury ingredients",
+    "strategy": "ULTRA-PREMIUM upgrade with luxury ingredients and fine-dining presentation",
     "recipeRating": 5,
     "recipeUrl": "#", 
     "price": "significantly higher premium price (Michelin-star level)",
     "prepLabor": "potentially higher labor cost for refined presentation",
     "foodCost": "much higher food cost for luxury ingredients",
-    "estimatedVolume": 5000
+    "estimatedVolume": 5000,
+    "ingredients": [
+      {
+        "name": "luxury ingredient name (e.g., wagyu beef, truffle oil, A5 beef, gold leaf)",
+        "quantity": "amount",
+        "unit": "unit",
+        "cost": "premium cost in USD as number"
+      }
+    ],
+    "method": [
+      "Step 1: Premium preparation technique",
+      "Step 2: Fine-dining presentation method",
+      "Step 3: Luxury finishing touches..."
+    ]
   },
   "appetizers": [
     {
@@ -75,13 +114,16 @@ Provide a structured JSON response with the following format:
 
 CRITICAL GUIDELINES:
 
-HIGH MARGIN STRATEGY - PRESERVE AUTHENTICITY:
+HIGH MARGIN STRATEGY - SPECIFIC COST-SAVING TECHNIQUES:
 - NEVER change core ingredients that define the dish (e.g., NO quinoa in risotto, NO tofu in beef dishes)
-- Focus on SMART cost reductions: portion optimization, supplier efficiency, prep method improvements
+- Use SPECIFIC cost-saving swaps that enhance the dish: "Use dark chicken meat (thighs/legs) instead of breast — cheaper, juicier, and actually preferred for curries"
+- Stretch expensive ingredients cost-effectively: "Stretch the sauce with cashew paste or cream + yogurt blend (cost-effective, adds richness)"
+- Optimize spice sourcing: "Bulk flavor with house spice blend (roasted & ground in-house once, used across dishes)"
+- Include high-margin sides: "Serve with lower-cost sides (naan, rice, pickles) that have huge markups"
 - Labor costs remain identical to Standard strategy (no labor optimization)
-- Acceptable changes: reducing garnish portions, local vs imported ingredients, batch prep efficiency
-- FORBIDDEN changes: fundamental ingredient swaps that alter the dish's essence
-- Target: 20-40% cost reduction while maintaining quality and authenticity
+- Provide DETAILED ingredient swaps with exact reasoning why they work better
+- Target: 20-40% cost reduction while maintaining or enhancing quality and authenticity
+- Each ingredient change must include specific cost-saving logic
 
 PREMIUM STRATEGY - ULTRA-LUXURY:
 - Price increase: 100-200% or MORE (think Michelin-star restaurants)
@@ -89,6 +131,14 @@ PREMIUM STRATEGY - ULTRA-LUXURY:
 - Add fine-dining presentation: tableside service, premium plateware, elaborate garnishes
 - Example: $15 pizza → $45-60 with truffle oil, premium aged cheeses, gold leaf
 - Example: $25 pasta → $75-85 with fresh white truffle, aged Parmigiano-Reggiano (24+ months)
+
+INGREDIENTS & METHOD REQUIREMENTS:
+- Each strategy must include detailed ingredients list with realistic costs
+- Include 6-12 key ingredients per dish with specific quantities and costs
+- Method should include 6-8 step-by-step cooking instructions
+- For High Margin: Show SPECIFIC ingredient swaps with cost savings explained
+- For Premium: Use luxury ingredients (wagyu, truffle, caviar, gold leaf, aged cheeses)
+- Ensure ingredient costs add up to the foodCost field
 
 GENERAL RULES:
 - Base all costs on realistic restaurant pricing
