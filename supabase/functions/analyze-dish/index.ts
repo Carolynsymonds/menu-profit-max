@@ -35,8 +35,8 @@ Provide a structured JSON response with the following format:
     "ingredients": [
       {
         "name": "ingredient name",
-        "quantity": "amount (e.g., 1 lb, 2 tbsp)",
-        "unit": "unit (e.g., lb, tbsp, cup)",
+        "quantity": "numeric amount only (e.g., 1, 2, 0.5)",
+        "unit": "unit only (e.g., lb, tbsp, cup)",
         "cost": "cost in USD as number"
       }
     ],
@@ -58,8 +58,8 @@ Provide a structured JSON response with the following format:
     "ingredients": [
       {
         "name": "optimized ingredient name (cost-saving swap when possible)",
-        "quantity": "amount (potentially adjusted for efficiency)",
-        "unit": "unit",
+        "quantity": "numeric amount only (potentially adjusted for efficiency)",
+        "unit": "unit only",
         "cost": "reduced cost in USD as number"
       }
     ],
@@ -81,8 +81,8 @@ Provide a structured JSON response with the following format:
     "ingredients": [
       {
         "name": "luxury ingredient name (e.g., wagyu beef, truffle oil, A5 beef, gold leaf)",
-        "quantity": "amount",
-        "unit": "unit",
+        "quantity": "numeric amount only",
+        "unit": "unit only",
         "cost": "premium cost in USD as number"
       }
     ],
