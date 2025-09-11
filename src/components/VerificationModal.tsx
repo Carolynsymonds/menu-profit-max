@@ -96,7 +96,7 @@ export const VerificationModal = ({ isOpen, onClose, dishesData, purpose = 'unlo
               />
             ) : (
               <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                <Lock className="w-6 h-6 text-primary" />
+                <Lock className="w-5 h-5 text-primary" />
               </div>
             )}
           </div>
