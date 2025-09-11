@@ -130,9 +130,9 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
 
   return (
     <div className="w-full bg-white py-12">
-      <h2 className="text-4xl font-extrabold tracking-tight text-black text-center mb-10 min-w-full">
-        Plans & strategies
-      </h2>
+      <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight text-center">
+        {strategies.standard.dishName}
+      </h1>
       
       <section className="mx-auto max-w-6xl px-4">
         {/* Column headers */}
