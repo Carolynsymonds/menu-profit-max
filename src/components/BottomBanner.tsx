@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
 import { siteContent } from "@/config/site-content";
 import { VerificationModal } from "./VerificationModal";
+import { Button } from "@/components/ui/button";
 
 const BottomBanner = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -37,12 +38,12 @@ const BottomBanner = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center py-3 gap-4">
             <div className="flex items-center gap-2">
-              <button 
+              <Button 
                 onClick={handleDownloadClick}
-                className="text-sm bg-primary text-white px-3 py-1.5 rounded-md hover:bg-primary/90 transition-colors font-medium whitespace-nowrap"
+                className="self-start font-normal text-xs h-8"
               >
                 {siteContent.bottomBanner.buttonText}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
