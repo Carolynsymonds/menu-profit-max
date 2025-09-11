@@ -48,7 +48,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
 
       {/* Grid Headers */}
       <div className="grid grid-cols-5 gap-0 border-t border-gray-200 pt-4">
-        <div className="text-[15px] font-medium text-gray-700">Topping & Extra</div>
+        <div className="text-[15px] font-medium text-gray-700"></div>
         <div className="text-[15px] font-medium text-gray-700">Ingredient Cost (Low/Med/High)</div>
         <div className="text-[15px] font-medium text-gray-700">Margin Potential</div>
         <div className="text-[15px] font-medium text-gray-700">Perceived Premium Feel</div>
@@ -167,7 +167,6 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
             <thead>
               <tr className="border-t border-gray-200">
                 <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
-                  Example Wine Brand / Type
                 </th>
                 <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
                   Est. Cost Per Bottle (Range)
@@ -265,7 +264,6 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
             <thead>
               <tr className="border-t border-gray-200">
                 <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
-                  Example NA Drink / Type
                 </th>
                 <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
                   Est. Cost Per Bottle (Range)
@@ -337,7 +335,6 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
             <thead>
               <tr className="border-t border-gray-200">
                 <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
-                  Dessert
                 </th>
                 <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
                   Ingredient Cost (Low/Med/High)
