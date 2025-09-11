@@ -61,9 +61,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
               {topping.name}
             </div>
             <div className="p-[10px] blur-sm">
-              <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[15px] font-medium border ${getCostBadgeColor(topping.ingredientCost)}`}>
-                {topping.ingredientCost}
-              </span>
+              {topping.ingredientCost}
             </div>
             <div className="p-[10px] blur-sm">
               <div className="flex flex-col">
@@ -112,9 +110,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
               {topping.name}
             </div>
             <div className="p-[10px] blur-sm">
-              <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[15px] font-medium border ${getCostBadgeColor(topping.ingredientCost)}`}>
-                {topping.ingredientCost}
-              </span>
+              {topping.ingredientCost}
             </div>
             <div className="p-[10px] blur-sm">
               <div className="flex flex-col">
@@ -357,9 +353,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
                     {dessert.name}
                   </td>
                   <td className="py-3 px-2 text-[15px] blur-sm">
-                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[15px] font-medium border ${getCostBadgeColor(dessert.ingredientCost)}`}>
-                      {dessert.ingredientCost}
-                    </span>
+                    {dessert.ingredientCost}
                   </td>
                   <td className="py-3 px-2 text-[15px] blur-sm">
                     <div className="flex flex-col">

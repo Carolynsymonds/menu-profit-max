@@ -59,9 +59,7 @@ export default function HighMarginAppetizers({ dishName, appetizers }: HighMargi
               {appetizer.starter}
             </div>
             <div className="p-[10px]">
-              <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[15px] font-medium border ${getCostBadgeColor(appetizer.ingredientCost)}`}>
-                {appetizer.ingredientCost}
-              </span>
+              {appetizer.ingredientCost}
             </div>
             <div className="p-[10px]">
               <div className="flex flex-col">
