@@ -184,10 +184,10 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
 
         {/* Strategy */}
-        <div className="py-4 text-[15px] font-medium text-gray-700 border-t border-gray-200 pt-6">Strategy</div>
-        <div className="py-4 text-[15px] text-gray-600 border-t border-gray-200 pt-6">—</div>
-        <div className="py-4 px-[10px] text-[15px] text-gray-800 border-t border-gray-200 pt-6">{strategies.highMargin.strategy}</div>
-        <div className="py-4 text-[15px] text-gray-800 border-t border-gray-200 pt-6 blur-sm">{strategies.premium.strategy}</div>
+        <div className="py-4 text-[15px] font-medium text-gray-700 pt-6">Strategy</div>
+        <div className="py-4 text-[15px] text-gray-600 pt-6">—</div>
+        <div className="py-4 px-[10px] text-[15px] text-gray-800 pt-6">{strategies.highMargin.strategy}</div>
+        <div className="py-4 text-[15px] text-gray-800 pt-6 blur-sm">{strategies.premium.strategy}</div>
 
         {/* Rating */}
         <div className="py-4 text-[15px] font-medium text-gray-700">Recipe rating</div>
