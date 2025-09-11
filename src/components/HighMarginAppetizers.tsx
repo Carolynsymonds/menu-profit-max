@@ -58,7 +58,7 @@ export default function HighMarginAppetizers({ dishName, appetizers }: HighMargi
             <div className={`p-[10px] font-medium text-gray-900 text-[15px] ${index === 0 ? 'mb-2.5' : ''}`}>
               {appetizer.starter}
             </div>
-            <div className="p-[10px]">
+            <div className="p-[10px] text-[15px]">
               {appetizer.ingredientCost}
             </div>
             <div className="p-[10px]">
