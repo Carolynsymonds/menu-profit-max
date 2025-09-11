@@ -130,7 +130,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
 
   return (
     <div className="w-full bg-white py-12">
-      <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight text-center">
+      <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight text-center capitalize">
         {strategies.standard.dishName}
       </h1>
       
