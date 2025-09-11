@@ -97,11 +97,11 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
         <div className="col-span-5 py-8 flex justify-center">
           <Button 
             variant="default" 
-            size="lg"
-            className="font-medium"
+            size="sm"
+            className="self-start font-normal text-xs h-8"
             onClick={() => setShowReportModal(true)}
           >
-            Download Full Report
+            Download full report
           </Button>
         </div>
 
