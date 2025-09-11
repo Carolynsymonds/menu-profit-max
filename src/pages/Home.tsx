@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import HeroBanner from "@/components/HeroBanner";
 import { Badge } from "@/components/ui/badge";
-import { Check, Calendar, Shield, Smartphone } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Check, Calendar, Shield, Smartphone, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TopBanner from "@/components/TopBanner";
@@ -13,6 +14,8 @@ import FeatureIntroSection from "@/components/FeatureIntroSection";
 import SplitScreenSection from "@/components/SplitScreenSection";
 import { siteContent } from "@/config/site-content";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const DynamicSvgIcon = ({ url, className = '', ...props }) => {
   const [svgContent, setSvgContent] = useState('');
@@ -47,7 +50,26 @@ const DynamicSvgIcon = ({ url, className = '', ...props }) => {
 
 const Home = () => {
   const { navigateWithUtm } = useUtmTracking();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [dishName, setDishName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("Evaluating competitor menus");
   
+  useEffect(() => {
+    if (!isLoading) return;
+
+    const messages = ["Evaluating competitor menus", "Finding highest margin recipes"];
+    let currentIndex = 0;
+
+    const interval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % messages.length;
+      setLoadingText(messages[currentIndex]);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [isLoading]);
+
   const handleSignupClick = () => {
     try {
       // GA4 recommended event
@@ -63,6 +85,50 @@ const Home = () => {
 
     // then navigate (SPA)
     navigateWithUtm('/signup');
+  };
+
+  const handleAnalyzeDish = async () => {
+    if (!dishName.trim()) {
+      toast({
+        title: "Please enter a dish name",
+        description: "We need a dish name to analyze pricing opportunities.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    setLoadingText("Evaluating competitor menus");
+
+    try {
+      const { data, error } = await supabase.functions.invoke('analyze-dish', {
+        body: { 
+          dishName: dishName.trim(),
+          analysisType: 'pricing-comparison'
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      // Navigate to results page with the pricing comparison data
+      navigate('/dish-analysis-results', { 
+        state: { 
+          pricingComparison: data,
+          dishName: dishName.trim()
+        } 
+      });
+    } catch (error) {
+      console.error('Error analyzing dish:', error);
+      toast({
+        title: "Analysis failed",
+        description: "We couldn't analyze your dish right now. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
   // Get features from site content - taking first 3 from the features section
   const features = siteContent.features.items.map(item => {
@@ -116,26 +182,49 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="pt-8 space-y-4">
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-               <Button 
-                onClick={handleSignupClick}
-                className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300 w-full sm:w-auto"
-              >
-                Try for free - <span className="font-light">for 12 months</span>
-              </Button>
-              <Button 
-                onClick={() => navigateWithUtm('/pricing')}
-                variant="outline" 
-                className="px-6 py-2 w-full sm:w-auto"
-              >
-                View plans
-              </Button>
-            </div>
-            <p className="text-sm text-muted-foreground flex items-center justify-center gap-1">
-              <Check size={16} className="text-primary" />
-              No credit card required
+          <div className="pt-8 space-y-6">
+            <p className="text-lg text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light">
+              Type a dish and get instant suggestions to increase margins with smarter pricing, ingredient swaps, and upsell ideas.
             </p>
+            
+            <div className="relative max-w-md mx-auto">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Input
+                  type="text"
+                  placeholder="Enter a dish name (e.g., Margherita Pizza)"
+                  value={dishName}
+                  onChange={(e) => setDishName(e.target.value)}
+                  className="flex-1 px-4 py-3 text-base border-2 border-gray-200 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors"
+                  onKeyPress={(e) => e.key === 'Enter' && !isLoading && handleAnalyzeDish()}
+                  disabled={isLoading}
+                />
+                <Button 
+                  onClick={handleAnalyzeDish}
+                  disabled={isLoading || !dishName.trim()}
+                  className="px-6 py-3 text-base font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Analyzing...
+                    </>
+                  ) : (
+                    'Get My Profit Report'
+                  )}
+                </Button>
+              </div>
+              
+              {isLoading && (
+                <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-lg flex items-center justify-center">
+                  <div className="text-center space-y-2">
+                    <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto" />
+                    <p className="text-sm text-muted-foreground font-medium">
+                      {loadingText}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
