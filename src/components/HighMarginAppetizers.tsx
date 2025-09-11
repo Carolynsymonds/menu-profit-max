@@ -55,7 +55,7 @@ export default function HighMarginAppetizers({ dishName, appetizers }: HighMargi
         {/* Appetizer Rows */}
         {appetizers.map((appetizer, index) => (
           <React.Fragment key={index}>
-            <div className="p-[10px] font-medium text-gray-900 text-[15px]">
+            <div className={`p-[10px] font-medium text-gray-900 text-[15px] ${index === 0 ? 'mb-2.5' : ''}`}>
               {appetizer.starter}
             </div>
             <div className="p-[10px]">
