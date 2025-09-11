@@ -38,7 +38,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
   const [showReportModal, setShowReportModal] = useState(false);
 
   return (
-    <section className="mx-auto max-w-6xl mt-12">
+    <section className="mx-auto max-w-6xl px-4 mt-12">
       {/* Section Header */}
       <div className="pt-8 pb-4">
         <h3 className="text-lg font-semibold text-gray-900">
@@ -150,7 +150,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
       />
 
       {/* Wine Pairing Section */}
-      <div className="mx-auto max-w-6xl mt-12">
+      <div className="mx-auto max-w-6xl px-4 mt-12">
         <div className="pt-8 pb-4">
           <h3 className="text-lg font-semibold text-gray-900">
             Wine Pairing Ideas to go with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
@@ -174,7 +174,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
                   Perceived Premium Feel
                 </th>
                 <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
-                  Why It Works with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
+                  Why It Works with
                 </th>
               </tr>
             </thead>
@@ -251,7 +251,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
       </div>
 
       {/* Non-Alcoholic Pairing Section */}
-      <div className="mx-auto max-w-6xl mt-12">
+      <div className="mx-auto max-w-6xl px-4 mt-12">
         <div className="pt-8 pb-4 border-t border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900">
             Non-Alcoholic Pairing Ideas to go with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
@@ -275,7 +275,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
                   Perceived Premium Feel
                 </th>
                 <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
-                  Why It Works with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
+                  Why It Works
                 </th>
               </tr>
             </thead>
@@ -352,7 +352,7 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
       </div>
 
       {/* High Margin Dessert Ideas Section */}
-      <div className="mx-auto max-w-6xl mt-12">
+      <div className="mx-auto max-w-6xl px-4 mt-12">
         <div className="pt-8 pb-4">
           <h3 className="text-lg font-semibold text-gray-900">
             High Margin Dessert Ideas to go with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
