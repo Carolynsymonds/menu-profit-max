@@ -63,6 +63,7 @@ const DishAnalysisResults = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   useEffect(() => {
     const handleVerification = async () => {
@@ -757,6 +758,28 @@ const DishAnalysisResults = () => {
           dishesData={analysisData.dishes}
         />
       )}
+      
+      {/* Download Report Modal */}
+      {analysisData && (
+        <VerificationModal
+          isOpen={showDownloadModal}
+          onClose={() => setShowDownloadModal(false)}
+          dishesData={analysisData.dishes}
+          purpose="download-report"
+        />
+      )}
+      
+      {/* Sticky Download Banner */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+        <div className="flex items-center justify-center py-4 px-6">
+          <Button
+            onClick={() => setShowDownloadModal(true)}
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            Download Full Report
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
