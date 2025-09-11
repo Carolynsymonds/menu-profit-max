@@ -53,7 +53,7 @@ export function RecipeModal({ isOpen, onClose, recipeName, rating, ingredients }
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-gray-900 font-medium">£{ingredient.cost.toFixed(2)}</span>
+                  <span className="text-gray-900 font-medium">${ingredient.cost.toFixed(2)}</span>
                 </div>
               </div>
             ))}
@@ -61,7 +61,7 @@ export function RecipeModal({ isOpen, onClose, recipeName, rating, ingredients }
             <div className="pt-3 mt-3 border-t border-gray-200">
               <div className="flex justify-between items-center">
                 <span className="text-lg font-semibold text-gray-900">Total Cost</span>
-                <span className="text-lg font-semibold text-gray-900">£{totalCost.toFixed(2)}</span>
+                <span className="text-lg font-semibold text-gray-900">${totalCost.toFixed(2)}</span>
               </div>
             </div>
           </div>

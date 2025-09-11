@@ -278,7 +278,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
 
-        <div className="py-3 text-[15px] font-medium text-gray-700">Prep labor <span className="ml-1 text-gray-400">(£)</span></div>
+        <div className="py-3 text-[15px] font-medium text-gray-700">Prep labor <span className="ml-1 text-gray-400">($)</span></div>
         <div className="py-3">
           <input 
             className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
@@ -337,9 +337,9 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
 
         <div className="py-3 text-[15px] font-medium text-gray-700">Prime cost</div>
-        <div className="py-3 text-[15px] text-gray-900">£{strategies.standard.primeCost.toFixed(2)}</div>
-        <div className="py-3 text-[15px] text-gray-900">£{strategies.highMargin.primeCost.toFixed(2)}</div>
-        <div className="py-3 text-[15px] text-gray-900 blur-sm">£{strategies.premium.primeCost.toFixed(2)}</div>
+        <div className="py-3 text-[15px] text-gray-900">${strategies.standard.primeCost.toFixed(2)}</div>
+        <div className="py-3 text-[15px] text-gray-900">${strategies.highMargin.primeCost.toFixed(2)}</div>
+        <div className="py-3 text-[15px] text-gray-900 blur-sm">${strategies.premium.primeCost.toFixed(2)}</div>
 
         {/* Profit per dish */}
         <div className="pt-6 pb-2 text-[15px] font-semibold text-gray-900 border-t border-gray-200">Profit (per dish)</div>
@@ -348,23 +348,23 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
 
         <div className="py-3 text-[15px] font-medium text-gray-700">Plate profit</div>
-        <div className="py-3 text-[15px] font-semibold">£{strategies.standard.plateProfit.toFixed(2)}</div>
-        <div className="py-3 text-[15px] font-semibold">£{strategies.highMargin.plateProfit.toFixed(2)}</div>
-        <div className="py-3 text-[15px] font-semibold blur-sm">£{strategies.premium.plateProfit.toFixed(2)}</div>
+        <div className="py-3 text-[15px] font-semibold">${strategies.standard.plateProfit.toFixed(2)}</div>
+        <div className="py-3 text-[15px] font-semibold">${strategies.highMargin.plateProfit.toFixed(2)}</div>
+        <div className="py-3 text-[15px] font-semibold blur-sm">${strategies.premium.plateProfit.toFixed(2)}</div>
 
         <div className="py-3 text-[15px] font-medium text-gray-700">Profit uplift</div>
         <div className="py-3 text-[15px] text-gray-500">—</div>
         <div className="py-3">
           {strategies.highMargin.profitUplift && (
             <span className="rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700">
-              +{strategies.highMargin.profitUplift.percentage}% (£{strategies.highMargin.profitUplift.amount})
+              +{strategies.highMargin.profitUplift.percentage}% (${strategies.highMargin.profitUplift.amount})
             </span>
           )}
         </div>
         <div className="py-3 blur-sm">
           {strategies.premium.profitUplift && (
             <span className="rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700">
-              +{strategies.premium.profitUplift.percentage}% (£{strategies.premium.profitUplift.amount})
+              +{strategies.premium.profitUplift.percentage}% (${strategies.premium.profitUplift.amount})
             </span>
           )}
         </div>
@@ -397,10 +397,10 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         <div className="py-3 text-[15px] font-medium text-gray-700">Annual profit uplift</div>
         <div className="py-3 text-[15px] text-gray-500">—</div>
         <div className="py-3 text-[15px] font-semibold">
-          £{strategies.highMargin.annualProfitUplift ? strategies.highMargin.annualProfitUplift.toLocaleString() : '0'}
+          ${strategies.highMargin.annualProfitUplift ? strategies.highMargin.annualProfitUplift.toLocaleString() : '0'}
         </div>
         <div className="py-3 text-[15px] font-semibold">
-          £{strategies.premium.annualProfitUplift ? strategies.premium.annualProfitUplift.toLocaleString() : '0'}
+          ${strategies.premium.annualProfitUplift ? strategies.premium.annualProfitUplift.toLocaleString() : '0'}
         </div>
         </div>
       </section>
