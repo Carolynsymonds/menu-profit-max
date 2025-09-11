@@ -258,6 +258,7 @@ export type Database = {
           id: string
           purpose: string
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -266,6 +267,7 @@ export type Database = {
           id?: string
           purpose?: string
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -274,6 +276,7 @@ export type Database = {
           id?: string
           purpose?: string
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -591,6 +594,10 @@ export type Database = {
       cleanup_expired_verifications_secure: {
         Args: Record<PropertyKey, never>
         Returns: number
+      }
+      create_report_request: {
+        Args: { p_dishes_data: Json; p_purpose?: string }
+        Returns: string
       }
       get_landing_page_analytics: {
         Args: { days_back?: number; min_leads?: number }
