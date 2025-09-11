@@ -133,6 +133,9 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
       <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight text-center capitalize">
         {strategies.standard.dishName}
       </h1>
+      <h2 style={{ color: '#191918', fontSize: '20px', fontWeight: '300' }} className="mx-auto leading-relaxed text-center mb-10">
+        Plans & strategies
+      </h2>
       
       <section className="mx-auto max-w-6xl px-4">
         {/* Column headers */}
