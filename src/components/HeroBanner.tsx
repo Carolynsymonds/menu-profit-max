@@ -1,58 +1,128 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { Check } from "lucide-react";
-import { siteContent } from "@/config/site-content";
-import { useUtmTracking } from "@/hooks/useUtmTracking";
+import { Input } from "@/components/ui/input";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const HeroBanner = () => {
-  const { navigateWithUtm } = useUtmTracking();
-  const handleSignupClick = () => {
+  const [dishName, setDishName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("Analyzing your dish...");
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-    console.log("sending gtag")
-    try {
-      // GA4 recommended event
-       window.gtag?.('event', 'sign_up', {
-        method: 'cta_button',
-        button_id: 'signup-btn',
-        button_text: 'Start Free Trial',
-        page_location: window.location.href,
+  const loadingMessages = [
+    "Analyzing your dish...",
+    "Finding optimization opportunities...",
+    "Calculating profit margins...",
+    "Comparing ingredient costs...",
+    "Generating recommendations..."
+  ];
+
+  useEffect(() => {
+    if (isLoading) {
+      let messageIndex = 0;
+      const interval = setInterval(() => {
+        messageIndex = (messageIndex + 1) % loadingMessages.length;
+        setLoadingMessage(loadingMessages[messageIndex]);
+      }, 2000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isLoading]);
+
+  const handleAnalyzeDish = async () => {
+    if (!dishName.trim()) {
+      toast({
+        title: "Please enter a dish name",
+        description: "We need a dish name to analyze profit opportunities.",
+        variant: "destructive",
       });
-    } catch (e) {
-      // no-op if gtag not available
+      return;
     }
 
-    // then navigate (SPA)
-    navigateWithUtm('/signup');
+    console.log('Starting dish analysis for:', dishName);
+    setIsLoading(true);
+
+    try {
+      console.log('Invoking analyze-dish function...');
+      const { data, error } = await supabase.functions.invoke('analyze-dish', {
+        body: { dishName: dishName.trim() }
+      });
+
+      console.log('analyze-dish response:', { data, error });
+
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw error;
+      }
+
+      if (!data || !data.analyses || data.analyses.length === 0) {
+        throw new Error('No analysis data received');
+      }
+
+      console.log('Navigation to dish analysis results with data:', data);
+      navigate('/dish-analysis-results', { 
+        state: { 
+          analyses: data.analyses,
+          dishName: dishName.trim()
+        }
+      });
+
+    } catch (error) {
+      console.error('Error analyzing dish:', error);
+      toast({
+        title: "Analysis failed",
+        description: "We couldn't analyze your dish right now. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
+
   return (
-    <div className="bg-white py-20 my-2">
+    <div className="bg-white py-20 my-2 relative">
       <div className="container mx-auto px-4 text-center">
-        <h1 className="text-[42px] md:text-5xl font-bold text-gray-900 mb-6 leading-tight max-w-[600px] mx-auto pb-3">
-          {siteContent.heroBanner.title}
+        <h1 className="text-[42px] md:text-5xl font-bold text-gray-900 mb-6 leading-tight max-w-[700px] mx-auto pb-3">
+          Type a dish and get instant suggestions to increase margins with smarter pricing, ingredient swaps, and upsell ideas.
         </h1>
-        <p className="text-lg font-light text-black/70 mb-8 max-w-[500px] mx-auto leading-relaxed p-2">
-          {siteContent.heroBanner.description}
-        </p>
-        <div className="flex flex-col justify-center items-center gap-3 md:flex-row md:gap-4">
-          <Button 
-            onClick={() => handleSignupClick()}
-            className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300 w-full md:w-auto"
-          >
-           Try for free<span className="font-light"> - for 12 months</span>
-          </Button>
-          <Button 
-            onClick={() => navigateWithUtm('/pricing')}
-            variant="outline"
-            className="px-6 py-2 text-sm font-semibold border-2 rounded-lg hover:shadow-lg transition-all duration-300 w-full md:w-auto"
-          >
-            View plans
-          </Button>
+        
+        <div className="max-w-md mx-auto mb-6">
+          <Input
+            type="text"
+            placeholder="Enter a dish name (e.g., Margherita Pizza)"
+            value={dishName}
+            onChange={(e) => setDishName(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleAnalyzeDish()}
+            className="w-full px-4 py-3 text-base border-2 border-gray-200 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+            disabled={isLoading}
+          />
         </div>
-        <p className="text-sm text-muted-foreground flex items-center justify-center gap-1 mt-3">
-          <Check size={16} className="text-primary" />
-          No credit card required
-        </p>
+
+        <Button 
+          onClick={handleAnalyzeDish}
+          disabled={isLoading}
+          className="px-8 py-3 text-base font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+        >
+          {isLoading ? <Loader2 className="animate-spin mr-2" size={20} /> : null}
+          Get My Profit Report
+        </Button>
       </div>
+
+      {isLoading && (
+        <div className="absolute inset-0 bg-black/20 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-8 shadow-2xl max-w-sm mx-4 text-center">
+            <div className="flex justify-center mb-4">
+              <Loader2 className="animate-spin text-primary" size={40} />
+            </div>
+            <p className="text-lg font-medium text-gray-900 mb-2">Analyzing Your Dish</p>
+            <p className="text-sm text-gray-600">{loadingMessage}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
