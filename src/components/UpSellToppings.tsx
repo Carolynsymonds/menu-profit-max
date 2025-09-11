@@ -212,6 +212,66 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
           </table>
         </div>
       </div>
+
+      {/* Non-Alcoholic Pairing Section */}
+      <div className="mx-auto max-w-6xl px-4 mt-12">
+        <div className="pt-8 pb-4 border-t border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-900">
+            Non-Alcoholic Pairing Ideas to go with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
+          </h3>
+        </div>
+
+        {/* Non-Alcoholic Pairing Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="border-t border-gray-200">
+                <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                  Example NA Drink / Type
+                </th>
+                <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                  Est. Cost Per Bottle (Range)
+                </th>
+                <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                  Margin Potential (Menu Price / Profit)
+                </th>
+                <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                  Perceived Premium Feel
+                </th>
+                <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                  Why It Works with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {nonAlcoholicPairings.map((drink, index) => (
+                <tr key={index} className="border-b border-gray-100">
+                  <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
+                    {drink.name}
+                  </td>
+                  <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                    {drink.costRange}
+                  </td>
+                  <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                    {drink.marginPotential}
+                  </td>
+                  <td className="py-3 px-2 text-[15px] blur-sm">
+                    <div className="flex flex-col">
+                      <StarRating rating={drink.premiumRating} />
+                      <span className="text-[13px] text-gray-500 mt-1">
+                        {drink.premiumDescription}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                    {drink.whyItWorks}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </section>
   );
 }
@@ -297,5 +357,89 @@ const winePairings = [
     premiumRating: 4,
     premiumDescription: "mineral, elegant",
     whyItWorks: "Gavi's crisp minerality enhances risotto's grain while cleansing the palate."
+  }
+];
+
+// Non-alcoholic pairing data for Risotto
+const nonAlcoholicPairings = [
+  {
+    name: "San Pellegrino Sparkling Water",
+    costRange: "$1.00–$2.00",
+    marginPotential: "Price: $6 Profit: +$4–$5",
+    premiumRating: 4,
+    premiumDescription: "refreshing, refined",
+    whyItWorks: "Bubbles cleanse the palate between rich, creamy spoonfuls of risotto."
+  },
+  {
+    name: "Italian Lemon Soda (Sanpellegrino Limonata)",
+    costRange: "$1.50–$2.50",
+    marginPotential: "Price: $7 Profit: +$4.50–$5.50",
+    premiumRating: 4,
+    premiumDescription: "vibrant, authentic",
+    whyItWorks: "Citrus brightness cuts through risotto's richness while maintaining Italian authenticity."
+  },
+  {
+    name: "Elderflower Sparkling (Fever-Tree)",
+    costRange: "$2.00–$3.00",
+    marginPotential: "Price: $8 Profit: +$5–$6",
+    premiumRating: 4,
+    premiumDescription: "floral, sophisticated",
+    whyItWorks: "Elderflower's delicate sweetness complements risotto's grain without overpowering."
+  },
+  {
+    name: "NA White Wine (Ariel Chardonnay)",
+    costRange: "$6–$10",
+    marginPotential: "Price: $22 Profit: +$12–$16",
+    premiumRating: 4,
+    premiumDescription: "authentic, wine-like",
+    whyItWorks: "Maintains traditional white wine pairing with risotto, alcohol-free."
+  },
+  {
+    name: "Craft Ginger Beer (Fever-Tree)",
+    costRange: "$2.00–$3.00",
+    marginPotential: "Price: $8 Profit: +$5–$6",
+    premiumRating: 4,
+    premiumDescription: "spicy, sophisticated",
+    whyItWorks: "Ginger's warmth and spice complement mushroom or truffle risottos beautifully."
+  },
+  {
+    name: "Kombucha (GT's Gingerade)",
+    costRange: "$2.50–$4.00",
+    marginPotential: "Price: $9 Profit: +$5–$6.50",
+    premiumRating: 4,
+    premiumDescription: "trendy, health-conscious",
+    whyItWorks: "Natural acidity and fermentation notes provide complexity alongside creamy risotto."
+  },
+  {
+    name: "House-Made Herb Lemonade",
+    costRange: "$0.80–$1.50",
+    marginPotential: "Price: $8 Profit: +$6.50–$7.20",
+    premiumRating: 4,
+    premiumDescription: "fresh, artisanal",
+    whyItWorks: "Fresh herbs echo risotto seasonings while lemon cuts through richness."
+  },
+  {
+    name: "Seedlip Garden 108 (NA Spirit with Tonic)",
+    costRange: "$8–$12",
+    marginPotential: "Price: $16 Profit: +$4–$8",
+    premiumRating: 5,
+    premiumDescription: "elegant, modern",
+    whyItWorks: "Botanical complexity elevates the dining experience, matching risotto's sophistication."
+  },
+  {
+    name: "Iced Green Tea (House Brewed)",
+    costRange: "$0.30–$0.60",
+    marginPotential: "Price: $4.50 Profit: +$3.90–$4.20",
+    premiumRating: 3,
+    premiumDescription: "clean, refreshing",
+    whyItWorks: "Green tea's subtle earthiness complements risotto while cleansing the palate."
+  },
+  {
+    name: "Artisanal Shrub (House-Made Berry)",
+    costRange: "$1.50–$2.50",
+    marginPotential: "Price: $12 Profit: +$9.50–$10.50",
+    premiumRating: 5,
+    premiumDescription: "craft, upscale",
+    whyItWorks: "Vinegar acidity and fruit complexity provide wine-like pairing experience, alcohol-free."
   }
 ];
