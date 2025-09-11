@@ -192,7 +192,7 @@ const Home = () => {
            
           </div>
 
-          <div className="mt-8 p-4 md:p-5 relative max-w-[700px] my-[10px] mx-auto">
+          <div className="p-4 md:p-5 relative max-w-[700px] my-[10px] mx-auto">
             <p className="text-lg text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light mb-6 text-center">
               Type a dish and get instant suggestions to increase margins with smarter pricing, ingredient swaps, and upsell ideas.
             </p>
