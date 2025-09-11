@@ -177,9 +177,7 @@ const Home = () => {
               {siteContent.homePage.title}
             </h1>
             
-            <p className="text-xl text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light px-0">
-              {siteContent.homePage.subtitle}
-            </p>
+           
           </div>
 
           <div className="mt-8 p-4 md:p-5 relative">
