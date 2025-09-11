@@ -44,50 +44,66 @@ export default function HighMarginAppetizers({ dishName, appetizers }: HighMargi
         </h3>
       </div>
 
-      {/* Grid Headers */}
-      <div className="grid grid-cols-5 gap-0 border-t border-gray-200 pt-4">
-        <div className="text-[15px] font-medium text-gray-700"></div>
-        <div className="text-[15px] font-medium text-gray-700">Ingredient Cost</div>
-        <div className="text-[15px] font-medium text-gray-700">Margin Potential</div>
-        <div className="text-[15px] font-medium text-gray-700">Perceived Premium</div>
-        <div className="text-[15px] font-medium text-gray-700">Why It Works</div>
-
-        {/* Appetizer Rows */}
-        {appetizers.map((appetizer, index) => (
-          <React.Fragment key={index}>
-            <div className={`py-[10px] font-medium text-gray-900 text-[15px] ${index === 0 ? 'mb-5' : ''}`}>
-              {appetizer.starter}
-            </div>
-            <div className="py-[10px] text-[15px]">
-              {appetizer.ingredientCost}
-            </div>
-            <div className="py-[10px]">
-              <div className="flex flex-col">
-                <StarRating rating={appetizer.marginPotential} />
-                <span className="text-[15px] text-gray-500 mt-1">
-                  {appetizer.marginPotential === 5 ? '85–90%' :
-                   appetizer.marginPotential === 4 ? '75–85%' :
-                   appetizer.marginPotential === 3 ? '65–75%' :
-                   appetizer.marginPotential === 2 ? '55–65%' : '45–55%'}
-                </span>
-              </div>
-            </div>
-            <div className="py-[10px]">
-              <div className="flex flex-col">
-                <StarRating rating={appetizer.perceivedPremium} />
-                <span className="text-[15px] text-gray-500 mt-1">
-                  {appetizer.perceivedPremium === 5 ? 'Indulgent' :
-                   appetizer.perceivedPremium === 4 ? 'Upmarket' :
-                   appetizer.perceivedPremium === 3 ? 'Standard' :
-                   appetizer.perceivedPremium === 2 ? 'Casual' : 'Basic'}
-                </span>
-              </div>
-            </div>
-            <div className="py-[10px] text-[15px] text-gray-700">
-              {appetizer.whyItWorks}
-            </div>
-          </React.Fragment>
-        ))}
+      {/* Appetizer Table */}
+      <div className="overflow-x-auto relative">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="border-t border-gray-200">
+              <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+              </th>
+              <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                Ingredient Cost
+              </th>
+              <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                Margin Potential
+              </th>
+              <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                Perceived Premium
+              </th>
+              <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                Why It Works
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* Appetizer Rows */}
+            {appetizers.map((appetizer, index) => (
+              <tr key={index} className={`border-b border-gray-100 ${index === 0 ? 'mb-5' : ''}`}>
+                <td className="py-3 px-2 text-[15px] font-medium text-gray-900">
+                  {appetizer.starter}
+                </td>
+                <td className="py-3 px-2 text-[15px] text-gray-700">
+                  {appetizer.ingredientCost}
+                </td>
+                <td className="py-3 px-2 text-[15px]">
+                  <div className="flex flex-col">
+                    <StarRating rating={appetizer.marginPotential} />
+                    <span className="text-[15px] text-gray-500 mt-1">
+                      {appetizer.marginPotential === 5 ? '85–90%' :
+                       appetizer.marginPotential === 4 ? '75–85%' :
+                       appetizer.marginPotential === 3 ? '65–75%' :
+                       appetizer.marginPotential === 2 ? '55–65%' : '45–55%'}
+                    </span>
+                  </div>
+                </td>
+                <td className="py-3 px-2 text-[15px]">
+                  <div className="flex flex-col">
+                    <StarRating rating={appetizer.perceivedPremium} />
+                    <span className="text-[15px] text-gray-500 mt-1">
+                      {appetizer.perceivedPremium === 5 ? 'Indulgent' :
+                       appetizer.perceivedPremium === 4 ? 'Upmarket' :
+                       appetizer.perceivedPremium === 3 ? 'Standard' :
+                       appetizer.perceivedPremium === 2 ? 'Casual' : 'Basic'}
+                    </span>
+                  </div>
+                </td>
+                <td className="py-3 px-2 text-[15px] text-gray-700">
+                  {appetizer.whyItWorks}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </section>
   );

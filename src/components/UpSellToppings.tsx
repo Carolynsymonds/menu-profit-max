@@ -46,99 +46,119 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
         </h3>
       </div>
 
-      {/* Grid Headers */}
-      <div className="grid grid-cols-5 gap-0 border-t border-gray-200 pt-4">
-        <div className="text-[15px] font-medium text-gray-700"></div>
-        <div className="text-[15px] font-medium text-gray-700">Ingredient Cost (Low/Med/High)</div>
-        <div className="text-[15px] font-medium text-gray-700">Margin Potential</div>
-        <div className="text-[15px] font-medium text-gray-700">Perceived Premium Feel</div>
-        <div className="text-[15px] font-medium text-gray-700">Why It Works with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}</div>
+      {/* Toppings Table */}
+      <div className="overflow-x-auto relative">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="border-t border-gray-200">
+              <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+              </th>
+              <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                Ingredient Cost (Low/Med/High)
+              </th>
+              <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                Margin Potential
+              </th>
+              <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                Perceived Premium Feel
+              </th>
+              <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                Why It Works with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* Topping Rows */}
+            {toppings.slice(0, Math.ceil(toppings.length / 2)).map((topping, index) => (
+              <tr key={index} className={`border-b border-gray-100 ${index === 0 ? 'mb-5' : ''}`}>
+                <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
+                  {topping.name}
+                </td>
+                <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                  {topping.ingredientCost}
+                </td>
+                <td className="py-3 px-2 text-[15px] blur-sm">
+                  <div className="flex flex-col">
+                    <StarRating rating={topping.marginPotential} />
+                    <span className="text-[15px] text-gray-500 mt-1">
+                      {topping.marginPotential === 5 ? '85–90%' :
+                       topping.marginPotential === 4 ? '75–85%' :
+                       topping.marginPotential === 3 ? '65–75%' :
+                       topping.marginPotential === 2 ? '55–65%' : '45–55%'}
+                    </span>
+                  </div>
+                </td>
+                <td className="py-3 px-2 text-[15px] blur-sm">
+                  <div className="flex flex-col">
+                    <StarRating rating={topping.perceivedPremium} />
+                    <span className="text-[15px] text-gray-500 mt-1">
+                      {topping.perceivedPremium === 5 ? 'Luxury, indulgent' :
+                       topping.perceivedPremium === 4 ? 'Creamy, indulgent' :
+                       topping.perceivedPremium === 3 ? 'Rustic, artisanal' :
+                       topping.perceivedPremium === 2 ? 'Standard' : 'Basic'}
+                    </span>
+                  </div>
+                </td>
+                <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                  {topping.whyItWorks}
+                </td>
+              </tr>
+            ))}
 
-        {/* Topping Rows */}
-        {toppings.slice(0, Math.ceil(toppings.length / 2)).map((topping, index) => (
-          <React.Fragment key={index}>
-            <div className={`p-[10px] font-medium text-gray-900 text-[15px] blur-sm ${index === 0 ? 'mb-5' : ''}`}>
-              {topping.name}
-            </div>
-            <div className="p-[10px] blur-sm">
-              {topping.ingredientCost}
-            </div>
-            <div className="p-[10px] blur-sm">
-              <div className="flex flex-col">
-                <StarRating rating={topping.marginPotential} />
-                <span className="text-[15px] text-gray-500 mt-1">
-                  {topping.marginPotential === 5 ? '85–90%' :
-                   topping.marginPotential === 4 ? '75–85%' :
-                   topping.marginPotential === 3 ? '65–75%' :
-                   topping.marginPotential === 2 ? '55–65%' : '45–55%'}
-                </span>
-              </div>
-            </div>
-            <div className="p-[10px] blur-sm">
-              <div className="flex flex-col">
-                <StarRating rating={topping.perceivedPremium} />
-                <span className="text-[15px] text-gray-500 mt-1">
-                  {topping.perceivedPremium === 5 ? 'Luxury, indulgent' :
-                   topping.perceivedPremium === 4 ? 'Creamy, indulgent' :
-                   topping.perceivedPremium === 3 ? 'Rustic, artisanal' :
-                   topping.perceivedPremium === 2 ? 'Standard' : 'Basic'}
-                </span>
-              </div>
-            </div>
-            <div className="p-[10px] text-[15px] text-gray-700 blur-sm">
-              {topping.whyItWorks}
-            </div>
-          </React.Fragment>
-        ))}
+            {/* Download Report Button in the middle */}
+            <tr>
+              <td colSpan={5} className="py-8">
+                <div className="flex justify-center">
+                  <Button 
+                    variant="default" 
+                    size="sm"
+                    className="self-start font-normal text-xs h-8"
+                    onClick={() => setShowReportModal(true)}
+                  >
+                    Download full report
+                  </Button>
+                </div>
+              </td>
+            </tr>
 
-        {/* Download Report Button in the middle */}
-        <div className="col-span-5 py-8 flex justify-center">
-          <Button 
-            variant="default" 
-            size="sm"
-            className="self-start font-normal text-xs h-8"
-            onClick={() => setShowReportModal(true)}
-          >
-            Download full report
-          </Button>
-        </div>
-
-        {/* Remaining Topping Rows */}
-        {toppings.slice(Math.ceil(toppings.length / 2)).map((topping, index) => (
-          <React.Fragment key={index + Math.ceil(toppings.length / 2)}>
-            <div className="p-[10px] font-medium text-gray-900 text-[15px] blur-sm">
-              {topping.name}
-            </div>
-            <div className="p-[10px] blur-sm">
-              {topping.ingredientCost}
-            </div>
-            <div className="p-[10px] blur-sm">
-              <div className="flex flex-col">
-                <StarRating rating={topping.marginPotential} />
-                <span className="text-[15px] text-gray-500 mt-1">
-                  {topping.marginPotential === 5 ? '85–90%' :
-                   topping.marginPotential === 4 ? '75–85%' :
-                   topping.marginPotential === 3 ? '65–75%' :
-                   topping.marginPotential === 2 ? '55–65%' : '45–55%'}
-                </span>
-              </div>
-            </div>
-            <div className="p-[10px] blur-sm">
-              <div className="flex flex-col">
-                <StarRating rating={topping.perceivedPremium} />
-                <span className="text-[15px] text-gray-500 mt-1">
-                  {topping.perceivedPremium === 5 ? 'Luxury, indulgent' :
-                   topping.perceivedPremium === 4 ? 'Creamy, indulgent' :
-                   topping.perceivedPremium === 3 ? 'Rustic, artisanal' :
-                   topping.perceivedPremium === 2 ? 'Standard' : 'Basic'}
-                </span>
-              </div>
-            </div>
-            <div className="p-[10px] text-[15px] text-gray-700 blur-sm">
-              {topping.whyItWorks}
-            </div>
-          </React.Fragment>
-        ))}
+            {/* Remaining Topping Rows */}
+            {toppings.slice(Math.ceil(toppings.length / 2)).map((topping, index) => (
+              <tr key={index + Math.ceil(toppings.length / 2)} className="border-b border-gray-100">
+                <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
+                  {topping.name}
+                </td>
+                <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                  {topping.ingredientCost}
+                </td>
+                <td className="py-3 px-2 text-[15px] blur-sm">
+                  <div className="flex flex-col">
+                    <StarRating rating={topping.marginPotential} />
+                    <span className="text-[15px] text-gray-500 mt-1">
+                      {topping.marginPotential === 5 ? '85–90%' :
+                       topping.marginPotential === 4 ? '75–85%' :
+                       topping.marginPotential === 3 ? '65–75%' :
+                       topping.marginPotential === 2 ? '55–65%' : '45–55%'}
+                    </span>
+                  </div>
+                </td>
+                <td className="py-3 px-2 text-[15px] blur-sm">
+                  <div className="flex flex-col">
+                    <StarRating rating={topping.perceivedPremium} />
+                    <span className="text-[15px] text-gray-500 mt-1">
+                      {topping.perceivedPremium === 5 ? 'Luxury, indulgent' :
+                       topping.perceivedPremium === 4 ? 'Creamy, indulgent' :
+                       topping.perceivedPremium === 3 ? 'Rustic, artisanal' :
+                       topping.perceivedPremium === 2 ? 'Standard' : 'Basic'}
+                    </span>
+                  </div>
+                </td>
+                <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                  {topping.whyItWorks}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* Report Download Modal */}
