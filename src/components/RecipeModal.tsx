@@ -58,18 +58,6 @@ export function RecipeModal({ isOpen, onClose, recipeName, rating, ingredients, 
               </span>
               <span className="text-sm text-gray-600">({rating}/5)</span>
             </div>
-            {strategy && (
-              <div className="mt-3 flex flex-col gap-2">
-                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStrategyBadgeColor(strategyType)}`}>
-                  {strategy}
-                </span>
-                {strategyType && (
-                  <span className="text-sm text-gray-600">
-                    {getStrategyDescription(strategyType)}
-                  </span>
-                )}
-              </div>
-            )}
           </DialogDescription>
         </DialogHeader>
         
