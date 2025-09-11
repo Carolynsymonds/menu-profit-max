@@ -141,11 +141,11 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
       <section className="mx-auto max-w-6xl px-4">
         {/* Column headers */}
         <div className="grid grid-cols-4">
-        <div className="text-sm font-medium text-gray-500"> </div>
-        <div className="text-lg font-semibold pb-[10px]">Standard</div>
-        <div className="text-lg font-semibold pb-[10px]">High Margin</div>
+        <div className="text-[15px] font-medium text-gray-500"> </div>
+        <div className="text-[15px] font-semibold pb-[10px]">Standard</div>
+        <div className="text-[15px] font-semibold pb-[10px]">High Margin</div>
         <div className="flex flex-col pb-[10px]">
-          <span className="text-lg font-semibold mb-2">Premium</span>
+          <span className="text-[15px] font-semibold mb-2">Premium</span>
           <Button 
             asChild
             variant="default" 
@@ -157,42 +157,42 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
 
         {/* Strategy */}
-        <div className="py-4 text-sm font-medium text-gray-700 border-t border-gray-200 pt-6">Strategy</div>
-        <div className="py-4 text-gray-600 border-t border-gray-200 pt-6">—</div>
-        <div className="py-4 px-[10px] text-gray-800 border-t border-gray-200 pt-6">{strategies.highMargin.strategy}</div>
-        <div className="py-4 text-gray-800 border-t border-gray-200 pt-6">{strategies.premium.strategy}</div>
+        <div className="py-4 text-[15px] font-medium text-gray-700 border-t border-gray-200 pt-6">Strategy</div>
+        <div className="py-4 text-[15px] text-gray-600 border-t border-gray-200 pt-6">—</div>
+        <div className="py-4 px-[10px] text-[15px] text-gray-800 border-t border-gray-200 pt-6">{strategies.highMargin.strategy}</div>
+        <div className="py-4 text-[15px] text-gray-800 border-t border-gray-200 pt-6">{strategies.premium.strategy}</div>
 
         {/* Rating */}
-        <div className="py-4 text-sm font-medium text-gray-700">Recipe rating</div>
+        <div className="py-4 text-[15px] font-medium text-gray-700">Recipe rating</div>
         <div className="py-4">
           <span className="text-amber-400">
             {'★'.repeat(strategies.standard.recipeRating)}{'☆'.repeat(5 - strategies.standard.recipeRating)}
           </span>
-          <a href={strategies.standard.recipeUrl} className="ml-2 underline decoration-dotted text-gray-700 hover:text-black">View recipe</a>
+          <a href={strategies.standard.recipeUrl} className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black">View recipe</a>
         </div>
         <div className="py-4">
           <span className="text-amber-400">
             {'★'.repeat(strategies.highMargin.recipeRating)}{'☆'.repeat(5 - strategies.highMargin.recipeRating)}
           </span>
-          <a href={strategies.highMargin.recipeUrl} className="ml-2 underline decoration-dotted text-gray-700 hover:text-black">View recipe</a>
+          <a href={strategies.highMargin.recipeUrl} className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black">View recipe</a>
         </div>
         <div className="py-4">
           <span className="text-amber-400">
             {'★'.repeat(strategies.premium.recipeRating)}{'☆'.repeat(5 - strategies.premium.recipeRating)}
           </span>
-          <a href={strategies.premium.recipeUrl} className="ml-2 underline decoration-dotted text-gray-700 hover:text-black">View recipe</a>
+          <a href={strategies.premium.recipeUrl} className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black">View recipe</a>
         </div>
 
         {/* Sales (per dish) */}
-        <div className="pt-6 pb-2 text-sm font-semibold text-gray-900 border-t border-gray-200">Sales (per dish)</div>
+        <div className="pt-6 pb-2 text-[15px] font-semibold text-gray-900 border-t border-gray-200">Sales (per dish)</div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
 
-        <div className="py-3 text-sm font-medium text-gray-700">Price</div>
+        <div className="py-3 text-[15px] font-medium text-gray-700">Price</div>
         <div className="py-3">
           <input 
-            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-gray-900" 
+            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px] text-gray-900" 
             value={strategies.standard.price.toFixed(2)}
             onChange={(e) => handleInputChange('standard', 'price', e)}
             type="number"
@@ -201,7 +201,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
         <div className="py-3">
           <input 
-            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-gray-900" 
+            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px] text-gray-900" 
             value={strategies.highMargin.price.toFixed(2)}
             onChange={(e) => handleInputChange('highMargin', 'price', e)}
             type="number"
@@ -210,7 +210,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
         <div className="py-3">
           <input 
-            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-gray-900" 
+            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px] text-gray-900" 
             value={strategies.premium.price.toFixed(2)}
             onChange={(e) => handleInputChange('premium', 'price', e)}
             type="number"
@@ -219,15 +219,15 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
 
         {/* Costs (per dish) */}
-        <div className="pt-6 pb-2 text-sm font-semibold text-gray-900 border-t border-gray-200">Costs (per dish)</div>
+        <div className="pt-6 pb-2 text-[15px] font-semibold text-gray-900 border-t border-gray-200">Costs (per dish)</div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
 
-        <div className="py-3 text-sm font-medium text-gray-700">Prep labor <span className="ml-1 text-gray-400">(£)</span></div>
+        <div className="py-3 text-[15px] font-medium text-gray-700">Prep labor <span className="ml-1 text-gray-400">(£)</span></div>
         <div className="py-3">
           <input 
-            className="w-28 rounded-md border border-gray-300 px-3 py-1.5" 
+            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
             value={strategies.standard.prepLabor.toFixed(2)}
             onChange={(e) => handleInputChange('standard', 'prepLabor', e)}
             type="number"
@@ -236,7 +236,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
         <div className="py-3">
           <input 
-            className="w-28 rounded-md border border-gray-300 px-3 py-1.5" 
+            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
             value={strategies.highMargin.prepLabor.toFixed(2)}
             onChange={(e) => handleInputChange('highMargin', 'prepLabor', e)}
             type="number"
@@ -245,7 +245,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
         <div className="py-3">
           <input 
-            className="w-28 rounded-md border border-gray-300 px-3 py-1.5" 
+            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
             value={strategies.premium.prepLabor.toFixed(2)}
             onChange={(e) => handleInputChange('premium', 'prepLabor', e)}
             type="number"
@@ -253,10 +253,10 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
           />
         </div>
 
-        <div className="py-3 text-sm font-medium text-gray-700">Food cost <a className="ml-2 underline decoration-dotted text-gray-700 hover:text-black" href="#">See estimate</a></div>
+        <div className="py-3 text-[15px] font-medium text-gray-700">Food cost <a className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black" href="#">See estimate</a></div>
         <div className="py-3">
           <input 
-            className="w-28 rounded-md border border-gray-300 px-3 py-1.5" 
+            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
             value={strategies.standard.foodCost.toFixed(2)}
             onChange={(e) => handleInputChange('standard', 'foodCost', e)}
             type="number"
@@ -265,7 +265,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
         <div className="py-3">
           <input 
-            className="w-28 rounded-md border border-gray-300 px-3 py-1.5" 
+            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
             value={strategies.highMargin.foodCost.toFixed(2)}
             onChange={(e) => handleInputChange('highMargin', 'foodCost', e)}
             type="number"
@@ -274,7 +274,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
         <div className="py-3">
           <input 
-            className="w-28 rounded-md border border-gray-300 px-3 py-1.5" 
+            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
             value={strategies.premium.foodCost.toFixed(2)}
             onChange={(e) => handleInputChange('premium', 'foodCost', e)}
             type="number"
@@ -282,24 +282,24 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
           />
         </div>
 
-        <div className="py-3 text-sm font-medium text-gray-700">Prime cost</div>
-        <div className="py-3 text-gray-900">£{strategies.standard.primeCost.toFixed(2)}</div>
-        <div className="py-3 text-gray-900">£{strategies.highMargin.primeCost.toFixed(2)}</div>
-        <div className="py-3 text-gray-900">£{strategies.premium.primeCost.toFixed(2)}</div>
+        <div className="py-3 text-[15px] font-medium text-gray-700">Prime cost</div>
+        <div className="py-3 text-[15px] text-gray-900">£{strategies.standard.primeCost.toFixed(2)}</div>
+        <div className="py-3 text-[15px] text-gray-900">£{strategies.highMargin.primeCost.toFixed(2)}</div>
+        <div className="py-3 text-[15px] text-gray-900">£{strategies.premium.primeCost.toFixed(2)}</div>
 
         {/* Profit per dish */}
-        <div className="pt-6 pb-2 text-sm font-semibold text-gray-900 border-t border-gray-200">Profit (per dish)</div>
+        <div className="pt-6 pb-2 text-[15px] font-semibold text-gray-900 border-t border-gray-200">Profit (per dish)</div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
 
-        <div className="py-3 text-sm font-medium text-gray-700">Plate profit</div>
-        <div className="py-3 font-semibold">£{strategies.standard.plateProfit.toFixed(2)}</div>
-        <div className="py-3 font-semibold">£{strategies.highMargin.plateProfit.toFixed(2)}</div>
-        <div className="py-3 font-semibold">£{strategies.premium.plateProfit.toFixed(2)}</div>
+        <div className="py-3 text-[15px] font-medium text-gray-700">Plate profit</div>
+        <div className="py-3 text-[15px] font-semibold">£{strategies.standard.plateProfit.toFixed(2)}</div>
+        <div className="py-3 text-[15px] font-semibold">£{strategies.highMargin.plateProfit.toFixed(2)}</div>
+        <div className="py-3 text-[15px] font-semibold">£{strategies.premium.plateProfit.toFixed(2)}</div>
 
-        <div className="py-3 text-sm font-medium text-gray-700">Profit uplift</div>
-        <div className="py-3 text-gray-500">—</div>
+        <div className="py-3 text-[15px] font-medium text-gray-700">Profit uplift</div>
+        <div className="py-3 text-[15px] text-gray-500">—</div>
         <div className="py-3">
           {strategies.highMargin.profitUplift && (
             <span className="rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700">
@@ -316,16 +316,16 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
 
         {/* Annual */}
-        <div className="pt-6 pb-2 text-sm font-semibold text-gray-900 border-t border-gray-200">Profit (annual)</div>
+        <div className="pt-6 pb-2 text-[15px] font-semibold text-gray-900 border-t border-gray-200">Profit (annual)</div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
         <div className="pt-6 pb-2 border-t border-gray-200"></div>
 
-        <div className="py-3 text-sm font-medium text-gray-700">Est. sales volume</div>
-        <div className="py-3 text-gray-500">—</div>
+        <div className="py-3 text-[15px] font-medium text-gray-700">Est. sales volume</div>
+        <div className="py-3 text-[15px] text-gray-500">—</div>
         <div className="py-3">
           <input 
-            className="w-28 rounded-md border border-gray-300 px-3 py-1.5" 
+            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
             value={strategies.highMargin.estimatedVolume || 5000}
             onChange={(e) => handleInputChange('highMargin', 'estimatedVolume', e)}
             type="number"
@@ -333,19 +333,19 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
         </div>
         <div className="py-3">
           <input 
-            className="w-28 rounded-md border border-gray-300 px-3 py-1.5" 
+            className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-[15px]" 
             value={strategies.premium.estimatedVolume || 5000}
             onChange={(e) => handleInputChange('premium', 'estimatedVolume', e)}
             type="number"
           />
         </div>
 
-        <div className="py-3 text-sm font-medium text-gray-700">Annual profit uplift</div>
-        <div className="py-3 text-gray-500">—</div>
-        <div className="py-3 font-semibold">
+        <div className="py-3 text-[15px] font-medium text-gray-700">Annual profit uplift</div>
+        <div className="py-3 text-[15px] text-gray-500">—</div>
+        <div className="py-3 text-[15px] font-semibold">
           £{strategies.highMargin.annualProfitUplift ? strategies.highMargin.annualProfitUplift.toLocaleString() : '0'}
         </div>
-        <div className="py-3 font-semibold">
+        <div className="py-3 text-[15px] font-semibold">
           £{strategies.premium.annualProfitUplift ? strategies.premium.annualProfitUplift.toLocaleString() : '0'}
         </div>
         </div>
