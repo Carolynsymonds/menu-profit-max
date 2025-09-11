@@ -272,6 +272,76 @@ export default function UpSellToppings({ dishName, toppings }: UpSellToppingsPro
           </table>
         </div>
       </div>
+
+      {/* High Margin Dessert Ideas Section */}
+      <div className="mx-auto max-w-6xl px-4 mt-12">
+        <div className="pt-8 pb-4 border-t border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-900">
+            High Margin Dessert Ideas to go with {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
+          </h3>
+        </div>
+
+        {/* Dessert Ideas Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="border-t border-gray-200">
+                <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                  Dessert
+                </th>
+                <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                  Ingredient Cost (Low/Med/High)
+                </th>
+                <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                  Margin Potential
+                </th>
+                <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                  Perceived Premium Feel
+                </th>
+                <th className="text-left py-3 px-2 text-[15px] font-medium text-gray-700 border-b border-gray-200">
+                  Why It Works After {dishName.charAt(0).toUpperCase() + dishName.slice(1)}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {dessertIdeas.map((dessert, index) => (
+                <tr key={index} className="border-b border-gray-100">
+                  <td className="py-3 px-2 text-[15px] font-medium text-gray-900 blur-sm">
+                    {dessert.name}
+                  </td>
+                  <td className="py-3 px-2 text-[15px] blur-sm">
+                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[15px] font-medium border ${getCostBadgeColor(dessert.ingredientCost)}`}>
+                      {dessert.ingredientCost}
+                    </span>
+                  </td>
+                  <td className="py-3 px-2 text-[15px] blur-sm">
+                    <div className="flex flex-col">
+                      <StarRating rating={dessert.marginPotential} />
+                      <span className="text-[13px] text-gray-500 mt-1">
+                        {dessert.marginPotential === 5 ? '85–90%' :
+                         dessert.marginPotential === 4 ? '75–85%' :
+                         dessert.marginPotential === 3 ? '65–75%' :
+                         dessert.marginPotential === 2 ? '55–65%' : '45–55%'}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-2 text-[15px] blur-sm">
+                    <div className="flex flex-col">
+                      <StarRating rating={dessert.premiumRating} />
+                      <span className="text-[13px] text-gray-500 mt-1">
+                        {dessert.premiumDescription}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-2 text-[15px] text-gray-700 blur-sm">
+                    {dessert.whyItWorks}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </section>
   );
 }
@@ -438,8 +508,92 @@ const nonAlcoholicPairings = [
     name: "Artisanal Shrub (House-Made Berry)",
     costRange: "$1.50–$2.50",
     marginPotential: "Price: $12 Profit: +$9.50–$10.50",
-    premiumRating: 5,
+    premiumRating: 4,
     premiumDescription: "craft, upscale",
     whyItWorks: "Vinegar acidity and fruit complexity provide wine-like pairing experience, alcohol-free."
+  }
+];
+
+// High margin dessert ideas for Risotto
+const dessertIdeas = [
+  {
+    name: "Affogato (espresso over gelato)",
+    ingredientCost: "Low",
+    marginPotential: 5,
+    premiumRating: 4,
+    premiumDescription: "elegant, sophisticated",
+    whyItWorks: "Light finish after rich risotto; espresso's intensity cleanses creamy palate."
+  },
+  {
+    name: "Panna Cotta with Berry Coulis",
+    ingredientCost: "Low",
+    marginPotential: 5,
+    premiumRating: 4,
+    premiumDescription: "silky, refined",
+    whyItWorks: "Creamy continuation of risotto's texture; berry acidity provides fresh contrast."
+  },
+  {
+    name: "Tiramisu",
+    ingredientCost: "Med",
+    marginPotential: 4,
+    premiumRating: 5,
+    premiumDescription: "iconic, indulgent",
+    whyItWorks: "Classic Italian pairing; coffee cuts through risotto's richness beautifully."
+  },
+  {
+    name: "Limoncello Sorbet",
+    ingredientCost: "Low",
+    marginPotential: 5,
+    premiumRating: 4,
+    premiumDescription: "refreshing, authentic",
+    whyItWorks: "Citrus cleanses palate after creamy risotto; alcohol adds sophistication."
+  },
+  {
+    name: "Mini Cannoli Trio",
+    ingredientCost: "Med",
+    marginPotential: 4,
+    premiumRating: 4,
+    premiumDescription: "playful, classic",
+    whyItWorks: "Portion-controlled indulgence; ricotta echoes risotto's Italian heritage."
+  },
+  {
+    name: "Zabaglione with Fresh berries",
+    ingredientCost: "Low",
+    marginPotential: 5,
+    premiumRating: 4,
+    premiumDescription: "luxurious, traditional",
+    whyItWorks: "Light egg foam contrasts risotto's density; Marsala adds Italian authenticity."
+  },
+  {
+    name: "Chocolate Budino",
+    ingredientCost: "Low",
+    marginPotential: 5,
+    premiumRating: 4,
+    premiumDescription: "trendy, upscale",
+    whyItWorks: "Rich but not heavy; chocolate's intensity complements savory risotto finish."
+  },
+  {
+    name: "Amaretto Panna Cotta",
+    ingredientCost: "Low",
+    marginPotential: 5,
+    premiumRating: 4,
+    premiumDescription: "almond-scented, elegant",
+    whyItWorks: "Almond's nuttiness pairs with risotto grains; light texture after hearty main."
+  },
+  {
+    name: "Gelato Trio (3 small scoops)",
+    ingredientCost: "Med",
+    marginPotential: 4,
+    premiumRating: 4,
+    premiumDescription: "artisanal, shareable",
+    whyItWorks: "Variety encourages sharing; cold temperature refreshes after warm risotto."
+  },
+  {
+    name: "Biscotti with Vin Santo",
+    ingredientCost: "Low",
+    marginPotential: 5,
+    premiumRating: 4,
+    premiumDescription: "traditional, authentic",
+    whyItWorks: "Traditional Italian ending; wine pairing drives additional beverage revenue."
   }
 ];
