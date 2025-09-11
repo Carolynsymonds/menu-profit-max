@@ -253,7 +253,7 @@ const Home = () => {
 
       <HeroBanner />
 
-
+      <TopBanner />
       <Footer />
     </div>
   );
