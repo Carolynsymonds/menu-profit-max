@@ -17,9 +17,9 @@ export const siteContent = {
 
   // Bottom Banner
   bottomBanner: {
-    text: "Join 500+ restaurants maximizing profits with MenuProfitMax",
-    buttonText: "Start Free Trial",
-    buttonTextLight: "12 months free"
+    text: "Get your complete dish analysis report",
+    buttonText: "Download Full Report",
+    buttonTextLight: "Free detailed analysis"
   },
 
   // Brand and Logo
