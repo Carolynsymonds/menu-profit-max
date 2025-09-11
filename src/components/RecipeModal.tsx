@@ -20,10 +20,30 @@ interface RecipeModalProps {
   recipeName: string;
   rating: number;
   ingredients: Ingredient[];
+  strategy?: string;
+  strategyType?: 'standard' | 'highMargin' | 'premium';
 }
 
-export function RecipeModal({ isOpen, onClose, recipeName, rating, ingredients }: RecipeModalProps) {
+export function RecipeModal({ isOpen, onClose, recipeName, rating, ingredients, strategy, strategyType }: RecipeModalProps) {
   const totalCost = ingredients.reduce((sum, ingredient) => sum + ingredient.cost, 0);
+  
+  const getStrategyBadgeColor = (type?: string) => {
+    switch (type) {
+      case 'standard': return 'bg-gray-100 text-gray-800';
+      case 'highMargin': return 'bg-green-100 text-green-800';
+      case 'premium': return 'bg-purple-100 text-purple-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getStrategyDescription = (type?: string) => {
+    switch (type) {
+      case 'standard': return 'Base recipe with standard ingredients';
+      case 'highMargin': return 'Optimized for cost efficiency and higher margins';
+      case 'premium': return 'Premium ingredients for elevated dining experience';
+      default: return '';
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -37,6 +57,18 @@ export function RecipeModal({ isOpen, onClose, recipeName, rating, ingredients }
               </span>
               <span className="text-sm text-gray-600">({rating}/5)</span>
             </div>
+            {strategy && (
+              <div className="mt-3 flex flex-col gap-2">
+                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStrategyBadgeColor(strategyType)}`}>
+                  {strategy}
+                </span>
+                {strategyType && (
+                  <span className="text-sm text-gray-600">
+                    {getStrategyDescription(strategyType)}
+                  </span>
+                )}
+              </div>
+            )}
           </DialogDescription>
         </DialogHeader>
         

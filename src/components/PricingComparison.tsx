@@ -64,6 +64,8 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
     name: string;
     rating: number;
     ingredients: Ingredient[];
+    strategy: string;
+    strategyType: 'standard' | 'highMargin' | 'premium';
   } | null>(null);
 
   const [strategies, setStrategies] = useState(() => {
@@ -157,13 +159,42 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
     updateStrategy(strategyKey, field, value);
   };
 
-  const handleViewRecipe = (strategy: PricingStrategy) => {
-    if (strategy.ingredients && strategy.ingredients.length > 0) {
-      setSelectedRecipe({
-        name: strategy.dishName,
-        rating: strategy.recipeRating,
-        ingredients: strategy.ingredients
-      });
+  // Process recipe data based on strategy type
+  const processRecipeForStrategy = (strategy: PricingStrategy, strategyType: 'standard' | 'highMargin' | 'premium') => {
+    if (!strategy.ingredients || strategy.ingredients.length === 0) return null;
+
+    let processedIngredients = [...strategy.ingredients];
+
+    // Apply strategy-specific modifications
+    if (strategyType === 'highMargin') {
+      // For high margin strategy, potentially adjust costs or suggest premium alternatives
+      processedIngredients = processedIngredients.map(ingredient => ({
+        ...ingredient,
+        // Apply cost optimization for high margin
+        cost: ingredient.cost * 0.95 // 5% cost reduction through better sourcing
+      }));
+    } else if (strategyType === 'premium') {
+      // For premium strategy, upgrade ingredients to premium versions
+      processedIngredients = processedIngredients.map(ingredient => ({
+        ...ingredient,
+        name: ingredient.name.includes('premium') ? ingredient.name : `Premium ${ingredient.name}`,
+        cost: ingredient.cost * 1.15 // 15% cost increase for premium ingredients
+      }));
+    }
+
+    return {
+      name: strategy.dishName,
+      rating: strategy.recipeRating,
+      ingredients: processedIngredients,
+      strategy: strategyType === 'standard' ? 'Standard Recipe' : strategy.strategy,
+      strategyType
+    };
+  };
+
+  const handleViewRecipe = (strategy: PricingStrategy, strategyType: 'standard' | 'highMargin' | 'premium') => {
+    const processedRecipe = processRecipeForStrategy(strategy, strategyType);
+    if (processedRecipe) {
+      setSelectedRecipe(processedRecipe);
       setModalOpen(true);
     }
   };
@@ -208,7 +239,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             {'★'.repeat(strategies.standard.recipeRating)}{'☆'.repeat(5 - strategies.standard.recipeRating)}
           </span>
           <button 
-            onClick={() => handleViewRecipe(strategies.standard)} 
+            onClick={() => handleViewRecipe(strategies.standard, 'standard')} 
             className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black bg-transparent border-none cursor-pointer"
           >
             View recipe
@@ -219,7 +250,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             {'★'.repeat(strategies.highMargin.recipeRating)}{'☆'.repeat(5 - strategies.highMargin.recipeRating)}
           </span>
           <button 
-            onClick={() => handleViewRecipe(strategies.highMargin)} 
+            onClick={() => handleViewRecipe(strategies.highMargin, 'highMargin')} 
             className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black bg-transparent border-none cursor-pointer"
           >
             View recipe
@@ -230,7 +261,7 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
             {'★'.repeat(strategies.premium.recipeRating)}{'☆'.repeat(5 - strategies.premium.recipeRating)}
           </span>
           <button 
-            onClick={() => handleViewRecipe(strategies.premium)} 
+            onClick={() => handleViewRecipe(strategies.premium, 'premium')} 
             className="ml-2 underline decoration-dotted text-[15px] text-gray-700 hover:text-black bg-transparent border-none cursor-pointer"
           >
             View recipe
@@ -429,6 +460,8 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
           recipeName={selectedRecipe.name}
           rating={selectedRecipe.rating}
           ingredients={selectedRecipe.ingredients}
+          strategy={selectedRecipe.strategy}
+          strategyType={selectedRecipe.strategyType}
         />
       )}
 
