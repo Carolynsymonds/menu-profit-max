@@ -35,7 +35,7 @@ const UtmTracker = () => {
 
 const ConditionalTopBanner = () => {
   const location = useLocation();
-  const hideBannerRoutes = ['/signup', '/app', '/dish-analysis-results'];
+  const hideBannerRoutes = ['/signup', '/app'];
   const shouldHideBanner = hideBannerRoutes.some(route => 
     location.pathname === route || location.pathname.startsWith('/app/')
   );
