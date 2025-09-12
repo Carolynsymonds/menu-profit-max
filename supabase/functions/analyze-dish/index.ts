@@ -13,6 +13,8 @@ const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
 // Pricing comparison analysis handler
 async function handlePricingComparison(dishName: string) {
+  // Initialize Supabase client for database operations
+  const supabase = createClient(supabaseUrl, supabaseServiceKey);
   const prompt = `You are a restaurant profitability consultant. Analyze the dish "${dishName}" and create three strategic pricing variations to maximize profitability.
 
 Create a pricing comparison with these three strategies:
@@ -246,6 +248,44 @@ Respond ONLY with the JSON structure, no additional text.`;
       console.error('Failed to parse pricing comparison JSON:', parseError);
       console.error('Raw content:', openAIData.choices[0].message.content);
       throw new Error('Failed to parse AI response for pricing comparison');
+    }
+
+    // Store the pricing comparison data in database to track searches
+    console.log('Saving pricing comparison search to database for:', dishName);
+    
+    try {
+      const { data: savedData, error } = await supabase
+        .from('dish_analyses')
+        .insert({
+          dish_name: dishName.toLowerCase().trim(),
+          analysis_result: {
+            type: 'pricing-comparison',
+            standard: pricingData.standard,
+            highMargin: pricingData.highMargin,
+            premium: pricingData.premium,
+            appetizers: pricingData.appetizers || [],
+            toppings: pricingData.toppings || [],
+            search_timestamp: new Date().toISOString(),
+            analysis_type: 'pricing_comparison'
+          },
+          profit_margin: pricingData.standard?.price ? 
+            Math.round(((pricingData.standard.price - (pricingData.standard.prepLabor + pricingData.standard.foodCost)) / pricingData.standard.price) * 100) : 0,
+          suggestions: []
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('❌ Database insert error for pricing comparison:', dishName, error);
+        // Continue without throwing - we still want to return the data
+        console.log('⚠️  Continuing without database save for pricing comparison:', dishName);
+      } else {
+        console.log('✅ Pricing comparison successfully saved to database for:', dishName, 'ID:', savedData?.id);
+      }
+    } catch (dbError) {
+      console.error('❌ Critical database error for pricing comparison:', dishName, dbError);
+      // Continue without throwing - we still want to return the data
+      console.log('⚠️  Continuing without database save for pricing comparison:', dishName);
     }
 
     return new Response(JSON.stringify({
