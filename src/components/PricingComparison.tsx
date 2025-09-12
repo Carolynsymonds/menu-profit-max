@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import HighMarginAppetizers from './HighMarginAppetizers';
 import UpSellToppings from './UpSellToppings';
 import { Button } from "@/components/ui/button";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { RecipeModal } from './RecipeModal';
 import { VerificationModal } from './VerificationModal';
 
@@ -235,7 +236,8 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
       
       <section className="mx-auto max-w-6xl">
         {/* Column headers */}
-        <div className="grid grid-cols-4">
+        <ScrollArea className="w-full">
+          <div className="grid grid-cols-4 min-w-[800px] overflow-x-auto">
         <div className="text-[15px] font-medium text-gray-500 border-b border-gray-200"> </div>
          <div className="text-[15px] font-semibold pb-[10px] border-b border-gray-200">Standard</div>
         <div className="text-[15px] font-semibold pb-[10px] border-b border-gray-200">High Margin</div>
@@ -477,6 +479,8 @@ export default function PricingComparison({ data }: PricingComparisonProps) {
           ${strategies.premium.annualProfitUplift ? strategies.premium.annualProfitUplift.toLocaleString() : '0'}
         </div>
         </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </section>
       
       {/* High Margin Appetizers Section */}
