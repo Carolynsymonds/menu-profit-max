@@ -151,7 +151,7 @@ const HeadlineSection = () => {
           {/* Input card with overlay */}
           <div className="mt-8 p-4 md:p-5 relative">
             <div className="flex flex-col gap-3">
-              <div className="flex gap-2">
+              <div className="flex flex-col md:flex-row gap-2">
                 <div className="relative flex-1">
                   <div className="relative">
                     {/* Search icon with sparkles - gradient */}
