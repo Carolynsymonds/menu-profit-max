@@ -490,20 +490,35 @@ Respond ONLY with the JSON structure, no additional text.`;
         const profitMargin = analysisResult.originalDish?.estimatedMargin || 0;
 
         // Cache the result in database with menu context
-        await supabase
-          .from('dish_analyses')
-          .insert({
-            dish_name: dishName.toLowerCase().trim(),
-            analysis_result: {
-              ...analysisResult,
-              menu_context: currentMenuContext || null,
-              analysis_type: currentMenuContext ? 'menu_upload' : 'individual'
-            },
-            profit_margin: profitMargin,
-            suggestions: analysisResult.optimizations || []
-          });
+        console.log('Attempting to save analysis to database for:', dishName);
+        
+        try {
+          const { data, error } = await supabase
+            .from('dish_analyses')
+            .insert({
+              dish_name: dishName.toLowerCase().trim(),
+              analysis_result: {
+                ...analysisResult,
+                menu_context: currentMenuContext || null,
+                analysis_type: currentMenuContext ? 'menu_upload' : 'individual'
+              },
+              profit_margin: profitMargin,
+              suggestions: analysisResult.optimizations || []
+            })
+            .select()
+            .single();
 
-        console.log('Analysis cached successfully for:', dishName);
+          if (error) {
+            console.error('Database insert error for:', dishName, error);
+            throw new Error(`Failed to save analysis: ${error.message}`);
+          }
+
+          console.log('✅ Analysis successfully saved to database for:', dishName, 'ID:', data?.id);
+        } catch (dbError) {
+          console.error('❌ Critical database error for:', dishName, dbError);
+          // Continue execution even if database save fails
+          console.log('⚠️  Continuing without database save for:', dishName);
+        }
         return { dishName, analysis: analysisResult, fromCache: false };
       }));
     }
