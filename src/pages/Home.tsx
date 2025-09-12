@@ -198,7 +198,7 @@ const Home = () => {
             </p>
             
             <div className="flex flex-col gap-3">
-              <div className="flex gap-2">
+              <div className="flex flex-col md:flex-row gap-2">
                 <div className="relative flex-1">
                   <div className="relative">
                     <div className="absolute left-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1 z-10">
