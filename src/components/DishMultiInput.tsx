@@ -7,42 +7,7 @@ import { useEffect, useRef, useState } from "react";
  * - Paste multiple entries separated by comma / semicolon / newline
  * - Backspace removes last chip when input is empty
  * - Chips show initials + remove button
- * - Auto-suggest popular dishes when typing
  */
-
-const popularDishes = [
-  // Pasta
-  "Spaghetti Carbonara", "Chicken Alfredo", "Penne Arrabbiata", "Lasagna", "Fettuccine Bolognese",
-  "Shrimp Scampi", "Linguine Pesto", "Ravioli", "Gnocchi", "Mac and Cheese",
-  
-  // Pizza
-  "Margherita Pizza", "Pepperoni Pizza", "Hawaiian Pizza", "BBQ Chicken Pizza", "Meat Lovers Pizza",
-  "Veggie Pizza", "White Pizza", "Buffalo Chicken Pizza",
-  
-  // American Classics
-  "Cheeseburger", "Chicken Wings", "Fish and Chips", "Grilled Cheese", "BLT Sandwich",
-  "Club Sandwich", "Caesar Salad", "Cobb Salad", "Chicken Tenders", "Mozzarella Sticks",
-  
-  // Mexican
-  "Chicken Tacos", "Beef Burrito", "Quesadilla", "Nachos", "Chicken Enchiladas",
-  "Fish Tacos", "Carnitas", "Guacamole", "Chimichanga",
-  
-  // Asian
-  "Pad Thai", "Chicken Teriyaki", "Fried Rice", "Lo Mein", "General Tso's Chicken",
-  "Sushi Roll", "Ramen", "Kung Pao Chicken", "Sweet and Sour Pork", "Orange Chicken",
-  
-  // Steaks & Seafood
-  "Ribeye Steak", "Filet Mignon", "Grilled Salmon", "Fish Tacos", "Shrimp Cocktail",
-  "Lobster Roll", "Crab Cakes", "Clam Chowder",
-  
-  // Breakfast
-  "Pancakes", "French Toast", "Eggs Benedict", "Omelet", "Breakfast Burrito",
-  "Avocado Toast", "Chicken and Waffles",
-  
-  // Appetizers
-  "Buffalo Wings", "Spinach Artichoke Dip", "Calamari", "Bruschetta", "Loaded Potato Skins",
-  "Onion Rings", "Jalapeño Poppers", "Sliders"
-];
 
 function initials(text: string): string {
   const base = text?.trim() || "";
@@ -113,14 +78,7 @@ function DishMultiInput({
 }: DishMultiInputProps) {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<DishItem[]>(value ?? []);
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const filteredDishes = popularDishes.filter(dish =>
-    dish.toLowerCase().includes(query.toLowerCase()) && 
-    !selected.some(s => s.name.toLowerCase() === dish.toLowerCase())
-  ).slice(0, 5);
 
   // emit changes
   useEffect(() => {
@@ -194,35 +152,12 @@ function DishMultiInput({
   }
 
   function onBlur() {
-    // Small delay to allow clicking on suggestions
-    setTimeout(() => {
-      if (query.trim()) addTokenFromQuery();
-      setShowSuggestions(false);
-    }, 150);
+    // Commit any pending text on blur
+    if (query.trim()) addTokenFromQuery();
   }
-
-  function handleSuggestionSelect(dish: string) {
-    const token = parseDishEntry(dish);
-    if (token) {
-      addToken(token);
-      setShowSuggestions(false);
-    }
-  }
-
-  // Close suggestions when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setShowSuggestions(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   return (
-    <div ref={containerRef} className="w-full relative">
+    <div className="w-full">
       <div className={`min-h-[41px] w-full rounded-xl border border-gray-300 px-3 py-2 pl-10 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary/60 transition-all ${query.trim() ? 'bg-white' : 'bg-card/70'}`}>
         {/* Display existing dishes as chips */}
         {selected.length > 0 && (
@@ -237,39 +172,18 @@ function DishMultiInput({
         <input
           ref={inputRef}
           value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setShowSuggestions(e.target.value.length > 0);
-          }}
+          onChange={(e) => setQuery(e.target.value)}
           onKeyDown={onKeyDown}
           onPaste={onPaste}
           onBlur={onBlur}
-          onFocus={() => {
-            setShowSuggestions(query.length > 0);
-          }}
           placeholder={selected.length === 0 ? placeholder : 'Add another dish...'}
           disabled={disabled}
           className="w-full bg-transparent border-none outline-none text-sm placeholder:text-muted-foreground"
         />
       </div>
 
-      {/* Suggestions dropdown */}
-      {showSuggestions && filteredDishes.length > 0 && (
-        <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-background border border-border rounded-md shadow-md max-h-60 overflow-auto">
-          {filteredDishes.map((dish) => (
-            <button
-              key={dish}
-              onClick={() => handleSuggestionSelect(dish)}
-              className="w-full px-3 py-2 text-left hover:bg-muted/50 focus:bg-muted focus:outline-none first:rounded-t-md last:rounded-b-md transition-colors text-sm"
-            >
-              {dish}
-            </button>
-          ))}
-        </div>
-      )}
-
       {/* Helper hint when typing */}
-      {query.trim() && !showSuggestions && (
+      {query.trim() && (
         <div className="mt-2 w-full rounded-lg border border-gray-200 bg-card p-3 text-sm text-muted-foreground shadow-sm">
           Press <kbd className="rounded border px-1.5 py-0.5 bg-muted">Enter</kbd> to add <span className="font-medium text-foreground">{query}</span> · Paste multiple with comma / semicolon / newline.
         </div>

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { DishAutocomplete } from "@/components/DishAutocomplete";
+import { Input } from "@/components/ui/input";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -183,9 +183,9 @@ const HeadlineSection = () => {
                       </svg>
                     </div>
                     
-                    <DishAutocomplete
+                    <Input
                       value={dishName}
-                      onChange={setDishName}
+                      onChange={(e) => setDishName(e.target.value)}
                       placeholder="Enter a dish name (e.g., Spaghetti Carbonara)"
                       className="flex w-full border bg-background pl-12 pr-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm rounded-lg border-gray-300 h-[2.6rem]"
                     />
