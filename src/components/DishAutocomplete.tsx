@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
-import { Check, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const popularDishes = [
@@ -55,73 +51,60 @@ export function DishAutocomplete({
   className,
   disabled = false 
 }: DishAutocompleteProps) {
-  const [open, setOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const filteredDishes = popularDishes.filter(dish =>
-    dish.toLowerCase().includes(searchValue.toLowerCase()) ||
-    value.toLowerCase().includes(dish.toLowerCase())
-  );
+    dish.toLowerCase().includes(value.toLowerCase()) && 
+    dish.toLowerCase() !== value.toLowerCase()
+  ).slice(0, 5);
 
   const handleSelect = (dish: string) => {
     onChange(dish);
-    setOpen(false);
-    setSearchValue("");
+    setShowSuggestions(false);
   };
 
   const handleInputChange = (newValue: string) => {
     onChange(newValue);
-    setSearchValue(newValue);
-    if (!open && newValue.length > 0) {
-      setOpen(true);
-    }
+    setShowSuggestions(newValue.length > 0);
   };
 
+  // Close suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <div className="relative">
-          <Input
-            value={value}
-            onChange={(e) => handleInputChange(e.target.value)}
-            onFocus={() => setOpen(true)}
-            placeholder={placeholder}
-            className={cn("pr-8", className)}
-            disabled={disabled}
-          />
-          <ChevronDown className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground opacity-50" />
+    <div ref={containerRef} className="relative w-full">
+      <Input
+        value={value}
+        onChange={(e) => handleInputChange(e.target.value)}
+        onFocus={() => setShowSuggestions(value.length > 0)}
+        placeholder={placeholder}
+        className={className}
+        disabled={disabled}
+      />
+      
+      {showSuggestions && filteredDishes.length > 0 && (
+        <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-background border border-border rounded-md shadow-md max-h-60 overflow-auto">
+          {filteredDishes.map((dish) => (
+            <button
+              key={dish}
+              onClick={() => handleSelect(dish)}
+              className="w-full px-3 py-2 text-left hover:bg-muted/50 focus:bg-muted focus:outline-none first:rounded-t-md last:rounded-b-md transition-colors"
+            >
+              {dish}
+            </button>
+          ))}
         </div>
-      </PopoverTrigger>
-      <PopoverContent className="w-full p-0" align="start">
-        <Command>
-          <CommandInput 
-            placeholder="Search dishes..." 
-            value={searchValue}
-            onValueChange={setSearchValue}
-          />
-          <CommandList>
-            <CommandEmpty>No dishes found.</CommandEmpty>
-            <CommandGroup heading="Popular Dishes">
-              {filteredDishes.slice(0, 8).map((dish) => (
-                <CommandItem
-                  key={dish}
-                  value={dish}
-                  onSelect={() => handleSelect(dish)}
-                  className="cursor-pointer"
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === dish ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {dish}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+      )}
+    </div>
   );
 }
