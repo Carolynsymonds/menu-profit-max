@@ -1,4 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { Check } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 /**
  * Freeform multi-entry input for dish names
@@ -7,7 +11,42 @@ import { useEffect, useRef, useState } from "react";
  * - Paste multiple entries separated by comma / semicolon / newline
  * - Backspace removes last chip when input is empty
  * - Chips show initials + remove button
+ * - Auto-suggest popular dishes when typing
  */
+
+const popularDishes = [
+  // Pasta
+  "Spaghetti Carbonara", "Chicken Alfredo", "Penne Arrabbiata", "Lasagna", "Fettuccine Bolognese",
+  "Shrimp Scampi", "Linguine Pesto", "Ravioli", "Gnocchi", "Mac and Cheese",
+  
+  // Pizza
+  "Margherita Pizza", "Pepperoni Pizza", "Hawaiian Pizza", "BBQ Chicken Pizza", "Meat Lovers Pizza",
+  "Veggie Pizza", "White Pizza", "Buffalo Chicken Pizza",
+  
+  // American Classics
+  "Cheeseburger", "Chicken Wings", "Fish and Chips", "Grilled Cheese", "BLT Sandwich",
+  "Club Sandwich", "Caesar Salad", "Cobb Salad", "Chicken Tenders", "Mozzarella Sticks",
+  
+  // Mexican
+  "Chicken Tacos", "Beef Burrito", "Quesadilla", "Nachos", "Chicken Enchiladas",
+  "Fish Tacos", "Carnitas", "Guacamole", "Chimichanga",
+  
+  // Asian
+  "Pad Thai", "Chicken Teriyaki", "Fried Rice", "Lo Mein", "General Tso's Chicken",
+  "Sushi Roll", "Ramen", "Kung Pao Chicken", "Sweet and Sour Pork", "Orange Chicken",
+  
+  // Steaks & Seafood
+  "Ribeye Steak", "Filet Mignon", "Grilled Salmon", "Fish Tacos", "Shrimp Cocktail",
+  "Lobster Roll", "Crab Cakes", "Clam Chowder",
+  
+  // Breakfast
+  "Pancakes", "French Toast", "Eggs Benedict", "Omelet", "Breakfast Burrito",
+  "Avocado Toast", "Chicken and Waffles",
+  
+  // Appetizers
+  "Buffalo Wings", "Spinach Artichoke Dip", "Calamari", "Bruschetta", "Loaded Potato Skins",
+  "Onion Rings", "Jalapeño Poppers", "Sliders"
+];
 
 function initials(text: string): string {
   const base = text?.trim() || "";
@@ -78,7 +117,13 @@ function DishMultiInput({
 }: DishMultiInputProps) {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<DishItem[]>(value ?? []);
+  const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const filteredDishes = popularDishes.filter(dish =>
+    dish.toLowerCase().includes(query.toLowerCase()) && 
+    !selected.some(s => s.name.toLowerCase() === dish.toLowerCase())
+  );
 
   // emit changes
   useEffect(() => {
@@ -152,38 +197,81 @@ function DishMultiInput({
   }
 
   function onBlur() {
-    // Commit any pending text on blur
-    if (query.trim()) addTokenFromQuery();
+    // Small delay to allow clicking on suggestions
+    setTimeout(() => {
+      if (query.trim()) addTokenFromQuery();
+      setOpen(false);
+    }, 150);
+  }
+
+  function handleSuggestionSelect(dish: string) {
+    const token = parseDishEntry(dish);
+    if (token) {
+      addToken(token);
+      setOpen(false);
+    }
   }
 
   return (
     <div className="w-full">
-      <div className={`min-h-[41px] w-full rounded-xl border border-gray-300 px-3 py-2 pl-10 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary/60 transition-all ${query.trim() ? 'bg-white' : 'bg-card/70'}`}>
-        {/* Display existing dishes as chips */}
-        {selected.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-2">
-            {selected.map((dish) => (
-              <Chip key={dish.id} item={dish} onRemove={() => removeToken(dish.id)} />
-            ))}
-          </div>
-        )}
+      <Popover open={open && filteredDishes.length > 0} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <div className={`min-h-[41px] w-full rounded-xl border border-gray-300 px-3 py-2 pl-10 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary/60 transition-all ${query.trim() ? 'bg-white' : 'bg-card/70'}`}>
+            {/* Display existing dishes as chips */}
+            {selected.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-2">
+                {selected.map((dish) => (
+                  <Chip key={dish.id} item={dish} onRemove={() => removeToken(dish.id)} />
+                ))}
+              </div>
+            )}
 
-        {/* Input field */}
-        <input
-          ref={inputRef}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={onKeyDown}
-          onPaste={onPaste}
-          onBlur={onBlur}
-          placeholder={selected.length === 0 ? placeholder : 'Add another dish...'}
-          disabled={disabled}
-          className="w-full bg-transparent border-none outline-none text-sm placeholder:text-muted-foreground"
-        />
-      </div>
+            {/* Input field */}
+            <input
+              ref={inputRef}
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                if (e.target.value.length > 0) {
+                  setOpen(true);
+                }
+              }}
+              onKeyDown={onKeyDown}
+              onPaste={onPaste}
+              onBlur={onBlur}
+              onFocus={() => {
+                if (query.length > 0) setOpen(true);
+              }}
+              placeholder={selected.length === 0 ? placeholder : 'Add another dish...'}
+              disabled={disabled}
+              className="w-full bg-transparent border-none outline-none text-sm placeholder:text-muted-foreground"
+            />
+          </div>
+        </PopoverTrigger>
+        <PopoverContent className="w-full p-0" align="start">
+          <Command>
+            <CommandList>
+              <CommandEmpty>No dishes found.</CommandEmpty>
+              <CommandGroup heading="Popular Dishes">
+                {filteredDishes.slice(0, 6).map((dish) => (
+                  <CommandItem
+                    key={dish}
+                    value={dish}
+                    onSelect={() => handleSuggestionSelect(dish)}
+                    className="cursor-pointer"
+                  >
+                    <Check className="mr-2 h-4 w-4 opacity-0" />
+                    {dish}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
 
       {/* Helper hint when typing */}
-      {query.trim() && (
+      {query.trim() && !open && (
         <div className="mt-2 w-full rounded-lg border border-gray-200 bg-card p-3 text-sm text-muted-foreground shadow-sm">
           Press <kbd className="rounded border px-1.5 py-0.5 bg-muted">Enter</kbd> to add <span className="font-medium text-foreground">{query}</span> · Paste multiple with comma / semicolon / newline.
         </div>
