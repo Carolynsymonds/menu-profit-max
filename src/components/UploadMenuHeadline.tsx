@@ -1,0 +1,375 @@
+import { Button } from "@/components/ui/button";
+import { useUtmTracking } from "@/hooks/useUtmTracking";
+import { useState, useCallback, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+
+// PDF/file uploader component
+const PdfUpload = ({
+  onFiles,
+  dragArrowUrl = "/_static/icons/drag-arrow.webp",
+}: {
+  onFiles?: (files: File[]) => void;
+  dragArrowUrl?: string;
+}) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isHover, setIsHover] = useState(false);
+
+  const handleFiles = useCallback(
+    (files: FileList | null) => {
+      if (!files || files.length === 0) return;
+      onFiles?.(Array.from(files));
+    },
+    [onFiles]
+  );
+
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    handleFiles(e.dataTransfer.files);
+  };
+
+  const onDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isDragging) setIsDragging(true);
+  };
+
+  const onDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const triggerFileDialog = () => inputRef.current?.click();
+
+  // Using CSS border instead of SVG for better primary color support
+  const borderColor = "hsl(var(--primary))";
+
+  return (
+    <div className="relative mx-auto" style={{ width: "calc(100% - 32px)", maxWidth: 820 }}>
+      {/* Outer card */}
+      <div
+        className="landing-dropzone relative"
+        style={{
+          position: "relative",
+          boxSizing: "border-box",
+          background: "#fff",
+          border: "1px solid #EBEEF9",
+          boxShadow: "0 0 28px hsl(var(--primary) / 0.22)",
+          borderRadius: 24,
+          padding: 26,
+        }}
+      >
+
+        {/* Inner dropzone */}
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={triggerFileDialog}
+          onDrop={onDrop}
+          onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+          className="flex select-none flex-col items-center justify-center text-center"
+          style={{
+            borderRadius: 8,
+            padding: "54px 0",
+            backgroundColor: isDragging ? "hsl(var(--primary) / 0.1)" : "#FDFBFF",
+            border: `1px dashed ${borderColor}`,
+            transition: "background-color .2s, border-color .2s",
+            cursor: "pointer",
+            height: 321,
+            display: "flex",
+          }}
+          aria-label="Click to upload, or drag PDF here"
+        >
+          {/* Center icon (SVG copied) */}
+          <UploadFileIcon height={83} />
+
+          {/* Headline: mobile/desktop variants like original */}
+          <div
+            style={{
+              fontSize: 20,
+              fontWeight: 600,
+              lineHeight: "30px",
+              textAlign: "center",
+              marginTop: 12,
+              color: "#070D1B",
+            }}
+          >
+            <span className="md:hidden">Upload PDF here</span>
+            <span className="hidden md:inline">Click to upload, or drag PDF here</span>
+          </div>
+
+          {/* Accepted file types */}
+          <div className="mt-2">
+            <p className="text-sm text-gray-500 text-center">
+              PDF, DOCX, URL
+            </p>
+          </div>
+
+          {/* Button */}
+          <div style={{ position: "relative", marginTop: 20 }}>
+            <button
+              type="button"
+              onClick={triggerFileDialog}
+              style={{
+                marginTop: 20,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "hsl(var(--primary))",
+                color: "#fff",
+                border: "none",
+                borderRadius: 8,
+                height: 48,
+                padding: 0,
+                fontSize: 14,
+                fontWeight: 700,
+                letterSpacing: 0.2,
+                cursor: "pointer",
+                overflow: "hidden",
+              }}
+            >
+              <span className="button-primary" style={{ display: "flex", alignItems: "center", padding: "0 24px", height: "100%" }}>
+                <UploadArrowIcon />
+                <span style={{ marginLeft: 10 }}>Upload PDF</span>
+              </span>
+              <span
+                className="button-primary"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "100%",
+                  width: 40,
+                  borderLeft: "1px solid rgba(255,255,255,0.3)",
+                  cursor: "pointer",
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                  <path d="M5 7.5L10 12.5L15 7.5" stroke="white" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* Hidden input */}
+        <input
+          ref={inputRef}
+          type="file"
+          multiple
+          accept=".pdf,.doc,.docx,.ppt,.pptx,.odt,.odp,.txt,.rtf,.html,.htm,.md,.jpg,.jpeg,.png"
+          style={{ display: "none" }}
+          onChange={(e) => handleFiles(e.target.files)}
+        />
+      </div>
+    </div>
+  );
+};
+
+function UploadArrowIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 19" width="19" height="19" aria-hidden>
+      <g stroke="#fff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" clipPath="url(#a)">
+        <path d="M5.92 9.55 9.5 5.37l3.58 4.18M9.5 5.37v8.36" />
+        <path d="M9.5 17.3a7.76 7.76 0 1 0 0-15.51 7.76 7.76 0 0 0 0 15.52" />
+      </g>
+      <defs>
+        <clipPath id="a">
+          <path fill="#fff" d="M.5.55h18v18H.5z" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+}
+
+function UploadFileIcon({ height = 83 }: { height?: number }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 68 83" aria-label="Upload file icon" height={height}>
+      <g filter="url(#a)"><path fill="#224E94" d="M12.2 16.4c0-1.7 1.4-3.1 3.2-3.1h21.4q2.8 0 4.8 2L53.3 27q2 2 2 4.8v35c0 1.8-1.4 3.2-3.2 3.2H15.4a3 3 0 0 1-3.2-3.2z" /></g>
+      <g filter="url(#b)"><path fill="hsl(var(--primary))" fillOpacity=".3" d="M11.3 15c0-1.7 1.4-3 3.2-3H37q2.8 0 4.8 2l12.4 12.4q2 2 2 4.7v36.7c0 1.8-1.4 3.2-3.2 3.2H14.5a3 3 0 0 1-3.2-3.2z" /></g>
+      <path fill="url(#c)" d="M9.8 12.2c0-1.8 1.4-3.2 3.1-3.2h24.5q2.9 0 4.8 2l13.6 13.6q1.9 2 2 4.7V69c0 1.8-1.5 3.2-3.2 3.2H12.9A3 3 0 0 1 9.7 69z" />
+      <rect width="36" height="36" x="30.3" y="44.5" fill="#070D1B" rx="18" />
+      <path fill="#fff" d="M54.5 62a1 1 0 0 1-1.3 0l-4-4v11.4a1 1 0 1 1-1.9 0V58l-4 4a1 1 0 1 1-1.3-1.3l5.6-5.6a1 1 0 0 1 1.3 0l5.6 5.6a1 1 0 0 1 0 1.4" />
+      <defs>
+        <radialGradient id="c" cx="0" cy="0" r="1" gradientTransform="rotate(126.8 26 19)scale(76.9642 58.6605)" gradientUnits="userSpaceOnUse"><stop stopColor="#EFEFEF" /><stop offset="1" stopColor="#FDFDFD" /></radialGradient>
+        <filter id="a" width="52.1" height="65.8" x="7.7" y="8.8" colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse"><feFlood floodOpacity="0" result="BackgroundImageFix" /><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" /><feGaussianBlur result="effect1_foregroundBlur" stdDeviation="2.3" /></filter>
+        <filter id="b" width="67.4" height="81.6" x=".1" y=".7" colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse"><feFlood floodOpacity="0" result="BackgroundImageFix" /><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" /><feGaussianBlur result="effect1_foregroundBlur" stdDeviation="5.6" /></filter>
+      </defs>
+    </svg>
+  );
+}
+
+const UploadMenuHeadline = () => {
+  const { navigateWithUtm } = useUtmTracking();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isUploading, setIsUploading] = useState(false);
+
+  const brandLogos = [
+    {
+      src: "/lovable-uploads/9efe8d5f-1e81-42b0-8803-d420694c0d6d.png",
+      alt: "Papa John's",
+      className: "[height:2rem]"
+    },
+    {
+      src: "/lovable-uploads/ec3ab3f1-fac3-42f8-80b5-c88c5a6ca92f.png",
+      alt: "Chipotle Mexican Grill",
+      className: "h-16"
+    },
+    {
+      src: "/lovable-uploads/2e57f3ae-6eeb-4f88-8a90-a459f7dc5c67.png",
+      alt: "Chick-fil-A",
+      className: "h-16"
+    },
+    {
+      src: "/lovable-uploads/8881ee5b-e5b5-4950-a384-bf791c2cb69a.png",
+      alt: "Applebee's",
+      className: "h-20"
+    }
+  ];
+
+  const handleSignupClick = () => {
+    try {
+      window.gtag?.('event', 'sign_up', {
+        method: 'cta_button',
+        button_id: 'signup-btn',
+        button_text: 'Start Free Trial',
+        page_location: window.location.href,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+    navigateWithUtm('/signup');
+  };
+
+  const handleFileUpload = async (files: File[]) => {
+    try {
+      window.gtag?.('event', 'file_upload', {
+        method: 'upload_button',
+        button_id: 'upload-menu-btn',
+        button_text: 'Upload Menu',
+        page_location: window.location.href,
+        file_count: files.length,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+    
+    setIsUploading(true);
+    
+    try {
+      // Process the first file (assuming single file upload for now)
+      const file = files[0];
+      
+      // Convert file to base64
+      const fileData = await fileToBase64(file);
+      
+      // Call Supabase function to analyze the PDF
+      const { data, error } = await supabase.functions.invoke('analyze-menu-pdf', {
+        body: {
+          fileData,
+          fileName: file.name
+        }
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (data.success) {
+        // Store result in localStorage as backup
+        localStorage.setItem('menuAnalysisResult', JSON.stringify(data.data));
+        
+        // Navigate to results page with analysis data
+        navigate('/menu-analysis-results', {
+          state: {
+            analysisResult: data.data
+          }
+        });
+      } else {
+        throw new Error(data.error || 'Analysis failed');
+      }
+      
+    } catch (error) {
+      console.error('Error analyzing menu:', error);
+      toast({
+        title: "Analysis Failed",
+        description: "Something went wrong while analyzing your menu. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  // Helper function to convert file to base64
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const result = reader.result as string;
+        // Remove the data:application/pdf;base64, prefix
+        const base64 = result.split(',')[1];
+        resolve(base64);
+      };
+      reader.onerror = error => reject(error);
+    });
+  };
+
+
+  return (
+    <section className="relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 -z-10">
+        <div className="h-full w-full bg-gradient-to-br from-background via-primary/5 to-secondary/10" />
+        <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full blur-3xl opacity-40 bg-gradient-radial from-primary/30 to-transparent" />
+        <div className="absolute -bottom-28 -right-20 h-96 w-96 rounded-full blur-3xl opacity-40 bg-gradient-radial from-secondary/30 to-transparent" />
+      </div>
+
+      <div className="mx-auto max-w-4xl px-6 pt-28 pb-16 text-center">
+        <div className="animate-fade-in grid gap-9 mt-[49px]">
+          <div className="space-y-4">
+            <h1 className="text-5xl md:text-6xl font-extrabold tracking-[-0.02em] text-foreground">
+            Upload Your Menu & See Profit Insights in Seconds
+                        </h1>
+            <p className="text-xl text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light px-0">
+              Join <span className="underline text-primary">chefs, owners, and managers</span> using AI to discover the hidden revenue in their menus.
+            </p>
+          </div>
+
+
+          {/* Upload Section */}
+          <PdfUpload onFiles={handleFileUpload} />
+
+
+          {/* Brand logos section */}
+          <div className="text-center">
+            <p className="text-sm text-muted-foreground mb-4">Trusted by leading restaurants</p>
+            <div className="flex justify-center items-center gap-4 md:gap-8 flex-wrap">
+              {brandLogos.map((brand, index) => (
+                <div key={index} className="flex items-center justify-center">
+                  <img
+                    src={brand.src}
+                    alt={brand.alt}
+                    className={`${brand.className} max-w-full object-contain hover:opacity-50 `}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default UploadMenuHeadline;

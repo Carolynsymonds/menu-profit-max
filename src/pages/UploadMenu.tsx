@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import HeadlineSection from "@/components/HeadlineSection";
+import UploadMenuHeadline from "@/components/UploadMenuHeadline";
 import FeaturesSection from "@/components/FeaturesSection";
 import TeamRolesSection from "@/components/TeamRolesSection";
 import FeatureIntroSection from "@/components/FeatureIntroSection";
@@ -22,7 +22,7 @@ const UploadMenu = () => {
   return (
     <div className="bg-white min-h-screen">
       <Header />
-      <HeadlineSection key={shouldResetForm ? 'reset' : 'normal'} />
+      <UploadMenuHeadline />
       <FeaturesSection />
       <TeamRolesSection />
       <FeatureIntroSection />

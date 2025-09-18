@@ -14,12 +14,12 @@ const HeadlineSection = () => {
   const [dishName, setDishName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("Evaluating competitor menus");
-  
+
   const loadingMessages = ["Evaluating competitor menus", "Finding highest margin recipes"];
-  
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    
+
     if (isLoading) {
       interval = setInterval(() => {
         setLoadingText(prev => {
@@ -29,37 +29,37 @@ const HeadlineSection = () => {
         });
       }, 3500);
     }
-    
+
     return () => {
       if (interval) {
         clearInterval(interval);
       }
     };
   }, [isLoading]);
-  
+
   const brandLogos = [
-    { 
-      src: "/lovable-uploads/9efe8d5f-1e81-42b0-8803-d420694c0d6d.png", 
+    {
+      src: "/lovable-uploads/9efe8d5f-1e81-42b0-8803-d420694c0d6d.png",
       alt: "Papa John's",
       className: "h-4"
     },
-    { 
-      src: "/lovable-uploads/ec3ab3f1-fac3-42f8-80b5-c88c5a6ca92f.png", 
+    {
+      src: "/lovable-uploads/ec3ab3f1-fac3-42f8-80b5-c88c5a6ca92f.png",
       alt: "Chipotle Mexican Grill",
       className: "h-8"
     },
-    { 
-      src: "/lovable-uploads/2e57f3ae-6eeb-4f88-8a90-a459f7dc5c67.png", 
+    {
+      src: "/lovable-uploads/2e57f3ae-6eeb-4f88-8a90-a459f7dc5c67.png",
       alt: "Chick-fil-A",
       className: "h-8"
     },
-    { 
-      src: "/lovable-uploads/8881ee5b-e5b5-4950-a384-bf791c2cb69a.png", 
+    {
+      src: "/lovable-uploads/8881ee5b-e5b5-4950-a384-bf791c2cb69a.png",
       alt: "Applebee's",
       className: "[height:3.25rem]"
     }
   ];
-  
+
   const handleSignupClick = () => {
     try {
       window.gtag?.('event', 'sign_up', {
@@ -86,7 +86,7 @@ const HeadlineSection = () => {
 
     console.log('Starting dish analysis for:', dishName.trim());
     setIsLoading(true);
-    
+
     try {
       console.log('Calling Supabase function...');
       const { data, error } = await supabase.functions.invoke('analyze-dish', {
@@ -142,7 +142,7 @@ const HeadlineSection = () => {
       <div className="mx-auto max-w-3xl px-6 pt-28 pb-16 text-center">
         <div className="animate-fade-in grid gap-3 mt-[49px]">
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-[-0.02em] text-foreground">
-             Upload Your Restaurant Menu for Instant Profit Insights
+            Profitize Your Menu Now
           </h1>
           <p className="text-xl text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light px-0">
             Type a dish and get instant suggestions to increase margins with smarter pricing, ingredient swaps, and upsell ideas.
@@ -182,7 +182,7 @@ const HeadlineSection = () => {
                         </defs>
                       </svg>
                     </div>
-                    
+
                     <Input
                       value={dishName}
                       onChange={(e) => setDishName(e.target.value)}
@@ -191,7 +191,7 @@ const HeadlineSection = () => {
                     />
                   </div>
                 </div>
-                
+
                 <Button
                   onClick={handleAnalyzeDish}
                   disabled={isLoading}
@@ -216,15 +216,15 @@ const HeadlineSection = () => {
               </div>
             )}
           </div>
-          
+
           {/* Brand logos section */}
           <div className="mt-12 text-center">
             <div className="flex justify-center items-center gap-4 md:gap-8 flex-wrap">
               {brandLogos.map((brand, index) => (
                 <div key={index} className="flex items-center justify-center">
-                  <img 
-                    src={brand.src} 
-                    alt={brand.alt} 
+                  <img
+                    src={brand.src}
+                    alt={brand.alt}
                     className={`${brand.className} max-w-full object-contain`}
                   />
                 </div>
