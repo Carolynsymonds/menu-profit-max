@@ -15,6 +15,7 @@ import Inventory from "./pages/Inventory";
 import InventoryAnalytics from "./pages/InventoryAnalytics";
 import DishAnalysisResults from "./pages/DishAnalysisResults";
 import MenuAnalysisResults from "./pages/MenuAnalysisResults";
+import GeneratedMenu from "./pages/GeneratedMenu";
 import Pricing from "./pages/Pricing";
 import Features from "./pages/Features";
 import Contact from "./pages/Contact";
@@ -69,6 +70,7 @@ const App = () => (
            <Route path="/upload-menu" element={<UploadMenu />} />
            <Route path="/dish-analysis-results" element={<DishAnalysisResults />} />
            <Route path="/menu-analysis-results" element={<MenuAnalysisResults />} />
+           <Route path="/generated-menu" element={<GeneratedMenu />} />
            <Route path="/pricing" element={<Pricing />} />
            <Route path="/features" element={<Features />} />
            <Route path="/contact" element={<Contact />} />

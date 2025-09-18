@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import AchievementsRow from "./AchievementsRow";
 
 // PDF/file uploader component
 const PdfUpload = ({
@@ -117,7 +118,10 @@ const PdfUpload = ({
           <div style={{ position: "relative", marginTop: 20 }}>
             <button
               type="button"
-              onClick={triggerFileDialog}
+              onClick={(e) => {
+                e.stopPropagation();
+                triggerFileDialog();
+              }}
               style={{
                 marginTop: 20,
                 display: "inline-flex",
@@ -212,6 +216,26 @@ const UploadMenuHeadline = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
+  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
+
+  const loadingMessages = [
+    "Extracting text from PDF...",
+    "Analyzing menu items with AI...",
+    "Identifying dishes and ingredients...",
+    "Calculating profit insights...",
+    "Almost ready!"
+  ];
+
+  // Cycle through loading messages
+  useEffect(() => {
+    if (!isUploading) return;
+
+    const interval = setInterval(() => {
+      setLoadingMessageIndex((prev) => (prev + 1) % loadingMessages.length);
+    }, 2000); // Change message every 2 seconds
+
+    return () => clearInterval(interval);
+  }, [isUploading, loadingMessages.length]);
 
   const brandLogos = [
     {
@@ -262,16 +286,17 @@ const UploadMenuHeadline = () => {
     } catch (e) {
       // no-op if gtag not available
     }
-    
+
     setIsUploading(true);
-    
+    setLoadingMessageIndex(0); // Reset to first message
+
     try {
       // Process the first file (assuming single file upload for now)
       const file = files[0];
-      
+
       // Convert file to base64
       const fileData = await fileToBase64(file);
-      
+
       // Call Supabase function to analyze the PDF
       const { data, error } = await supabase.functions.invoke('analyze-menu-pdf', {
         body: {
@@ -288,6 +313,11 @@ const UploadMenuHeadline = () => {
         // Store result in localStorage as backup
         localStorage.setItem('menuAnalysisResult', JSON.stringify(data.data));
         
+        // Store original text for image generation
+        if (data.data.originalText) {
+          localStorage.setItem('originalMenuText', data.data.originalText);
+        }
+
         // Navigate to results page with analysis data
         navigate('/menu-analysis-results', {
           state: {
@@ -297,7 +327,7 @@ const UploadMenuHeadline = () => {
       } else {
         throw new Error(data.error || 'Analysis failed');
       }
-      
+
     } catch (error) {
       console.error('Error analyzing menu:', error);
       toast({
@@ -335,20 +365,59 @@ const UploadMenuHeadline = () => {
         <div className="absolute -bottom-28 -right-20 h-96 w-96 rounded-full blur-3xl opacity-40 bg-gradient-radial from-secondary/30 to-transparent" />
       </div>
 
-      <div className="mx-auto max-w-4xl px-6 pt-28 pb-16 text-center">
+          {/* Achievements Row */}
+          <div className="mx-auto max-w-6xl px-6 pt-20 pb-2">
+            <AchievementsRow />
+          </div>
+
+          <div className="mx-auto max-w-4xl px-6 pt-2 pb-16 text-center">
         <div className="animate-fade-in grid gap-9 mt-[49px]">
           <div className="space-y-4">
             <h1 className="text-5xl md:text-6xl font-extrabold tracking-[-0.02em] text-foreground">
-            Upload Your Menu & See Profit Insights in Seconds
-                        </h1>
+              Upload Your Menu & See Profit Insights in Seconds
+            </h1>
             <p className="text-xl text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light px-0">
               Join <span className="underline text-primary">chefs, owners, and managers</span> using AI to discover the hidden revenue in their menus.
             </p>
           </div>
 
 
-          {/* Upload Section */}
-          <PdfUpload onFiles={handleFileUpload} />
+              {/* Upload Section */}
+              <div className="relative">
+                <PdfUpload onFiles={handleFileUpload} />
+                
+                {/* Loading Overlay */}
+                {isUploading && (
+                  <div className="absolute inset-0 bg-white/90 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center z-10">
+                    <div className="text-center space-y-6">
+                      
+                      {/* Loading Message */}
+                      <div className="space-y-2">
+                        <h3 className="text-xl font-semibold text-foreground">
+                          {loadingMessages[loadingMessageIndex]}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          This may take a few moments...
+                        </p>
+                      </div>
+                      
+                      {/* Progress Dots */}
+                      <div className="flex justify-center space-x-2">
+                        {loadingMessages.map((_, index) => (
+                          <div
+                            key={index}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                              index === loadingMessageIndex 
+                                ? 'bg-primary scale-125' 
+                                : 'bg-primary/30'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
 
 
           {/* Brand logos section */}

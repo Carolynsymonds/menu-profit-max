@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MenuAnalysisTable from "@/components/MenuAnalysisTable";
+import ProfitizationStrategiesTable from "@/components/ProfitizationStrategiesTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Upload, AlertCircle } from "lucide-react";
@@ -15,11 +16,22 @@ interface MenuItem {
   category?: string;
 }
 
+interface ProfitizationStrategy {
+  strategy: string;
+  actionInstruction: string;
+  category: string;
+  action: string;
+  dish: string;
+  newPrice?: number;
+  why: string;
+}
+
 interface AnalysisResult {
   items: MenuItem[];
   categories: string[];
   totalItems: number;
   analysisDate: string;
+  strategies?: ProfitizationStrategy[];
 }
 
 const MenuAnalysisResults = () => {
@@ -33,13 +45,16 @@ const MenuAnalysisResults = () => {
     // Get analysis result from location state or fetch from storage
     const result = location.state?.analysisResult;
     if (result) {
+      console.log('Analysis result from location state:', result);
       setAnalysisResult(result);
     } else {
       // Try to get from localStorage as fallback
       const stored = localStorage.getItem('menuAnalysisResult');
       if (stored) {
         try {
-          setAnalysisResult(JSON.parse(stored));
+          const parsed = JSON.parse(stored);
+          console.log('Analysis result from localStorage:', parsed);
+          setAnalysisResult(parsed);
         } catch (error) {
           console.error('Error parsing stored analysis result:', error);
         }
@@ -54,6 +69,7 @@ const MenuAnalysisResults = () => {
   const handleBackToHome = () => {
     navigate('/');
   };
+
 
   if (!analysisResult) {
     return (
@@ -91,45 +107,50 @@ const MenuAnalysisResults = () => {
   return (
     <div className="bg-white min-h-screen">
       <Header />
-      
+
       <div className="mx-auto max-w-6xl px-6 pt-28 pb-16">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-4 mb-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => navigate(-1)}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back
+          
+          
+          {/* Analysis Table */}
+          {/* <MenuAnalysisTable analysisResult={analysisResult} /> */}
+
+          {/* Profitization Strategies Table */}
+          <div className="mt-8">
+            {analysisResult.strategies && analysisResult.strategies.length > 0 ? (
+              <ProfitizationStrategiesTable 
+                strategies={analysisResult.strategies} 
+                originalMenu={analysisResult}
+              />
+            ) : (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Profitization Strategies</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    No strategies available. This might be because:
+                  </p>
+                  <ul className="list-disc list-inside mt-2 text-sm text-muted-foreground">
+                    <li>The analysis is still processing</li>
+                    <li>There was an error generating strategies</li>
+                    <li>The menu didn't contain enough data for analysis</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <Button onClick={handleNewUpload} className="flex items-center gap-2">
+              <Upload className="h-4 w-4" />
+              Analyze Another Menu
             </Button>
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">
-                Menu Analysis Results
-              </h1>
-              <p className="text-muted-foreground mt-1">
-                AI-powered analysis of your restaurant menu
-              </p>
-            </div>
+            <Button variant="outline" onClick={handleBackToHome}>
+              Back to Home
+            </Button>
           </div>
         </div>
-
-        {/* Analysis Table */}
-        <MenuAnalysisTable analysisResult={analysisResult} />
-
-        {/* Action Buttons */}
-        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          <Button onClick={handleNewUpload} className="flex items-center gap-2">
-            <Upload className="h-4 w-4" />
-            Analyze Another Menu
-          </Button>
-          <Button variant="outline" onClick={handleBackToHome}>
-            Back to Home
-          </Button>
-        </div>
-      </div>
 
       <Footer />
     </div>
