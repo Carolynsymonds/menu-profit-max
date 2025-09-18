@@ -4,7 +4,6 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import AchievementsRow from "./AchievementsRow";
 
 // PDF/file uploader component
 const PdfUpload = ({
@@ -217,6 +216,8 @@ const UploadMenuHeadline = () => {
   const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
+  const [apiProgress, setApiProgress] = useState(0);
+  const [generationTime, setGenerationTime] = useState(0);
 
   const loadingMessages = [
     "Extracting text from PDF...",
@@ -236,6 +237,18 @@ const UploadMenuHeadline = () => {
 
     return () => clearInterval(interval);
   }, [isUploading, loadingMessages.length]);
+
+  // Timer for generation time
+  useEffect(() => {
+    if (!isUploading) return;
+
+    const startTime = Date.now();
+    const timer = setInterval(() => {
+      setGenerationTime((Date.now() - startTime) / 1000);
+    }, 100);
+
+    return () => clearInterval(timer);
+  }, [isUploading]);
 
   const brandLogos = [
     {
@@ -289,6 +302,8 @@ const UploadMenuHeadline = () => {
 
     setIsUploading(true);
     setLoadingMessageIndex(0); // Reset to first message
+    setApiProgress(0);
+    setGenerationTime(0);
 
     try {
       // Process the first file (assuming single file upload for now)
@@ -297,6 +312,14 @@ const UploadMenuHeadline = () => {
       // Convert file to base64
       const fileData = await fileToBase64(file);
 
+      // Simulate progress updates during API call
+      const progressInterval = setInterval(() => {
+        setApiProgress(prev => {
+          const newProgress = prev + Math.random() * 5; // Smaller random progress increments
+          return Math.min(newProgress, 90); // Cap at 90% until completion
+        });
+      }, 1000); // Slower updates every 1 second
+
       // Call Supabase function to analyze the PDF
       const { data, error } = await supabase.functions.invoke('analyze-menu-pdf', {
         body: {
@@ -304,6 +327,10 @@ const UploadMenuHeadline = () => {
           fileName: file.name
         }
       });
+
+      // Clear progress interval and set to 100% on completion
+      clearInterval(progressInterval);
+      setApiProgress(100);
 
       if (error) {
         throw new Error(error.message);
@@ -365,12 +392,7 @@ const UploadMenuHeadline = () => {
         <div className="absolute -bottom-28 -right-20 h-96 w-96 rounded-full blur-3xl opacity-40 bg-gradient-radial from-secondary/30 to-transparent" />
       </div>
 
-          {/* Achievements Row */}
-          <div className="mx-auto max-w-6xl px-6 pt-20 pb-2">
-            <AchievementsRow />
-          </div>
-
-          <div className="mx-auto max-w-4xl px-6 pt-2 pb-16 text-center">
+          <div className="mx-auto max-w-4xl px-6 pt-28 pb-16 text-center">
         <div className="animate-fade-in grid gap-9 mt-[49px]">
           <div className="space-y-4">
             <h1 className="text-5xl md:text-6xl font-extrabold tracking-[-0.02em] text-foreground">
@@ -396,23 +418,43 @@ const UploadMenuHeadline = () => {
                         <h3 className="text-xl font-semibold text-foreground">
                           {loadingMessages[loadingMessageIndex]}
                         </h3>
-                        <p className="text-sm text-muted-foreground">
-                          This may take a few moments...
-                        </p>
+                        
                       </div>
                       
-                      {/* Progress Dots */}
-                      <div className="flex justify-center space-x-2">
-                        {loadingMessages.map((_, index) => (
-                          <div
-                            key={index}
-                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                              index === loadingMessageIndex 
-                                ? 'bg-primary scale-125' 
-                                : 'bg-primary/30'
-                            }`}
-                          />
-                        ))}
+                      {/* Progress Ring */}
+                      <div className="flex items-center justify-center gap-2 md:gap-3">
+                        <div className="relative w-5 h-5 md:w-6 md:h-6">
+                          {/* Progress Ring */}
+                          <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 100 100">
+                            {/* Track */}
+                            <circle
+                              cx="50"
+                              cy="50"
+                              r="42"
+                              stroke="currentColor"
+                              strokeWidth="8"
+                              fill="none"
+                              className="text-gray-300 opacity-20"
+                            />
+                            {/* Progress */}
+                            <circle
+                              cx="50"
+                              cy="50"
+                              r="42"
+                              stroke="currentColor"
+                              strokeWidth="8"
+                              fill="none"
+                              strokeLinecap="round"
+                              transform="rotate(-90 50 50)"
+                              className="text-black"
+                              style={{
+                                strokeDasharray: '264px',
+                                strokeDashoffset: `${264 * (1 - apiProgress / 100)}px`
+                              }}
+                            />
+                          </svg>
+                        </div>
+                        <span className="text-xs md:text-sm text-foreground">Running {generationTime.toFixed(1)}s</span>
                       </div>
                     </div>
                   </div>

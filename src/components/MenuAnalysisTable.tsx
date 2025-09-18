@@ -54,59 +54,8 @@ const MenuAnalysisTable = ({ analysisResult }: MenuAnalysisTableProps) => {
 
   return (
     <div className="space-y-6">
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Items</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{analysisResult.totalItems}</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Categories</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{analysisResult.categories.length}</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Analysis Date</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-sm font-medium">
-              {new Date(analysisResult.analysisDate).toLocaleDateString()}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      
 
-      {/* Controls */}
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <div className="flex flex-wrap gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowIngredients(!showIngredients)}
-            className="flex items-center gap-2"
-          >
-            {showIngredients ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            {showIngredients ? "Hide" : "Show"} Ingredients
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={exportToCSV}
-            className="flex items-center gap-2"
-          >
-            <Download className="h-4 w-4" />
-            Export CSV
-          </Button>
-        </div>
-      </div>
 
       {/* Category Filter */}
       <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>

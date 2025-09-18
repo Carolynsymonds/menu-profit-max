@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -47,6 +48,7 @@ interface GeneratedMenuTableProps {
 const GeneratedMenuTable = ({ generatedMenuData, onBack }: GeneratedMenuTableProps) => {
   const { originalMenu, selectedStrategies } = generatedMenuData;
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [showIngredients, setShowIngredients] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
@@ -240,7 +242,14 @@ const GeneratedMenuTable = ({ generatedMenuData, onBack }: GeneratedMenuTablePro
       }
 
       if (data.success && data.imageData) {
-        setGeneratedImage(data.imageData);
+        // Store the image URL in localStorage
+        localStorage.setItem('generatedMenuImage', data.imageData);
+        
+        // Navigate to the image display page
+        navigate('/generated-menu-image', {
+          state: { imageUrl: data.imageData }
+        });
+        
         toast({
           title: "Menu Image Generated!",
           description: "Your professional menu image has been created successfully.",
