@@ -21,6 +21,7 @@ interface ProfitizationStrategy {
   dish: string;
   newPrice?: number;
   why: string;
+  upliftText?: string;
 }
 
 interface AnalysisResult {
@@ -422,6 +423,8 @@ For each strategy, provide:
 
 7. Why: Brief explanation under 10 words
 
+8. Uplift Text: Specific profit uplift description in format "+X–Y% [type] profit" where type could be "plate", "menu-wide entrée profitability", "incremental profit on affected tables", "menu efficiency", "table profitability", "average order value", etc.
+
 Return ONLY a valid JSON array with this structure:
 [
   {
@@ -431,11 +434,12 @@ Return ONLY a valid JSON array with this structure:
     "action": "Up price",
     "dish": "Bucatini Cacio e Pepe",
     "newPrice": 26,
-    "why": "Perception of premium product, needs premium price"
+    "why": "Perception of premium product, needs premium price",
+    "upliftText": "+12–15% plate profit"
   }
 ]
 
-Generate 15-20 diverse strategies covering different profitization techniques.`
+Generate 15-20 diverse strategies covering different profitization techniques. Make uplift ranges realistic and specific to each strategy type.`
           },
           {
             role: 'user',

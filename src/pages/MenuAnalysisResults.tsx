@@ -140,16 +140,6 @@ const MenuAnalysisResults = () => {
             )}
           </div>
 
-          {/* Action Buttons */}
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button onClick={handleNewUpload} className="flex items-center gap-2">
-              <Upload className="h-4 w-4" />
-              Analyze Another Menu
-            </Button>
-            <Button variant="outline" onClick={handleBackToHome}>
-              Back to Home
-            </Button>
-          </div>
         </div>
 
       <Footer />

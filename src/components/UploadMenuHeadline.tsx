@@ -410,7 +410,7 @@ const UploadMenuHeadline = () => {
                 
                 {/* Loading Overlay */}
                 {isUploading && (
-                  <div className="absolute inset-0 bg-white/90 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center z-10">
+                  <div className="absolute inset-0 bg-white/90 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center z-10 shadow-[0_0_20px_rgba(var(--primary),0.3)]">
                     <div className="text-center space-y-6">
                       
                       {/* Loading Message */}

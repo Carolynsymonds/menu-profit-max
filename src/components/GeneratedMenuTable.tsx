@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Download, ArrowLeft, Eye, EyeOff, Edit, Save, X, FileText, Loader2 } from "lucide-react";
+import { Download, ArrowLeft, Eye, EyeOff, Edit, Save, X, FileText, Loader2, Mail, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -20,13 +20,20 @@ interface MenuItem {
 }
 
 interface ProfitizationStrategy {
-  strategy: string;
-  actionInstruction: string;
-  category: string;
-  action: string;
+  id: string;
+  tag: string;
   dish: string;
+  currentPrice?: number;
+  actionInstruction: string;
   newPrice?: number;
-  why: string;
+  rationale: string;
+  monthlySales?: number;
+  profitUpliftPct?: number;
+  // Legacy properties for backward compatibility
+  strategy?: string;
+  category?: string;
+  action?: string;
+  why?: string;
 }
 
 interface GeneratedMenuData {
@@ -48,6 +55,21 @@ interface GeneratedMenuTableProps {
 const GeneratedMenuTable = ({ generatedMenuData, onBack }: GeneratedMenuTableProps) => {
   const { originalMenu, selectedStrategies } = generatedMenuData;
   const { toast } = useToast();
+
+  const getActionBadgeColor = (action: string) => {
+    switch (action.toLowerCase()) {
+      case "up price": return "bg-green-100 text-green-800";
+      case "new dish": return "bg-blue-100 text-blue-800";
+      case "new extra": return "bg-purple-100 text-purple-800";
+      case "reframe": return "bg-orange-100 text-orange-800";
+      case "remove dish": return "bg-red-100 text-red-800";
+      case "staffing": return "bg-yellow-100 text-yellow-800";
+      case "ingredients": return "bg-indigo-100 text-indigo-800";
+      case "reposition": return "bg-pink-100 text-pink-800";
+      case "new combo": return "bg-cyan-100 text-cyan-800";
+      default: return "bg-gray-100 text-gray-800";
+    }
+  };
   const navigate = useNavigate();
   const [showIngredients, setShowIngredients] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -61,6 +83,38 @@ const GeneratedMenuTable = ({ generatedMenuData, onBack }: GeneratedMenuTablePro
   const [menuText, setMenuText] = useState('');
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [emailBody, setEmailBody] = useState("");
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+
+  // Generate default email body content
+  const generateDefaultEmailBody = () => {
+    const strategiesText = selectedStrategies.map((strategy) => {
+      // Use the full suggestion text from actionInstruction (same as displayed in table)
+      const suggestionText = strategy.actionInstruction || `${strategy.tag || "Strategy"} — ${strategy.dish || "Menu Item"}`;
+      const rationale = strategy.rationale || strategy.why || "Strategy rationale";
+      
+      const upliftPct = Math.floor(Math.random() * 15) + 5; // Mock profit uplift percentage
+      
+      return `${suggestionText}\n${rationale}`;
+    }).join('\n\n');
+
+    return `Hey team,
+Here are the latest menu suggestions from Menu Profit Max — what do you think?
+
+Suggestions:
+
+${strategiesText}
+
+Thanks,`;
+  };
+
+  // Initialize email body when component mounts or strategies change
+  React.useEffect(() => {
+    if (selectedStrategies.length > 0 && !emailBody) {
+      setEmailBody(generateDefaultEmailBody());
+    }
+  }, [selectedStrategies]);
 
   // Apply strategies to create new menu
   const generateNewMenuItems = () => {
@@ -303,34 +357,71 @@ const GeneratedMenuTable = ({ generatedMenuData, onBack }: GeneratedMenuTablePro
   return (
     <div className="w-full bg-white pb-12 pt-28">
       <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight text-center capitalize">
-        Generated Menu
+        Applied Strategies ({selectedStrategies.length})
       </h1>
       <h2 style={{ color: '#191918', fontSize: '20px', fontWeight: '300' }} className="mx-auto leading-relaxed text-center mb-10">
-        Your optimized menu with {selectedStrategies.length} strategies applied
+        Review strategies and send to your kitchen
       </h2>
 
-      {/* Summary Cards */}
+      {/* Email Send Form */}
       <div className="mx-auto max-w-6xl mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Original Items</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{originalMenu.totalItems}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Strategies Applied</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-600">{selectedStrategies.length}</div>
-            </CardContent>
-          </Card>
-          
-        </div>
+        <Card className="p-6">
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="email">Email Address</Label>
+              <div className="relative mt-1">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="kitchen@restaurant.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="emailBody">Email Body</Label>
+              <Textarea
+                id="emailBody"
+                value={emailBody}
+                onChange={(e) => setEmailBody(e.target.value)}
+                placeholder="Enter your email message here..."
+                className="mt-2 min-h-48 focus-visible:ring-1 focus-visible:ring-offset-1"
+                rows={12}
+              />
+              
+            </div>
+            <Button
+              onClick={() => {
+                setIsSendingEmail(true);
+                // Simulate email sending with the editable email body
+                setTimeout(() => {
+                  setIsSendingEmail(false);
+                  toast({
+                    title: "Email Sent!",
+                    description: `Email with ${selectedStrategies.length} strategies has been sent to ${email}.`,
+                  });
+                }, 2000);
+              }}
+              disabled={!email || !emailBody.trim() || isSendingEmail}
+              className="w-full"
+            >
+              {isSendingEmail ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send className="h-4 w-4 mr-2" />
+                  Send to Kitchen
+                </>
+              )}
+            </Button>
+          </div>
+        </Card>
       </div>
 
       {/* Controls */}
@@ -344,120 +435,13 @@ const GeneratedMenuTable = ({ generatedMenuData, onBack }: GeneratedMenuTablePro
               className="flex items-center gap-2"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Strategies
+              Add more strategies
             </Button>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={createMenuText}
-              disabled={isGeneratingImage}
-              className="flex items-center gap-2"
-            >
-              {isGeneratingImage ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <FileText className="h-4 w-4" />
-              )}
-              {isGeneratingImage ? 'Generating...' : 'Create Menu'}
-            </Button>
-          </div>
+          
         </div>
       </div>
 
-      {/* Category Filter */}
-      <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
-
-        <TabsContent value={selectedCategory} className="mx-auto max-w-6xl mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                {selectedCategory === "all" 
-                  ? `All Menu Items (${filteredItems.length})` 
-                  : `${selectedCategory} (${filteredItems.length})`
-                }
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left p-3 font-medium">Dish Title</th>
-                      <th className="text-left p-3 font-medium">Category</th>
-                      <th className="text-right p-3 font-medium">Price</th>
-                      {showIngredients && (
-                        <th className="text-left p-3 font-medium">Ingredients</th>
-                      )}
-                      <th className="text-left p-3 font-medium">Applied Strategy</th>
-                      <th className="text-center p-3 font-medium">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredItems.map((item, index) => {
-                      // Find which strategy was applied to this item
-                      const appliedStrategy = selectedStrategies.find(strategy => 
-                        item.dishTitle.toLowerCase().includes(strategy.dish.toLowerCase()) ||
-                        strategy.dish.toLowerCase().includes(item.dishTitle.toLowerCase())
-                      );
-
-                      return (
-                        <tr key={index} className="border-b hover:bg-muted/50">
-                          <td className="p-3 text-sm">{item.dishTitle}</td>
-                          <td className="p-3">
-                            <Badge variant="secondary">
-                              {item.category || 'Uncategorized'}
-                            </Badge>
-                          </td>
-                          <td className="p-3 text-right text-sm">
-                            {formatPrice(item.price)}
-                          </td>
-                          {showIngredients && (
-                            <td className="p-3">
-                              <div className="flex flex-wrap gap-1">
-                                {item.ingredients.map((ingredient, idx) => (
-                                  <Badge key={idx} variant="outline" className="text-xs">
-                                    {ingredient}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </td>
-                          )}
-                          <td className="p-3">
-                            {appliedStrategy ? (
-                              <Badge variant="outline" className="text-xs">
-                                {appliedStrategy.strategy}
-                              </Badge>
-                            ) : (
-                              <span className="text-gray-400 text-xs">Original</span>
-                            )}
-                          </td>
-                          <td className="p-3 text-center">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleEditItem(item)}
-                              className="h-8 w-8 p-0 hover:bg-gray-100"
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-                {filteredItems.length === 0 && (
-                  <div className="text-center py-8 text-muted-foreground">
-                    No items found in this category.
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
 
       {/* Menu Text Display */}
       {showMenuText && (
