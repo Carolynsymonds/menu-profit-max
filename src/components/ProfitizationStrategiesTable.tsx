@@ -279,7 +279,7 @@ export default function ProfitizationTable({ strategies = [], originalMenu }: Pr
                 </div>
 
                 {/* Suggestion */}
-                <div className="col-span-3">
+                <div className="col-span-3 pr-4">
                   <div className="flex flex-wrap items-center gap-2">
                     <p className="leading-tight text-slate-700 font-sans">
                       <span dangerouslySetInnerHTML={{

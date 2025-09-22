@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Index from "./pages/Index";
 import UploadMenu from "./pages/UploadMenu";
+import UploadMenu2 from "./pages/UploadMenu2";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -69,6 +70,7 @@ const App = () => (
            <Route path="/" element={<Home />} />
            <Route path="/free-plan" element={<Index />} />
            <Route path="/upload-menu" element={<UploadMenu />} />
+           <Route path="/upload-menu2" element={<UploadMenu2 />} />
            <Route path="/dish-analysis-results" element={<DishAnalysisResults />} />
            <Route path="/menu-analysis-results" element={<MenuAnalysisResults />} />
                <Route path="/generated-menu" element={<GeneratedMenu />} />

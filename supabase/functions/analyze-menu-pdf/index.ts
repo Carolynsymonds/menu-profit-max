@@ -205,6 +205,12 @@ Return ONLY a valid JSON object with this structure:
   "totalItems": 5
 }
 
+IMPORTANT JSON RULES:
+- Escape all quotes in strings (use \" for quotes within text)
+- No trailing commas
+- All strings must be properly quoted
+- Use only double quotes, never single quotes
+
 If no menu items are found, return: {"items": [], "categories": [], "totalItems": 0}`
           },
           {
@@ -233,7 +239,7 @@ If no menu items are found, return: {"items": [], "categories": [], "totalItems"
     const gptContent = gptResult.choices[0].message.content
     console.log('GPT analysis result:', gptContent)
 
-    // Parse GPT response - handle markdown code blocks
+    // Parse GPT response - handle markdown code blocks and sanitize JSON
     let analysisResult: AnalysisResult
     try {
       // Remove markdown code blocks if present
@@ -244,11 +250,19 @@ If no menu items are found, return: {"items": [], "categories": [], "totalItems"
         jsonContent = jsonContent.replace(/^```\s*/, '').replace(/\s*```$/, '')
       }
       
+      // Additional sanitization for common GPT JSON issues
+      // Remove any trailing commas before closing braces/brackets
+      jsonContent = jsonContent.replace(/,(\s*[}\]])/g, '$1')
+      
+      // Log the content for debugging (first 500 chars)
+      console.log('JSON content to parse (first 500 chars):', jsonContent.substring(0, 500))
+      
       analysisResult = JSON.parse(jsonContent)
     } catch (parseError) {
       console.error('Failed to parse GPT response:', parseError)
-      console.error('Raw GPT content:', gptContent)
-      throw new Error('GPT returned invalid JSON')
+      console.error('Raw GPT content (first 1000 chars):', gptContent.substring(0, 1000))
+      console.error('JSON content that failed (first 1000 chars):', jsonContent.substring(0, 1000))
+      throw new Error(`GPT returned invalid JSON: ${parseError.message}`)
     }
 
     // Validate the response structure
@@ -439,6 +453,13 @@ Return ONLY a valid JSON array with this structure:
   }
 ]
 
+IMPORTANT JSON RULES:
+- Escape all quotes in strings (use \" for quotes within text)
+- No trailing commas
+- All strings must be properly quoted
+- Use only double quotes, never single quotes
+- Ensure all strings are properly terminated
+
 Generate 15-20 diverse strategies covering different profitization techniques. Make uplift ranges realistic and specific to each strategy type.`
           },
           {
@@ -467,7 +488,7 @@ Generate 15-20 diverse strategies covering different profitization techniques. M
     const gptContent = gptResult.choices[0].message.content
     console.log('GPT strategies result:', gptContent)
 
-    // Parse GPT response - handle markdown code blocks
+    // Parse GPT response - handle markdown code blocks and sanitize JSON
     let strategies: ProfitizationStrategy[]
     try {
       // Remove markdown code blocks if present
@@ -478,11 +499,19 @@ Generate 15-20 diverse strategies covering different profitization techniques. M
         jsonContent = jsonContent.replace(/^```\s*/, '').replace(/\s*```$/, '')
       }
       
+      // Additional sanitization for common GPT JSON issues
+      // Remove any trailing commas before closing braces/brackets
+      jsonContent = jsonContent.replace(/,(\s*[}\]])/g, '$1')
+      
+      // Log the content for debugging (first 500 chars)
+      console.log('Strategies JSON content to parse (first 500 chars):', jsonContent.substring(0, 500))
+      
       strategies = JSON.parse(jsonContent)
     } catch (parseError) {
       console.error('Failed to parse GPT strategies response:', parseError)
-      console.error('Raw GPT content:', gptContent)
-      throw new Error('GPT returned invalid JSON for strategies')
+      console.error('Raw GPT strategies content (first 1000 chars):', gptContent.substring(0, 1000))
+      console.error('Strategies JSON content that failed (first 1000 chars):', jsonContent.substring(0, 1000))
+      throw new Error(`GPT returned invalid JSON for strategies: ${parseError.message}`)
     }
 
     // Validate the response structure
