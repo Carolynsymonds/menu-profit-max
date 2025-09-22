@@ -36,14 +36,16 @@ const HeroBanner = () => {
         <div className="flex flex-col justify-center items-center gap-3 md:flex-row md:gap-4">
           <Button 
             onClick={() => handleSignupClick()}
-            className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300 w-full md:w-auto"
+            className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300 w-full md:w-auto"
+            style={{ borderRadius: '32px' }}
           >
            Try for free<span className="font-light"> - for 12 months</span>
           </Button>
           <Button 
             onClick={() => navigateWithUtm('/pricing')}
             variant="outline"
-            className="px-6 py-2 text-sm font-semibold border-2 rounded-lg hover:shadow-lg transition-all duration-300 w-full md:w-auto"
+            className="px-6 py-2 text-sm font-semibold border-2 hover:shadow-lg transition-all duration-300 w-full md:w-auto"
+            style={{ borderRadius: '32px' }}
           >
             View plans
           </Button>

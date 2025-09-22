@@ -2,6 +2,8 @@ import Header from "@/components/Header";
 import UploadMenuHeadline2 from "@/components/UploadMenuHeadline2";
 import UploadMenuSection from "@/components/UploadMenuSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
+import RaveReviews from "@/components/RaveReviews";
+import PricingThreeTiers from "@/components/PricingThreeTiers";
 import UploadSection from "@/components/UploadSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import TeamRolesSection from "@/components/TeamRolesSection";
@@ -28,11 +30,14 @@ const UploadMenu2 = () => {
       <UploadMenuHeadline2 />
       <UploadMenuSection />
       <HowItWorksSection />
-      <FeaturesSection />
-      <TeamRolesSection />
+      <RaveReviews />
+      <PricingThreeTiers />
+      {/* <FeaturesSection /> */}
+      {/* <TeamRolesSection /> */}
       <FeatureIntroSection />
       <SplitScreenSection />
-      <AllFeaturesSection />
+      {/* <AllFeaturesSection /> */}
+      <HeroBanner />
       <Footer />
     </div>
   );

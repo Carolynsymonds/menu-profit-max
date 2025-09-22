@@ -14,7 +14,7 @@ const UnlockProfitSection = () => {
               "Honestly shocked—the tool uncovered $3–$5 extra profit per dish in minutes, without raising prices."
             </p>
             <p className="text-lg font-semibold text-foreground">
-              – Khaled H.
+              – Tim H.
             </p>
           </div>
           
@@ -28,7 +28,7 @@ const UnlockProfitSection = () => {
           {/* CTA Section */}
           <div className="mt-16 space-y-6">
             <div className="flex justify-center">
-              <button className="px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+              <button className="px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all duration-300" style={{ borderRadius: '32px' }}>
                 Try for free
               </button>
             </div>

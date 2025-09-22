@@ -86,7 +86,8 @@ const Header = () => {
             <div className="hidden md:flex items-center gap-3">
               <Button 
                 onClick={handleSignupClick}
-                className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300"
+                style={{ borderRadius: '32px' }}
               >
                 Try for free
               </Button>
@@ -103,7 +104,8 @@ const Header = () => {
             {/* Mobile - Try for free button next to hamburger */}
             <Button 
               onClick={handleSignupClick}
-              className="md:hidden px-4 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+              className="md:hidden px-4 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300"
+              style={{ borderRadius: '32px' }}
             >
               Try for free
             </Button>
@@ -136,7 +138,8 @@ const Header = () => {
                     <div className="flex items-center gap-2">
                       <Button 
                         onClick={handleSignupClick}
-                        className="px-4 py-1.5 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg"
+                        className="px-4 py-1.5 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground"
+                        style={{ borderRadius: '32px' }}
                       >
                         Try for free
                       </Button>

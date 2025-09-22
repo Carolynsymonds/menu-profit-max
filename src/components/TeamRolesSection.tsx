@@ -143,7 +143,8 @@ const TeamRolesSection = () => {
         <div className="space-y-3 text-center order-2 md:order-3">
           <Button 
             onClick={handleSignupClick}
-            className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+            className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300"
+            style={{ borderRadius: '32px' }}
           >
            Try for free<span className="font-light"> - for 12 months</span>
           </Button>

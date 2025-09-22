@@ -282,7 +282,8 @@ const Home = () => {
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Button 
                   onClick={handleSignupClick}
-                  className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300 w-full sm:w-auto"
+                  className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300 w-full sm:w-auto"
+                  style={{ borderRadius: '32px' }}
                 >
                   Try for free - <span className="font-light">for 12 months</span>
                 </Button>

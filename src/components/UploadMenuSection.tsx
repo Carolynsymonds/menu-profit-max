@@ -119,7 +119,8 @@ const PdfUpload = ({
                 e.stopPropagation();
                 triggerFileDialog();
               }}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300"
+              style={{ borderRadius: '32px' }}
             >
               Upload menu
             </button>
@@ -329,7 +330,7 @@ const UploadMenuSection = () => {
                 "Honestly shocked, the tool helped us raise AOV by $2.19"
               </div>
               <div className="text-end text-sm">
-                – Khaled H.
+                – Tim H.
               </div>
             </div>
 
