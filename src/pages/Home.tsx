@@ -11,10 +11,12 @@ import Footer from "@/components/Footer";
 import FeaturesSection from "@/components/FeaturesSection";
 import FeatureIntroSection from "@/components/FeatureIntroSection";
 import SplitScreenSection from "@/components/SplitScreenSection";
+import UploadMenuHeadline2 from "@/components/UploadMenuHeadline2";
 import { siteContent } from "@/config/site-content";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useGATracking } from "@/hooks/useGATracking";
 
 const DynamicSvgIcon = ({ url, className = '', ...props }) => {
   const [svgContent, setSvgContent] = useState('');
@@ -51,6 +53,7 @@ const Home = () => {
   const { navigateWithUtm } = useUtmTracking();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { trackButtonClick } = useGATracking('Home Page');
   const [dishName, setDishName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("Evaluating competitor menus");
@@ -180,95 +183,7 @@ const Home = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="min-h-[80vh] bg-white flex items-center justify-center px-8 md:px-[125px] py-5">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <div className="space-y-6 mt-24">
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground leading-tight tracking-tight px-0">
-              {siteContent.homePage.title}
-            </h1>
-            
-           
-          </div>
-
-          <div className="p-4 md:p-5 relative max-w-[700px] my-[10px] mx-auto !mt-0">
-            <p className="text-lg text-muted-foreground mx-auto leading-relaxed max-w-3xl font-light mb-6 text-center">
-              Type a dish and get instant suggestions to increase margins with smarter pricing, ingredient swaps, and upsell ideas.
-            </p>
-            
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-col md:flex-row gap-2">
-                <div className="relative flex-1">
-                  <div className="relative">
-                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1 z-10">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI search icon">
-                        <path d="M16.296 2.043c.407 1.817 1.284 2.716 3.317 3.089.14 0 .255.104.255.233s-.114.233-.255.233c-1.982.373-2.909 1.218-3.315 3.081a.246.246 0 0 1-.243.18.245.245 0 0 1-.245-.191c-.407-1.818-1.28-2.697-3.313-3.07-.14 0-.254-.104-.254-.233s.114-.233.254-.233c1.982-.373 2.91-1.223 3.317-3.087a.247.247 0 0 1 .241-.175c.117 0 .212.074.241.173Z" fill="url(#_3085173834__a)"/>
-                        <path d="M15.094 17.436A7.5 7.5 0 1 1 10 4.046v1.503A6 6 0 1 0 16.446 11h1.504a7.466 7.466 0 0 1-1.46 5.003l4.25 4.25a1 1 0 0 1-1.414 1.414l-4.232-4.231Z" fill="url(#_3085173834__b)"/>
-                        <path d="M13.666 8.964c-.857-.236-1.356-.615-1.527-1.4 0-.095-.084-.172-.187-.172s-.187.077-.187.171c-.257.786-.67 1.244-1.528 1.401-.103 0-.187.077-.187.171 0 .095.084.172.187.172.857.235 1.357.614 1.528 1.4 0 .095.084.171.187.171s.187-.076.187-.171c.257-.786.67-1.243 1.527-1.4.104 0 .187-.077.187-.172 0-.094-.083-.171-.187-.171Z" fill="url(#_3085173834__c)"/>
-                        <defs>
-                          <linearGradient id="_3085173834__a" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="hsl(var(--primary))" stopOpacity="0.8"/>
-                            <stop offset="0.3" stopColor="hsl(var(--primary))" stopOpacity="1"/>
-                            <stop offset="0.7" stopColor="hsl(var(--primary))" stopOpacity="0.6"/>
-                            <stop offset="1" stopColor="hsl(var(--primary))" stopOpacity="0.9"/>
-                          </linearGradient>
-                          <linearGradient id="_3085173834__b" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="hsl(var(--primary))" stopOpacity="1"/>
-                            <stop offset="0.25" stopColor="hsl(var(--primary))" stopOpacity="0.7"/>
-                            <stop offset="0.6" stopColor="hsl(var(--primary))" stopOpacity="0.9"/>
-                            <stop offset="1" stopColor="hsl(var(--primary))" stopOpacity="0.8"/>
-                          </linearGradient>
-                          <linearGradient id="_3085173834__c" x1="-6.063" y1="11.915" x2="13.914" y2="29.878" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="hsl(var(--primary))" stopOpacity="0.9"/>
-                            <stop offset="0.4" stopColor="hsl(var(--primary))" stopOpacity="0.6"/>
-                            <stop offset="0.8" stopColor="hsl(var(--primary))" stopOpacity="1"/>
-                            <stop offset="1" stopColor="hsl(var(--primary))" stopOpacity="0.7"/>
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                    </div>
-                    <Input
-                      type="text"
-                      placeholder="Enter a dish name (e.g., Spaghetti Carbonara)"
-                      value={dishName}
-                      onChange={(e) => setDishName(e.target.value)}
-                      className="flex w-full border bg-background pl-12 pr-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm rounded-lg border-gray-300 h-[2.6rem]"
-                      onKeyPress={(e) => e.key === 'Enter' && !isLoading && handleAnalyzeDish()}
-                      disabled={isLoading}
-                    />
-                  </div>
-                </div>
-                <Button 
-                  onClick={handleAnalyzeDish}
-                  disabled={isLoading || !dishName.trim()}
-                  className="rounded-xl px-6 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all whitespace-nowrap disabled:opacity-50"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Analyzing...
-                    </>
-                  ) : (
-                    'Get My Profit Report'
-                  )}
-                </Button>
-              </div>
-              
-              {/* Loading overlay */}
-              {isLoading && (
-                <div className="absolute inset-0 backdrop-blur-sm bg-white/50 rounded-xl flex items-center justify-center z-20">
-                  <div className="flex flex-col items-center gap-6 my-12">
-                    <Loader2 className="h-10 w-10 animate-spin text-primary" />
-                    <div className="text-center">
-                      <h3 className="text-lg font-semibold text-foreground mb-2">Analyzing your dish...</h3>
-                      <p className="text-base text-muted-foreground animate-pulse">{loadingText}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+      <UploadMenuHeadline2 onButtonClick={trackButtonClick} />
 
       <FeaturesSection />
 
@@ -335,7 +250,7 @@ const Home = () => {
                       ${plan.price}
                     </span>
                     <span className="text-muted-foreground">
-                      {plan.price === 0 ? '' : `/${plan.period}`}
+                      {plan.price === "0" ? '' : `/${plan.period}`}
                     </span>
                   </div>
                   <p className="text-muted-foreground mt-3">

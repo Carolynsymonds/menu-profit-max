@@ -17,7 +17,12 @@ const PdfUpload = ({
 
   const handleFiles = useCallback(
     (files: FileList | null) => {
-      if (!files || files.length === 0) return;
+      console.log('handleFiles called with:', files);
+      if (!files || files.length === 0) {
+        console.log('No files selected');
+        return;
+      }
+      console.log('Calling onFiles with:', Array.from(files));
       onFiles?.(Array.from(files));
     },
     [onFiles]
@@ -42,7 +47,16 @@ const PdfUpload = ({
     setIsDragging(false);
   };
 
-  const triggerFileDialog = () => inputRef.current?.click();
+  const triggerFileDialog = () => {
+    console.log('triggerFileDialog called');
+    console.log('inputRef.current:', inputRef.current);
+    if (inputRef.current) {
+      console.log('Calling inputRef.current.click()');
+      inputRef.current.click();
+    } else {
+      console.error('inputRef.current is null');
+    }
+  };
 
   // Using CSS border instead of SVG for better primary color support
   const borderColor = "hsl(var(--primary))";
@@ -117,6 +131,8 @@ const PdfUpload = ({
             <button
               onClick={(e) => {
                 e.stopPropagation();
+                console.log('Upload button clicked');
+                console.log('inputRef.current:', inputRef.current);
                 triggerFileDialog();
               }}
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300"
@@ -134,7 +150,11 @@ const PdfUpload = ({
           multiple
           accept=".pdf,.doc,.docx,.ppt,.pptx,.odt,.odp,.txt,.rtf,.html,.htm,.md,.jpg,.jpeg,.png"
           style={{ display: "none" }}
-          onChange={(e) => handleFiles(e.target.files)}
+          onChange={(e) => {
+            console.log('File input changed');
+            console.log('Selected files:', e.target.files);
+            handleFiles(e.target.files);
+          }}
         />
       </div>
     </div>
@@ -185,8 +205,9 @@ const UploadMenuSection = () => {
   const [generationTime, setGenerationTime] = useState(0);
 
   const loadingMessages = [
-    "Extracting text from PDF...",
-    "Analyzing menu items with AI...",
+    "Processing your menu...",
+    "Extracting text with AI...",
+    "Analyzing menu items...",
     "Identifying dishes and ingredients...",
     "Calculating profit insights...",
     "Almost ready!"
@@ -236,12 +257,42 @@ const UploadMenuSection = () => {
     setApiProgress(0);
     setGenerationTime(0);
 
+    // Test Supabase connection first
+    console.log('Testing Supabase connection...');
+    try {
+      const testResult = await supabase.functions.invoke('analyze-menu-pdf', {
+        body: { test: true }
+      });
+      console.log('Supabase connection test result:', testResult);
+    } catch (testError) {
+      console.error('Supabase connection test failed:', testError);
+    }
+
     try {
       // Process the first file (assuming single file upload for now)
       const file = files[0];
 
+      // Detect file type
+      const fileType = file.type;
+      const isPDF = fileType === 'application/pdf';
+      const isImage = fileType.startsWith('image/');
+
+      console.log('File upload detected:', {
+        fileName: file.name,
+        fileType: fileType,
+        isPDF: isPDF,
+        isImage: isImage,
+        fileSize: file.size
+      });
+
+      if (!isPDF && !isImage) {
+        throw new Error('Please upload a PDF or image file (PNG, JPG, JPEG, etc.)');
+      }
+
       // Convert file to base64
+      console.log('Converting file to base64...');
       const fileData = await fileToBase64(file);
+      console.log('File converted to base64, length:', fileData.length);
 
       // Simulate progress updates during API call
       const progressInterval = setInterval(() => {
@@ -251,13 +302,44 @@ const UploadMenuSection = () => {
         });
       }, 1000); // Slower updates every 1 second
 
-      // Call Supabase function to analyze the PDF
-      const { data, error } = await supabase.functions.invoke('analyze-menu-pdf', {
-        body: {
-          fileData,
-          fileName: file.name
+      let data, error;
+
+      if (isPDF) {
+        // Call Supabase function to analyze the PDF
+        const result = await supabase.functions.invoke('analyze-menu-pdf', {
+          body: {
+            fileData,
+            fileName: file.name
+          }
+        });
+        data = result.data;
+        error = result.error;
+      } else {
+        // Call Supabase function to analyze the image
+        console.log('Calling analyze-menu-image function with:', {
+          fileName: file.name,
+          fileType: fileType,
+          fileDataLength: fileData.length
+        });
+        
+        try {
+          const result = await supabase.functions.invoke('analyze-menu-image', {
+            body: {
+              fileData,
+              fileName: file.name,
+              fileType: fileType
+            }
+          });
+          
+          console.log('analyze-menu-image result:', result);
+          data = result.data;
+          error = result.error;
+        } catch (functionError) {
+          console.error('analyze-menu-image function error:', functionError);
+          // If the image function is not available, show a helpful error
+          throw new Error('Image analysis is currently unavailable. Please try uploading a PDF file instead, or contact support if this issue persists.');
         }
-      });
+      }
 
       // Clear progress interval and set to 100% on completion
       clearInterval(progressInterval);
@@ -288,9 +370,14 @@ const UploadMenuSection = () => {
 
     } catch (error) {
       console.error('Error analyzing menu:', error);
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      });
       toast({
         title: "Analysis Failed",
-        description: "Something went wrong while analyzing your menu. Please try again.",
+        description: error.message || "Something went wrong while analyzing your menu. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -305,9 +392,15 @@ const UploadMenuSection = () => {
       reader.readAsDataURL(file);
       reader.onload = () => {
         const result = reader.result as string;
-        // Remove the data:application/pdf;base64, prefix
-        const base64 = result.split(',')[1];
-        resolve(base64);
+        // For images, we need the full data URL format for GPT-4o-mini
+        // For PDFs, we only need the base64 part
+        if (file.type.startsWith('image/')) {
+          resolve(result); // Full data URL for images
+        } else {
+          // Remove the data:application/pdf;base64, prefix for PDFs
+          const base64 = result.split(',')[1];
+          resolve(base64);
+        }
       };
       reader.onerror = error => reject(error);
     });

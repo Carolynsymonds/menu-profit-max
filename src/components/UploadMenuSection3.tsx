@@ -19,7 +19,12 @@ const PdfUpload = ({
 
   const handleFiles = useCallback(
     (files: FileList | null) => {
-      if (!files || files.length === 0) return;
+      console.log('handleFiles called with:', files);
+      if (!files || files.length === 0) {
+        console.log('No files provided to handleFiles');
+        return;
+      }
+      console.log('Calling onFiles with:', Array.from(files));
       onFiles?.(Array.from(files));
     },
     [onFiles]
@@ -44,7 +49,12 @@ const PdfUpload = ({
     setIsDragging(false);
   };
 
-  const triggerFileDialog = () => inputRef.current?.click();
+  const triggerFileDialog = () => {
+    console.log('triggerFileDialog called');
+    console.log('inputRef.current:', inputRef.current);
+    inputRef.current?.click();
+    console.log('File dialog should have opened');
+  };
 
   // Using CSS border instead of SVG for better primary color support
   const borderColor = "hsl(var(--primary))";
@@ -118,7 +128,9 @@ const PdfUpload = ({
 
             <button
               onClick={(e) => {
+                console.log('Upload button clicked');
                 e.stopPropagation();
+                console.log('About to trigger file dialog');
                 triggerFileDialog();
               }}
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300"
@@ -136,7 +148,10 @@ const PdfUpload = ({
           multiple
           accept=".pdf,.doc,.docx,.ppt,.pptx,.odt,.odp,.txt,.rtf,.html,.htm,.md,.jpg,.jpeg,.png"
           style={{ display: "none" }}
-          onChange={(e) => handleFiles(e.target.files)}
+          onChange={(e) => {
+            console.log('Input onChange triggered with files:', e.target.files);
+            handleFiles(e.target.files);
+          }}
         />
       </div>
     </div>
@@ -187,7 +202,7 @@ const UploadMenuSection3 = () => {
   const [generationTime, setGenerationTime] = useState(0);
 
   const loadingMessages = [
-    "Extracting text from PDF...",
+    "Processing your menu...",
     "Analyzing menu items with AI...",
     "Identifying dishes and ingredients...",
     "Calculating profit insights...",
@@ -221,6 +236,7 @@ const UploadMenuSection3 = () => {
   const moreOptions = ["Audio", "Video", "Text"];
 
   const handleFileUpload = async (files: File[]) => {
+    console.log('handleFileUpload called with files:', files);
     try {
       window.gtag?.('event', 'file_upload', {
         method: 'upload_button',
@@ -242,6 +258,14 @@ const UploadMenuSection3 = () => {
       // Process the first file (assuming single file upload for now)
       const file = files[0];
 
+      // Detect file type
+      const isImage = file.type.startsWith('image/');
+      const isPDF = file.type === 'application/pdf';
+      
+      if (!isImage && !isPDF) {
+        throw new Error('Please upload a PDF or image file');
+      }
+
       // Convert file to base64
       const fileData = await fileToBase64(file);
 
@@ -253,11 +277,15 @@ const UploadMenuSection3 = () => {
         });
       }, 1000); // Slower updates every 1 second
 
-      // Call Supabase function to analyze the PDF
-      const { data, error } = await supabase.functions.invoke('analyze-menu-pdf', {
+      // Call appropriate Supabase function based on file type
+      const functionName = isImage ? 'analyze-menu-image' : 'analyze-menu-pdf';
+      console.log(`Calling ${functionName} for file type: ${file.type}`);
+      
+      const { data, error } = await supabase.functions.invoke(functionName, {
         body: {
           fileData,
-          fileName: file.name
+          fileName: file.name,
+          fileType: file.type
         }
       });
 
@@ -307,9 +335,15 @@ const UploadMenuSection3 = () => {
       reader.readAsDataURL(file);
       reader.onload = () => {
         const result = reader.result as string;
-        // Remove the data:application/pdf;base64, prefix
-        const base64 = result.split(',')[1];
-        resolve(base64);
+        // For images, return the full data URL
+        // For PDFs, return only the base64 part
+        if (file.type.startsWith('image/')) {
+          resolve(result);
+        } else {
+          // Remove the data:application/pdf;base64, prefix
+          const base64 = result.split(',')[1];
+          resolve(base64);
+        }
       };
       reader.onerror = error => reject(error);
     });

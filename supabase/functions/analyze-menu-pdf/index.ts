@@ -460,7 +460,14 @@ IMPORTANT JSON RULES:
 - Use only double quotes, never single quotes
 - Ensure all strings are properly terminated
 
-Generate 15-20 diverse strategies covering different profitization techniques. Make uplift ranges realistic and specific to each strategy type.`
+Generate 15-20 diverse strategies covering different profitization techniques. Make uplift ranges realistic and specific to each strategy type.
+
+IMPORTANT: Order the strategies by priority - put the most obvious and convenient strategies first (top 3 should be the easiest to implement with immediate impact). Order by:
+1. Ease of implementation (immediate vs long-term)
+2. Obviousness (clear pricing opportunities vs complex restructuring)
+3. Convenience (simple changes vs major operational changes)
+
+Prioritize strategies like "Up Price" for obvious underpriced items, "Premium UpSell Add On" for easy extras, and "Reframe Item" for simple positioning changes at the top.`
           },
           {
             role: 'user',

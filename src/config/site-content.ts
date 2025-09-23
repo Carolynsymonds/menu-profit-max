@@ -54,7 +54,7 @@ export const siteContent = {
     subtitle: "Revolutionize your kitchen operations with these powerful capabilities.",
     items: [
       {
-        icon: "/lovable-uploads/ingredient_costing.png",
+        icon: "/lovable-uploads/ingredient_costing_icon.png",
         title: "Ingredient Costing",
         description: "Breaks down cost per dish in real-time."
       },
@@ -244,7 +244,7 @@ export const siteContent = {
       {
         items: [
           {
-            icon: "https://brahykobgryxdjihihrk.supabase.co/storage/v1/object/public/site-images/feature-icon-0-1756215065573.svg+xml",
+            icon: "/lovable-uploads/ingredient_costing_icon.png",
             name: "Ingredient Costing",
             description: "Breaks down cost per dish in real-time."
           },

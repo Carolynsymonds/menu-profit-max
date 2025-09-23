@@ -43,7 +43,7 @@ const UploadMenuHeadline2 = ({ onButtonClick }: { onButtonClick?: (buttonName: s
     } catch (e) {
       // no-op if gtag not available
     }
-    // Scroll to the upload menu section with offset to show the title
+    // Scroll to the "unlock hidden profit" section with offset to show the title
     const element = document.getElementById('upload-menu-section');
     if (element) {
       const elementPosition = element.offsetTop;
