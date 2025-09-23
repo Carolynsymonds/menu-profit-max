@@ -139,7 +139,7 @@ export default function PricingThreeTiers() {
   };
 
   return (
-    <section className="w-full bg-white">
+    <section className="w-full">
       <div className="mx-auto max-w-4xl px-6 md:px-8 py-14 md:py-20">
         <div className="grid md:grid-cols-2 gap-6 md:gap-8">
           {pricingPlans.map((plan) => (

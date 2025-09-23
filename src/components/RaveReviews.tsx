@@ -41,7 +41,7 @@ const TESTIMONIALS = [
 
 export default function RaveReviews() {
   return (
-    <section className="w-full" style={{ backgroundColor: '#f5f9f7' }}>
+    <section className="w-full">
       <div className="mx-auto max-w-7xl px-6 md:px-10 py-16 md:py-24">
         <div className="grid lg:grid-cols-[420px,1fr] items-start gap-2 md:gap-4">
           {/* Left column */}

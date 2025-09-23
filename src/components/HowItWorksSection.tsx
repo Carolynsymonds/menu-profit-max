@@ -24,7 +24,7 @@ export default function HowItWorksSection() {
     ];
 
     return (
-        <section className="w-full bg-white">
+        <section className="w-full">
             {/* Hero Header */}
             <div className="mx-auto max-w-5xl px-6 md:px-8 pt-16 text-center">
                 {/* Subheading */}

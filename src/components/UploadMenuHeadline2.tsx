@@ -59,11 +59,6 @@ const UploadMenuHeadline2 = () => {
   return (
     <section className="relative overflow-hidden min-h-screen flex flex-col pt-12 md:pt-0">
       {/* Background */}
-      {/* <div className="absolute inset-0 -z-10">
-        <div className="h-full w-full bg-gradient-to-br from-background via-primary/5 to-secondary/10" />
-        <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full blur-3xl opacity-40 bg-gradient-radial from-primary/30 to-transparent" />
-        <div className="absolute -bottom-28 -right-20 h-96 w-96 rounded-full blur-3xl opacity-40 bg-gradient-radial from-secondary/30 to-transparent" />
-      </div> */}
 
       <div className="mx-auto max-w-7xl px-6 pt-28 pb-16 flex-1 flex flex-col justify-between">
         <div className="animate-fade-in grid gap-16 flex-1 flex flex-col justify-center">

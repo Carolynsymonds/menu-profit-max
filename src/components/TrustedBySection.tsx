@@ -23,7 +23,7 @@ const TrustedBySection = () => {
   ];
 
   return (
-    <section className="py-16 bg-white">
+    <section className="pt-14 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center">
           <p className="text-sm text-muted-foreground mb-4">Trusted by leading restaurants</p>
@@ -37,31 +37,6 @@ const TrustedBySection = () => {
                 />
               </div>
             ))}
-          </div>
-          
-          {/* reCAPTCHA Terms */}
-          <div className="recaptcha-terms mt-8">
-            <p className="text-xs text-muted-foreground">
-              This site is protected by reCAPTCHA and the Google{" "}
-              <a 
-                href="https://policies.google.com/privacy" 
-                className="text-primary hover:text-primary/80 underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Privacy Policy
-              </a>{" "}
-              and{" "}
-              <a 
-                href="https://policies.google.com/terms" 
-                className="text-primary hover:text-primary/80 underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Terms of Service
-              </a>{" "}
-              apply.
-            </p>
           </div>
         </div>
       </div>

@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-route
 import Index from "./pages/Index";
 import UploadMenu from "./pages/UploadMenu";
 import UploadMenu2 from "./pages/UploadMenu2";
+import UploadMenu3 from "./pages/UploadMenu3";
+import UploadMenu4 from "./pages/UploadMenu4";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -28,7 +30,6 @@ import ScrollToTop from "./components/ScrollToTop";
 import CookieConsent from "./components/CookieConsent";
 import { useUtmTracking } from "./hooks/useUtmTracking";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import TopBanner from "./components/TopBanner";
 import BottomBanner from "./components/BottomBanner";
 
 const queryClient = new QueryClient();
@@ -39,15 +40,6 @@ const UtmTracker = () => {
   return null;
 };
 
-const ConditionalTopBanner = () => {
-  const location = useLocation();
-  const hideBannerRoutes = ['/signup', '/app'];
-  const shouldHideBanner = hideBannerRoutes.some(route => 
-    location.pathname === route || location.pathname.startsWith('/app/')
-  );
-  
-  return shouldHideBanner ? null : <TopBanner />;
-};
 
 const ConditionalBottomBanner = () => {
   const location = useLocation();
@@ -63,7 +55,6 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <div>
-          <ConditionalTopBanner />
           <UtmTracker />
           <ScrollToTop />
           <Routes>
@@ -71,6 +62,8 @@ const App = () => (
            <Route path="/free-plan" element={<Index />} />
            <Route path="/upload-menu" element={<UploadMenu />} />
            <Route path="/upload-menu2" element={<UploadMenu2 />} />
+           <Route path="/upload-menu3" element={<UploadMenu3 />} />
+           <Route path="/upload-menu4" element={<UploadMenu4 />} />
            <Route path="/dish-analysis-results" element={<DishAnalysisResults />} />
            <Route path="/menu-analysis-results" element={<MenuAnalysisResults />} />
                <Route path="/generated-menu" element={<GeneratedMenu />} />
