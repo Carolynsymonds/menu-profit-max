@@ -106,7 +106,7 @@ export default function RaveReviews() {
 
           {/* Right grid */}
           <div
-            className="justify-end"
+            className="justify-center md:justify-end"
             style={{
               display: 'flex',
               flexDirection: 'row',

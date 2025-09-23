@@ -65,10 +65,10 @@ const Pricing = () => {
                 </CardTitle>
                 <div className="mt-4">
                   <span className="text-4xl font-bold text-gray-900">
-                    ${plan.price}
+                    {plan.price}
                   </span>
-                  <span>
-                    /mo
+                  <span className="text-gray-600">
+                    {plan.period}
                   </span>
                 </div>
                 <p className="text-gray-600 mt-3">
@@ -79,7 +79,7 @@ const Pricing = () => {
                <CardContent className="space-y-6">
                 <Button 
                   onClick={handleSignupClick}
-                  className={`w-full ${plan.popular ? 'bg-primary hover:bg-primary/90' : ''}`}
+                  className={`w-full ${plan.popular ? 'bg-primary hover:bg-primary/90 text-white' : 'border-2 border-primary bg-white hover:bg-primary text-primary hover:text-white'}`}
                   variant={plan.popular ? "default" : "outline"}
                 >
                   {plan.cta}

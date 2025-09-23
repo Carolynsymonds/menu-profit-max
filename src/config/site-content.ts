@@ -316,33 +316,37 @@ export const siteContent = {
     subtitle: "Flexible pricing tailored for every restaurant size.",
     plans: [
       {
-        cta: "Try for free - for 12 months",
-        name: "Free",
-        price: 0,
+        cta: "Get started for FREE →",
+        name: "Starter",
+        price: "£7",
         period: "/month",
         popular: false,
         features: [
-          "Ingredient Costing: Breaks down cost per dish in real-time.",
-          "Profit Margins: Instantly shows profitability of each menu item.",
-          "Supplier Comparison: Compare costs across vendors.",
-          "Basic inventory management & usage tracking."
+          "1 active menu",
+          "25 MB upload limit/menu",
+          "Basic AI analysis (up to 25 insights/mo)",
+          "Remove watermark",
+          "Menu QR Codes",
+          "Built-in reporting"
         ],
-        description: "Get started with Menu Profit Max for free for one year, providing essential menu costing tools."
+        description: "Perfect for a single, professional link"
       },
       {
-        cta: "Get Started",
-        name: "Standard",
-        price: "99",
+        cta: "Get started for FREE →",
+        name: "Growth",
+        price: "£14",
         period: "/month",
         popular: true,
         features: [
-          "All Free plan features",
-          "Real-time food & labor cost tracking.",
-          "Daily controllable P&L reports.",
-          "Order management & vendor ordering.",
-          "Priority support included."
+          "5 active menus",
+          "75 MB upload limit/menu",
+          "Advanced AI insights + competitor benchmarking",
+          "Everything in Starter",
+          "Menu editor & style lock",
+          "Brand kit & custom logo",
+          "Password protection"
         ],
-        description: "Unlock advanced features to optimize your menu and maximize profits."
+        description: "Great for individuals & small projects"
       }
     ]
   },

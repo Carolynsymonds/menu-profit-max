@@ -57,13 +57,13 @@ const UploadMenuHeadline2 = () => {
 
 
   return (
-    <section className="relative overflow-hidden min-h-screen flex flex-col">
+    <section className="relative overflow-hidden min-h-screen flex flex-col pt-12 md:pt-0">
       {/* Background */}
-      <div className="absolute inset-0 -z-10">
+      {/* <div className="absolute inset-0 -z-10">
         <div className="h-full w-full bg-gradient-to-br from-background via-primary/5 to-secondary/10" />
         <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full blur-3xl opacity-40 bg-gradient-radial from-primary/30 to-transparent" />
         <div className="absolute -bottom-28 -right-20 h-96 w-96 rounded-full blur-3xl opacity-40 bg-gradient-radial from-secondary/30 to-transparent" />
-      </div>
+      </div> */}
 
       <div className="mx-auto max-w-7xl px-6 pt-28 pb-16 flex-1 flex flex-col justify-between">
         <div className="animate-fade-in grid gap-16 flex-1 flex flex-col justify-center">
@@ -78,7 +78,7 @@ const UploadMenuHeadline2 = () => {
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-light">
                 Discover hidden revenue opportunities with our AI-powered menu analysis. <span className="underline text-primary">Join thousands of restaurants</span> already maximizing their profits.
               </p>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 justify-center md:justify-start">
                 <Button
                   onClick={handleSignupClick}
                   className="px-6 py-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300"
@@ -117,7 +117,7 @@ const UploadMenuHeadline2 = () => {
         </div>
 
         {/* Brand logos section - positioned at bottom */}
-        <div className="text-center">
+        <div className="text-center mt-16 md:mt-0">
           <p className="text-sm text-muted-foreground mb-4">Trusted by leading restaurants</p>
           <div className="flex justify-center items-center gap-4 md:gap-8 flex-wrap">
             {brandLogos.map((brand, index) => (
