@@ -8,7 +8,6 @@ import { Check, Calendar, Shield, Smartphone, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import TopBanner from "@/components/TopBanner";
 import FeaturesSection from "@/components/FeaturesSection";
 import FeatureIntroSection from "@/components/FeatureIntroSection";
 import SplitScreenSection from "@/components/SplitScreenSection";
@@ -178,7 +177,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <TopBanner />
       <Header />
       
       {/* Hero Section */}
@@ -386,7 +384,6 @@ const Home = () => {
 
       <HeroBanner />
 
-      <TopBanner />
       <Footer />
     </div>
   );

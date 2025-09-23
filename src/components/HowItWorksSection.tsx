@@ -41,14 +41,35 @@ export default function HowItWorksSection() {
                      href="#"
                      onClick={(e) => {
                          e.preventDefault();
-                         const element = document.getElementById('upload-menu-section');
-                         if (element) {
-                             const elementPosition = element.offsetTop;
-                             const offsetPosition = elementPosition - 100; // Scroll 100px less to show the title
-                             window.scrollTo({
-                                 top: offsetPosition,
-                                 behavior: 'smooth'
-                             });
+                         // Check if we're on UploadMenu4 page
+                         if (window.location.pathname === '/upload-menu4') {
+                             // For UploadMenu4, scroll to the main headline
+                             const element = document.getElementById('main-headline');
+                             if (element) {
+                                 const elementPosition = element.offsetTop;
+                                 const offsetPosition = elementPosition - 100; // Scroll 100px less to show the title
+                                 window.scrollTo({
+                                     top: offsetPosition,
+                                     behavior: 'smooth'
+                                 });
+                             } else {
+                                 // Fallback to top if element not found
+                                 window.scrollTo({
+                                     top: 0,
+                                     behavior: 'smooth'
+                                 });
+                             }
+                         } else {
+                             // For other pages, scroll to upload-menu-section
+                             const element = document.getElementById('upload-menu-section');
+                             if (element) {
+                                 const elementPosition = element.offsetTop;
+                                 const offsetPosition = elementPosition - 100; // Scroll 100px less to show the title
+                                 window.scrollTo({
+                                     top: offsetPosition,
+                                     behavior: 'smooth'
+                                 });
+                             }
                          }
                      }}
                      className="inline-flex items-center gap-2 text-primary-foreground rounded-full px-6 py-3 md:px-8 md:py-4 text-lg font-semibold mt-8 shadow-lg bg-primary hover:bg-primary/90"

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-const UploadMenuHeadline2 = () => {
+const UploadMenuHeadline2 = ({ onButtonClick }: { onButtonClick?: (buttonName: string) => void }) => {
   const { navigateWithUtm } = useUtmTracking();
   const navigate = useNavigate();
 
@@ -32,11 +32,37 @@ const UploadMenuHeadline2 = () => {
   ];
 
   const handleSignupClick = () => {
+    onButtonClick?.('Try for free');
     try {
       window.gtag?.('event', 'sign_up', {
         method: 'cta_button',
         button_id: 'signup-btn',
         button_text: 'Try for free',
+        page_location: window.location.href,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+    // Scroll to the upload menu section with offset to show the title
+    const element = document.getElementById('upload-menu-section');
+    if (element) {
+      const elementPosition = element.offsetTop;
+      const offsetPosition = elementPosition - 100; // Scroll 100px less to show the title
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleDemoClick = () => {
+    onButtonClick?.('Watch demo');
+    try {
+      window.gtag?.('event', 'video_play', {
+        method: 'demo_button',
+        button_id: 'demo-btn',
+        button_text: 'Watch demo',
         page_location: window.location.href,
       });
     } catch (e) {
@@ -83,7 +109,7 @@ const UploadMenuHeadline2 = () => {
                 </Button>
                 <Button
                   variant="ghost"
-                  onClick={handleSignupClick}
+                  onClick={handleDemoClick}
                   className="px-6 py-2 text-sm font-medium text-foreground transition-colors"
                 >
                   Watch demo

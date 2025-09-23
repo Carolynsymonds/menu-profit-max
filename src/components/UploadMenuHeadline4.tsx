@@ -1,14 +1,18 @@
+import React, { useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
-import { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 // PDF/file uploader component
 const PdfUpload = ({
   onFiles,
+  onRef,
   dragArrowUrl = "/_static/icons/drag-arrow.webp",
 }: {
   onFiles?: (files: File[]) => void;
+  onRef?: (ref: { triggerFileDialog: () => void }) => void;
   dragArrowUrl?: string;
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -44,11 +48,18 @@ const PdfUpload = ({
 
   const triggerFileDialog = () => inputRef.current?.click();
 
+  // Expose triggerFileDialog method to parent
+  React.useEffect(() => {
+    if (onRef) {
+      onRef({ triggerFileDialog });
+    }
+  }, [onRef, triggerFileDialog]);
+
   // Using CSS border instead of SVG for better primary color support
   const borderColor = "hsl(var(--primary))";
 
   return (
-    <div className="relative mx-auto" style={{ width: "calc(100% - 32px)", maxWidth: 400 }}>
+    <div className="relative mx-auto" style={{ width: "calc(100% - 32px)", maxWidth: 750 }}>
       {/* Outer card */}
       <div
         className="landing-dropzone relative"
@@ -100,14 +111,14 @@ const PdfUpload = ({
               color: "#070D1B",
             }}
           >
-            <span className="md:hidden">Upload PDF here</span>
-            <span className="hidden md:inline">Click to upload, or drag Menu here</span>
+            <span className="md:hidden">Upload menu here</span>
+            <span className="hidden md:inline">Click to upload, or drag menu here</span>
           </div>
 
           {/* Accepted file types */}
           <div className="mt-2">
             <p className="text-xs text-gray-500 text-center">
-              PDF, JPG
+              PDF, PNG, JPG, JPEG
             </p>
           </div>
 
@@ -158,9 +169,49 @@ function UploadFileIcon({ height = 60 }: { height?: number }) {
   );
 }
 
-const UploadMenuHeadline4 = () => {
+const UploadMenuHeadline4 = ({ onButtonClick, onFileUpload }: { onButtonClick?: (buttonName: string) => void; onFileUpload?: () => void }) => {
   const { navigateWithUtm } = useUtmTracking();
   const navigate = useNavigate();
+  const pdfUploadRef = useRef<{ triggerFileDialog: () => void } | null>(null);
+  const { toast } = useToast();
+  
+  // Upload state
+  const [isUploading, setIsUploading] = useState(false);
+  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
+  const [apiProgress, setApiProgress] = useState(0);
+  const [generationTime, setGenerationTime] = useState(0);
+
+  const loadingMessages = [
+    "Processing your menu...",
+    "Extracting text with AI...",
+    "Analyzing menu items...",
+    "Identifying dishes and ingredients...",
+    "Calculating profit insights...",
+    "Almost ready!"
+  ];
+
+  // Cycle through loading messages
+  React.useEffect(() => {
+    if (!isUploading) return;
+
+    const interval = setInterval(() => {
+      setLoadingMessageIndex((prev) => (prev + 1) % loadingMessages.length);
+    }, 2000); // Change message every 2 seconds
+
+    return () => clearInterval(interval);
+  }, [isUploading, loadingMessages.length]);
+
+  // Timer for generation time
+  React.useEffect(() => {
+    if (!isUploading) return;
+
+    const startTime = Date.now();
+    const timer = setInterval(() => {
+      setGenerationTime((Date.now() - startTime) / 1000);
+    }, 100);
+
+    return () => clearInterval(timer);
+  }, [isUploading]);
 
   const brandLogos = [
     {
@@ -186,6 +237,7 @@ const UploadMenuHeadline4 = () => {
   ];
 
   const handleSignupClick = () => {
+    onButtonClick?.('Try for free');
     try {
       window.gtag?.('event', 'sign_up', {
         method: 'cta_button',
@@ -196,8 +248,25 @@ const UploadMenuHeadline4 = () => {
     } catch (e) {
       // no-op if gtag not available
     }
-    // Scroll to the upload menu section with offset to show the title
-    const element = document.getElementById('upload-menu-section');
+    
+    // Trigger file upload dialog
+    pdfUploadRef.current?.triggerFileDialog();
+  };
+
+  const handleDemoClick = () => {
+    onButtonClick?.('Watch demo');
+    try {
+      window.gtag?.('event', 'video_play', {
+        method: 'demo_button',
+        button_id: 'demo-btn',
+        button_text: 'Watch demo',
+        page_location: window.location.href,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+    // Scroll to the main headline
+    const element = document.getElementById('main-headline');
     if (element) {
       const elementPosition = element.offsetTop;
       const offsetPosition = elementPosition - 100; // Scroll 100px less to show the title
@@ -209,13 +278,160 @@ const UploadMenuHeadline4 = () => {
     }
   };
 
-  const handleFileUpload = (files: File[]) => {
-    // Handle file upload - you can implement this based on your needs
-    console.log('Files uploaded:', files);
+  const handleFileUpload = async (files: File[]) => {
+    try {
+      window.gtag?.('event', 'file_upload', {
+        method: 'upload_button',
+        button_id: 'upload-menu-btn',
+        button_text: 'Upload Menu',
+        page_location: window.location.href,
+        file_count: files.length,
+      });
+    } catch (e) {
+      // no-op if gtag not available
+    }
+
+    setIsUploading(true);
+    setLoadingMessageIndex(0); // Reset to first message
+    setApiProgress(0);
+    setGenerationTime(0);
+
+    try {
+      // Process the first file (assuming single file upload for now)
+      const file = files[0];
+
+      // Detect file type
+      const fileType = file.type;
+      const isPDF = fileType === 'application/pdf';
+      const isImage = fileType.startsWith('image/');
+
+      if (!isPDF && !isImage) {
+        throw new Error('Please upload a PDF or image file (PNG, JPG, JPEG, etc.)');
+      }
+
+      // Convert file to base64
+      const fileData = await fileToBase64(file);
+
+      // Simulate progress updates during API call
+      const progressInterval = setInterval(() => {
+        setApiProgress(prev => {
+          const newProgress = prev + Math.random() * 5; // Smaller random progress increments
+          return Math.min(newProgress, 90); // Cap at 90% until completion
+        });
+      }, 1000); // Slower updates every 1 second
+
+      let data, error;
+
+      if (isPDF) {
+        // Call Supabase function to analyze the PDF
+        const result = await supabase.functions.invoke('analyze-menu-pdf', {
+          body: {
+            fileData,
+            fileName: file.name
+          }
+        });
+        data = result.data;
+        error = result.error;
+      } else {
+        // Call Supabase function to analyze the image
+        const result = await supabase.functions.invoke('analyze-menu-image', {
+          body: {
+            fileData,
+            fileName: file.name,
+            fileType: fileType
+          }
+        });
+        data = result.data;
+        error = result.error;
+      }
+
+      // Clear progress interval and set to 100% on completion
+      clearInterval(progressInterval);
+      setApiProgress(100);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (data.success) {
+        // Store result in localStorage as backup
+        localStorage.setItem('menuAnalysisResult', JSON.stringify(data.data));
+        
+        // Store original text for image generation
+        if (data.data.originalText) {
+          localStorage.setItem('originalMenuText', data.data.originalText);
+        }
+
+        // Navigate to results page with analysis data
+        navigate('/menu-analysis-results', {
+          state: {
+            analysisResult: data.data
+          }
+        });
+      } else {
+        throw new Error(data.error || 'Analysis failed');
+      }
+
+    } catch (error) {
+      console.error('Error analyzing menu:', error);
+      toast({
+        title: "Analysis Failed",
+        description: error.message || "Something went wrong while analyzing your menu. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  // Helper function to convert file to base64
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const result = reader.result as string;
+        // For images, we need the full data URL format for GPT-4o-mini
+        // For PDFs, we only need the base64 part
+        if (file.type.startsWith('image/')) {
+          resolve(result); // Full data URL for images
+        } else {
+          // Remove the data:application/pdf;base64, prefix for PDFs
+          const base64 = result.split(',')[1];
+          resolve(base64);
+        }
+      };
+      reader.onerror = error => reject(error);
+    });
   };
 
   return (
     <section className="relative overflow-hidden min-h-screen flex flex-col pt-12 md:pt-0">
+      {/* Loading Overlay */}
+      {isUploading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <h3 className="text-lg font-semibold mb-2">Analyzing Your Menu</h3>
+              <p className="text-gray-600 mb-4">{loadingMessages[loadingMessageIndex]}</p>
+              
+              {/* Progress Bar */}
+              <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                <div 
+                  className="bg-primary h-2 rounded-full transition-all duration-300 ease-out"
+                  style={{ width: `${apiProgress}%` }}
+                ></div>
+              </div>
+              
+              <p className="text-sm text-gray-500">
+                {Math.round(apiProgress)}% complete • {generationTime.toFixed(1)}s
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Background */}
       {/* <div className="absolute inset-0 -z-10">
         <div className="h-full w-full bg-gradient-to-br from-background via-primary/5 to-secondary/10" />
@@ -229,7 +445,7 @@ const UploadMenuHeadline4 = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left: Text Content */}
             <div className="space-y-6 text-center md:text-left order-1 md:order-1">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.02em] text-foreground">
+              <h1 id="main-headline" className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.02em] text-foreground">
                 Upload your menu. Get instant profit insights.
 
               </h1>
@@ -246,7 +462,7 @@ const UploadMenuHeadline4 = () => {
                 </Button>
                 <Button
                   variant="ghost"
-                  onClick={handleSignupClick}
+                  onClick={handleDemoClick}
                   className="px-6 py-2 text-sm font-medium text-foreground transition-colors"
                 >
                   Watch demo
@@ -257,7 +473,7 @@ const UploadMenuHeadline4 = () => {
 
             {/* Right: PDF Upload Component */}
             <div className="flex justify-center order-2 md:order-2">
-              <PdfUpload onFiles={handleFileUpload} />
+              <PdfUpload onFiles={handleFileUpload} onRef={(ref) => { pdfUploadRef.current = ref; }} />
             </div>
           </div>
         </div>

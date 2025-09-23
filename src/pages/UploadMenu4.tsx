@@ -14,6 +14,7 @@ import AllFeaturesSection from "@/components/AllFeaturesSection";
 import HeroBanner from "@/components/HeroBanner";
 import Footer from "@/components/Footer";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
+import { useGATracking } from "@/hooks/useGATracking";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -21,6 +22,9 @@ const UploadMenu4 = () => {
   // Initialize UTM tracking to capture parameters from URL
   useUtmTracking();
   const location = useLocation();
+  
+  // Initialize GA tracking for this page
+  const { trackButtonClick, trackFileUpload, trackScroll } = useGATracking('Upload Menu V3');
 
   // Pass reset state to HeadlineSection if navigating back for new analysis
   const shouldResetForm = location.state?.resetForm;
@@ -28,10 +32,10 @@ const UploadMenu4 = () => {
   return (
     <div className="bg-white min-h-screen">
       <Header />
-      <UploadMenuHeadline2 />
-      <div className="pt-12">
-        <UploadMenuSection3 />
-      </div>
+      <UploadMenuHeadline4 onButtonClick={trackButtonClick} />
+      {/* <div className="pt-12"> */}
+        {/* <UploadMenuSection3 /> */}
+      {/* </div> */}
       <div style={{ backgroundColor: 'rgb(245, 249, 247)' }}>
         <HowItWorksSection />
       </div>

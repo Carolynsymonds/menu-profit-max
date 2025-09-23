@@ -61,9 +61,9 @@ const App = () => (
            <Route path="/" element={<Home />} />
            <Route path="/free-plan" element={<Index />} />
            <Route path="/upload-menu" element={<UploadMenu />} />
-           <Route path="/upload-menu2" element={<UploadMenu2 />} />
-           <Route path="/upload-menu3" element={<UploadMenu3 />} />
-           <Route path="/upload-menu4" element={<UploadMenu4 />} />
+           <Route path="/upload-menu-v1" element={<UploadMenu2 />} />
+           <Route path="/upload-menu-v2" element={<UploadMenu3 />} />
+           <Route path="/upload-menu-v3" element={<UploadMenu4 />} />
            <Route path="/dish-analysis-results" element={<DishAnalysisResults />} />
            <Route path="/menu-analysis-results" element={<MenuAnalysisResults />} />
                <Route path="/generated-menu" element={<GeneratedMenu />} />

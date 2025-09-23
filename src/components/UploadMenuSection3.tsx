@@ -272,7 +272,7 @@ const UploadMenuSection3 = () => {
       if (data.success) {
         // Store result in localStorage as backup
         localStorage.setItem('menuAnalysisResult', JSON.stringify(data.data));
-        
+
         // Store original text for image generation
         if (data.data.originalText) {
           localStorage.setItem('originalMenuText', data.data.originalText);
@@ -338,21 +338,21 @@ const UploadMenuSection3 = () => {
 
             <div className="mt-8 text-right">
               <div className="flex justify-end items-center gap-2 mb-2">
-              <div className="flex -space-x-2">
-                {[
-                  { src: "/lovable-uploads/social_proof1.png", alt: "Review 1" },
-                  { src: "/lovable-uploads/social_proof2.png", alt: "Review 2" },
-                  { src: "/lovable-uploads/social_proof3.png", alt: "Review 3" },
-                  { src: "/lovable-uploads/social_proof4.png", alt: "Review 4" }
-                ].map((review, i) => (
-                  <img
-                    key={i}
-                    src={review.src}
-                    alt={review.alt}
-                    className="w-8 h-8 rounded-full border-2 border-white object-cover"
-                  />
-                ))}
-              </div>
+                <div className="flex -space-x-2">
+                  {[
+                    { src: "/lovable-uploads/social_proof1.png", alt: "Review 1" },
+                    { src: "/lovable-uploads/social_proof2.png", alt: "Review 2" },
+                    { src: "/lovable-uploads/social_proof3.png", alt: "Review 3" },
+                    { src: "/lovable-uploads/social_proof4.png", alt: "Review 4" }
+                  ].map((review, i) => (
+                    <img
+                      key={i}
+                      src={review.src}
+                      alt={review.alt}
+                      className="w-8 h-8 rounded-full border-2 border-white object-cover"
+                    />
+                  ))}
+                </div>
               </div>
               <p className="text-sm text-gray-600">1M+ happy users</p>
             </div>
@@ -361,20 +361,20 @@ const UploadMenuSection3 = () => {
           {/* Center - Main Upload Box */}
           <div className="lg:col-span-3 relative">
             <PdfUpload onFiles={handleFileUpload} />
-            
+
             {/* Loading Overlay */}
             {isUploading && (
               <div className="absolute inset-0 bg-white/90 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center z-10 shadow-[0_0_20px_rgba(var(--primary),0.3)]">
                 <div className="text-center space-y-6">
-                  
+
                   {/* Loading Message */}
                   <div className="space-y-2">
                     <h3 className="text-xl font-semibold text-foreground">
                       {loadingMessages[loadingMessageIndex]}
                     </h3>
-                    
+
                   </div>
-                  
+
                   {/* Progress Ring */}
                   <div className="flex items-center justify-center gap-2 md:gap-3">
                     <div className="relative w-5 h-5 md:w-6 md:h-6">
@@ -413,38 +413,38 @@ const UploadMenuSection3 = () => {
                 </div>
               </div>
             )}
-             {/* reCAPTCHA Terms */}
-          <div className="recaptcha-terms mt-2 text-center">
-            <p 
-              className="text-xs text-muted-foreground"
-              style={{
-                color: '#dfdfdf',
-                fontSize: '12px',
-                margin: '8px auto 0',
-                maxWidth: '600px'
-              }}
-            >
-              This site is protected by reCAPTCHA and the Google{" "}
-              <a 
-                href="https://policies.google.com/privacy" 
-                className="underline"
-                target="_blank"
-                rel="noopener noreferrer"
+            {/* reCAPTCHA Terms */}
+            <div className="recaptcha-terms mt-2 text-center">
+              <p
+                className="text-xs text-muted-foreground"
+                style={{
+                  color: '#dfdfdf',
+                  fontSize: '12px',
+                  margin: '8px auto 0',
+                  maxWidth: '600px'
+                }}
               >
-                Privacy Policy
-              </a>{" "}
-              and{" "}
-              <a 
-                href="https://policies.google.com/terms" 
-                className="underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Terms of Service
-              </a>{" "}
-              apply.
-            </p>
-          </div>
+                This site is protected by reCAPTCHA and the Google{" "}
+                <a
+                  href="https://policies.google.com/privacy"
+                  className="underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Privacy Policy
+                </a>{" "}
+                and{" "}
+                <a
+                  href="https://policies.google.com/terms"
+                  className="underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Terms of Service
+                </a>{" "}
+                apply.
+              </p>
+            </div>
           </div>
 
           {/* Right Side - CTA */}
