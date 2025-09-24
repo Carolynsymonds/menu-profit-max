@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import MenuAnalysisTable from "@/components/MenuAnalysisTable";
+import BeforeAfterMenuPreview from "@/components/BeforeAfterMenuPreview";
 
 /**
  * Profitization Strategies — Dual-Metric Table
@@ -301,14 +302,26 @@ export default function ProfitizationTable({ strategies = [], originalMenu }: Pr
                 </div>
 
                 {/* Uplift */}
-                <div className="col-span-2 text-slate-700">
+                <div className="col-span-2 text-slate-700 text-center">
                   <div className="space-y-1">
                     {r.upliftText ? (
-                      <p className="text-xs font-sans leading-tight">{r.upliftText}</p>
+                      <>
+                        <p className="font-sans leading-tight">
+                          {r.upliftText.includes('%') ? r.upliftText.split('%')[0] + '%' : r.upliftText}
+                        </p>
+                        <p style={{ fontStyle: 'italic', fontSize: 'small' }}>
+                          {r.upliftText.includes('%') ? r.upliftText.split('%')[1]?.trim() || 'plate profit' : 'plate profit'}
+                        </p>
+                      </>
                     ) : (
+                      <>
                       <p className="text-xs font-sans leading-tight text-slate-500">
-                        {r.upliftPct || Math.floor(Math.random() * 15) + 5}% plate profit
+                          {r.upliftPct || Math.floor(Math.random() * 15) + 5}%
+                        </p>
+                        <p style={{ fontStyle: 'italic', fontSize: 'small' }}>
+                          plate profit
                       </p>
+                      </>
                     )}
                   </div>
                 </div>
@@ -369,168 +382,17 @@ export default function ProfitizationTable({ strategies = [], originalMenu }: Pr
 
       {/* Menu Preview Modal */}
       <Dialog open={showMenuPreview} onOpenChange={setShowMenuPreview}>
-        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto bg-white">
-         
-          <div className="space-y-6">
-            {/* Updated Menu with Suggestions */}
-            <Card className="border-0">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  Updated Menu
-                  <Badge variant="outline" className="bg-emerald-100 text-emerald-800">
-                    {generateUpdatedMenu().updatedMenu.length} items
-                  </Badge>
-                </CardTitle>
-                <p className="text-sm text-gray-600">
-                  Preview of your menu with selected strategies applied
-                </p>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {generateUpdatedMenu().updatedMenu.map((item, index) => {
-                    const isNewItem = !originalMenu?.items?.some(original => 
-                      original.dishTitle.toLowerCase() === item.dishTitle.toLowerCase()
-                    );
-                    const hasPriceChange = originalMenu?.items?.find(original => 
-                      original.dishTitle.toLowerCase() === item.dishTitle.toLowerCase()
-                    )?.price !== item.price;
-                    const isNewExtra = isNewItem && (item as any).strategyType === "New Extra";
-                    const isNewDish = isNewItem && (item as any).strategyType === "New Dish";
-                    
-                    return (
-                      <div key={index} className={`flex justify-between items-start p-4 border-2 rounded-lg ${
-                        isNewItem ? 'bg-green-50 border-green-300 border-l-4 border-l-green-500' : 
-                        hasPriceChange ? 'bg-blue-50 border-blue-300 border-l-4 border-l-blue-500' : 
-                        'bg-gray-50 border-gray-200'
-                      }`}>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <h4 className="font-medium text-gray-900">{item.dishTitle}</h4>
-                            {isNewExtra && (
-                              <Badge className="bg-purple-500 text-white text-xs px-2 py-1">
-                                NEW EXTRA
-                              </Badge>
-                            )}
-                            {isNewDish && (
-                              <Badge className="bg-green-500 text-white text-xs px-2 py-1">
-                                NEW DISH
-                              </Badge>
-                            )}
-                            {hasPriceChange && !isNewItem && (
-                              <Badge className="bg-blue-500 text-white text-xs px-2 py-1">
-                                PRICE UPDATED
-                              </Badge>
-                            )}
-                          </div>
-                          
-                          {item.ingredients && item.ingredients.length > 0 && (
-                            <p className="text-sm text-gray-600 mb-2">
-                              {item.ingredients.join(', ')}
-                            </p>
-                          )}
-                          
-                          {item.category && !isNewExtra && (
-                            <span className="inline-block text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                              {item.category}
-                            </span>
-                          )}
-                          {isNewExtra && (
-                            <span className="inline-block text-xs text-purple-600 bg-purple-100 px-2 py-1 rounded">
-                              Extra Item
-                            </span>
-                          )}
-                          
-                          {/* Change comment */}
-                          {(isNewItem || hasPriceChange) && (
-                            <div className={`mt-2 text-xs px-2 py-1 rounded ${
-                              isNewExtra ? 'bg-purple-100 text-purple-700' :
-                              isNewItem ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
-                            }`}>
-                              {isNewExtra ? `🍽️ New extra: ${item.dishTitle}` :
-                               isNewItem ? '✨ New dish added to menu' : '💰 Price updated based on strategy'}
-                            </div>
-                          )}
-                        </div>
-                        
-                        <div className="ml-4 text-right">
-                          <span className="font-medium text-gray-900">{item.price}</span>
-                          {hasPriceChange && !isNewItem && (
-                            <div className="text-xs text-blue-600 mt-1">
-                              Updated
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-                
-                {/* Removed Items */}
-                {generateUpdatedMenu().removedItems.length > 0 && (
-                  <div className="mt-6">
-                    <h4 className="text-sm font-medium text-gray-700 mb-3">Items Removed:</h4>
-                    <div className="space-y-2">
-                      {generateUpdatedMenu().removedItems.map((item, index) => (
-                        <div key={index} className="flex justify-between items-start p-3 bg-red-50 border-2 border-red-200 border-l-4 border-l-red-500 rounded-lg">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-3 mb-1">
-                              <h4 className="font-medium text-gray-900 line-through">{item.dishTitle}</h4>
-                              <Badge className="bg-red-500 text-white text-xs px-2 py-1">
-                                REMOVED
-                              </Badge>
-                            </div>
-                            {item.ingredients && item.ingredients.length > 0 && (
-                              <p className="text-sm text-gray-600 line-through mb-2">
-                                {item.ingredients.join(', ')}
-                              </p>
-                            )}
-                            {item.category && (
-                              <span className="inline-block text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded line-through">
-                                {item.category}
-                              </span>
-                            )}
-                            <div className="mt-2 text-xs px-2 py-1 rounded bg-red-100 text-red-700">
-                              ❌ Item removed from menu
-                            </div>
-                          </div>
-                          <div className="ml-4 text-right">
-                            <span className="font-medium text-gray-900 line-through">{item.price}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {/* Legend */}
-                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                  <h4 className="text-sm font-medium text-gray-700 mb-3">Legend:</h4>
-                  <div className="flex flex-wrap gap-4 text-xs">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-green-500 rounded"></div>
-                      <span className="text-gray-600">New dishes added</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-purple-500 rounded"></div>
-                      <span className="text-gray-600">New extras/upsells</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                      <span className="text-gray-600">Price updated</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-red-500 rounded"></div>
-                      <span className="text-gray-600">Items removed</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-gray-300 rounded"></div>
-                      <span className="text-gray-600">Unchanged items</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto bg-white">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5" />
+              Menu Preview
+            </DialogTitle>
+          </DialogHeader>
+          <BeforeAfterMenuPreview 
+            originalMenu={originalMenu}
+            selectedStrategies={convertedStrategies.filter((_, index) => selected[`strategy-${index}`])}
+          />
         </DialogContent>
       </Dialog>
     </div>

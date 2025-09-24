@@ -461,138 +461,219 @@ async function basicMenuAnalysis(text: string): Promise<AnalysisResult> {
   }
 }
 
-async function generateProfitizationStrategies(analysisResult: AnalysisResult): Promise<ProfitizationStrategy[]> {
-  try {
-    console.log('Generating profitization strategies with GPT...')
-    
-    const menuItemsText = analysisResult.items.map(item => 
-      `${item.dishTitle} - ${item.price} (${item.category || 'Uncategorized'}) - Ingredients: ${item.ingredients.join(', ')}`
-    ).join('\n')
+// deno-lint-ignore-file no-explicit-any
+export async function generateProfitizationStrategies(analysisResult: any): Promise<any[]> {
+  const openaiApiKey = Deno.env.get("OPENAI_API_KEY");
+  if (!openaiApiKey) throw new Error("OpenAI API key not found");
 
-    const gptResponse = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'system',
-            content: `You are a restaurant profit optimization expert. Analyze the menu and generate specific profitization strategies.
+  // ── Helpers ───────────────────────────────────────────────────────────────────
+  const toMenuText = (it: any) =>
+    `${it.dishTitle} | ${it.price ?? "N/A"} | ${it.category ?? "Uncategorized"} | Ingredients: ${(it.ingredients ?? []).join(", ")}`;
 
-For each strategy, provide:
-1. Strategy Type (e.g., "Up Price", "Premium Anchor Pricing", "Premium UpSell Add On", "Reframe Item", "Maximize Sides", "Set Menus", "Drop Low Performers", "Staff Training", "Drop Low Margin Dishes", "Prime Position High Margin", "Swap Ingredients", "Seasonal Options", "Wine Pairing", "Drinks Pairing", "Portion Control", "Hide Low Margin Dishes", "Maximize Starters", "Expand Drinks", "Add SocialTrend Dish", "Expand Desserts")
+  const extractJsonArray = (s: string): string => {
+    const fenced = s.trim().replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/\s*```$/i, "");
+    const start = fenced.indexOf("[");
+    const end = fenced.lastIndexOf("]");
+    if (start === -1 || end === -1 || end <= start) throw new Error("No JSON array found");
+    return fenced.slice(start, end + 1);
+  };
 
-2. Action Instruction: Highly specific, actionable instruction under 15 words
+  const sanitizeJson = (s: string): string => s.replace(/,(\s*[}\]])/g, "$1");
 
-3. Category: The menu category this applies to
+  type Strategy = {
+    strategy: string;
+    actionInstruction: string;
+    category: string;
+    action: "Up price" | "New Dish" | "New Extra" | "Reframe" | "Remove Dish" | "Staffing" | "Ingredients" | "Reposition" | "New Combo";
+    dish: string;
+    newPrice: number | null;
+    why: string;
+    upliftText: string;
+  };
 
-4. Action: One of "Up price", "New Dish", "New Extra", "Reframe", "Remove Dish", "Staffing", "Ingredients", "Reposition", "New Combo"
-
-5. Dish: The specific dish name
-
-6. New Price: The suggested new price (number only, no $)
-
-7. Why: Brief explanation under 10 words
-
-8. Uplift Text: Specific profit uplift description in format "+X–Y% [type] profit" where type could be "plate", "menu-wide entrée profitability", "incremental profit on affected tables", "menu efficiency", "table profitability", "average order value", etc.
-
-Return ONLY a valid JSON array with this structure:
-[
-  {
-    "strategy": "Up Price",
-    "actionInstruction": "Bucatini Cacio e Pepe ($24) → raise to $26",
-    "category": "Two",
-    "action": "Up price",
-    "dish": "Bucatini Cacio e Pepe",
-    "newPrice": 26,
-    "why": "Perception of premium product, needs premium price",
-    "upliftText": "+12–15% plate profit"
-  }
-]
-
-IMPORTANT JSON RULES:
-- Escape all quotes in strings (use \" for quotes within text)
-- No trailing commas
-- All strings must be properly quoted
-- Use only double quotes, never single quotes
-- Ensure all strings are properly terminated
-
-Generate 15-20 diverse strategies covering different profitization techniques. Make uplift ranges realistic and specific to each strategy type.
-
-IMPORTANT: Order the strategies by priority - put the most obvious and convenient strategies first (top 3 should be the easiest to implement with immediate impact). Order by:
-1. Ease of implementation (immediate vs long-term)
-2. Obviousness (clear pricing opportunities vs complex restructuring)
-3. Convenience (simple changes vs major operational changes)
-
-Prioritize strategies like "Up Price" for obvious underpriced items, "Premium UpSell Add On" for easy extras, and "Reframe Item" for simple positioning changes at the top.`
-          },
-          {
-            role: 'user',
-            content: `Analyze this restaurant menu and generate profitization strategies:\n\nMenu Items:\n${menuItemsText}\n\nCategories: ${analysisResult.categories.join(', ')}\n\nTotal Items: ${analysisResult.totalItems}`
-          }
-        ],
-        temperature: 0.3,
-        max_tokens: 3000
-      })
-    })
-
-    if (!gptResponse.ok) {
-      const errorText = await gptResponse.text()
-      console.error('GPT strategies API error:', errorText)
-      throw new Error(`GPT strategies API error: ${gptResponse.status}`)
+  const validate = (arr: any[]): Strategy[] => {
+    const ok: Strategy[] = [];
+    for (const item of arr) {
+      if (!item || typeof item !== "object") continue;
+      const out: Strategy = {
+        strategy: String(item.strategy ?? ""),
+        actionInstruction: String(item.actionInstruction ?? ""),
+        category: String(item.category ?? ""),
+        action: ["Up price","New Dish","New Extra","Reframe","Remove Dish","Staffing","Ingredients","Reposition","New Combo"].includes(item.action)
+          ? item.action
+          : "Reframe",
+        dish: String(item.dish ?? ""),
+        newPrice: item.newPrice === null || item.newPrice === undefined || isNaN(Number(item.newPrice)) ? null : Number(item.newPrice),
+        why: String(item.why ?? ""),
+        upliftText: String(item.upliftText ?? "")
+      };
+      if (!out.strategy || !out.actionInstruction || !out.dish || !out.upliftText) continue;
+      ok.push(out);
     }
+    return ok;
+  };
 
-    const gptResult = await gptResponse.json()
-    console.log('GPT strategies response:', gptResult)
+  const withTimeout = (ms: number) => {
+    const ctrl = new AbortController();
+    const id = setTimeout(() => ctrl.abort(), ms);
+    return { signal: ctrl.signal, clear: () => clearTimeout(id) };
+  };
 
-    if (!gptResult.choices || !gptResult.choices[0] || !gptResult.choices[0].message) {
-      throw new Error('Invalid GPT strategies response format')
-    }
-
-    const gptContent = gptResult.choices[0].message.content
-    console.log('GPT strategies result:', gptContent)
-
-    // Parse GPT response - handle markdown code blocks and sanitize JSON
-    let strategies: ProfitizationStrategy[]
-    try {
-      // Remove markdown code blocks if present
-      let jsonContent = gptContent.trim()
-      if (jsonContent.startsWith('```json')) {
-        jsonContent = jsonContent.replace(/^```json\s*/, '').replace(/\s*```$/, '')
-      } else if (jsonContent.startsWith('```')) {
-        jsonContent = jsonContent.replace(/^```\s*/, '').replace(/\s*```$/, '')
+  const retryFetch = async (url: string, init: RequestInit, tries = 3): Promise<Response> => {
+    let lastErr: any;
+    for (let i = 0; i < tries; i++) {
+      const t = withTimeout(45_000);
+      try {
+        const res = await fetch(url, { ...init, signal: t.signal });
+        t.clear();
+        if (res.ok) return res;
+        if (res.status === 429 || (res.status >= 500 && res.status < 600)) {
+          await new Promise(r => setTimeout(r, (i + 1) * 800));
+          continue;
+        }
+        lastErr = new Error(`HTTP ${res.status} – ${await res.text()}`);
+      } catch (err) {
+        lastErr = err;
       }
-      
-      // Additional sanitization for common GPT JSON issues
-      // Remove any trailing commas before closing braces/brackets
-      jsonContent = jsonContent.replace(/,(\s*[}\]])/g, '$1')
-      
-      // Log the content for debugging (first 500 chars)
-      console.log('Strategies JSON content to parse (first 500 chars):', jsonContent.substring(0, 500))
-      
-      strategies = JSON.parse(jsonContent)
-    } catch (parseError) {
-      console.error('Failed to parse GPT strategies response:', parseError)
-      console.error('Raw GPT strategies content (first 1000 chars):', gptContent.substring(0, 1000))
-      console.error('Strategies JSON content that failed (first 1000 chars):', jsonContent.substring(0, 1000))
-      throw new Error(`GPT returned invalid JSON for strategies: ${parseError.message}`)
+      await new Promise(r => setTimeout(r, (i + 1) * 800));
     }
+    throw lastErr ?? new Error("Request failed");
+  };
 
-    // Validate the response structure
-    if (!Array.isArray(strategies)) {
-      throw new Error('GPT strategies response is not an array')
-    }
+  // ── Prompt ────────────────────────────────────────────────────────────────────
+  const menuItemsText = (analysisResult.items ?? []).map(toMenuText).join("\n");
+  const categories = (analysisResult.categories ?? []).join(", ");
+  const totalItems = analysisResult.totalItems ?? (analysisResult.items?.length ?? 0);
 
-    console.log(`Generated ${strategies.length} profitization strategies`)
-    return strategies
+  const systemPrompt = `
+You are a restaurant menu optimization expert.
+Return ONLY a strict JSON array of strategies.
 
-  } catch (error) {
-    console.error('Error generating profitization strategies:', error)
-    
-    // Return empty array if GPT fails
-    return []
+Anchor in:
+- Menu Engineering (stars/dogs, placement)
+- Cost-based pricing + demand (25–30% food cost; note underpriced items)
+- Psychology (naming, framing, bundles, anchors)
+- Streamlining & cross-utilization
+- Upsells/bundles (sides, drinks, desserts)
+- Supplier/cost monitoring
+- Value messaging (justify price without alienating guests)
+
+CRITICAL ORDERING RULE:
+Put these as the FIRST THREE items (in this exact priority):
+1) "New Extra" (simple add-on/side/upgrade, e.g., avocado side, sauce add-on)
+2) "Reframe" (rename/positioning change, e.g., "Chef's Special")
+3) "New Combo" (simple bundle with existing items, e.g., Breakfast + Coffee)
+Only after those, include other actions (Up price, Reposition, Ingredients, etc.).
+
+FIELDS (exact keys):
+- "strategy"  (e.g., "Up Price","Premium UpSell Add On","Reframe Item","Reposition","New Combo","Swap Ingredients","Portion Control")
+- "actionInstruction" (<= 15 words, imperative, specific)
+- "category"  (menu section)
+- "action"    ("Up price","New Dish","New Extra","Reframe","Remove Dish","Staffing","Ingredients","Reposition","New Combo")
+- "dish"      (target item)
+- "newPrice"  (number only; null if not a price change)
+- "why"       (<= 10 words)
+- "upliftText" (\"+X–Y% <type> profit\")
+
+RULES:
+- 15–20 items.
+- Use realistic uplift ranges.
+- ONLY double quotes. No comments or trailing commas.
+- Return just the JSON array.
+`.trim();
+
+  const userPrompt = `
+Analyze this restaurant menu and generate profitization strategies.
+
+Menu Items:
+${menuItemsText}
+
+Categories: ${categories}
+Total Items: ${totalItems}
+`.trim();
+
+  // ── Call OpenAI ───────────────────────────────────────────────────────────────
+  const body = {
+    model: "gpt-4o-mini",
+    temperature: 0.2,
+    max_tokens: 2500,
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: userPrompt }
+    ]
+  };
+
+  let raw = "";
+  try {
+    const res = await retryFetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${openaiApiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+    const json = await res.json();
+    raw = json?.choices?.[0]?.message?.content ?? "";
+    if (!raw) throw new Error("Empty completion content");
+  } catch (e) {
+    console.error("GPT strategies request failed:", e);
+    return [];
   }
+
+  // ── Parse & validate ─────────────────────────────────────────────────────────
+  let strategies: Strategy[] = [];
+  try {
+    const jsonBlock = sanitizeJson(extractJsonArray(raw));
+    const parsed = JSON.parse(jsonBlock);
+    if (!Array.isArray(parsed)) throw new Error("Root is not an array");
+    strategies = validate(parsed);
+  } catch (err) {
+    console.error("Failed to parse strategies JSON:", err);
+    console.error("Raw content (first 800 chars):", (raw ?? "").slice(0, 800));
+    return [];
+  }
+
+  // ── Safeguard ordering: ensure the first 3 are convenient & catchy ───────────
+  const ACTION_WEIGHT: Record<string, number> = {
+    "New Extra": 100,  // add-ons/sides/upgrades first
+    "Reframe": 95,     // rename/positioning
+    "New Combo": 90,   // simple bundles
+    "Up price": 80,
+    "Reposition": 70,
+    "Ingredients": 55,
+    "New Dish": 50,
+    "Staffing": 40,
+    "Remove Dish": 35
+  };
+
+  const CATCHY_BONUS = (s: Strategy): number => {
+    const t = `${s.actionInstruction} ${s.dish}`.toLowerCase();
+    let score = 0;
+    // obvious add-ons/bundles/phrases customers love
+    if (/(avocado|sauce|side|add[- ]?on|cheese|bacon|extra)/.test(t)) score += 12;
+    if (/(combo|bundle|coffee|breakfast|lunch|dessert)/.test(t)) score += 10;
+    if (/(rename|chef|special|signature|house)/.test(t)) score += 8;
+    if (/(pair|pairing|wine|drink)/.test(t)) score += 6;
+    return score;
+  };
+
+  const priorityScore = (s: Strategy): number =>
+    (ACTION_WEIGHT[s.action] ?? 0) + CATCHY_BONUS(s);
+
+  strategies.sort((a, b) => priorityScore(b) - priorityScore(a));
+
+  // extra guard: promote at least one of each (New Extra, Reframe, New Combo) to top-3 if present
+  const topPicks: Strategy[] = [];
+  const take = (pred: (x: Strategy) => boolean) => {
+    const idx = strategies.findIndex(pred);
+    if (idx >= 0) topPicks.push(...strategies.splice(idx, 1));
+  };
+  take(s => s.action === "New Extra");
+  take(s => s.action === "Reframe");
+  take(s => s.action === "New Combo");
+  strategies = [...topPicks, ...strategies];
+
+  console.log(`Generated ${strategies.length} profitization strategies (reordered with convenience-first top 3)`);
+  return strategies;
 }
