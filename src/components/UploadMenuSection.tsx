@@ -3,13 +3,75 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
+/**
+ * Validation Error Card (Email)
+ * - Warning icon
+ * - Message text
+ * - Primary CTA button (Try Again)
+ * - Secondary support link
+ * TailwindCSS required
+ */
+
+function EmailErrorCard({
+  message = "Please enter a genuine email address",
+  onTryAgain = () => { },
+  supportHref = "#",
+  supportLabel = "Contact support",
+}: {
+  message?: string;
+  onTryAgain?: () => void;
+  supportHref?: string;
+  supportLabel?: string;
+}) {
+  return (
+    <div className="w-full grid place-items-center py-10">
+      <div
+        className="w-[320px] sm:w-[380px] bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-7 text-center"
+        role="alert"
+        aria-live="assertive"
+      >
+        {/* Icon */}
+        <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-slate-50 grid place-items-center border border-slate-200">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12" y2="17" />
+          </svg>
+        </div>
+
+        {/* Message */}
+        <p className="text-slate-800 font-medium leading-relaxed">{message}</p>
+
+        {/* Primary CTA */}
+        <button
+          onClick={onTryAgain}
+          className="mt-5 inline-flex items-center justify-center rounded-md px-5 py-2.5 text-white font-semibold shadow-sm bg-[#0d6efd] hover:brightness-105 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-200 hover:scale-105"
+        >
+          Try Again
+        </button>
+
+        {/* Secondary link */}
+        <div className="mt-3">
+          <a href={supportHref} className="text-sm text-[#0d6efd] hover:underline">
+            {supportLabel}
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // PDF/file uploader component
 const PdfUpload = ({
   onFiles,
   dragArrowUrl = "/_static/icons/drag-arrow.webp",
+  validationError,
+  onTryAgain,
 }: {
   onFiles?: (files: File[]) => void;
   dragArrowUrl?: string;
+  validationError?: string | null;
+  onTryAgain?: () => void;
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -18,8 +80,10 @@ const PdfUpload = ({
   const handleFiles = useCallback(
     (files: FileList | null) => {
       console.log('handleFiles called with:', files);
+      console.log('Files type:', typeof files);
+      console.log('Files length:', files?.length);
       if (!files || files.length === 0) {
-        console.log('No files selected');
+        console.log('No files selected - returning early');
         return;
       }
       console.log('Calling onFiles with:', Array.from(files));
@@ -81,7 +145,12 @@ const PdfUpload = ({
         <div
           role="button"
           tabIndex={0}
-          onClick={triggerFileDialog}
+          onClick={(e) => {
+            console.log('Dropzone clicked');
+            console.log('Event target:', e.target);
+            console.log('Event currentTarget:', e.currentTarget);
+            triggerFileDialog();
+          }}
           onDrop={onDrop}
           onDragOver={onDragOver}
           onDragLeave={onDragLeave}
@@ -100,38 +169,80 @@ const PdfUpload = ({
           }}
           aria-label="Click to upload, or drag PDF here"
         >
-          {/* Center icon (SVG copied) */}
-          <UploadFileIcon height={83} />
+          {validationError ? (
+            <>
+              {/* Warning Icon */}
+              <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-red-50 grid place-items-center border border-red-200">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                  <line x1="12" y1="9" x2="12" y2="13" />
+                  <line x1="12" y1="17" x2="12" y2="17" />
+                </svg>
+              </div>
 
-          {/* Headline: mobile/desktop variants like original */}
-          <div
-            style={{
-              fontSize: 20,
-              fontWeight: 600,
-              lineHeight: "30px",
-              textAlign: "center",
-              marginTop: 12,
-              color: "#070D1B",
-            }}
-          >
-            <span className="md:hidden">Upload PDF here</span>
-            <span className="hidden md:inline">Click to upload, or drag Menu here</span>
-          </div>
+              {/* Error Message */}
+              <div
+                style={{
+                  fontSize: 16,
+                  fontWeight: 500,
+                  lineHeight: "24px",
+                  textAlign: "center",
+                  marginTop: 8,
+                  color: "#dc2626",
+                  maxWidth: "400px",
+                }}
+              >
+                This file does not appear to be a restaurant menu. Please review your file and upload a valid menu document.
+              </div>
 
-          {/* Accepted file types */}
-          <div className="mt-2">
-            <p className="text-sm text-gray-500 text-center">
-              PDF, JPG
-            </p>
-          </div>
+              {/* Try Again Button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onTryAgain?.();
+                }}
+                className="mt-4 inline-flex items-center justify-center px-5 py-2.5 text-white font-semibold shadow-sm bg-[#0d6efd] hover:brightness-105 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-200 hover:scale-105"
+                style={{ borderRadius: '32px' }}
+              >
+                Try Again
+              </button>
+            </>
+          ) : (
+            <>
+              {/* Center icon (SVG copied) */}
+              <UploadFileIcon height={83} />
 
-          {/* Button */}
-          <div style={{ position: "relative", marginTop: 20 }}>
+              {/* Headline: mobile/desktop variants like original */}
+              <div
+                style={{
+                  fontSize: 20,
+                  fontWeight: 600,
+                  lineHeight: "30px",
+                  textAlign: "center",
+                  marginTop: 12,
+                  color: "#070D1B",
+                }}
+              >
+                <span className="md:hidden">Upload PDF here</span>
+                <span className="hidden md:inline">Click to upload, or drag Menu here</span>
+              </div>
+
+              {/* Accepted file types */}
+              <div className="mt-2">
+                <p className="text-sm text-gray-500 text-center">
+                  PDF, JPG
+                </p>
+              </div>
+
+              {/* Button */}
+              <div style={{ position: "relative", marginTop: 20 }}>
 
             <button
               onClick={(e) => {
+                console.log('Upload button clicked - before stopPropagation');
                 e.stopPropagation();
-                console.log('Upload button clicked');
+                e.preventDefault();
+                console.log('Upload button clicked - after stopPropagation');
                 console.log('inputRef.current:', inputRef.current);
                 triggerFileDialog();
               }}
@@ -141,6 +252,8 @@ const PdfUpload = ({
               Upload menu
             </button>
           </div>
+            </>
+          )}
         </div>
 
         {/* Hidden input */}
@@ -151,8 +264,9 @@ const PdfUpload = ({
           accept=".pdf,.doc,.docx,.ppt,.pptx,.odt,.odp,.txt,.rtf,.html,.htm,.md,.jpg,.jpeg,.png"
           style={{ display: "none" }}
           onChange={(e) => {
-            console.log('File input changed');
+            console.log('File input onChange triggered');
             console.log('Selected files:', e.target.files);
+            console.log('Files count:', e.target.files?.length);
             handleFiles(e.target.files);
           }}
         />
@@ -203,6 +317,7 @@ const UploadMenuSection = () => {
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [apiProgress, setApiProgress] = useState(0);
   const [generationTime, setGenerationTime] = useState(0);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const loadingMessages = [
     "Processing your menu...",
@@ -240,6 +355,9 @@ const UploadMenuSection = () => {
   const moreOptions = ["Audio", "Video", "Text"];
 
   const handleFileUpload = async (files: File[]) => {
+    // Clear any previous validation errors
+    setValidationError(null);
+
     try {
       window.gtag?.('event', 'file_upload', {
         method: 'upload_button',
@@ -321,7 +439,7 @@ const UploadMenuSection = () => {
           fileType: fileType,
           fileDataLength: fileData.length
         });
-        
+
         try {
           const result = await supabase.functions.invoke('analyze-menu-image', {
             body: {
@@ -330,7 +448,7 @@ const UploadMenuSection = () => {
               fileType: fileType
             }
           });
-          
+
           console.log('analyze-menu-image result:', result);
           data = result.data;
           error = result.error;
@@ -375,14 +493,29 @@ const UploadMenuSection = () => {
         stack: error.stack,
         name: error.name
       });
-      toast({
-        title: "Analysis Failed",
-        description: error.message || "Something went wrong while analyzing your menu. Please try again.",
-        variant: "destructive",
-      });
+
+      // Check if it's a validation error (not a menu)
+      const errorMessage = error.message || 'Something went wrong while analyzing your menu. Please try again.';
+      const isValidationError = errorMessage.includes('does not appear to be a restaurant menu');
+
+      // if (isValidationError) {
+      // Set validation error state instead of showing toast
+      setValidationError(errorMessage);
+      // } else {
+      //   // Show toast for other errors
+      //   toast({
+      //     title: "Analysis Failed",
+      //     description: errorMessage,
+      //     variant: "destructive",
+      //   });
+      // }
     } finally {
       setIsUploading(false);
     }
+  };
+
+  const handleTryAgain = () => {
+    setValidationError(null);
   };
 
   // Helper function to convert file to base64
@@ -414,7 +547,6 @@ const UploadMenuSection = () => {
             The simplest way to unlock hidden profit from your menu
           </h2>
         </div>
-
         <div className="grid lg:grid-cols-5 gap-8 items-center">
           {/* Left Side - Testimonial & Social Proof */}
           <div className="text-center lg:text-left lg:col-span-1">
@@ -449,9 +581,13 @@ const UploadMenuSection = () => {
             </div>
           </div>
 
-          {/* Center - Main Upload Box */}
-          <div className="lg:col-span-3 relative">
-            <PdfUpload onFiles={handleFileUpload} />
+            {/* Center - Main Upload Box */}
+            <div className="lg:col-span-3 relative">
+              <PdfUpload 
+                onFiles={handleFileUpload} 
+                validationError={validationError}
+                onTryAgain={handleTryAgain}
+              />
             {/* reCAPTCHA Terms */}
             <div className="recaptcha-terms mt-2 text-center">
               <p

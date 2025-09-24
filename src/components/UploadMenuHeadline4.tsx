@@ -5,15 +5,78 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
+/**
+ * Validation Error Card (Email)
+ * - Warning icon
+ * - Message text
+ * - Primary CTA button (Try Again)
+ * - Secondary support link
+ * TailwindCSS required
+ */
+
+function EmailErrorCard({
+  message = "Please enter a genuine email address",
+  onTryAgain = () => { },
+  supportHref = "#",
+  supportLabel = "Contact support",
+}: {
+  message?: string;
+  onTryAgain?: () => void;
+  supportHref?: string;
+  supportLabel?: string;
+}) {
+  return (
+    <div className="w-full grid place-items-center py-10">
+      <div
+        className="w-[320px] sm:w-[380px] bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-7 text-center"
+        role="alert"
+        aria-live="assertive"
+      >
+        {/* Icon */}
+        <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-slate-50 grid place-items-center border border-slate-200">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12" y2="17" />
+          </svg>
+        </div>
+
+        {/* Message */}
+        <p className="text-slate-800 font-medium leading-relaxed">{message}</p>
+
+        {/* Primary CTA */}
+        <button
+          onClick={onTryAgain}
+          className="mt-5 inline-flex items-center justify-center px-5 py-2.5 text-white font-semibold shadow-sm bg-[#0d6efd] hover:brightness-105 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-200 hover:scale-105"
+          style={{ borderRadius: '32px' }}
+        >
+          Try Again
+        </button>
+
+        {/* Secondary link */}
+        <div className="mt-3">
+          <a href={supportHref} className="text-sm text-[#0d6efd] hover:underline">
+            {supportLabel}
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // PDF/file uploader component
 const PdfUpload = ({
   onFiles,
   onRef,
   dragArrowUrl = "/_static/icons/drag-arrow.webp",
+  validationError,
+  onTryAgain,
 }: {
   onFiles?: (files: File[]) => void;
   onRef?: (ref: { triggerFileDialog: () => void }) => void;
   dragArrowUrl?: string;
+  validationError?: string | null;
+  onTryAgain?: () => void;
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -97,45 +160,87 @@ const PdfUpload = ({
           }}
           aria-label="Click to upload, or drag PDF here"
         >
-          {/* Center icon (SVG copied) */}
-          <UploadFileIcon height={60} />
+          {validationError ? (
+            <>
+              {/* Warning Icon */}
+              <div className="mx-auto mb-3 h-10 w-10 rounded-full bg-red-50 grid place-items-center border border-red-200">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                  <line x1="12" y1="9" x2="12" y2="13" />
+                  <line x1="12" y1="17" x2="12" y2="17" />
+                </svg>
+              </div>
 
-          {/* Headline: mobile/desktop variants like original */}
-          <div
-            style={{
-              fontSize: 16,
-              fontWeight: 600,
-              lineHeight: "24px",
-              textAlign: "center",
-              marginTop: 8,
-              color: "#070D1B",
-            }}
-          >
-            <span className="md:hidden">Upload menu here</span>
-            <span className="hidden md:inline">Click to upload, or drag menu here</span>
-          </div>
+              {/* Error Message */}
+              <div
+                style={{
+                  fontSize: 14,
+                  fontWeight: 500,
+                  lineHeight: "20px",
+                  textAlign: "center",
+                  marginTop: 6,
+                  color: "#dc2626",
+                  maxWidth: "300px",
+                }}
+              >
+                This file does not appear to be a restaurant menu. Please review your file and upload a valid menu document.
+              </div>
 
-          {/* Accepted file types */}
-          <div className="mt-2">
-            <p className="text-xs text-gray-500 text-center">
-              PDF, PNG, JPG, JPEG
-            </p>
-          </div>
+              {/* Try Again Button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onTryAgain?.();
+                }}
+                className="mt-3 inline-flex items-center justify-center px-4 py-1.5 text-white font-semibold shadow-sm bg-[#0d6efd] hover:brightness-105 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-200 hover:scale-105"
+                style={{ borderRadius: '24px', fontSize: '12px' }}
+              >
+                Try Again
+              </button>
+            </>
+          ) : (
+            <>
+              {/* Center icon (SVG copied) */}
+              <UploadFileIcon height={60} />
 
-          {/* Button */}
-          <div style={{ position: "relative", marginTop: 15 }}>
+              {/* Headline: mobile/desktop variants like original */}
+              <div
+                style={{
+                  fontSize: 16,
+                  fontWeight: 600,
+                  lineHeight: "24px",
+                  textAlign: "center",
+                  marginTop: 8,
+                  color: "#070D1B",
+                }}
+              >
+                <span className="md:hidden">Upload menu here</span>
+                <span className="hidden md:inline">Click to upload, or drag menu here</span>
+              </div>
 
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                triggerFileDialog();
-              }}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-8 px-4 py-1 text-xs font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300"
-              style={{ borderRadius: '24px' }}
-            >
-              Upload menu
-            </button>
-          </div>
+              {/* Accepted file types */}
+              <div className="mt-2">
+                <p className="text-xs text-gray-500 text-center">
+                  PDF, PNG, JPG, JPEG
+                </p>
+              </div>
+
+              {/* Button */}
+              <div style={{ position: "relative", marginTop: 15 }}>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    triggerFileDialog();
+                  }}
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-8 px-4 py-1 text-xs font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300"
+                  style={{ borderRadius: '24px' }}
+                >
+                  Upload menu
+                </button>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Hidden input */}
@@ -180,6 +285,7 @@ const UploadMenuHeadline4 = ({ onButtonClick, onFileUpload }: { onButtonClick?: 
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [apiProgress, setApiProgress] = useState(0);
   const [generationTime, setGenerationTime] = useState(0);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const loadingMessages = [
     "Processing your menu...",
@@ -279,6 +385,9 @@ const UploadMenuHeadline4 = ({ onButtonClick, onFileUpload }: { onButtonClick?: 
   };
 
   const handleFileUpload = async (files: File[]) => {
+    // Clear any previous validation errors
+    setValidationError(null);
+    
     try {
       window.gtag?.('event', 'file_upload', {
         method: 'upload_button',
@@ -374,14 +483,21 @@ const UploadMenuHeadline4 = ({ onButtonClick, onFileUpload }: { onButtonClick?: 
 
     } catch (error) {
       console.error('Error analyzing menu:', error);
-      toast({
-        title: "Analysis Failed",
-        description: error.message || "Something went wrong while analyzing your menu. Please try again.",
-        variant: "destructive",
-      });
+      
+      // Check if it's a validation error (not a menu)
+      const errorMessage = error.message || 'Something went wrong while analyzing your menu. Please try again.';
+      const isValidationError = errorMessage.includes('does not appear to be a restaurant menu');
+      
+        // Set validation error state instead of showing toast
+        setValidationError(errorMessage);
+     
     } finally {
       setIsUploading(false);
     }
+  };
+
+  const handleTryAgain = () => {
+    setValidationError(null);
   };
 
   // Helper function to convert file to base64
@@ -473,7 +589,12 @@ const UploadMenuHeadline4 = ({ onButtonClick, onFileUpload }: { onButtonClick?: 
 
             {/* Right: PDF Upload Component */}
             <div className="flex justify-center order-2 md:order-2">
-              <PdfUpload onFiles={handleFileUpload} onRef={(ref) => { pdfUploadRef.current = ref; }} />
+              <PdfUpload 
+                onFiles={handleFileUpload} 
+                onRef={(ref) => { pdfUploadRef.current = ref; }}
+                validationError={validationError}
+                onTryAgain={handleTryAgain}
+              />
             </div>
           </div>
         </div>

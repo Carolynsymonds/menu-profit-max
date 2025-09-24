@@ -58,6 +58,66 @@ serve(async (req) => {
     
     console.log(`Extracted text length: ${extractedText.length} characters`)
     
+    // Validate that this is actually a restaurant menu
+    console.log('Validating menu content...')
+    const menuValidationPrompt = `You are a restaurant menu validator. Analyze the provided text and determine if it's a restaurant menu.
+
+A valid restaurant menu should contain:
+- Food items with prices (e.g., "Pizza Margherita - $15")
+- Menu sections (e.g., "Appetizers", "Main Courses", "Desserts")
+- Restaurant-related content (dishes, beverages, prices)
+
+Be lenient - if you see food items, prices, or menu sections, consider it valid.
+
+Return ONLY "VALID_MENU" if this is a restaurant menu, or "INVALID_MENU" if it's not.
+
+Text to analyze:
+${extractedText.substring(0, 4000)}`;
+
+    const validationResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${openAIApiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'user',
+            content: menuValidationPrompt
+          }
+        ],
+        temperature: 0.1,
+        max_tokens: 10
+      })
+    });
+
+    if (!validationResponse.ok) {
+      console.error('Menu validation API error:', await validationResponse.text())
+      throw new Error('Failed to validate menu content')
+    }
+
+    const validationResult = await validationResponse.json()
+    const validationText = validationResult.choices[0].message.content.trim()
+    console.log('Menu validation result:', validationText)
+
+    if (validationText !== 'VALID_MENU') {
+      console.log('Invalid menu content detected')
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: 'This file does not appear to be a restaurant menu. Please review your file and upload a valid menu document.'
+        }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 400,
+        }
+      )
+    }
+
+    console.log('Menu validation passed, proceeding with analysis...')
+    
     // Analyze the text to extract menu items
     const analysisResult = await analyzeMenuText(extractedText)
     
