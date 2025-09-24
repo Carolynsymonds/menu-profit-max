@@ -1,10 +1,43 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 // Accent color per your brand
 const ACCENT = "#FE714D";
 
 export default function HowItWorksSection() {
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        // Video is in view, autoplay
+                        video.play().catch((error) => {
+                            console.log('Autoplay prevented:', error);
+                        });
+                    } else {
+                        // Video is out of view, pause
+                        video.pause();
+                    }
+                });
+            },
+            {
+                threshold: 0.5, // Trigger when 50% of video is visible
+                rootMargin: '0px 0px -10% 0px' // Start playing when video is 10% from bottom of viewport
+            }
+        );
+
+        observer.observe(video);
+
+        return () => {
+            observer.unobserve(video);
+        };
+    }, []);
+
     const steps = [
         {
             n: 1,
@@ -127,26 +160,21 @@ export default function HowItWorksSection() {
                         </div>
                     </div>
 
-                    {/* Demo / Video placeholder */}
+                    {/* Demo Video */}
                     <div
                         className="HowItWorks_stepVideo__LLx0y relative opacity-100 scale-100 transition-all duration-400"
                     >
                         <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-white">
-                            <div className="aspect-video bg-gradient-to-br from-orange-50 to-white flex items-center justify-center">
-                                <div className="text-center p-8">
-                                    <div className="mx-auto mb-4 h-14 w-14 rounded-full grid place-items-center" style={{ background: ACCENT }}>
-                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <polygon points="5 3 19 12 5 21 5 3" />
-                                        </svg>
-                                    </div>
-                                    <div className="text-slate-900 font-semibold text-lg">Menu Optimizer Demo</div>
-                                    <p className="text-slate-600 mt-1">Upload → Analyze → Optimize (preview)</p>
-                                </div>
-                            </div>
-                            <div className="px-5 py-4 flex items-center justify-between bg-slate-50 border-t border-slate-200">
-                                <div className="text-sm text-slate-600">Drop in <code className="bg-slate-100 px-1.5 py-0.5 rounded">/assets/img/demo.gif</code> to replace.</div>
-                                <a href="#" className="text-sm font-medium" style={{ color: ACCENT }}>Watch full demo →</a>
-                            </div>
+                            <video
+                                ref={videoRef}
+                                src="/lovable-uploads/menu_video.mp4"
+                                controls
+                                className="w-full aspect-video rounded-2xl"
+                                preload="metadata"
+                                muted
+                            >
+                                Your browser does not support the video tag.
+                            </video>
                         </div>
                     </div>
                 </div>

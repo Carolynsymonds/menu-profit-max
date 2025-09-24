@@ -2,11 +2,13 @@ import { Button } from "@/components/ui/button";
 import { useUtmTracking } from "@/hooks/useUtmTracking";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import VideoModal from "@/components/VideoModal";
 
 
 const UploadMenuHeadline2 = ({ onButtonClick }: { onButtonClick?: (buttonName: string) => void }) => {
   const { navigateWithUtm } = useUtmTracking();
   const navigate = useNavigate();
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   const brandLogos = [
     {
@@ -68,21 +70,13 @@ const UploadMenuHeadline2 = ({ onButtonClick }: { onButtonClick?: (buttonName: s
     } catch (e) {
       // no-op if gtag not available
     }
-    // Scroll to the upload menu section with offset to show the title
-    const element = document.getElementById('upload-menu-section');
-    if (element) {
-      const elementPosition = element.offsetTop;
-      const offsetPosition = elementPosition - 100; // Scroll 100px less to show the title
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+    // Open video modal
+    setIsVideoModalOpen(true);
   };
 
 
   return (
+    <>
     <section className="relative overflow-hidden min-h-screen flex flex-col pt-12 md:pt-0">
       {/* Background */}
 
@@ -156,6 +150,15 @@ const UploadMenuHeadline2 = ({ onButtonClick }: { onButtonClick?: (buttonName: s
       </div>
 
     </section>
+    
+    {/* Video Modal */}
+    <VideoModal
+      isOpen={isVideoModalOpen}
+      onClose={() => setIsVideoModalOpen(false)}
+      videoSrc="/lovable-uploads/menu_video.mp4"
+      title="Menu Profit Max Demo"
+    />
+    </>
   );
 };
 
