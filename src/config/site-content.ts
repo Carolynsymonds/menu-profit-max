@@ -318,7 +318,7 @@ export const siteContent = {
       {
         cta: "Get started for FREE →",
         name: "Starter",
-        price: "£7",
+        price: "$7",
         period: "/month",
         popular: false,
         features: [
@@ -334,7 +334,7 @@ export const siteContent = {
       {
         cta: "Get started for FREE →",
         name: "Growth",
-        price: "£14",
+        price: "$14",
         period: "/month",
         popular: true,
         features: [

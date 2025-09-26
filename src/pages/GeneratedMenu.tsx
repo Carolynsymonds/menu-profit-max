@@ -15,13 +15,15 @@ interface MenuItem {
 }
 
 interface ProfitizationStrategy {
-  strategy: string;
-  actionInstruction: string;
-  category: string;
-  action: string;
+  id: string;
+  tag: string;
   dish: string;
+  currentPrice?: number;
+  actionInstruction: string;
   newPrice?: number;
-  why: string;
+  rationale: string;
+  monthlySales?: number;
+  profitUpliftPct?: number;
 }
 
 interface AnalysisResult {
